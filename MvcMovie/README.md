@@ -16,6 +16,7 @@ dotnet tool install --global dotnet-ef --version 6.0.12
 
 ```shell
 dotnet ef migrations add InitialCreate
+dotnet ef migrations add Rating
 ```
 
 ### アップデート
