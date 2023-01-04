@@ -1,10 +1,10 @@
-﻿namespace SportsStore.Models {
-    public interface IStoreRepository {
+﻿namespace SportsStore.Models;
 
-        IQueryable<Product> Products { get; }
+public interface IStoreRepository
+{
+    IQueryable<Product> Products { get; }
 
-        void SaveProduct(Product p);
-        void CreateProduct(Product p);
-        void DeleteProduct(Product p);
-    }
+    void SaveProduct(Product p);
+    void CreateProduct(Product p);
+    void DeleteProduct(Product p);
 }

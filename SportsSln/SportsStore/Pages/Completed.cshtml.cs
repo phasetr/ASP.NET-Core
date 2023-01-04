@@ -1,12 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SportsStore.Pages
+namespace SportsStore.Pages;
+
+public class CompletedModel : PageModel
 {
-    public class CompletedModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
 }
