@@ -2,6 +2,11 @@
 
 - [Original](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205/End%20of%20Chapter/SportsSln)
 
+## サイト
+
+- [管理者ページ](http://localhost:5000/Account/Login): `ID/PASS = Admin/Secret123$`
+    - `Models/IdentitySeedData.cs`で設定している 
+
 ## TODO
 - `dotnet tool install Microsoft.Web.LibraryManager.Cli`の挙動：マニフェストファイルからのインストール
 
