@@ -15,17 +15,17 @@
         @foreach (var p in ProductData)
         {
             <tr>
-                <td>@p.ProductID</td>
+                <td>@p.ProductId</td>
                 <td>@p.Name</td>
                 <td>@p.Category</td>
                 <td>@p.Price.ToString("c")</td>
                 <td>
                     <NavLink class="btn btn-info btn-sm"
-                             href="@GetDetailsUrl(p.ProductID ?? 0)">
+                             href="@GetDetailsUrl(p.ProductId ?? 0)">
                         Details
                     </NavLink>
                     <NavLink class="btn btn-warning btn-sm"
-                             href="@GetEditUrl(p.ProductID ?? 0)">
+                             href="@GetEditUrl(p.ProductId ?? 0)">
                         Edit
                     </NavLink>
                     <button class="btn btn-danger btn-sm"

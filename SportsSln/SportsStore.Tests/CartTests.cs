@@ -11,8 +11,8 @@ public class CartTests
     public void Can_Add_New_Lines()
     {
         // Arrange - create some test products
-        var p1 = new Product {ProductID = 1, Name = "P1"};
-        var p2 = new Product {ProductID = 2, Name = "P2"};
+        var p1 = new Product {ProductId = 1, Name = "P1"};
+        var p2 = new Product {ProductId = 2, Name = "P2"};
 
         // Arrange - create a new cart
         var target = new Cart();
@@ -32,8 +32,8 @@ public class CartTests
     public void Can_Add_Quantity_For_Existing_Lines()
     {
         // Arrange - create some test products
-        var p1 = new Product {ProductID = 1, Name = "P1"};
-        var p2 = new Product {ProductID = 2, Name = "P2"};
+        var p1 = new Product {ProductId = 1, Name = "P1"};
+        var p2 = new Product {ProductId = 2, Name = "P2"};
 
         // Arrange - create a new cart
         var target = new Cart();
@@ -43,7 +43,7 @@ public class CartTests
         target.AddItem(p2, 1);
         target.AddItem(p1, 10);
         var results = (target.Lines ?? new List<CartLine>())
-            .OrderBy(c => c.Product.ProductID).ToArray();
+            .OrderBy(c => c.Product.ProductId).ToArray();
 
         // Assert
         Assert.Equal(2, results.Length);
@@ -55,9 +55,9 @@ public class CartTests
     public void Can_Remove_Line()
     {
         // Arrange - create some test products
-        var p1 = new Product {ProductID = 1, Name = "P1"};
-        var p2 = new Product {ProductID = 2, Name = "P2"};
-        var p3 = new Product {ProductID = 3, Name = "P3"};
+        var p1 = new Product {ProductId = 1, Name = "P1"};
+        var p2 = new Product {ProductId = 2, Name = "P2"};
+        var p3 = new Product {ProductId = 3, Name = "P3"};
 
         // Arrange - create a new cart
         var target = new Cart();
@@ -79,8 +79,8 @@ public class CartTests
     public void Calculate_Cart_Total()
     {
         // Arrange - create some test products
-        var p1 = new Product {ProductID = 1, Name = "P1", Price = 100M};
-        var p2 = new Product {ProductID = 2, Name = "P2", Price = 50M};
+        var p1 = new Product {ProductId = 1, Name = "P1", Price = 100M};
+        var p2 = new Product {ProductId = 2, Name = "P2", Price = 50M};
 
         // Arrange - create a new cart
         var target = new Cart();
@@ -99,8 +99,8 @@ public class CartTests
     public void Can_Clear_Contents()
     {
         // Arrange - create some test products
-        var p1 = new Product {ProductID = 1, Name = "P1", Price = 100M};
-        var p2 = new Product {ProductID = 2, Name = "P2", Price = 50M};
+        var p1 = new Product {ProductId = 1, Name = "P1", Price = 100M};
+        var p2 = new Product {ProductId = 2, Name = "P2", Price = 50M};
 
         // Arrange - create a new cart
         var target = new Cart();

@@ -23,4 +23,5 @@
 - Fluent UI, [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/), [Fast](https://www.fast.design/)
 - MVC+API
 - Blazor: Server, WebAssembly
-- Giraffe/Saturn
+- [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/Saturn
+    - [Giraffe samples](https://github.com/giraffe-fsharp/samples)

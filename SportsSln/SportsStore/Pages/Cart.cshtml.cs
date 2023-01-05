@@ -25,7 +25,7 @@ public class CartModel : PageModel
     public IActionResult OnPost(long productId, string returnUrl)
     {
         var product = repository.Products
-            .FirstOrDefault(p => p.ProductID == productId);
+            .FirstOrDefault(p => p.ProductId == productId);
         if (product != null) Cart.AddItem(product, 1);
         return RedirectToPage(new {returnUrl});
     }
@@ -33,7 +33,7 @@ public class CartModel : PageModel
     public IActionResult OnPostRemove(long productId, string returnUrl)
     {
         Cart.RemoveLine(Cart.Lines.First(cl =>
-            cl.Product.ProductID == productId).Product);
+            cl.Product.ProductId == productId).Product);
         return RedirectToPage(new {returnUrl});
     }
 }

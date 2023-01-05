@@ -9,11 +9,11 @@
 <h3 class="bg-@ThemeColor text-white text-center p-1">@TitleText a Product</h3>
 <EditForm Model="Product" OnValidSubmit="SaveProduct">
     <DataAnnotationsValidator/>
-    @if (Product.ProductID != 0)
+    @if (Product.ProductId != 0)
     {
         <div class="form-group">
             <label>ID</label>
-            <input class="form-control" disabled value="@Product.ProductID"/>
+            <input class="form-control" disabled value="@Product.ProductId"/>
         </div>
     }
     <div class="form-group">
@@ -58,7 +58,7 @@
     {
         if (Id != 0)
         {
-            Product = Repository.Products.FirstOrDefault(p => p.ProductID == Id)
+            Product = Repository.Products.FirstOrDefault(p => p.ProductId == Id)
                       ?? new Product();
         }
     }
