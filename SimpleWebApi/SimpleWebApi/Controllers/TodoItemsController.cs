@@ -23,7 +23,7 @@ public class TodoItemsController : ControllerBase
     }
 
     // GET: api/TodoItems/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:long}")]
     public async Task<ActionResult<TodoItemDto>> GetTodoItem(long id)
     {
         var todoItem = await _context.TodoItems.FindAsync(id);
@@ -34,8 +34,8 @@ public class TodoItemsController : ControllerBase
     }
 
     // PUT: api/TodoItems/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id:long}")]
+    // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut()]
     public async Task<IActionResult> PutTodoItem(long id, TodoItemDto todoDto)
     {
         if (id != todoDto.Id) return BadRequest();
@@ -59,7 +59,7 @@ public class TodoItemsController : ControllerBase
     }
 
     // POST: api/TodoItems
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    // To protect from over-posting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
     public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItemDto todoDto)
     {
@@ -76,7 +76,7 @@ public class TodoItemsController : ControllerBase
     }
 
     // DELETE: api/TodoItems/5
-    [HttpDelete("{id}")]
+    [HttpDelete()]
     public async Task<IActionResult> DeleteTodoItem(long id)
     {
         var todoItem = await _context.TodoItems.FindAsync(id);
@@ -90,7 +90,7 @@ public class TodoItemsController : ControllerBase
 
     private bool TodoItemExists(long id)
     {
-        return (_context.TodoItems?.Any(e => e.Id == id)).GetValueOrDefault();
+        return (_context.TodoItems.Any(e => e.Id == id));
     }
 
     private static TodoItemDto ItemToDto(TodoItem todoItem)

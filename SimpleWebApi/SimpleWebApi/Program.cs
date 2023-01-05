@@ -24,4 +24,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// インメモリではシードが使えない模様
+// SeedData.EnsurePopulated(app);
+
 app.Run();
