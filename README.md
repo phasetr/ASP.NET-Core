@@ -15,11 +15,10 @@
     - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
 - MvcMovie: MVCの公式チュートリアル
     - `docker`で`PostgreSQL`利用
-    - TODO `docker compose`に`.NET`追加
 - SimpleTest: モデルクラスが一つだけあるテスト.
-      データソースが`DI`で抽象化されたコントローラーをテストしている.
+    - データソースが`DI`で抽象化されたコントローラーをテストしている.
+    - データベース未使用.
 - SimpleWebApi: インメモリデータベースを使ったシンプルなAPIのサンプル
-    - `.NET`用の`docker compose`あり
 - SportsStore: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
     - `libman`利用
     - `docker`で`PostgreSQL`利用
