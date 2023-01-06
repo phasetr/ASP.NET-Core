@@ -6,7 +6,7 @@
 public class Product
 {
     /// <summary>
-    ///     ProductID
+    ///     ProductId
     /// </summary>
     public long ProductId { get; set; }
 

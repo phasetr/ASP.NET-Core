@@ -6,7 +6,7 @@
 public class Order
 {
     /// <summary>
-    ///     OrderID
+    ///     OrderId
     /// </summary>
     public int OrderId { get; set; }
 

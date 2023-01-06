@@ -118,6 +118,6 @@ public class ProductController : Controller
 
     private bool ProductExists(long id)
     {
-        return (_context.Products.Any(e => e.ProductId == id));
+        return _context.Products.Any(e => e.ProductId == id);
     }
 }

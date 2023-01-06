@@ -27,22 +27,22 @@ public partial class MyDbContext : DbContext
 
             entity.HasComment("CartLine");
 
-            entity.HasIndex(e => e.Order.OrderId, "IX_CartLine_OrderID");
+            entity.HasIndex(e => e.OrderId, "IX_CartLine_OrderId");
 
-            entity.HasIndex(e => e.Product.ProductId, "IX_CartLine_ProductID");
+            entity.HasIndex(e => e.ProductId, "IX_CartLine_ProductId");
 
             entity.Property(e => e.CartLineId)
                 .ValueGeneratedNever()
-                .HasColumnName("CartLineID")
-                .HasComment("CartLineID");
+                .HasColumnName("CartLineId")
+                .HasComment("CartLineId");
 
             entity.Property(e => e.OrderId)
-                .HasColumnName("OrderID")
-                .HasComment("OrderID");
+                .HasColumnName("OrderId")
+                .HasComment("OrderId");
 
             entity.Property(e => e.ProductId)
-                .HasColumnName("ProductID")
-                .HasComment("ProductID");
+                .HasColumnName("ProductId")
+                .HasComment("ProductId");
 
             entity.Property(e => e.Quantity).HasComment("Quantity");
         });
@@ -53,8 +53,8 @@ public partial class MyDbContext : DbContext
 
             entity.Property(e => e.OrderId)
                 .ValueGeneratedNever()
-                .HasColumnName("OrderID")
-                .HasComment("OrderID");
+                .HasColumnName("OrderId")
+                .HasComment("OrderId");
 
             entity.Property(e => e.City).HasComment("City");
 
@@ -86,12 +86,12 @@ public partial class MyDbContext : DbContext
                 .HasComment("Id");
 
             entity.Property(e => e.OrderId)
-                .HasColumnName("OrderID")
-                .HasComment("OrderID");
+                .HasColumnName("OrderId")
+                .HasComment("OrderId");
 
             entity.Property(e => e.ProductId)
-                .HasColumnName("ProductID")
-                .HasComment("ProductID");
+                .HasColumnName("ProductId")
+                .HasComment("ProductId");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -100,8 +100,8 @@ public partial class MyDbContext : DbContext
 
             entity.Property(e => e.ProductId)
                 .ValueGeneratedNever()
-                .HasColumnName("ProductID")
-                .HasComment("ProductID");
+                .HasColumnName("ProductId")
+                .HasComment("ProductId");
 
             entity.Property(e => e.Category).HasComment("Category");
 

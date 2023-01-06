@@ -11,14 +11,14 @@ public class OrderDetail
     public int Id { get; set; }
 
     /// <summary>
-    ///     OrderID
+    ///     OrderId
     /// </summary>
     public long OrderId { get; set; }
 
     public Order Order { get; set; } = new();
 
     /// <summary>
-    ///     ProductID
+    ///     ProductId
     /// </summary>
     public long ProductId { get; set; }
 

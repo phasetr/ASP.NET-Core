@@ -6,12 +6,12 @@
 public class CartLine
 {
     /// <summary>
-    ///     CartLineID
+    ///     CartLineId
     /// </summary>
     public int CartLineId { get; set; }
 
     /// <summary>
-    ///     ProductID
+    ///     ProductId
     /// </summary>
     public long ProductId { get; set; }
 
@@ -23,7 +23,7 @@ public class CartLine
     public int Quantity { get; set; }
 
     /// <summary>
-    ///     OrderID
+    ///     OrderId
     /// </summary>
     public long OrderId { get; set; }
 
