@@ -13,6 +13,8 @@ public class CartLine
     /// <summary>
     ///     ProductID
     /// </summary>
+    public long ProductId { get; set; }
+
     public Product Product { get; set; } = new();
 
     /// <summary>
@@ -23,5 +25,7 @@ public class CartLine
     /// <summary>
     ///     OrderID
     /// </summary>
+    public long OrderId { get; set; }
+
     public Order Order { get; set; } = new();
 }

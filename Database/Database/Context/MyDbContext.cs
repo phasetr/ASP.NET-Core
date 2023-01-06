@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Context;
 
-public class MyDbContext : DbContext
+public partial class MyDbContext : DbContext
 {
     public MyDbContext()
     {
@@ -19,7 +19,6 @@ public class MyDbContext : DbContext
     public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
     public virtual DbSet<Product> Products { get; set; } = null!;
 
-    /*
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CartLine>(entity =>
@@ -37,11 +36,11 @@ public class MyDbContext : DbContext
                 .HasColumnName("CartLineID")
                 .HasComment("CartLineID");
 
-            entity.Property(e => e.Order.OrderId)
+            entity.Property(e => e.OrderId)
                 .HasColumnName("OrderID")
                 .HasComment("OrderID");
 
-            entity.Property(e => e.Product.ProductId)
+            entity.Property(e => e.ProductId)
                 .HasColumnName("ProductID")
                 .HasComment("ProductID");
 
@@ -86,11 +85,11 @@ public class MyDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasComment("Id");
 
-            entity.Property(e => e.Order.OrderId)
+            entity.Property(e => e.OrderId)
                 .HasColumnName("OrderID")
                 .HasComment("OrderID");
 
-            entity.Property(e => e.Product.ProductId)
+            entity.Property(e => e.ProductId)
                 .HasColumnName("ProductID")
                 .HasComment("ProductID");
         });
@@ -119,5 +118,4 @@ public class MyDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-    */
 }

@@ -13,10 +13,14 @@ public class OrderDetail
     /// <summary>
     ///     OrderID
     /// </summary>
+    public long OrderId { get; set; }
+
     public Order Order { get; set; } = new();
 
     /// <summary>
     ///     ProductID
     /// </summary>
+    public long ProductId { get; set; }
+
     public Product Product { get; set; } = new();
 }
