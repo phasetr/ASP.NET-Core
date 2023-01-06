@@ -2,6 +2,7 @@
 
 - Database: 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
     - ついでにコントローラーをスキャフォールド
+    - `TODO`: リレーションの確認
 - HelloDockerWeb: `docker compose`を使った最小サンプル
     - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
 - MvcMovie: MVCの公式チュートリアル

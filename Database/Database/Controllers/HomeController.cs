@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Database.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Database.Controllers;
 
@@ -15,6 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("LOGGER TEST: About page visited at {DT}",
+            DateTime.UtcNow.ToLongTimeString());
         return View();
     }
 
