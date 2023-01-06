@@ -18,6 +18,8 @@ dotnet restore
 # docker起動
 dc up -d
 
+# dotnet dotnet-ef database drop --force --context StoreDbContext
+# dotnet dotnet-ef database drop --force --context AppIdentityDbContext
 dotnet dotnet-ef migrations add InitialCreate -c StoreDbContext
 dotnet dotnet-ef migrations add InitialCreate -c AppIdentityDbContext
 dotnet dotnet-ef database update -c StoreDbContext

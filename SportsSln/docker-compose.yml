@@ -8,10 +8,13 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
+      # POSTGRES_DB: ${DB_NAME}
+      POSTGRES_MULTIPLE_DATABASES: sports,auth
       TZ: ${TZ}
     ports:
       - ${DB_PORT}:5432
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "||", "exit", "1" ]
       interval: 2s

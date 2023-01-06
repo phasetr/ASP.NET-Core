@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  pgsql:
+    image: postgres:14
+    platform: linux/x86-64
+    tty: true
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+      TZ: ${TZ}
+    ports:
+      - ${DB_PORT}:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}", "||", "exit", "1" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+  backend:
+    image: "mcr.microsoft.com/dotnet/sdk:6.0"
+    volumes:
+      - ./SportsStore:/app
+    command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
+    ports:
+      - "80:80"
