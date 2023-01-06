@@ -9,25 +9,3 @@
 # まずはDockerを起動すること
 docker compose up -d
 ```
-
-## EF Core
-
-### インストール
-
-```shell
-dotnet tool uninstall --global dotnet-ef
-dotnet tool install --global dotnet-ef --version 6.0.12
-```
-
-### マイグレーション
-
-```shell
-dotnet ef migrations add InitialCreate
-dotnet ef migrations add Rating
-```
-
-### アップデート
-
-```shell
-dotnet ef database update
-```

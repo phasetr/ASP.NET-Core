@@ -10,9 +10,6 @@
     - `ID/PASS`は`Models/IdentitySeedData.cs`で設定している
     - 直接<http://localhost:5000/Account/Login>に遷移するとエラーになる：`GET`パラメーター`ReturnUrl`が必要
 
-## TODO
-- `dotnet tool install Microsoft.Web.LibraryManager.Cli`の挙動：マニフェストファイルからのインストール
-
 ## init
 ### `restore`
 ```shell
@@ -21,8 +18,10 @@ dotnet restore
 ```
 ### docker起動
 ```shell
-dc up -d
+docker compose up -d # バックグラウンド起動
 ```
+
+- ダウンしたいときは`docker compose down`
 
 ### データベース初期化
 - 標準は`PostgreSQL`でその前提でマイグレーションファイルが生成されている

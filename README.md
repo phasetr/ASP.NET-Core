@@ -1,5 +1,13 @@
 # README
 
+## 参考
+- [自サイト](https://phasetr.com/archive/fc/pg/fsharp/#f)のASP.NETの記録を参考にすること.
+
+## 共通メモ
+- `docker-compose.yml`: データベースだけのファイル
+- `docker-compose.with-dotnet.yml`: データベースに加えて`.NET`の開発用コンテナも含む
+
+## 各ディレクトリの説明
 - Database: 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
     - ついでにコントローラーをスキャフォールド
     - `TODO`: リレーションの確認
@@ -17,7 +25,8 @@
     - `docker`で`PostgreSQL`利用
 
 ## TODO
-- 認証
+- データベースのリレーション
+- 認証, API認証(JWT)
 - ログのファイルへの書き出し
 - `GlobalUsing.cs`
 - テスト

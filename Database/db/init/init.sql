@@ -107,4 +107,3 @@ COMMENT ON COLUMN "Products"."Name" IS 'Name';
 COMMENT ON COLUMN "Products"."Description" IS 'Description';
 COMMENT ON COLUMN "Products"."Price" IS 'Price';
 COMMENT ON COLUMN "Products"."Category" IS 'Category';
-
