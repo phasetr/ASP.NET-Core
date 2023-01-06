@@ -18,8 +18,8 @@ public class HomeControllerTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1"},
-            new Product {ProductId = 2, Name = "P2"}
+            new() {ProductID = 1, Name = "P1"},
+            new Product {ProductID = 2, Name = "P2"}
         }.AsQueryable());
 
         var controller = new HomeController(mock.Object);
@@ -44,11 +44,11 @@ public class HomeControllerTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1"},
-            new Product {ProductId = 2, Name = "P2"},
-            new Product {ProductId = 3, Name = "P3"},
-            new Product {ProductId = 4, Name = "P4"},
-            new Product {ProductId = 5, Name = "P5"}
+            new() {ProductID = 1, Name = "P1"},
+            new Product {ProductID = 2, Name = "P2"},
+            new Product {ProductID = 3, Name = "P3"},
+            new Product {ProductID = 4, Name = "P4"},
+            new Product {ProductID = 5, Name = "P5"}
         }.AsQueryable());
 
         var controller = new HomeController(mock.Object);
@@ -73,11 +73,11 @@ public class HomeControllerTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1"},
-            new Product {ProductId = 2, Name = "P2"},
-            new Product {ProductId = 3, Name = "P3"},
-            new Product {ProductId = 4, Name = "P4"},
-            new Product {ProductId = 5, Name = "P5"}
+            new() {ProductID = 1, Name = "P1"},
+            new Product {ProductID = 2, Name = "P2"},
+            new Product {ProductID = 3, Name = "P3"},
+            new Product {ProductID = 4, Name = "P4"},
+            new Product {ProductID = 5, Name = "P5"}
         }.AsQueryable());
 
         // Arrange
@@ -105,11 +105,11 @@ public class HomeControllerTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1", Category = "Cat1"},
-            new Product {ProductId = 2, Name = "P2", Category = "Cat2"},
-            new Product {ProductId = 3, Name = "P3", Category = "Cat1"},
-            new Product {ProductId = 4, Name = "P4", Category = "Cat2"},
-            new Product {ProductId = 5, Name = "P5", Category = "Cat3"}
+            new() {ProductID = 1, Name = "P1", Category = "Cat1"},
+            new Product {ProductID = 2, Name = "P2", Category = "Cat2"},
+            new Product {ProductID = 3, Name = "P3", Category = "Cat1"},
+            new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
+            new Product {ProductID = 5, Name = "P5", Category = "Cat3"}
         }.AsQueryable());
 
         // Arrange - create a controller and make the page size 3 items
@@ -134,11 +134,11 @@ public class HomeControllerTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1", Category = "Cat1"},
-            new Product {ProductId = 2, Name = "P2", Category = "Cat2"},
-            new Product {ProductId = 3, Name = "P3", Category = "Cat1"},
-            new Product {ProductId = 4, Name = "P4", Category = "Cat2"},
-            new Product {ProductId = 5, Name = "P5", Category = "Cat3"}
+            new() {ProductID = 1, Name = "P1", Category = "Cat1"},
+            new Product {ProductID = 2, Name = "P2", Category = "Cat2"},
+            new Product {ProductID = 3, Name = "P3", Category = "Cat1"},
+            new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
+            new Product {ProductID = 5, Name = "P5", Category = "Cat3"}
         }.AsQueryable());
 
         var target = new HomeController(mock.Object);

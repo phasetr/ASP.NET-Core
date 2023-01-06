@@ -24,7 +24,7 @@ public class PageLinkTagHelper : TagHelper
     public string? PageAction { get; set; }
 
     [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
-    private Dictionary<string, object> PageUrlValues { get; set; }
+    public Dictionary<string, object> PageUrlValues { get; set; }
         = new();
 
     public bool PageClassesEnabled { get; set; } = false;
@@ -35,27 +35,29 @@ public class PageLinkTagHelper : TagHelper
     public override void Process(TagHelperContext context,
         TagHelperOutput output)
     {
-        if (ViewContext == null || PageModel == null) return;
-        var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
-        var result = new TagBuilder("div");
-        for (var i = 1; i <= PageModel.TotalPages; i++)
+        if (ViewContext != null && PageModel != null)
         {
-            var tag = new TagBuilder("a");
-            PageUrlValues["productPage"] = i;
-            tag.Attributes["href"] = urlHelper.Action(PageAction,
-                PageUrlValues);
-            if (PageClassesEnabled)
+            var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
+            var result = new TagBuilder("div");
+            for (var i = 1; i <= PageModel.TotalPages; i++)
             {
-                tag.AddCssClass(PageClass);
-                tag.AddCssClass(i == PageModel.CurrentPage
-                    ? PageClassSelected
-                    : PageClassNormal);
+                var tag = new TagBuilder("a");
+                PageUrlValues["productPage"] = i;
+                tag.Attributes["href"] = urlHelper.Action(PageAction,
+                    PageUrlValues);
+                if (PageClassesEnabled)
+                {
+                    tag.AddCssClass(PageClass);
+                    tag.AddCssClass(i == PageModel.CurrentPage
+                        ? PageClassSelected
+                        : PageClassNormal);
+                }
+
+                tag.InnerHtml.Append(i.ToString());
+                result.InnerHtml.AppendHtml(tag);
             }
 
-            tag.InnerHtml.Append(i.ToString());
-            result.InnerHtml.AppendHtml(tag);
+            output.Content.AppendHtml(result.InnerHtml);
         }
-
-        output.Content.AppendHtml(result.InnerHtml);
     }
 }

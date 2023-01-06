@@ -7,8 +7,7 @@ public class Cart
     public virtual void AddItem(Product product, int quantity)
     {
         var line = Lines
-            .Where(p => p.Product.ProductId == product.ProductId)
-            .FirstOrDefault();
+            .FirstOrDefault(p => p.Product.ProductID == product.ProductID);
 
         if (line == null)
             Lines.Add(new CartLine
@@ -22,7 +21,7 @@ public class Cart
 
     public virtual void RemoveLine(Product product)
     {
-        Lines.RemoveAll(l => l.Product.ProductId == product.ProductId);
+        Lines.RemoveAll(l => l.Product.ProductID == product.ProductID);
     }
 
     public decimal ComputeTotalValue()

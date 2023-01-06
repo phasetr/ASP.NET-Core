@@ -13,8 +13,8 @@ public class CartPageTests
     {
         // Arrange
         // - create a mock repository
-        var p1 = new Product {ProductId = 1, Name = "P1"};
-        var p2 = new Product {ProductId = 2, Name = "P2"};
+        var p1 = new Product {ProductID = 1, Name = "P1"};
+        var p2 = new Product {ProductID = 2, Name = "P2"};
         var mockRepo = new Mock<IStoreRepository>();
         mockRepo.Setup(m => m.Products).Returns(new[]
         {
@@ -43,7 +43,7 @@ public class CartPageTests
         var mockRepo = new Mock<IStoreRepository>();
         mockRepo.Setup(m => m.Products).Returns(new[]
         {
-            new Product() {ProductId = 1, Name = "P1"}
+            new Product() {ProductID = 1, Name = "P1"}
         }.AsQueryable<Product>());
 
         var testCart = new Cart();

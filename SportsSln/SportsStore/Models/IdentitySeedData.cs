@@ -5,27 +5,27 @@ namespace SportsStore.Models;
 
 public static class IdentitySeedData
 {
-    private const string adminUser = "Admin";
-    private const string adminPassword = "Secret123$";
+    private const string AdminUser = "Admin";
+    private const string AdminPassword = "Secret123$";
 
     public static async void EnsurePopulated(IApplicationBuilder app)
     {
         var context = app.ApplicationServices
             .CreateScope().ServiceProvider
             .GetRequiredService<AppIdentityDbContext>();
-        if (context.Database.GetPendingMigrations().Any()) context.Database.Migrate();
+        if ((await context.Database.GetPendingMigrationsAsync()).Any()) await context.Database.MigrateAsync();
 
         var userManager = app.ApplicationServices
             .CreateScope().ServiceProvider
             .GetRequiredService<UserManager<IdentityUser>>();
 
-        var user = await userManager.FindByNameAsync(adminUser);
-        if (user == null)
+        var user = await userManager.FindByNameAsync(AdminUser);
+        if (user != null) return;
+        user = new IdentityUser("Admin")
         {
-            user = new IdentityUser("Admin");
-            user.Email = "admin@example.com";
-            user.PhoneNumber = "555-1234";
-            await userManager.CreateAsync(user, adminPassword);
-        }
+            Email = "admin@example.com",
+            PhoneNumber = "555-1234"
+        };
+        await userManager.CreateAsync(user, AdminPassword);
     }
 }

@@ -21,22 +21,22 @@ public class NavigationMenuViewComponentTests
         {
             new()
             {
-                ProductId = 1, Name = "P1",
+                ProductID = 1, Name = "P1",
                 Category = "Apples"
             },
             new Product
             {
-                ProductId = 2, Name = "P2",
+                ProductID = 2, Name = "P2",
                 Category = "Apples"
             },
             new Product
             {
-                ProductId = 3, Name = "P3",
+                ProductID = 3, Name = "P3",
                 Category = "Plums"
             },
             new Product
             {
-                ProductId = 4, Name = "P4",
+                ProductID = 4, Name = "P4",
                 Category = "Oranges"
             }
         }.AsQueryable());
@@ -65,8 +65,8 @@ public class NavigationMenuViewComponentTests
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
-            new() {ProductId = 1, Name = "P1", Category = "Apples"},
-            new Product {ProductId = 4, Name = "P2", Category = "Oranges"}
+            new() {ProductID = 1, Name = "P1", Category = "Apples"},
+            new Product {ProductID = 4, Name = "P2", Category = "Oranges"}
         }.AsQueryable());
 
         var target =

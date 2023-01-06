@@ -7,14 +7,14 @@ namespace SportsStore.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly SignInManager<IdentityUser> signInManager;
-    private readonly UserManager<IdentityUser> userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<IdentityUser> _userManager;
 
     public AccountController(UserManager<IdentityUser> userMgr,
         SignInManager<IdentityUser> signInMgr)
     {
-        userManager = userMgr;
-        signInManager = signInMgr;
+        _userManager = userMgr;
+        _signInManager = signInMgr;
     }
 
     public ViewResult Login(string returnUrl)
@@ -29,20 +29,18 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginModel loginModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return View(loginModel);
+        var user =
+            await _userManager.FindByNameAsync(loginModel.Name);
+        if (user != null)
         {
-            var user =
-                await userManager.FindByNameAsync(loginModel.Name);
-            if (user != null)
-            {
-                await signInManager.SignOutAsync();
-                if ((await signInManager.PasswordSignInAsync(user,
-                        loginModel.Password, false, false)).Succeeded)
-                    return Redirect(loginModel?.ReturnUrl ?? "/Admin");
-            }
-
-            ModelState.AddModelError("", "Invalid name or password");
+            await _signInManager.SignOutAsync();
+            if ((await _signInManager.PasswordSignInAsync(user,
+                    loginModel.Password, false, false)).Succeeded)
+                return Redirect(loginModel.ReturnUrl);
         }
+
+        ModelState.AddModelError("", "Invalid name or password");
 
         return View(loginModel);
     }
@@ -50,7 +48,7 @@ public class AccountController : Controller
     [Authorize]
     public async Task<RedirectResult> Logout(string returnUrl = "/")
     {
-        await signInManager.SignOutAsync();
+        await _signInManager.SignOutAsync();
         return Redirect(returnUrl);
     }
 }

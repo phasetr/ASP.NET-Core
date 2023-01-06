@@ -12,7 +12,7 @@ using SportsStore.Models;
 namespace SportsStore.Migrations.AppIdentityDb
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20230104064751_InitialCreate")]
+    [Migration("20230106051734_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
