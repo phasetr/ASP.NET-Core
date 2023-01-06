@@ -10,6 +10,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
       TZ: ${TZ}
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d      
     ports:
       - ${DB_PORT}:5432
     healthcheck:

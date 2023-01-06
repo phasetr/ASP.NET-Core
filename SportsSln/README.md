@@ -1,6 +1,7 @@
 # README
 
 - [Original](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205/End%20of%20Chapter/SportsSln)
+- ストア用と認証用でデータベースが二つある.
 
 ## サイト
 

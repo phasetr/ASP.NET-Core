@@ -14,7 +14,6 @@
 - SportsStore: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
     - `libman`利用
     - `docker`で`PostgreSQL`利用
-    - TODO `docker compose`に`.NET`追加
 
 ## TODO
 - 認証

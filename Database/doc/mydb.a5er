@@ -1,0 +1,472 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.1 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",2,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=2
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=10
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=AspNetRoleClaims
+LName=AspNetRoleClaims
+Comment=
+TableOption=
+Page=MAIN
+Left=50
+Top=50
+Field="Id","Id","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="RoleId","RoleId","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="ClaimType","ClaimType","text",,,"","",$FFFFFFFF,""
+Field="ClaimValue","ClaimValue","text",,,"","",$FFFFFFFF,""
+Index=IX_AspNetRoleClaims_RoleId=0,RoleId
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",50,50
+ZOrder=-1
+
+[Entity]
+PName=AspNetRoles
+LName=AspNetRoles
+Comment=
+TableOption=
+Page=MAIN
+Left=50
+Top=450
+Field="Id","Id","text","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Name","Name","character varying(256)",,,"","",$FFFFFFFF,""
+Field="NormalizedName","NormalizedName","character varying(256)",,,"","",$FFFFFFFF,""
+Field="ConcurrencyStamp","ConcurrencyStamp","text",,,"","",$FFFFFFFF,""
+Index=RoleNameIndex=1,NormalizedName
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",50,450
+ZOrder=-2
+
+[Entity]
+PName=AspNetUserClaims
+LName=AspNetUserClaims
+Comment=
+TableOption=
+Page=MAIN
+Left=800
+Top=50
+Field="Id","Id","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="UserId","UserId","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="ClaimType","ClaimType","text",,,"","",$FFFFFFFF,""
+Field="ClaimValue","ClaimValue","text",,,"","",$FFFFFFFF,""
+Index=IX_AspNetUserClaims_UserId=0,UserId
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",800,50
+ZOrder=-3
+
+[Entity]
+PName=AspNetUserLogins
+LName=AspNetUserLogins
+Comment=
+TableOption=
+Page=MAIN
+Left=400
+Top=50
+Field="LoginProvider","LoginProvider","text","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ProviderKey","ProviderKey","text","NOT NULL",1,"","",$FFFFFFFF,""
+Field="ProviderDisplayName","ProviderDisplayName","text",,,"","",$FFFFFFFF,""
+Field="UserId","UserId","text","NOT NULL",,"","",$FFFFFFFF,""
+Index=IX_AspNetUserLogins_UserId=0,UserId
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",400,50
+ZOrder=-4
+
+[Entity]
+PName=AspNetUserRoles
+LName=AspNetUserRoles
+Comment=
+TableOption=
+Page=MAIN
+Left=50
+Top=850
+Field="UserId","UserId","text","NOT NULL",0,"","",$FFFFFFFF,""
+Field="RoleId","RoleId","text","NOT NULL",1,"","",$FFFFFFFF,""
+Index=IX_AspNetUserRoles_RoleId=0,RoleId
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",50,850
+ZOrder=-5
+
+[Entity]
+PName=AspNetUsers
+LName=AspNetUsers
+Comment=
+TableOption=
+Page=MAIN
+Left=450
+Top=700
+Field="Id","Id","text","NOT NULL",0,"","",$FFFFFFFF,""
+Field="UserName","UserName","character varying(256)",,,"","",$FFFFFFFF,""
+Field="NormalizedUserName","NormalizedUserName","character varying(256)",,,"","",$FFFFFFFF,""
+Field="Email","Email","character varying(256)",,,"","",$FFFFFFFF,""
+Field="NormalizedEmail","NormalizedEmail","character varying(256)",,,"","",$FFFFFFFF,""
+Field="EmailConfirmed","EmailConfirmed","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="PasswordHash","PasswordHash","text",,,"","",$FFFFFFFF,""
+Field="SecurityStamp","SecurityStamp","text",,,"","",$FFFFFFFF,""
+Field="ConcurrencyStamp","ConcurrencyStamp","text",,,"","",$FFFFFFFF,""
+Field="PhoneNumber","PhoneNumber","text",,,"","",$FFFFFFFF,""
+Field="PhoneNumberConfirmed","PhoneNumberConfirmed","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="TwoFactorEnabled","TwoFactorEnabled","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="LockoutEnd","LockoutEnd","timestamp(6) with time zone",,,"","",$FFFFFFFF,""
+Field="LockoutEnabled","LockoutEnabled","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="AccessFailedCount","AccessFailedCount","integer","NOT NULL",,"","",$FFFFFFFF,""
+Index=EmailIndex=0,NormalizedEmail
+Index=UserNameIndex=1,NormalizedUserName
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",450,700
+ZOrder=-6
+
+[Entity]
+PName=AspNetUserTokens
+LName=AspNetUserTokens
+Comment=
+TableOption=
+Page=MAIN
+Left=850
+Top=300
+Field="UserId","UserId","text","NOT NULL",0,"","",$FFFFFFFF,""
+Field="LoginProvider","LoginProvider","text","NOT NULL",1,"","",$FFFFFFFF,""
+Field="Name","Name","text","NOT NULL",2,"","",$FFFFFFFF,""
+Field="Value","Value","text",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",850,300
+ZOrder=-7
+
+[Relation]
+Entity1=AspNetRoles
+Entity2=AspNetUserRoles
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=RoleId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1966,5182,3667,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=197
+Bar2=518
+Bar3=367
+TermPos1=R
+TermPos2=R
+ZOrder=-11
+
+[Relation]
+Entity1=AspNetUsers
+Entity2=AspNetUserRoles
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=UserId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2305,5876,500,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=230
+Bar2=588
+Bar3=50
+TermPos1=R
+TermPos2=R
+ZOrder=-12
+
+[Relation]
+Entity1=AspNetUsers
+Entity2=AspNetUserTokens
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=UserId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,8356,5967,3958,R,R,""
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=836
+Bar2=597
+Bar3=396
+TermPos1=R
+TermPos2=R
+ZOrder=-13
+
+[Relation]
+Entity1=AspNetRoles
+Entity2=AspNetRoleClaims
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=RoleId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2527,4933,5439,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=253
+Bar2=493
+Bar3=544
+TermPos1=R
+TermPos2=R
+ZOrder=-8
+
+[Relation]
+Entity1=AspNetUsers
+Entity2=AspNetUserClaims
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=UserId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,6750,4981,500,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=675
+Bar2=498
+Bar3=50
+TermPos1=R
+TermPos2=R
+ZOrder=-9
+
+[Relation]
+Entity1=AspNetUsers
+Entity2=AspNetUserLogins
+RelationType1=1
+RelationType2=3
+Fields1=Id
+Fields2=UserId
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1824,6796,4221,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=182
+Bar2=680
+Bar3=422
+TermPos1=R
+TermPos2=R
+ZOrder=-10
+
+[Entity]
+PName=CartLine
+LName=CartLine
+Comment=
+TableOption=
+Page=MAIN
+Left=1900
+Top=50
+Field="CartLineID","CartLineID","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ProductID","ProductID","bigint","NOT NULL",,"","",$FFFFFFFF,""
+Field="Quantity","Quantity","integer","NOT NULL",,"","",$FFFFFFFF,""
+Field="OrderID","OrderID","integer",,,"","",$FFFFFFFF,""
+Index=IX_CartLine_OrderID=0,OrderID
+Index=IX_CartLine_ProductID=0,ProductID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",1900,50
+ZOrder=-1
+
+[Entity]
+PName=Orders
+LName=Orders
+Comment=
+TableOption=
+Page=MAIN
+Left=1500
+Top=300
+Field="OrderID","OrderID","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Name","Name","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Line1","Line1","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Line2","Line2","text",,,"","",$FFFFFFFF,""
+Field="Line3","Line3","text",,,"","",$FFFFFFFF,""
+Field="City","City","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="State","State","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Zip","Zip","text",,,"","",$FFFFFFFF,""
+Field="Country","Country","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="GiftWrap","GiftWrap","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="Shipped","Shipped","boolean","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",1500,300
+ZOrder=-2
+
+[Entity]
+PName=Products
+LName=Products
+Comment=
+TableOption=
+Page=MAIN
+Left=1250
+Top=50
+Field="ProductID","ProductID","bigint","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Name","Name","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Description","Description","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Price","Price","numeric(8, 2)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Category","Category","text","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="MAIN",1250,50
+ZOrder=-3
+
+[Relation]
+Entity1=Orders
+Entity2=CartLine
+RelationType1=1
+RelationType2=3
+Fields1=OrderID
+Fields2=OrderID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3728,3038,8001,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=373
+Bar2=304
+Bar3=800
+TermPos1=R
+TermPos2=R
+ZOrder=-4
+
+[Relation]
+Entity1=Products
+Entity2=CartLine
+RelationType1=1
+RelationType2=3
+Fields1=ProductID
+Fields2=ProductID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2442,6313,2108,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=244
+Bar2=631
+Bar3=211
+TermPos1=R
+TermPos2=R
+ZOrder=-5
+
+[Entity]
+PName=OrderDetails
+LName=OrderDetails
+Comment=
+TableOption=
+Page=MAIN
+Left=1300
+Top=900
+Field="Id","Id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="OrderID","OrderID","integer","NOT NULL",,"","",$FFFFFFFF,""
+Field="ProductID","ProductID","bigint","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20230106144754
+Position="MAIN",1300,900,291,447
+ZOrder=1
+
+[Relation]
+Entity1=Orders
+Entity2=OrderDetails
+RelationType1=1
+RelationType2=3
+Fields1=OrderID
+Fields2=OrderID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2947,4246,5697,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=295
+Bar2=425
+Bar3=570
+TermPos1=R
+TermPos2=R
+ZOrder=2
+
+[Relation]
+Entity1=Products
+Entity2=OrderDetails
+RelationType1=2
+RelationType2=3
+Fields1=ProductID
+Fields2=ProductID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2449,7539,2106,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=245
+Bar2=754
+Bar3=211
+TermPos1=R
+TermPos2=R
+ZOrder=3
