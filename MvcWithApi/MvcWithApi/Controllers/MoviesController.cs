@@ -29,19 +29,20 @@ public class MoviesController : Controller
 
         if (!string.IsNullOrEmpty(movieGenre)) movies = movies.Where(x => x.Genre == movieGenre);
 
-        var movieGenreVM = new MovieGenreViewModel
+        var movieGenreVm = new MovieGenreViewModel
         {
             Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
             Movies = await movies.ToListAsync()
         };
 
-        return View(movieGenreVM);
+        return View(movieGenreVm);
     }
 
     // GET: Movies/Details/5
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null || _context.Movie == null) return NotFound();
+        if (id == null) return NotFound();
+        // if (id == null || _context.Movie == null) return NotFound();
 
         var movie = await _context.Movie
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -57,26 +58,23 @@ public class MoviesController : Controller
     }
 
     // POST: Movies/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // To protect from over-posting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
     {
-        if (ModelState.IsValid)
-        {
-            _context.Add(movie);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        return View(movie);
+        if (!ModelState.IsValid) return View(movie);
+        _context.Add(movie);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
     }
 
     // GET: Movies/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
-        if (id == null || _context.Movie == null) return NotFound();
+        if (id == null) return NotFound();
+        // if (id == null || _context.Movie == null) return NotFound();
 
         var movie = await _context.Movie.FindAsync(id);
         if (movie == null) return NotFound();
@@ -84,7 +82,7 @@ public class MoviesController : Controller
     }
 
     // POST: Movies/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // To protect from over-posting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -92,30 +90,27 @@ public class MoviesController : Controller
     {
         if (id != movie.Id) return NotFound();
 
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return View(movie);
+        try
         {
-            try
-            {
-                _context.Update(movie);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MovieExists(movie.Id))
-                    return NotFound();
-                throw;
-            }
-
-            return RedirectToAction(nameof(Index));
+            _context.Update(movie);
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!MovieExists(movie.Id))
+                return NotFound();
+            throw;
         }
 
-        return View(movie);
+        return RedirectToAction(nameof(Index));
     }
 
     // GET: Movies/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null || _context.Movie == null) return NotFound();
+        if (id == null) return NotFound();
+        // if (id == null || _context.Movie == null) return NotFound();
 
         var movie = await _context.Movie
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -130,7 +125,7 @@ public class MoviesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        if (_context.Movie == null) return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+        // if (_context.Movie == null) return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
         var movie = await _context.Movie.FindAsync(id);
         if (movie != null) _context.Movie.Remove(movie);
 
@@ -140,6 +135,7 @@ public class MoviesController : Controller
 
     private bool MovieExists(int id)
     {
-        return (_context.Movie?.Any(e => e.Id == id)).GetValueOrDefault();
+        return _context.Movie.Any(e => e.Id == id);
+        // return (_context.Movie?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }

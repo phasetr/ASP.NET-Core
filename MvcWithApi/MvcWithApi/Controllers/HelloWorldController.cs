@@ -1,4 +1,3 @@
-using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MvcWithApi.Controllers;
@@ -11,7 +10,7 @@ public class HelloWorldController : Controller
         return View();
     }
 
-    // GET: https://localhost:5500/helloWorld/welcome/?name=Rick&numtimes=4
+    // GET: https://localhost:5500/helloWorld/welcome/?name=Rick&numTimes=4
     public IActionResult Welcome(string name, int numTimes = 1)
     {
         ViewData["Message"] = "Hello " + name;

@@ -15,6 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("LOGGER TEST: About page visited at {DT}",
+            DateTime.UtcNow.ToLongTimeString());
         return View();
     }
 
