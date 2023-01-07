@@ -2,6 +2,12 @@
 
 ## 参考
 - [自サイト](https://phasetr.com/archive/fc/pg/fsharp/#f)のASP.NETの記録を参考にすること.
+- 各プロジェクトの初期化コマンドは次の通り.
+
+```shell
+dotnet tool restore # 必要ないプロジェクトあり
+dotnet restore
+```
 
 ## 共通メモ
 - いちいち起動するのが面倒だから基本は`docker`なし
@@ -21,10 +27,10 @@
     - `docker compose`を使った最小サンプル
     - データベースなし
     - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
-- MvcMovie
-    - `docker`で`PostgreSQL`利用
 - MvcWithApi
-    - MVCの公式チュートリアル
+    - MVCの公式チュートリアルが大元
+        - [公式](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-6.0&tabs=visual-studio)
+        - [ASP.NET Core 6 MVCのチュートリアルを優しく解説](https://masa7blog.com/asp-net-core-6-mvc-tutorial/)
     - MVCとAPIを同居させたサンプルプロジェクト
     - データベースは`SQLite`
 - SimpleTest
