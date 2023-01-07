@@ -16,6 +16,9 @@ dotnet restore
 - `docker-compose.with-dotnet.yml`: データベースに加えて`.NET`の開発用コンテナも含む
 
 ## 各ディレクトリの説明
+- `TODO`
+    - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
+    - [チュートリアル: ASP.NET Core の Razor Pages の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-6.0&tabs=visual-studio-code)
 - `TODO` EFCore
     - `Entity Framework Core`の実験場.
     - 壊しやすいようにデータベースは`SQLite`
@@ -32,6 +35,7 @@ dotnet restore
         - [公式](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-6.0&tabs=visual-studio)
         - [ASP.NET Core 6 MVCのチュートリアルを優しく解説](https://masa7blog.com/asp-net-core-6-mvc-tutorial/)
     - MVCとAPIを同居させたサンプルプロジェクト
+    - APIは下記`SimpleWebApi`と同じく[チュートリアル](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-web-api?view=aspnetcore-7.0&tabs=visual-studio)から
     - データベースは`SQLite`
 - SimpleTest
     - モデルクラスが一つだけあるテストを書いたプロジェクト
@@ -44,10 +48,10 @@ dotnet restore
     - `docker`で`PostgreSQL`利用
 
 ## TODO
-- データベースのリレーション
 - 認証, API認証(JWT)
 - ログのファイルへの書き出し
 - `GlobalUsing.cs`
+- ワンタイムURL
 - テスト
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
