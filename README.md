@@ -4,23 +4,37 @@
 - [自サイト](https://phasetr.com/archive/fc/pg/fsharp/#f)のASP.NETの記録を参考にすること.
 
 ## 共通メモ
+- いちいち起動するのが面倒だから基本は`docker`なし
+- 断わりがなければデータベースは`SQLite`
 - `docker-compose.yml`: データベースだけのファイル
 - `docker-compose.with-dotnet.yml`: データベースに加えて`.NET`の開発用コンテナも含む
 
 ## 各ディレクトリの説明
-- Database: 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
-    - ついでにコントローラーをスキャフォールド
-    - `TODO`: リレーションの確認
-- HelloDockerWeb: `docker compose`を使った最小サンプル
-    - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
-- MvcMovie: MVCの公式チュートリアル
+- `TODO` EFCore
+    - `Entity Framework Core`の実験場.
+    - 壊しやすいようにデータベースは`SQLite`
+- Database
+    - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
     - `docker`で`PostgreSQL`利用
-- SimpleTest: モデルクラスが一つだけあるテスト.
-    - データソースが`DI`で抽象化されたコントローラーをテストしている.
-    - データベース未使用.
-- SimpleWebApi: インメモリデータベースを使ったシンプルなAPIのサンプル
+    - ついでにコントローラーをスキャフォールド
+- HelloDockerWeb
+    - `docker compose`を使った最小サンプル
+    - データベースなし
+    - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
+- MvcMovie
+    - `docker`で`PostgreSQL`利用
+- MvcWithApi
+    - MVCの公式チュートリアル
+    - MVCとAPIを同居させたサンプルプロジェクト
+    - データベースは`SQLite`
+- SimpleTest
+    - モデルクラスが一つだけあるテストを書いたプロジェクト
+    - データベース未使用
+    - データソースが`DI`で抽象化されたコントローラーをテストしている
+- SimpleWebApi
+    - インメモリデータベースを使ったシンプルなAPIのサンプル
 - SportsStore: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
-    - `libman`利用
+    - ある程度の規模があるサンプルプロジェクト
     - `docker`で`PostgreSQL`利用
 
 ## TODO
