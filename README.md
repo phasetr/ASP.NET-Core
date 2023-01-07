@@ -5,7 +5,8 @@
 - 各プロジェクトの初期化コマンドは次の通り.
 
 ```shell
-dotnet tool restore # 必要ないプロジェクトあり
+dotnet tool restore
+dotnet libman restore # 必要ないプロジェクトあり
 dotnet restore
 ```
 
@@ -56,7 +57,6 @@ dotnet restore
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
 - Fluent UI, [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/), [Fast](https://www.fast.design/)
-- MVC+API
 - Blazor: Server, WebAssembly
 - [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/Saturn
     - [Giraffe samples](https://github.com/giraffe-fsharp/samples)
