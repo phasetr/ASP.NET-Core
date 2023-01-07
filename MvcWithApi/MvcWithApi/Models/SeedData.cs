@@ -11,7 +11,7 @@ public static class SeedData
             serviceProvider.GetRequiredService<
                 DbContextOptions<MyDbContext>>());
         // Look for any movies.
-        if (context.Movie.Any()) return; // DB has been seeded
+        if (context.Movie.Any() && context.TodoItems.Any()) return; // DB has been seeded
 
         context.Movie.AddRange(
             new Movie
@@ -47,6 +47,13 @@ public static class SeedData
                 Price = 3.99M
             }
         );
+
+        context.TodoItems.AddRange(
+            new TodoItem {Name = "Read a book", IsComplete = false, Secret = "secret1"},
+            new TodoItem {Name = "Write code", IsComplete = false, Secret = "secret2"},
+            new TodoItem {Name = "Cook", IsComplete = true, Secret = "secret3"}
+        );
+
         context.SaveChanges();
     }
 }

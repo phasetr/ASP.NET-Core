@@ -11,4 +11,5 @@ public class MyDbContext : DbContext
     }
 
     public DbSet<Movie> Movie { get; set; } = default!;
+    public DbSet<TodoItem> TodoItems { get; set; } = null!;
 }
