@@ -1,5 +1,5 @@
 .idea
 bin
 obj
-wwwroot/lib/*
+**/wwwroot/lib/*
 *.db*

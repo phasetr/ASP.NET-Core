@@ -20,6 +20,9 @@ dotnet restore
 - `TODO`
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - [チュートリアル: ASP.NET Core の Razor Pages の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-6.0&tabs=visual-studio-code)
+    - EF Core Identity
+        - サービスのメインのテーブルがあるのと同じデータベースに作れるか?
+        - ユーザーテーブルにリレーションを張る
 - `TODO` EFCore
     - `Entity Framework Core`の実験場.
     - 壊しやすいようにデータベースは`SQLite`
@@ -50,6 +53,9 @@ dotnet restore
 
 ## TODO
 - 認証, API認証(JWT)
+    - [ASP.NET Core Identityと既存テーブルの連携(?)](https://learn.microsoft.com/ja-jp/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0)
+    単純に[この](https://gavilan.blog/2018/04/15/relationship-between-tables-and-aspnetusers/)外部キー配置でいける?
+- メール送信
 - ログのファイルへの書き出し
 - `GlobalUsing.cs`
 - ワンタイムURL
@@ -58,5 +64,6 @@ dotnet restore
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
 - Fluent UI, [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/), [Fast](https://www.fast.design/)
 - Blazor: Server, WebAssembly
+- テスト
 - [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/Saturn
     - [Giraffe samples](https://github.com/giraffe-fsharp/samples)
