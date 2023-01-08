@@ -22,6 +22,9 @@ dotnet restore
     - EF Core Identity
         - サービスのメインのテーブルがあるのと同じデータベースに作れるか?
         - ユーザーテーブルにリレーションを張る
+- BlazorWasmTodo
+    - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
+    - `dotnet new blazorwasm -o BlazorWasmTodo`
 - `TODO` EFCore
     - `Entity Framework Core`の実験場.
     - 壊しやすいようにデータベースは`SQLite`
