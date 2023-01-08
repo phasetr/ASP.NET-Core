@@ -19,7 +19,8 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
-        if (id == null || _context.Movie == null) return NotFound();
+        // if (id == null || _context.Movie == null) return NotFound();
+        if (id == null) return NotFound();
 
         var movie = await _context.Movie.FirstOrDefaultAsync(m => m.Id == id);
         if (movie == null) return NotFound();
@@ -27,7 +28,7 @@ public class EditModel : PageModel
         return Page();
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // To protect from over-posting attacks, enable the specific properties you want to bind to.
     // For more details, see https://aka.ms/RazorPagesCRUD.
     public async Task<IActionResult> OnPostAsync()
     {
@@ -51,6 +52,7 @@ public class EditModel : PageModel
 
     private bool MovieExists(int id)
     {
-        return (_context.Movie?.Any(e => e.Id == id)).GetValueOrDefault();
+        // return (_context.Movie?.Any(e => e.Id == id)).GetValueOrDefault();
+        return _context.Movie.Any(e => e.Id == id);
     }
 }

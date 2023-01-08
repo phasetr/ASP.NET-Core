@@ -22,10 +22,11 @@ public class CreateModel : PageModel
     }
 
 
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    // To protect from over-posting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!ModelState.IsValid || _context.Movie == null || Movie == null) return Page();
+        // if (!ModelState.IsValid || _context.Movie == null || Movie == null) return Page();
+        if (!ModelState.IsValid) return Page();
 
         _context.Movie.Add(Movie);
         await _context.SaveChangesAsync();

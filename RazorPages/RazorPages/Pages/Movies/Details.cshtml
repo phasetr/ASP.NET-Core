@@ -1,4 +1,4 @@
-@page
+@page "{id:int}"
 @model DetailsModel
 
 @{
@@ -35,6 +35,9 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Movie.Price)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Rating)
         </dd>
     </dl>
 </div>

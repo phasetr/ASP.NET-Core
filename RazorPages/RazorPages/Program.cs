@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Data;
+using RazorPages.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ else
         options.UseSqlite(builder.Configuration.GetConnectionString("MyDbContext")));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    SeedData.Initialize(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

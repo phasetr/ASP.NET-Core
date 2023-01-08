@@ -19,7 +19,6 @@ dotnet restore
 ## 各ディレクトリの説明
 - `TODO`
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
-    - [チュートリアル: ASP.NET Core の Razor Pages の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-6.0&tabs=visual-studio-code)
     - EF Core Identity
         - サービスのメインのテーブルがあるのと同じデータベースに作れるか?
         - ユーザーテーブルにリレーションを張る
@@ -41,6 +40,11 @@ dotnet restore
     - MVCとAPIを同居させたサンプルプロジェクト
     - APIは下記`SimpleWebApi`と同じく[チュートリアル](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-web-api?view=aspnetcore-7.0&tabs=visual-studio)から
     - データベースは`SQLite`
+- RazorPages
+    - [チュートリアル: ASP.NET Core の Razor Pages の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-6.0&tabs=visual-studio-code)
+    - `MvcWithApi`の`MVC`チュートリアル部分を`Razor Pages`に変えただけ
+    - ASP.NET Coreからはふつうの`MVC`よりこちらが推奨とのこと
+    - `TODO`: テストも書ける
 - SimpleTest
     - モデルクラスが一つだけあるテストを書いたプロジェクト
     - データベース未使用
