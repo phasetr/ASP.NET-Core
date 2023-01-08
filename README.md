@@ -18,10 +18,14 @@ dotnet restore
 
 ## 各ディレクトリの説明
 - `TODO`
-    - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - EF Core Identity
         - サービスのメインのテーブルがあるのと同じデータベースに作れるか?
         - ユーザーテーブルにリレーションを張る
+- BlazorFluentUi
+    - `dotnet new blazorwasm -o BlazorFluentUi`
+    - [Use Fluent UI Web Components with Blazor](https://learn.microsoft.com/ja-jp/fluent-ui/web-components/integrations/blazor)
+    - [ビジュアルでの一覧](https://brave-cliff-0c0c93310.azurestaticapps.net/)
+    - [Web components overview](https://learn.microsoft.com/en-us/fluent-ui/web-components/components/overview)
 - BlazorWasmTodo
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - `dotnet new blazorwasm -o BlazorWasmTodo`
@@ -70,7 +74,6 @@ dotnet restore
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
 - Fluent UI, [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/), [Fast](https://www.fast.design/)
-- Blazor: Server, WebAssembly
 - テスト
 - [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/Saturn
     - [Giraffe samples](https://github.com/giraffe-fsharp/samples)
