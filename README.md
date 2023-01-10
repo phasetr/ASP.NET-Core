@@ -79,6 +79,7 @@ dotnet restore
 - ファイルアップロード
 - メール送信
 - ログのファイルへの書き出し
+- [Blazor公式](https://dotnet.microsoft.com/ja-jp/apps/aspnet/web-apps/blazor)
 - `GlobalUsing.cs`
 - ワンタイムURL
 - テスト

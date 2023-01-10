@@ -1,0 +1,58 @@
+﻿@page
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@model IdentityUsersModel
+
+<div class="bg-info text-white p-2">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <span class="navbar-brand ml-2">Identity Administration</span>
+            </div>
+            <div class="col-2 text-right">
+                <a class="btn btn-sm btn-primary" href="/admin">admin</a>
+            </div>
+            <div class="col-2 text-right">
+                <a class="btn btn-sm btn-primary" href="/account/logout">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="text-center p-2">Admin User</h3>
+
+<table class="table table-sm table-striped table-bordered">
+    <tbody>
+    <tr>
+        <th>User</th><td>@Model.AdminUser.UserName</td>
+    </tr>
+    <tr>
+        <th>Email</th><td>@Model.AdminUser.Email</td>
+    </tr>
+    <tr>
+        <th>Phone</th><td>@Model.AdminUser.PhoneNumber</td>
+    </tr>
+    </tbody>
+</table>
+
+@functions{
+
+    [Authorize]
+    public class IdentityUsersModel : PageModel
+    {
+        private UserManager<IdentityUser> _userManager;
+
+        public IdentityUsersModel(UserManager<IdentityUser> mgr)
+        {
+            _userManager = mgr;
+        }
+
+        public IdentityUser AdminUser { get; set; } = new();
+
+        public async Task OnGetAsync()
+        {
+            AdminUser = await _userManager.FindByNameAsync("Admin");
+        }
+    }
+
+}
