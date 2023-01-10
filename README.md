@@ -26,6 +26,14 @@ dotnet restore
     - [Use Fluent UI Web Components with Blazor](https://learn.microsoft.com/ja-jp/fluent-ui/web-components/integrations/blazor)
     - [ビジュアルでの一覧](https://brave-cliff-0c0c93310.azurestaticapps.net/)
     - [Web components overview](https://learn.microsoft.com/en-us/fluent-ui/web-components/components/overview)
+    - [Fluent Icons](https://fluenticons.co/)
+    - [Fast](https://www.fast.design/)
+    - [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/)
+        - [MatBlazor](https://www.matblazor.com/)
+        - [Ant Design Blazor](https://antblazor.com/en-US/)
+        - [Radzen](https://blazor.radzen.com/)
+        - [Syncfusion](https://www.syncfusion.com/blazor-components)
+        - [Skclusive UI](https://skclusive.github.io/Skclusive.Material.Docs/)
 - BlazorWasmTodo
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - `dotnet new blazorwasm -o BlazorWasmTodo`
@@ -40,6 +48,8 @@ dotnet restore
     - `docker compose`を使った最小サンプル
     - データベースなし
     - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
+- IdentityByController
+    - 認証系
 - MvcWithApi
     - MVCの公式チュートリアルが大元
         - [公式](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-6.0&tabs=visual-studio)
@@ -66,6 +76,7 @@ dotnet restore
 - 認証, API認証(JWT)
     - [ASP.NET Core Identityと既存テーブルの連携(?)](https://learn.microsoft.com/ja-jp/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0)
     単純に[この](https://gavilan.blog/2018/04/15/relationship-between-tables-and-aspnetusers/)外部キー配置でいける?
+- ファイルアップロード
 - メール送信
 - ログのファイルへの書き出し
 - `GlobalUsing.cs`
@@ -73,7 +84,5 @@ dotnet restore
 - テスト
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
-- Fluent UI, [UIフレームワーク調査](https://blazor-master.com/blazor-ui-framework/), [Fast](https://www.fast.design/)
-- テスト
-- [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/Saturn
+- [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/[Saturn](https://saturnframework.org/)
     - [Giraffe samples](https://github.com/giraffe-fsharp/samples)
