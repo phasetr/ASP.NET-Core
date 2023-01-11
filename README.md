@@ -52,6 +52,10 @@ dotnet restore
     - コントローラーを使った認証
     - オリジナルは`SportsStore`で, 認証以外をほぼ削除: `Product`だけ残してある
     - データベースは`SQLite`
+- IdentityByRazorPages
+    - `RazorPages`での認証
+    - オリジナルは[Pro ASP.NET Core 6 ](https://github.com/Apress/pro-asp.net-core-6/tree/main/39%20-%20ASP.NET%20Core%20Identity%20-%202/End%20of%20Chapter)
+    - データベースは`SQLite`
 - MvcWithApi
     - MVCの公式チュートリアルが大元
         - [公式](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-6.0&tabs=visual-studio)
