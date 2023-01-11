@@ -1,0 +1,31 @@
+﻿@page "/"
+@{ Layout = null; }
+@using IdentityByRazorPages.Blazor.Components
+@using Microsoft.AspNetCore.Authorization
+@attribute [AllowAnonymous]
+@model HostModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <base href="~/"/>
+</head>
+<body>
+<div class="m-2">
+    <component type="typeof(Routed)" render-mode="Server"/>
+</div>
+<script src="_framework/blazor.server.js"></script>
+<script src="~/interop.js"></script>
+</body>
+</html>
+
+@functions {
+
+    [Authorize]
+    public class HostModel : PageModel
+    {
+    }
+
+}
