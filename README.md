@@ -49,7 +49,9 @@ dotnet restore
     - データベースなし
     - `http://localhost/`にアクセスすると`Hello Docker!`と表示されるだけ
 - IdentityByController
-    - 認証系
+    - コントローラーを使った認証
+    - オリジナルは`SportsStore`で, 認証以外をほぼ削除: `Product`だけ残してある
+    - データベースは`SQLite`
 - MvcWithApi
     - MVCの公式チュートリアルが大元
         - [公式](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-6.0&tabs=visual-studio)
