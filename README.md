@@ -21,10 +21,6 @@ dotnet restore
     - `@attribute [Authorize(Roles = "Administrator")]`をつけるとロールで認可振り分けできる
 
 ## 各ディレクトリの説明
-- `TODO`
-    - EF Core Identity
-        - サービスのメインのテーブルがあるのと同じデータベースに作れるか?
-        - ユーザーテーブルにリレーションを張る
 - BlazorFluentUi
     - `dotnet new blazorwasm -o BlazorFluentUi`
     - `DB`: なし
@@ -43,13 +39,14 @@ dotnet restore
     - `DB`: なし
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - `dotnet new blazorwasm -o BlazorWasmTodo`
-- `TODO` EFCore
-    - `Entity Framework Core`の実験場.
-    - 壊しやすいようにデータベースは`SQLite`
 - Database
     - `DB`: `docker`で`PostgreSQL`利用
     - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
     - ついでにコントローラーをスキャフォールド
+- EfCore
+    - `DB`: `SQLite`
+    - `Entity Framework Core`の実験場.
+    - `Identity`のユーザーテーブルにリレーションを張る
 - HelloDockerWeb
     - `DB`: なし
     - `docker compose`を使った最小サンプル
@@ -97,6 +94,7 @@ dotnet restore
     単純に[この](https://gavilan.blog/2018/04/15/relationship-between-tables-and-aspnetusers/)外部キー配置でいける?
 - [Blazorでクッキー以外の認証](https://zenn.dev/okazuki/articles/blazor-oreore-auth-part3)
 - Blazor Server Static
+    - `Razor Pages`なしでの直接認証
     - [Blazor (とWebAPI) しか書けなくなった C# プログラマが、WebAssembly も SignalR も使えない縛りの動的 Web サイトを構築しなければならなくなったとき](https://qiita.com/jsakamoto/items/41bc81b07dce57680772)
     - `実装は Blazor Server として実装し (※Blazor Server はサーバー側初期レンダリングが既定で付いてきます)、しかし、SignalR 接続は開始しない (Blazor Server としての動作を起動しない) ようにするのです。`
 - [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
