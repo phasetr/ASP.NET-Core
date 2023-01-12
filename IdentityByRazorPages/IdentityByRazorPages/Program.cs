@@ -16,15 +16,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 
-builder.Services.AddDbContext<MyDbContext>(opts =>
+builder.Services.AddDbContext<IdContext>(opts =>
 {
-    opts.UseSqlite(builder.Configuration["ConnectionStrings:PeopleConnection"]);
+    opts.UseSqlite(builder.Configuration["ConnectionStrings:MyDbConnection"]);
     opts.EnableSensitiveDataLogging();
 });
-
-builder.Services.AddDbContext<IdContext>(opts =>
-    opts.UseSqlite(builder.Configuration[
-        "ConnectionStrings:IdentityConnection"]));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<IdContext>();
 
@@ -99,8 +95,5 @@ app.MapFallbackToPage("/_Host");
 app.UseBlazorFrameworkFiles("/webassembly");
 app.MapFallbackToFile("/webassembly/{*path:nonfile}", "/webassembly/index.html");
 
-var context = app.Services.CreateScope().ServiceProvider
-    .GetRequiredService<MyDbContext>();
-SeedData.SeedDatabase(context);
-IdSeedData.CreateAdminAccount(app.Services, app.Configuration);
+IdSeedData.EnsurePopulated(app, app.Configuration);
 app.Run();

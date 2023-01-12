@@ -1,0 +1,29 @@
+﻿@page "/"
+@{ Layout = null; }
+@attribute [AllowAnonymous]
+@using Microsoft.AspNetCore.Authorization
+@using EfCoreBlazorServerStatic.Blazor.Components
+@model HostModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <base href="~/"/>
+</head>
+<body>
+<div class="m-2">
+    <component type="typeof(Routed)" render-mode="Static"/>
+</div>
+</body>
+</html>
+
+@functions {
+
+    [Authorize]
+    public class HostModel : PageModel
+    {
+    }
+
+}

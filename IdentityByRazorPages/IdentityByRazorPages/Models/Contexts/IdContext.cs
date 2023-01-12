@@ -10,4 +10,8 @@ public class IdContext : IdentityDbContext<IdentityUser>
         : base(options)
     {
     }
+
+    public DbSet<Person> People => Set<Person>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<Location> Locations => Set<Location>();
 }

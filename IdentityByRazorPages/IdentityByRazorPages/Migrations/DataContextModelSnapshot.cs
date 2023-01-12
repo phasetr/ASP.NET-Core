@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IdentityByRazorPages.Migrations
 {
-    [DbContext(typeof(MyDbContext))]
+    [DbContext(typeof(IdContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

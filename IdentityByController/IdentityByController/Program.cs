@@ -8,18 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<StoreDbContext>(opts =>
+builder.Services.AddDbContext<IdContext>(opts =>
 {
     opts.UseSqlite(builder.Configuration["ConnectionStrings:MyDbContext"]);
-    // opts.UseNpgsql(builder.Configuration["ConnectionStrings:SportsStoreConnection"]);
-});
-builder.Services.AddDbContext<AppIdentityDbContext>(opts =>
-{
-    opts.UseSqlite(builder.Configuration["ConnectionStrings:MyDbContext"]);
-    // opts.UseNpgsql(builder.Configuration["ConnectionStrings:IdentityConnection"]);
 });
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppIdentityDbContext>();
+    .AddEntityFrameworkStores<IdContext>();
 
 builder.Services.AddScoped<IStoreRepository, EfStoreRepository>();
 
@@ -58,7 +52,6 @@ app.MapRazorPages();
 app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
-SeedData.EnsurePopulated(app);
-IdentitySeedData.EnsurePopulated(app);
+IdSeedData.EnsurePopulated(app);
 
 app.Run();

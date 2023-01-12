@@ -1,0 +1,30 @@
+﻿@page "/b/persons"
+@using IdentityByRazorPages.Models.Contexts
+@using Microsoft.AspNetCore.Authorization
+@using IdentityByRazorPages.Blazor.Components
+@attribute [Authorize]
+
+<TableTemplate TRowType="Person" RowData="People">
+    <Header>
+        <tr>
+            <th>ID</th><th>Name</th><th>Dept</th><th>Location</th>
+        </tr>
+    </Header>
+    <RowTemplate Context="p">
+        <td>@p.PersonId</td>
+        <td>@p.Surname, @p.Firstname</td>
+        <td>@p.Department?.Name</td>
+        <td>@p.Location?.City, @p.Location?.State</td>
+    </RowTemplate>
+</TableTemplate>
+
+@code {
+
+    [Inject]
+    public IdContext? Context { get; set; }
+
+    private IEnumerable<Person>? People => Context?.People
+        .Include(p => p.Department)
+        .Include(p => p.Location);
+
+}

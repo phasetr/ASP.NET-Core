@@ -1,0 +1,37 @@
+@page "/b/articles"
+@using EfCoreBlazorServerStatic.Models.Contexts
+@using Microsoft.AspNetCore.Authorization
+@using EfCoreBlazorServerStatic.Models
+@attribute [Authorize]
+
+<table class="table table-sm table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Title</th><th>Description</th><th>User</th><th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Articles.OrderBy(_ => "Ascending"))
+    {
+        <tr>
+            <td>@item.Title</td>
+            <td>@item.Description</td>
+            <td>@item.User?.UserName</td>
+            <td>
+                <a href="edit/@item.ArticleId">Edit</a> |
+                <a href="details/@item.ArticleId">Details</a> |
+                <a href="delete/@item.ArticleId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+
+    [Inject]
+    public IdContext? Context { get; set; }
+
+    private IEnumerable<Article> Articles => Context?.Articles ?? Enumerable.Empty<Article>();
+
+}

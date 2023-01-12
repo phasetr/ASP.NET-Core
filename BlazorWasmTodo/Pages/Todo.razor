@@ -24,11 +24,9 @@
 
     private void AddTodo()
     {
-        if (!string.IsNullOrWhiteSpace(_newTodo))
-        {
-            _todos.Add(new TodoItem {Title = _newTodo});
-            _newTodo = string.Empty;
-        }
+        if (string.IsNullOrWhiteSpace(_newTodo)) return;
+        _todos.Add(new TodoItem {Title = _newTodo});
+        _newTodo = string.Empty;
     }
 
 }

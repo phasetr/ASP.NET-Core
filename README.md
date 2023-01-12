@@ -43,10 +43,11 @@ dotnet restore
     - `DB`: `docker`で`PostgreSQL`利用
     - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
     - ついでにコントローラーをスキャフォールド
-- EfCore
+- EfCoreRazorPages
     - `DB`: `SQLite`
     - `Entity Framework Core`の実験場.
-    - `Identity`のユーザーテーブルにリレーションを張る
+    - `Identity`のユーザーテーブルにリレーションを張る: [EF Core 認証用ユーザーにリレーションを張る](https://phasetr.com/archive/fc/pg/fsharp/)
+    - cf. [`Razor Pages`なしでの直接認証は不可能](https://learn.microsoft.com/ja-jp/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-7.0&tabs=netcore-cli#style-authentication-endpoints)
 - HelloDockerWeb
     - `DB`: なし
     - `docker compose`を使った最小サンプル
@@ -89,22 +90,19 @@ dotnet restore
     - ある程度の規模があるサンプルプロジェクト
 
 ## TODO
-- `ASP.NET Identity`のユーザーテーブルとリレーションを張る
-    - [ASP.NET Core Identityと既存テーブルの連携(?)](https://learn.microsoft.com/ja-jp/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-7.0)
-    単純に[この](https://gavilan.blog/2018/04/15/relationship-between-tables-and-aspnetusers/)外部キー配置でいける?
-- [Blazorでクッキー以外の認証](https://zenn.dev/okazuki/articles/blazor-oreore-auth-part3)
+- `Blazor`の実装一般
 - Blazor Server Static
-    - `Razor Pages`なしでの直接認証
-    - [Blazor (とWebAPI) しか書けなくなった C# プログラマが、WebAssembly も SignalR も使えない縛りの動的 Web サイトを構築しなければならなくなったとき](https://qiita.com/jsakamoto/items/41bc81b07dce57680772)
-    - `実装は Blazor Server として実装し (※Blazor Server はサーバー側初期レンダリングが既定で付いてきます)、しかし、SignalR 接続は開始しない (Blazor Server としての動作を起動しない) ようにするのです。`
-- [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
-- ファイルアップロード
+    - ログインが必要な場合ログイン画面に蹴り出す処理: `RedirectToLogin`
+- `Blazor WebAssembly`の認証
+- ログのファイルへの書き出し: `Serilog`
 - メール送信
-- ログのファイルへの書き出し
-- [Blazor公式](https://dotnet.microsoft.com/ja-jp/apps/aspnet/web-apps/blazor)
-- `GlobalUsing.cs`
 - ワンタイムURL
+- ファイルアップロード
+- [`Blazor WebAssembly`での認証](https://blazor-master.com/identity-server-auth/)
+- [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
+- [Blazor公式](https://dotnet.microsoft.com/ja-jp/apps/aspnet/web-apps/blazor)
 - テスト
+    - `Blazor Server`のテスト
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
     - [Running Tests with Docker](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-tests-in-sdk-container.md)
 - [Giraffe](https://github.com/giraffe-fsharp/Giraffe)/[Saturn](https://saturnframework.org/)

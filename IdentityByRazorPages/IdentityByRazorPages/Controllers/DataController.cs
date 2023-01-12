@@ -11,9 +11,9 @@ namespace IdentityByRazorPages.Controllers;
 [Authorize(AuthenticationSchemes = "Identity.Application, Bearer")]
 public class DataController : ControllerBase
 {
-    private readonly MyDbContext _context;
+    private readonly IdContext _context;
 
-    public DataController(MyDbContext ctx)
+    public DataController(IdContext ctx)
     {
         _context = ctx;
     }

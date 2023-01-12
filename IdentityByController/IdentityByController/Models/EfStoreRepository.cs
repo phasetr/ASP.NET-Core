@@ -4,9 +4,9 @@ namespace IdentityByController.Models;
 
 public class EfStoreRepository : IStoreRepository
 {
-    private readonly StoreDbContext _context;
+    private readonly IdContext _context;
 
-    public EfStoreRepository(StoreDbContext ctx)
+    public EfStoreRepository(IdContext ctx)
     {
         _context = ctx;
     }

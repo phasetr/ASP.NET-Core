@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <base href="~/"/>
+</head>
+<body>
+<div class="m-2">
+    <div class="bg-secondary text-white p-2">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <span class="navbar-brand ml-2">Razor Pages</span>
+                </div>
+                <div class="col-2 text-right">
+                    <a class="btn btn-sm btn-primary" href="/">Blazor</a>
+                </div>
+                <div class="col-2 text-right">
+                    <a class="btn btn-sm btn-primary" href="/account/login">Log in</a>
+                </div>
+                <div class="col-2 text-right">
+                    <a class="btn btn-sm btn-primary" href="/account/logout">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+</div>
+</body>
+</html>

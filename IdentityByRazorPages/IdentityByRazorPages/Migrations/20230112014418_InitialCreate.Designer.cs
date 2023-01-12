@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IdentityByRazorPages.Migrations
 {
-    [DbContext(typeof(MyDbContext))]
+    [DbContext(typeof(IdContext))]
     [Migration("20230112014418_InitialCreate")]
     partial class InitialCreate
     {
