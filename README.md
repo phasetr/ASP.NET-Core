@@ -90,17 +90,15 @@ dotnet restore
     - ある程度の規模があるサンプルプロジェクト
 
 ## TODO
-- `Blazor`の実装一般
-- Blazor Server Static
-    - ログインが必要な場合ログイン画面に蹴り出す処理: `RedirectToLogin`
-- `Blazor WebAssembly`の認証
 - ログのファイルへの書き出し: `Serilog`
 - メール送信
 - ワンタイムURL
 - ファイルアップロード
+- `Blazor`の実装一般
 - [`Blazor WebAssembly`での認証](https://blazor-master.com/identity-server-auth/)
 - [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
 - [Blazor公式](https://dotnet.microsoft.com/ja-jp/apps/aspnet/web-apps/blazor)
+- `Blazor WebAssembly`の認証
 - テスト
     - `Blazor Server`のテスト
     - [コンテナ活用](https://github.com/testcontainers/testcontainers-dotnet)
