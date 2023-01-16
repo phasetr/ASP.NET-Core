@@ -1,4 +1,7 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.WebEncoders;
 using RazorPages.Data;
 using RazorPages.Models;
 
@@ -13,6 +16,11 @@ if (builder.Environment.IsDevelopment())
 else
     builder.Services.AddDbContext<MyDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("MyDbContext")));
+
+// 非ASCIIでもUnicodeならHTMLエンコードしない
+builder.Services.Configure<WebEncoderOptions>(options =>
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All)
+);
 
 var app = builder.Build();
 
