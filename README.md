@@ -85,6 +85,14 @@ dotnet restore
 - SimpleWebApi
     - `DB`: インメモリ
     - シンプルなAPIのサンプル
+- SeriLog
+    - [公式](https://serilog.net/)
+    - その他参考
+        - [How to Use Serilog in ASP.NET Core Web API](https://www.claudiobernasconi.ch/2022/01/28/how-to-use-serilog-in-asp-net-core-web-api/)
+        - [Add logging to ASP.NET Core using Serilog - .NET6](https://blog.christian-schou.dk/use-serilog-with-asp-net-core-net6/)    
+    - ファイルへのログ書き出し
+    - `API`と`Razor Pages`それぞれに仕込む
+    - コンソール・ローカルのファイル・AWSなどいろいろなところに同時に書き込める
 - SportsStore: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
     - `DB`: `docker`で`PostgreSQL`利用
     - ある程度の規模があるサンプルプロジェクト
@@ -94,6 +102,7 @@ dotnet restore
 - メール送信
 - ワンタイムURL
 - ファイルアップロード
+- EF Coreで中間テーブルを作る
 - `Blazor`の実装一般
 - [`Blazor WebAssembly`での認証](https://blazor-master.com/identity-server-auth/)
 - [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
