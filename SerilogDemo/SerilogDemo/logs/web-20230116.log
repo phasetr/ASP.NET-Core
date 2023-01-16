@@ -1,0 +1,271 @@
+[2023-01-16 09:50:55.094 +09:00  INF]  User profile is available. Using '/Users/sekine/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+[2023-01-16 09:50:55.417 +09:00  INF]  Now listening on: https://localhost:5500
+[2023-01-16 09:50:55.417 +09:00  INF]  Now listening on: http://localhost:5000
+[2023-01-16 09:50:55.419 +09:00  INF]  Application started. Press Ctrl+C to shut down.
+[2023-01-16 09:50:55.419 +09:00  INF]  Hosting environment: Development
+[2023-01-16 09:50:55.419 +09:00  INF]  Content root path: /Users/sekine/dev/C#/ASP.NET-Core/SerilogDemo/SerilogDemo/
+[2023-01-16 09:51:16.966 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:16.981 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:16.995 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:17.000 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:17.000 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:17.002 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:17.003 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:17.080 +09:00  INF]  Executed page /Index in 82.2161ms
+[2023-01-16 09:51:17.080 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:17.081 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 117.6882ms
+[2023-01-16 09:51:17.091 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:17.091 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/css/site.css?v=QIviq7-6vk7aVMvogPLfefGuS9nGKz9W9i-tS0cdPxo - -
+[2023-01-16 09:51:17.092 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.9251ms
+[2023-01-16 09:51:17.093 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/js/site.js?v=BxFAw9RUJ1E4NycpKEjCNDeoSvr4RPHixdBq5wDnkeY - -
+[2023-01-16 09:51:17.094 +09:00  INF]  The file /css/site.css was not modified
+[2023-01-16 09:51:17.094 +09:00  INF]  The file /js/site.js was not modified
+[2023-01-16 09:51:17.094 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/js/site.js?v=BxFAw9RUJ1E4NycpKEjCNDeoSvr4RPHixdBq5wDnkeY - - - 304 - application/javascript 1.0644ms
+[2023-01-16 09:51:17.094 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/css/site.css?v=QIviq7-6vk7aVMvogPLfefGuS9nGKz9W9i-tS0cdPxo - - - 304 - text/css 2.8206ms
+[2023-01-16 09:51:17.243 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/favicon.ico - -
+[2023-01-16 09:51:17.243 +09:00  INF]  The file /favicon.ico was not modified
+[2023-01-16 09:51:17.243 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/favicon.ico - - - 304 - image/x-icon 0.4110ms
+[2023-01-16 09:51:17.315 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:17.315 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:17.315 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:17.315 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:17.315 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:17.315 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:17.315 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:17.318 +09:00  INF]  Executed page /Index in 2.565ms
+[2023-01-16 09:51:17.318 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:17.318 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 3.3098ms
+[2023-01-16 09:51:17.327 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:17.327 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.2987ms
+[2023-01-16 09:51:18.081 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:18.082 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:18.082 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:18.082 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:18.082 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:18.082 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:18.082 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:18.083 +09:00  INF]  Executed page /Index in 1.148ms
+[2023-01-16 09:51:18.083 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:18.083 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 1.5927ms
+[2023-01-16 09:51:18.098 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:18.099 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.1853ms
+[2023-01-16 09:51:46.364 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:46.364 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:46.364 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:46.365 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:46.365 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:46.365 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:46.365 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:46.365 +09:00  INF]  Executed page /Index in 0.5717ms
+[2023-01-16 09:51:46.365 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:46.365 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 0.8987ms
+[2023-01-16 09:51:46.374 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/lib/jquery/jquery.min.js - -
+[2023-01-16 09:51:46.375 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/lib/bootstrap/css/bootstrap.min.css - -
+[2023-01-16 09:51:46.375 +09:00  INF]  The file /lib/jquery/jquery.min.js was not modified
+[2023-01-16 09:51:46.375 +09:00  INF]  The file /lib/bootstrap/css/bootstrap.min.css was not modified
+[2023-01-16 09:51:46.375 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/lib/jquery/jquery.min.js - - - 304 - application/javascript 0.2753ms
+[2023-01-16 09:51:46.375 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/lib/bootstrap/css/bootstrap.min.css - - - 304 - text/css 0.2508ms
+[2023-01-16 09:51:46.376 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/lib/bootstrap/js/bootstrap.bundle.min.js - -
+[2023-01-16 09:51:46.376 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:46.376 +09:00  INF]  The file /lib/bootstrap/js/bootstrap.bundle.min.js was not modified
+[2023-01-16 09:51:46.376 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.1059ms
+[2023-01-16 09:51:46.376 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/lib/bootstrap/js/bootstrap.bundle.min.js - - - 304 - application/javascript 0.2452ms
+[2023-01-16 09:51:46.898 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:46.898 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:46.898 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:46.898 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:46.898 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:46.898 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:46.898 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:46.898 +09:00  INF]  Executed page /Index in 0.5153ms
+[2023-01-16 09:51:46.898 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:46.898 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 0.8092ms
+[2023-01-16 09:51:46.907 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:46.907 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.1450ms
+[2023-01-16 09:51:48.294 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:48.294 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:48.295 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:48.295 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:48.295 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:48.295 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:48.295 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:48.296 +09:00  INF]  Executed page /Index in 0.9371ms
+[2023-01-16 09:51:48.296 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:48.296 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 1.7321ms
+[2023-01-16 09:51:48.312 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:48.312 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.4910ms
+[2023-01-16 09:51:50.244 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:50.244 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:50.245 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:50.245 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:50.245 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:50.245 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:50.245 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:50.247 +09:00  INF]  Executed page /Index in 2.226ms
+[2023-01-16 09:51:50.248 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:50.248 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 4.7112ms
+[2023-01-16 09:51:50.263 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:50.264 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.2893ms
+[2023-01-16 09:51:51.776 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:51.777 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:51.777 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:51.777 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:51.777 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:51.777 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:51.777 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:51.778 +09:00  INF]  Executed page /Index in 1.1673ms
+[2023-01-16 09:51:51.778 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:51.778 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 2.1292ms
+[2023-01-16 09:51:51.795 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:51.796 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.3949ms
+[2023-01-16 09:51:53.023 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[2023-01-16 09:51:53.024 +09:00  INF]  Executing endpoint '/Index'
+[2023-01-16 09:51:53.024 +09:00  INF]  Route matched with {page = "/Index"}. Executing page /Index
+[2023-01-16 09:51:53.024 +09:00  INF]  Executing handler method SerilogDemo.Pages.IndexModel.OnGet - ModelState is "Valid"
+[2023-01-16 09:51:53.024 +09:00  INF]  Executed handler method OnGet, returned result .
+[2023-01-16 09:51:53.024 +09:00  INF]  Executing an implicit handler method - ModelState is "Valid"
+[2023-01-16 09:51:53.024 +09:00  INF]  Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+[2023-01-16 09:51:53.026 +09:00  INF]  Executed page /Index in 1.9884ms
+[2023-01-16 09:51:53.026 +09:00  INF]  Executed endpoint '/Index'
+[2023-01-16 09:51:53.026 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 2.8823ms
+[2023-01-16 09:51:53.040 +09:00  INF]  Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[2023-01-16 09:51:53.040 +09:00  INF]  Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.2507ms
+[2023-01-16 09:56:21.394 +09:00  INF]  Application is shutting down...
+[09:56:28 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/Error.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/Index.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/Privacy.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/Shared/_ValidationScriptsPartial.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/_ViewImports.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/_ViewStart.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler [Debug] Initializing Razor view compiler with compiled view: '"/Pages/Shared/_Layout.cshtml"'.
+[09:56:29 Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderFactory [Debug] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider", "Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+[09:56:29 Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Information] User profile is available. Using '"/Users/sekine/.aspnet/DataProtection-Keys"' as key repository; keys will not be encrypted at rest.
+[09:56:29 Microsoft.Extensions.Hosting.Internal.Host [Debug] Hosting starting
+[09:56:29 Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository [Debug] Reading data from file '"/Users/sekine/.aspnet/DataProtection-Keys/key-dc2cadb3-914b-4f6a-aeec-dfdb8cc880d7.xml"'.
+[09:56:29 Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager [Debug] Found key {dc2cadb3-914b-4f6a-aeec-dfdb8cc880d7}.
+[09:56:29 Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver [Debug] Considering key {dc2cadb3-914b-4f6a-aeec-dfdb8cc880d7} with expiration date 2023-03-19 07:11:52Z as default key.
+[09:56:29 Microsoft.AspNetCore.DataProtection.TypeForwardingActivator [Debug] Forwarded activator type request from "Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" to "Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60"
+[09:56:29 Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Debug] Using managed symmetric algorithm '"System.Security.Cryptography.Aes"'.
+[09:56:29 Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory [Debug] Using managed keyed hash algorithm '"System.Security.Cryptography.HMACSHA256"'.
+[09:56:29 Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider [Debug] Using key {dc2cadb3-914b-4f6a-aeec-dfdb8cc880d7} as the default key.
+[09:56:29 Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService [Debug] Key ring with default key {dc2cadb3-914b-4f6a-aeec-dfdb8cc880d7} was loaded during application startup.
+[09:56:29 Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer [Debug] Using development certificate: "CN=localhost" (Thumbprint: "9A51E7178C2493BE7F1E59671E26F6C7B8E20B16")
+[09:56:29 Microsoft.Hosting.Lifetime [Information] Now listening on: "https://localhost:5500"
+[09:56:29 Microsoft.Hosting.Lifetime [Information] Now listening on: "http://localhost:5000"
+[09:56:29 Microsoft.AspNetCore.Hosting.Diagnostics [Debug] Loaded hosting startup assembly "SerilogDemo"
+[09:56:29 Microsoft.AspNetCore.Hosting.Diagnostics [Debug] Loaded hosting startup assembly "Microsoft.AspNetCore.Watch.BrowserRefresh"
+[09:56:29 Microsoft.Hosting.Lifetime [Information] Application started. Press Ctrl+C to shut down.
+[09:56:29 Microsoft.Hosting.Lifetime [Information] Hosting environment: "Development"
+[09:56:29 Microsoft.Hosting.Lifetime [Information] Content root path: "/Users/sekine/dev/C#/ASP.NET-Core/SerilogDemo/SerilogDemo/"
+[09:56:29 Microsoft.Extensions.Hosting.Internal.Host [Debug] Hosting started
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" started.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" started.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDH" established using the following protocol: Tls12
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDI" established using the following protocol: Tls12
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/ - -
+[09:56:30 Microsoft.AspNetCore.HostFiltering.HostFilteringMiddleware [Debug] Wildcard detected, all requests with hosts will be allowed.
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] The request path "/" does not match a supported file type
+[09:56:30 Microsoft.AspNetCore.Routing.Matching.DfaMatcher [Debug] 1 candidate(s) found for the request path '"/"'
+[09:56:30 Microsoft.AspNetCore.Routing.Matching.DfaMatcher [Debug] Endpoint '"/Index"' with route pattern '""' is valid for the request path '"/"'
+[09:56:30 Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware [Debug] Request matched endpoint '"/Index"'
+[09:56:30 Microsoft.AspNetCore.Routing.EndpointMiddleware [Information] Executing endpoint '"/Index"'
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Route matched with "{page = \"/Index\"}". Executing page "/Index"
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Execution plan of "authorization" filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.AutoValidateAntiforgeryTokenAuthorizationFilter"]
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Execution plan of "resource" filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Execution plan of "action" filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)"]
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Execution plan of "exception" filters (in the following order): ["None"]
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Execution plan of "result" filters (in the following order): ["Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.SaveTempDataFilter"]
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Executing page model factory for page "SerilogDemo.Pages.Pages_Index" ("SerilogDemo")
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Debug] Executed page model factory for page "SerilogDemo.Pages.Pages_Index" ("SerilogDemo")
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Executing handler method "SerilogDemo.Pages.IndexModel.OnGet" - ModelState is Valid
+[09:56:30 SerilogDemo.Pages.IndexModel [Debug] LOG: DEBUG
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Executed handler method "OnGet", returned result "".
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Executing an implicit handler method - ModelState is Valid
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Executed an implicit handler method, returned result "Microsoft.AspNetCore.Mvc.RazorPages.PageResult".
+[09:56:30 Microsoft.AspNetCore.Mvc.Razor.RazorViewEngine [Debug] View lookup cache miss for view '"_Layout"' in controller 'null'.
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Found the endpoints ["/Index"] for address "Microsoft.AspNetCore.Routing.RouteValuesAddress"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Successfully processed template "" for "/Index" resulting in "" and ""
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Link generation succeeded for endpoints ["/Index"] with result "/"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Found the endpoints ["/Index"] for address "Microsoft.AspNetCore.Routing.RouteValuesAddress"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Successfully processed template "" for "/Index" resulting in "" and ""
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Link generation succeeded for endpoints ["/Index"] with result "/"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Found the endpoints ["/Privacy"] for address "Microsoft.AspNetCore.Routing.RouteValuesAddress"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Successfully processed template "Privacy" for "/Privacy" resulting in "/Privacy" and ""
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Link generation succeeded for endpoints ["/Privacy"] with result "/Privacy"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Found the endpoints ["/Privacy"] for address "Microsoft.AspNetCore.Routing.RouteValuesAddress"
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Successfully processed template "Privacy" for "/Privacy" resulting in "/Privacy" and ""
+[09:56:30 Microsoft.AspNetCore.Routing.DefaultLinkGenerator [Debug] Link generation succeeded for endpoints ["/Privacy"] with result "/Privacy"
+[09:56:30 Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware [Debug] Response markup is scheduled to include browser refresh script injection.
+[09:56:30 Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker [Information] Executed page "/Index" in 84.2789ms
+[09:56:30 Microsoft.AspNetCore.Routing.EndpointMiddleware [Information] Executed endpoint '"/Index"'
+[09:56:30 Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware [Debug] Response markup was updated to include browser refresh script injection.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/ - - - 200 - text/html;+charset=utf-8 118.8332ms
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDJ"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDK"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDJ"" started.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDL"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDM"" accepted.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDL"" started.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDK"" started.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/lib/bootstrap/css/bootstrap.min.css - -
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDM"" started.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - -
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/_framework/aspnetcore-browser-refresh.js - - - 200 11966 application/javascript;+charset=utf-8 0.8112ms
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/lib/bootstrap/css/bootstrap.min.css" was not modified
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/lib/bootstrap/css/bootstrap.min.css"
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/lib/bootstrap/css/bootstrap.min.css - - - 304 - text/css 2.4045ms
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/css/site.css?v=QIviq7-6vk7aVMvogPLfefGuS9nGKz9W9i-tS0cdPxo - -
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/css/site.css" was not modified
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/css/site.css"
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/css/site.css?v=QIviq7-6vk7aVMvogPLfefGuS9nGKz9W9i-tS0cdPxo - - - 304 - text/css 0.2695ms
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/lib/bootstrap/js/bootstrap.bundle.min.js - -
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/lib/jquery/jquery.min.js - -
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/lib/bootstrap/js/bootstrap.bundle.min.js" was not modified
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/lib/jquery/jquery.min.js" was not modified
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/lib/jquery/jquery.min.js"
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/lib/bootstrap/js/bootstrap.bundle.min.js"
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/lib/bootstrap/js/bootstrap.bundle.min.js - - - 304 - application/javascript 0.4505ms
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/lib/jquery/jquery.min.js - - - 304 - application/javascript 0.4588ms
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/js/site.js?v=BxFAw9RUJ1E4NycpKEjCNDeoSvr4RPHixdBq5wDnkeY - -
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/js/site.js" was not modified
+[09:56:30 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/js/site.js"
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:30 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/js/site.js?v=BxFAw9RUJ1E4NycpKEjCNDeoSvr4RPHixdBq5wDnkeY - - - 304 - application/javascript 0.3402ms
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDL" established using the following protocol: Tls12
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDJ" established using the following protocol: Tls12
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDK" established using the following protocol: Tls12
+[09:56:30 Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware [Debug] Connection "0HMNNBI0MNBDM" established using the following protocol: Tls12
+[09:56:31 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request starting HTTP/1.1 GET https://localhost:5500/favicon.ico - -
+[09:56:31 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Information] The file "/favicon.ico" was not modified
+[09:56:31 Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware [Debug] Handled. Status code: 304 File: "/favicon.ico"
+[09:56:31 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" completed keep alive response.
+[09:56:31 Microsoft.AspNetCore.Hosting.Diagnostics [Information] Request finished HTTP/1.1 GET https://localhost:5500/favicon.ico - - - 304 - image/x-icon 0.4233ms
+[09:58:15 Microsoft.Hosting.Lifetime [Information] Application is shutting down...
+[09:58:15 Microsoft.Extensions.Hosting.Internal.Host [Debug] Hosting stopping
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDJ"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDK"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDL"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDM"" disconnecting.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDL"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDI"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDJ"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDK"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDH"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Connections [Debug] Connection id ""0HMNNBI0MNBDM"" stopped.
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDL"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDK"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDH"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDI"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDJ"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets [Debug] Connection id ""0HMNNBI0MNBDM"" sending FIN because: ""The Socket transport's send loop completed gracefully.""
+[09:58:16 Microsoft.Extensions.Hosting.Internal.Host [Debug] Hosting stopped
