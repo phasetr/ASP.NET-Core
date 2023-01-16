@@ -85,7 +85,7 @@ dotnet restore
 - SimpleWebApi
     - `DB`: インメモリ
     - シンプルなAPIのサンプル
-- SeriLog
+- SerilogDemo
     - [公式](https://serilog.net/)
     - その他参考
         - [How to Use Serilog in ASP.NET Core Web API](https://www.claudiobernasconi.ch/2022/01/28/how-to-use-serilog-in-asp-net-core-web-api/)
