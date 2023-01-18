@@ -1,5 +1,6 @@
-.idea
-bin
-obj
 **/wwwroot/lib/*
 *.db*
+.idea
+Logs
+bin
+obj

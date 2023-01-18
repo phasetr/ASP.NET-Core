@@ -39,6 +39,9 @@ dotnet restore
     - `DB`: なし
     - [Blazor Todo リスト アプリを構築する](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tutorials/build-a-blazor-app?view=aspnetcore-6.0&pivots=webassembly)
     - `dotnet new blazorwasm -o BlazorWasmTodo`
+- CityBreaks
+    - [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action)
+    - Chapter14, AppSettingsStronglyTypedPOCO
 - Database
     - `DB`: `docker`で`PostgreSQL`利用
     - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
@@ -98,14 +101,13 @@ dotnet restore
     - ある程度の規模があるサンプルプロジェクト
 
 ## TODO
-- ログのファイルへの書き出し: `Serilog`
-- メール送信
-- ワンタイムURL
-- ファイルアップロード
 - EF Coreで中間テーブルを作る
+- Terraform・AWS連携
+- [メール送信](https://learn.microsoft.com/ja-jp/aspnet/web-pages/overview/getting-started/11-adding-email-to-your-web-site)
+- ワンタイムURL(ワンタイムトークン)
+- ファイルアップロード
 - `Blazor`の実装一般
 - [`Blazor WebAssembly`での認証](https://blazor-master.com/identity-server-auth/)
-- [ASP.NET Core Razor Pages In Action](https://github.com/mikebrind/Razor-Pages-In-Action), 認証まわり
 - [Blazor公式](https://dotnet.microsoft.com/ja-jp/apps/aspnet/web-apps/blazor)
 - `Blazor WebAssembly`の認証
 - テスト
