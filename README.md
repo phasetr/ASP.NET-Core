@@ -105,6 +105,7 @@ dotnet restore
     - テストも書いてある
 
 ## TODO
+- [Razor Pagesのテスト](https://learn.microsoft.com/ja-jp/aspnet/core/test/razor-pages-tests?view=aspnetcore-7.0)
 - EF Coreで中間テーブルを作る
 - Terraform・AWS連携
 - [メール送信](https://learn.microsoft.com/ja-jp/aspnet/web-pages/overview/getting-started/11-adding-email-to-your-web-site)
