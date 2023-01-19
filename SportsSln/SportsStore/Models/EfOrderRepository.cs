@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SportsStore.Data;
 
 namespace SportsStore.Models;
 
 public class EfOrderRepository : IOrderRepository
 {
-    private readonly StoreDbContext _context;
+    private readonly IdDbContext _context;
 
-    public EfOrderRepository(StoreDbContext ctx)
+    public EfOrderRepository(IdDbContext ctx)
     {
         _context = ctx;
     }

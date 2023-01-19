@@ -1,10 +1,12 @@
-﻿namespace SportsStore.Models;
+﻿using SportsStore.Data;
+
+namespace SportsStore.Models;
 
 public class EfStoreRepository : IStoreRepository
 {
-    private readonly StoreDbContext _context;
+    private readonly IdDbContext _context;
 
-    public EfStoreRepository(StoreDbContext ctx)
+    public EfStoreRepository(IdDbContext ctx)
     {
         _context = ctx;
     }

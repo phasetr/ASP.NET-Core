@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SportsStore.Data;
 using SportsStore.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<StoreDbContext>(opts =>
-{
-    opts.UseNpgsql(
-        builder.Configuration["ConnectionStrings:SportsStoreConnection"]);
-});
 
 builder.Services.AddScoped<IStoreRepository, EfStoreRepository>();
 builder.Services.AddScoped<IOrderRepository, EfOrderRepository>();
@@ -22,12 +17,11 @@ builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddDbContext<AppIdentityDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration["ConnectionStrings:IdentityConnection"]));
+builder.Services.AddDbContext<IdDbContext>(options =>
+    options.UseSqlite(builder.Configuration["ConnectionStrings:IdDbConnection"]));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppIdentityDbContext>();
+    .AddEntityFrameworkStores<IdDbContext>();
 
 var app = builder.Build();
 
@@ -65,7 +59,6 @@ app.MapRazorPages();
 app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
-SeedData.EnsurePopulated(app);
 IdentitySeedData.EnsurePopulated(app);
 
 app.Run();
