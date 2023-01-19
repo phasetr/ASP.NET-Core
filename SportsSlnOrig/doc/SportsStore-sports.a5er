@@ -1,0 +1,144 @@
+﻿# A5:ER FORMAT:16
+# A5:ER ENCODING:UTF8
+# A5:ER Mk-1 Copyright © 2007 m.matsubara
+# A5:SQL Mk-2 Version 2.17.1 Copyright © 1997 - 2022 m.matsubara
+#  https://a5m2.mmatsubara.com
+
+[Manager]
+ProjectName=
+Author=
+MaxEntityRowShow=1000
+ReadOnlyRecommend=0
+Page=Main
+PageInfo="Main",2,"A3Landscape",$FFFFFF
+LogicalView=1
+DecodeDomain=0
+ViewModePageIndividually=1
+ViewMode=2
+ViewFormat=0
+UseNondependenceDashLine=0
+FontName=Tahoma
+FontSize=10
+PaperSize=A4Landscape
+HeaderLeft=
+HeaderCenter=
+HeaderRight=
+FooterLeft=
+FooterCenter=
+FooterRight=
+ShowPageoutRelation=1
+DefaultPkName=%0:s_PKC
+DefaultPkIndexName=%0:s_PKI
+DefaultIndexName=%0:s_IX%1:d
+DefaultFkName=%0:s_FK%1:d
+SqlSeparator=0
+UpperCaseKeyword=0
+ShowTag=1
+ShowCommonAttributes=0
+BugFixEntityWidth=1
+
+[Entity]
+PName=CartLine
+LName=CartLine
+Comment=
+TableOption=
+Page=Main
+Left=550
+Top=50
+Field="CartLineID","CartLineID","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ProductID","ProductID","bigint","NOT NULL",,"","",$FFFFFFFF,""
+Field="Quantity","Quantity","integer","NOT NULL",,"","",$FFFFFFFF,""
+Field="OrderID","OrderID","integer",,,"","",$FFFFFFFF,""
+Index=IX_CartLine_OrderID=0,OrderID
+Index=IX_CartLine_ProductID=0,ProductID
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="Main",550,50
+ZOrder=-1
+
+[Entity]
+PName=Orders
+LName=Orders
+Comment=
+TableOption=
+Page=Main
+Left=1000
+Top=50
+Field="OrderID","OrderID","integer","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Name","Name","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Line1","Line1","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Line2","Line2","text",,,"","",$FFFFFFFF,""
+Field="Line3","Line3","text",,,"","",$FFFFFFFF,""
+Field="City","City","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="State","State","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Zip","Zip","text",,,"","",$FFFFFFFF,""
+Field="Country","Country","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="GiftWrap","GiftWrap","boolean","NOT NULL",,"","",$FFFFFFFF,""
+Field="Shipped","Shipped","boolean","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="Main",1000,50
+ZOrder=-2
+
+[Entity]
+PName=Products
+LName=Products
+Comment=
+TableOption=
+Page=Main
+Left=100
+Top=50
+Field="ProductID","ProductID","bigint","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Name","Name","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Description","Description","text","NOT NULL",,"","",$FFFFFFFF,""
+Field="Price","Price","numeric(8, 2)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Category","Category","text","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+Position="Main",100,50
+ZOrder=-3
+
+[Relation]
+Entity1=Orders
+Entity2=CartLine
+RelationType1=1
+RelationType2=3
+Fields1=OrderID
+Fields2=OrderID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1767,4826,4859,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=177
+Bar2=483
+Bar3=486
+TermPos1=R
+TermPos2=R
+ZOrder=-4
+
+[Relation]
+Entity1=Products
+Entity2=CartLine
+RelationType1=1
+RelationType2=3
+Fields1=ProductID
+Fields2=ProductID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,500,9500,625,R,R,""
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=50
+Bar2=950
+Bar3=62
+TermPos1=R
+TermPos2=R
+ZOrder=-5

@@ -98,6 +98,8 @@ dotnet restore
     - `DB`: インメモリ
     - シンプルなAPIのサンプル
 - SportsSln: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
+    - `SportsSlnOrig`を修正していろいろテスト・確認
+- SportsSlnOrig: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
     - `DB`: `docker`で`PostgreSQL`利用
     - ある程度の規模があるサンプルプロジェクト
     - テストも書いてある
