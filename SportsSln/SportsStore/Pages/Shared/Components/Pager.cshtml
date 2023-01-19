@@ -1,0 +1,11 @@
+<ul class="pagination">
+    @for (var i = 1; i <= Model?.TotalPages; i++)
+    {
+        <li class="page-item @(i == Model?.CurrentPage ? "active" : "")">
+            @{
+                var i1 = i;
+            }
+            <a asp-page="/List" asp-route-productPage="@i1" class="page-link">@i1</a>
+        </li>
+    }
+</ul>

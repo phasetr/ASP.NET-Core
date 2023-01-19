@@ -1,13 +1,14 @@
 # README
 
-## 参考
-- [自サイト](https://phasetr.com/archive/fc/pg/fsharp/#f)のASP.NETの記録を参考にすること.
+## 初期化
+- 初期化に関して[自サイト](https://phasetr.com/archive/fc/pg/fsharp/#f)の`ASP.NET`の記録も参考にすること.
 - 各プロジェクトの初期化コマンドは次の通り.
 
 ```shell
 dotnet tool restore
 dotnet libman restore # 必要ないプロジェクトあり
 dotnet restore
+dotnet dotnet-ef database update # SQLiteの初期化
 ```
 
 ## 共通メモ
@@ -16,9 +17,17 @@ dotnet restore
 - `docker-compose.yml`: データベースだけのファイル
 - `docker-compose.with-dotnet.yml`: データベースに加えて`.NET`の開発用コンテナも含む
 
-## 認証参考
+## 参考資料
+
+### 認証
 - [URL](https://zenn.dev/okazuki/articles/add-auth-to-blazor-server-app)
     - `@attribute [Authorize(Roles = "Administrator")]`をつけるとロールで認可振り分けできる
+### ページャー
+#### 簡易自前実装
+- [2018 Simple Paging In ASP.NET Core Razor Pages](https://www.mikesdotnetting.com/article/328/simple-paging-in-asp-net-core-razor-pages)
+#### ライブラリ: LazZiya/TagHelpers
+- [GitHub](https://github.com/LazZiya/TagHelpers) 
+- [解説](https://ziyad.info/en/articles/21-Paging_TagHelper_for_ASP_NET_Core)
 
 ## 各ディレクトリの説明
 - BlazorFluentUi
@@ -103,9 +112,12 @@ dotnet restore
     - `DB`: `docker`で`PostgreSQL`利用
     - ある程度の規模があるサンプルプロジェクト
     - テストも書いてある
+    - [ページネーション](https://www.mikesdotnetting.com/article/328/simple-paging-in-asp-net-core-razor-pages)
+        - `Pages/List.cshtml`, `Shared/Components/Pager.cshtml`
 
 ## TODO
 - [Razor Pagesのテスト](https://learn.microsoft.com/ja-jp/aspnet/core/test/razor-pages-tests?view=aspnetcore-7.0)
+- Ajax, pager
 - EF Coreで中間テーブルを作る
 - Terraform・AWS連携
 - [メール送信](https://learn.microsoft.com/ja-jp/aspnet/web-pages/overview/getting-started/11-adding-email-to-your-web-site)

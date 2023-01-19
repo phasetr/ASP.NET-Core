@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportsStore.Models;
 using SportsStore.Models.ViewModels;
+using static SportsStore.Models.Constants;
 
 namespace SportsStore.Pages;
 
 public class ListModel : PageModel
 {
-    private readonly IStoreRepository _repository;
     private readonly ILogger<ListModel> _logger;
-    public int PageSize = 4;
+    private readonly IStoreRepository _repository;
 
     public ListModel(IStoreRepository repo, ILogger<ListModel> logger)
     {
@@ -25,19 +25,17 @@ public class ListModel : PageModel
         Products = _repository.Products
             .Where(p => category == null || p.Category == category)
             .OrderBy(p => p.ProductID)
-            .Skip((productPage - 1) * PageSize)
-            .Take(PageSize);
+            .Skip((productPage - 1) * DefaultPageSize)
+            .Take(DefaultPageSize);
+        var totalItems = category == null
+            ? _repository.Products.Count()
+            : _repository.Products.Count(e => e.Category == category);
         PagingInfo = new PagingInfo
         {
             CurrentPage = productPage,
-            ItemsPerPage = PageSize,
-            TotalItems = category == null
-                ? _repository.Products.Count()
-                : _repository.Products.Count(e => e.Category == category)
+            ItemsPerPage = DefaultPageSize,
+            TotalItems = totalItems
         };
         CurrentCategory = category;
-        _logger.LogInformation("LOG TEST");
-        _logger.LogInformation("{PagingInfoCurrentPage},{PagingInfoItemsPerPage},{PagingInfoTotalItems}", PagingInfo.CurrentPage, PagingInfo.ItemsPerPage, PagingInfo.TotalItems);
-        _logger.LogInformation("{CurrentCategory}", CurrentCategory);
     }
 }

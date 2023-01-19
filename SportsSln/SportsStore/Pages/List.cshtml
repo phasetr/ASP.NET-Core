@@ -25,8 +25,7 @@
 <div class="row m-1 p-1">
     <div id="categories" class="col-3">
         <div class="d-grid gap-2">
-            <a class="btn btn-outline-secondary" asp-action="Index"
-               asp-controller="Home" asp-route-category="">
+            <a class="btn btn-outline-secondary" asp-page="/List">
                 Home
             </a>
             @*
@@ -47,12 +46,7 @@
         {
             <partial name="ProductSummary" model="p"/>
         }
-        
-        <div page-model="@Model?.PagingInfo" page-action="Index" page-classes-enabled="true"
-             page-class="btn" page-class-normal="btn-outline-dark"
-             page-class-selected="btn-primary" page-url-category="@Model?.CurrentCategory!"
-             class="btn-group pull-right m-1">
-        </div>
+        <partial name="Shared/Components/Pager" for="@Model!.PagingInfo"/>
     </div>
 </div>
 </body>
