@@ -25,7 +25,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.List(null).ViewData.Model
+            controller.Index(null).ViewData.Model
                 as ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -55,7 +55,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.List(null, 2).ViewData.Model
+            controller.Index(null, 2).ViewData.Model
                 as ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -85,7 +85,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.List(null, 2).ViewData.Model as
+            controller.Index(null, 2).ViewData.Model as
                 ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -116,7 +116,7 @@ public class HomeControllerTests
         controller.PageSize = 3;
 
         // Action
-        var result = (controller.List("Cat2").ViewData.Model
+        var result = (controller.Index("Cat2").ViewData.Model
             as ProductsListViewModel ?? new ProductsListViewModel()).Products.ToArray();
 
         // Assert
@@ -149,10 +149,10 @@ public class HomeControllerTests
         }
 
         // Action
-        var res1 = GetModel(target.List("Cat1"))?.PagingInfo.TotalItems;
-        var res2 = GetModel(target.List("Cat2"))?.PagingInfo.TotalItems;
-        var res3 = GetModel(target.List("Cat3"))?.PagingInfo.TotalItems;
-        var resAll = GetModel(target.List(null))?.PagingInfo.TotalItems;
+        var res1 = GetModel(target.Index("Cat1"))?.PagingInfo.TotalItems;
+        var res2 = GetModel(target.Index("Cat2"))?.PagingInfo.TotalItems;
+        var res3 = GetModel(target.Index("Cat3"))?.PagingInfo.TotalItems;
+        var resAll = GetModel(target.Index(null))?.PagingInfo.TotalItems;
 
         // Assert
         Assert.Equal(2, res1);

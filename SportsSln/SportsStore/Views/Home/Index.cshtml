@@ -1,9 +1,6 @@
-@page
-@model Index
-@{
-    Layout = "Shared/_Layout";
-}
-@foreach (var p in Model?.Products ?? Enumerable.Empty<Product>())
+﻿@model ProductsListViewModel
+
+@foreach (var p in Model.Products ?? Enumerable.Empty<Product>())
 {
     <partial name="ProductSummary" model="p"/>
 }

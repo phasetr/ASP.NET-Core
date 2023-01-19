@@ -4,13 +4,13 @@ using SportsStore.Models.ViewModels;
 
 namespace SportsStore.Pages;
 
-public class Index : PageModel
+public class ListModel : PageModel
 {
     private readonly IStoreRepository _repository;
-    private readonly ILogger<Index> _logger;
+    private readonly ILogger<ListModel> _logger;
     public int PageSize = 4;
 
-    public Index(IStoreRepository repo, ILogger<Index> logger)
+    public ListModel(IStoreRepository repo, ILogger<ListModel> logger)
     {
         _repository = repo;
         _logger = logger;
@@ -37,7 +37,7 @@ public class Index : PageModel
         };
         CurrentCategory = category;
         _logger.LogInformation("LOG TEST");
-        _logger.LogInformation($"{PagingInfo.CurrentPage},{PagingInfo.ItemsPerPage},{PagingInfo.TotalItems}");
+        _logger.LogInformation("{PagingInfoCurrentPage},{PagingInfoItemsPerPage},{PagingInfoTotalItems}", PagingInfo.CurrentPage, PagingInfo.ItemsPerPage, PagingInfo.TotalItems);
         _logger.LogInformation("{CurrentCategory}", CurrentCategory);
     }
 }
