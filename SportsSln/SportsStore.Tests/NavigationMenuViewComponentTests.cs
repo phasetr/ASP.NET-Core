@@ -61,7 +61,7 @@ public class NavigationMenuViewComponentTests
     public void Indicates_Selected_Category()
     {
         // Arrange
-        var categoryToSelect = "Apples";
+        const string categoryToSelect = "Apples";
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
@@ -70,14 +70,16 @@ public class NavigationMenuViewComponentTests
         }.AsQueryable());
 
         var target =
-            new NavigationMenuViewComponent(mock.Object);
-        target.ViewComponentContext = new ViewComponentContext
-        {
-            ViewContext = new ViewContext
+            new NavigationMenuViewComponent(mock.Object)
             {
-                RouteData = new RouteData()
-            }
-        };
+                ViewComponentContext = new ViewComponentContext
+                {
+                    ViewContext = new ViewContext
+                    {
+                        RouteData = new RouteData()
+                    }
+                }
+            };
         target.RouteData.Values["category"] = categoryToSelect;
 
         // Action

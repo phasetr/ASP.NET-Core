@@ -31,7 +31,7 @@ public class CartPageTests
         cartModel.OnGet("myUrl");
 
         //Assert
-        Assert.Equal(2, cartModel.Cart.Lines.Count());
+        Assert.Equal(2, cartModel.Cart.Lines.Count);
         Assert.Equal("myUrl", cartModel.ReturnUrl);
     }
 
@@ -43,8 +43,8 @@ public class CartPageTests
         var mockRepo = new Mock<IStoreRepository>();
         mockRepo.Setup(m => m.Products).Returns(new[]
         {
-            new Product() {ProductID = 1, Name = "P1"}
-        }.AsQueryable<Product>());
+            new Product {ProductID = 1, Name = "P1"}
+        }.AsQueryable());
 
         var testCart = new Cart();
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using SportsStore.Models;
 using Xunit;
 
@@ -42,8 +41,7 @@ public class CartTests
         target.AddItem(p1, 1);
         target.AddItem(p2, 1);
         target.AddItem(p1, 10);
-        var results = (target.Lines ?? new List<CartLine>())
-            .OrderBy(c => c.Product.ProductID).ToArray();
+        var results = target.Lines.OrderBy(c => c.Product.ProductID).ToArray();
 
         // Assert
         Assert.Equal(2, results.Length);
@@ -72,7 +70,7 @@ public class CartTests
 
         // Assert
         Assert.Empty(target.Lines.Where(c => c.Product == p2));
-        Assert.Equal(2, target.Lines.Count());
+        Assert.Equal(2, target.Lines.Count);
     }
 
     [Fact]

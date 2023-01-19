@@ -50,7 +50,7 @@ public class PageLinkTagHelperTests
         var content = new Mock<TagHelperContent>();
         var output = new TagHelperOutput("div",
             new TagHelperAttributeList(),
-            (cache, encoder) => Task.FromResult(content.Object));
+            (_, _) => Task.FromResult(content.Object));
 
         // Act
         helper.Process(ctx, output);

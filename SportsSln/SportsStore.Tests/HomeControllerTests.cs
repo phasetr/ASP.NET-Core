@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SportsStore.Controllers;
@@ -26,7 +25,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.Index(null)?.ViewData.Model
+            controller.Index(null).ViewData.Model
                 as ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -56,7 +55,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.Index(null, 2)?.ViewData.Model
+            controller.Index(null, 2).ViewData.Model
                 as ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -86,7 +85,7 @@ public class HomeControllerTests
 
         // Act
         var result =
-            controller.Index(null, 2)?.ViewData.Model as
+            controller.Index(null, 2).ViewData.Model as
                 ProductsListViewModel ?? new ProductsListViewModel();
 
         // Assert
@@ -117,7 +116,7 @@ public class HomeControllerTests
         controller.PageSize = 3;
 
         // Action
-        var result = (controller.Index("Cat2")?.ViewData.Model
+        var result = (controller.Index("Cat2").ViewData.Model
             as ProductsListViewModel ?? new ProductsListViewModel()).Products.ToArray();
 
         // Assert
@@ -144,8 +143,10 @@ public class HomeControllerTests
         var target = new HomeController(mock.Object);
         target.PageSize = 3;
 
-        Func<ViewResult, ProductsListViewModel?> GetModel = result
-            => result?.ViewData?.Model as ProductsListViewModel;
+        ProductsListViewModel? GetModel(ViewResult result)
+        {
+            return result.ViewData.Model as ProductsListViewModel;
+        }
 
         // Action
         var res1 = GetModel(target.Index("Cat1"))?.PagingInfo.TotalItems;
