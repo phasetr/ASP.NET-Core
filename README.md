@@ -58,7 +58,7 @@ dotnet restore
 - IdentityByController
     - `DB`: `SQLite`
     - コントローラーを使った認証
-    - オリジナルは`SportsStore`で, 認証以外をほぼ削除: `Product`だけ残してある
+    - オリジナルは`SportsSln`で, 認証以外をほぼ削除: `Product`だけ残してある
 - IdentityByRazorPages
     - `DB`: `SQLite`
     - `RazorPages`での認証, `Blazor`は`Blazor Server`
@@ -81,6 +81,15 @@ dotnet restore
     - `MvcWithApi`の`MVC`チュートリアル部分を`Razor Pages`に変えただけ
     - ASP.NET Coreからはふつうの`MVC`よりこちらが推奨とのこと
     - `TODO`: テスト
+- SerilogDemo
+    - [公式](https://serilog.net/)
+    - その他参考
+        - [How to Use Serilog in ASP.NET Core Web API](https://www.claudiobernasconi.ch/2022/01/28/how-to-use-serilog-in-asp-net-core-web-api/)
+        - [Add logging to ASP.NET Core using Serilog - .NET6](https://blog.christian-schou.dk/use-serilog-with-asp-net-core-net6/)
+    - ファイルへのログ書き出し
+    - `API`と`Razor Pages`それぞれに仕込む
+    - コンソール・ローカルのファイル・AWSなどいろいろなところに同時に書き込める
+    - cf. `AWS`では(適当な仮定のもと)標準出力にログを書き出すと`CloudWatch`で拾ってくれる.
 - SimpleTest
     - `DB`: なし
     - モデルクラスが一つだけあるテストを書いたプロジェクト
@@ -88,17 +97,10 @@ dotnet restore
 - SimpleWebApi
     - `DB`: インメモリ
     - シンプルなAPIのサンプル
-- SerilogDemo
-    - [公式](https://serilog.net/)
-    - その他参考
-        - [How to Use Serilog in ASP.NET Core Web API](https://www.claudiobernasconi.ch/2022/01/28/how-to-use-serilog-in-asp-net-core-web-api/)
-        - [Add logging to ASP.NET Core using Serilog - .NET6](https://blog.christian-schou.dk/use-serilog-with-asp-net-core-net6/)    
-    - ファイルへのログ書き出し
-    - `API`と`Razor Pages`それぞれに仕込む
-    - コンソール・ローカルのファイル・AWSなどいろいろなところに同時に書き込める
-- SportsStore: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
+- SportsSln: [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
     - `DB`: `docker`で`PostgreSQL`利用
     - ある程度の規模があるサンプルプロジェクト
+    - テストも書いてある
 
 ## TODO
 - EF Coreで中間テーブルを作る
