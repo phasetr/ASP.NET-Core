@@ -14,7 +14,7 @@ public class HomeController : Controller
         _repository = repo;
     }
 
-    public ViewResult Index(string? category, int productPage = 1)
+    public ViewResult List(string? category, int productPage = 1)
     {
         return View(new ProductsListViewModel
         {

@@ -6,11 +6,11 @@ namespace SportsStore.Pages;
 
 public class CartModel : PageModel
 {
-    private IStoreRepository repository;
+    private IStoreRepository _repository;
 
     public CartModel(IStoreRepository repo, Cart cartService)
     {
-        repository = repo;
+        _repository = repo;
         Cart = cartService;
     }
 
@@ -24,7 +24,7 @@ public class CartModel : PageModel
 
     public IActionResult OnPost(long productId, string returnUrl)
     {
-        var product = repository.Products
+        var product = _repository.Products
             .FirstOrDefault(p => p.ProductID == productId);
         if (product != null) Cart.AddItem(product, 1);
         return RedirectToPage(new {returnUrl});

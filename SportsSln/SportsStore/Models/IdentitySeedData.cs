@@ -36,13 +36,13 @@ public static class IdentitySeedData
             new Product
             {
                 Name = "Kayak", Description = "A boat for one person",
-                Category = "Watersports", Price = 275
+                Category = "WaterSports", Price = 275
             },
             new Product
             {
-                Name = "Lifejacket",
+                Name = "LifeJacket",
                 Description = "Protective and fashionable",
-                Category = "Watersports", Price = 48.95m
+                Category = "WaterSports", Price = 48.95m
             },
             new Product
             {

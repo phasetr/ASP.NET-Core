@@ -2,10 +2,11 @@
 
 public class Cart
 {
-    public List<CartLine> Lines { get; set; } = new();
+    public List<CartLine>? Lines { get; set; } = new();
 
     public virtual void AddItem(Product product, int quantity)
     {
+        if (Lines == null) return;
         var line = Lines
             .FirstOrDefault(p => p.Product.ProductID == product.ProductID);
 
@@ -21,17 +22,17 @@ public class Cart
 
     public virtual void RemoveLine(Product product)
     {
-        Lines.RemoveAll(l => l.Product.ProductID == product.ProductID);
+        Lines?.RemoveAll(l => l.Product.ProductID == product.ProductID);
     }
 
     public decimal ComputeTotalValue()
     {
-        return Lines.Sum(e => e.Product.Price * e.Quantity);
+        return Lines?.Sum(e => e.Product.Price * e.Quantity) ?? 0;
     }
 
     public virtual void Clear()
     {
-        Lines.Clear();
+        Lines?.Clear();
     }
 }
 
