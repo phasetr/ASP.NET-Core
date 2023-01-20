@@ -88,15 +88,10 @@ try
     builder.Services.AddScoped<IPriceService, UsPriceService>();
     builder.Services.AddScoped<IPriceService, DefaultPriceService>();
     builder.Services.AddScoped<IPropertyService, PropertyService>();
-    //if (builder.Environment.IsDevelopment()) 
-    //{ 
-    //    builder.Services.AddTransient<IEmailSender, EmailService>();
-    //}
-    //else
-    //{
-    builder.Services.AddTransient<IEmailSender, ProductionEmailService>();
-    //}
-
+    if (builder.Environment.IsDevelopment())
+        builder.Services.AddTransient<IEmailSender, EmailService>();
+    else
+        builder.Services.AddTransient<IEmailSender, ProductionEmailService>();
 
     builder.Services.AddSingleton<IAuthorizationHandler, IsInRoleHandler>();
     builder.Services.AddSingleton<IAuthorizationHandler, HasClaimHandler>();
@@ -125,7 +120,6 @@ try
     app.UseAuthorization();
 
     app.MapRazorPages();
-
 
     app.MapPost("/api/property/booking",
         (BookingInputModel model, IBookingService bookingService) =>

@@ -1,6 +1,8 @@
 **/wwwroot/lib/*
 *.db*
+*.eml
 .idea
 Logs
+TempMail
 bin
 obj

@@ -14,7 +14,7 @@
                 <div class="card p-3 shadow" style="background:url(/images/cities/@city.Photo) no-repeat center center;background-size: cover;height:240px;">
                     <h3>
                         <a class="text-white text-decoration-none" asp-page="/City" asp-route-name="@city.Name">@city.Name</a>
-                        <img src="/images/flags/@(city.Country.CountryCode).png" aria-label="@($"{city.Name}, {city.Country.CountryName}")">
+                        <img src="/images/flags/@(city.Country.CountryCode).png" aria-label="@($"{city.Name}, {city.Country.CountryName}")" alt="">
                     </h3>
                     <h6 class="text-white">@city.Properties.Count() properties</h6>
                 </div>
