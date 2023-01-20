@@ -12,11 +12,10 @@ public class PropertyAuthorizationHandler : AuthorizationHandler<OperationAuthor
         OperationAuthorizationRequirement requirement, Property resource)
     {
         if (requirement.Name == PropertyOperations.Edit.Name)
-            if (resource.CreatorId == context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            if (resource.CreatorId == context.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value)
                 context.Succeed(requirement);
-        if (requirement.Name == PropertyOperations.Delete.Name)
-            if (context.User.IsInRole("Admin"))
-                context.Succeed(requirement);
+        if (requirement.Name != PropertyOperations.Delete.Name) return Task.CompletedTask;
+        if (context.User.IsInRole("Admin")) context.Succeed(requirement);
         return Task.CompletedTask;
     }
 }

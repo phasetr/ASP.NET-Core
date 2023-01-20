@@ -74,10 +74,10 @@ try
     });
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("ViewRolesPolicy", policyBuilder =>
-            policyBuilder.AddRequirements(new ViewRolesRequirement(-6)));
-        options.AddPolicy("ViewClaimsPolicy", policyBuilder =>
-            policyBuilder.AddRequirements(new ViewClaimsRequirement()));
+        options.AddPolicy("ViewRolesPolicy",
+            policyBuilder => policyBuilder.AddRequirements(new ViewRolesRequirement(-6)));
+        options.AddPolicy("ViewClaimsPolicy",
+            policyBuilder => policyBuilder.AddRequirements(new ViewClaimsRequirement()));
     });
 
     builder.Services.AddScoped<ICityService, CityService>();
