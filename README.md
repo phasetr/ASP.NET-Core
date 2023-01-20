@@ -100,6 +100,7 @@ dotnet dotnet-ef database update # SQLiteの初期化
 - [チュートリアル: ASP.NET Core の Razor Pages の概要](https://learn.microsoft.com/ja-jp/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-6.0&tabs=visual-studio-code)
 - `MvcWithApi`の`MVC`チュートリアル部分を`Razor Pages`に変えただけ
 - ASP.NET Coreからはふつうの`MVC`よりこちらが推奨とのこと
+- [記事](https://qiita.com/gushwell/items/59ca85fdfee0affa4821)を参考に`Pages/Index.cshtml`に`QRCoder`によるQRコード生成を追加した
 - `TODO`: テスト
 ### SerilogDemo
 - [公式](https://serilog.net/)
