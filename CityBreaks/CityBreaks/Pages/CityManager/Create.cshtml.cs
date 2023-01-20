@@ -33,16 +33,12 @@ public class CreateModel : PageModel
         var document = await context.OpenAsync(req => req.Content(Description));
         if (document.QuerySelectorAll("script").Any())
             ModelState.AddModelError("Description", "You must not include script tags");
-        if (ModelState.IsValid)
-        {
-            TempData["Name"] = Name;
-            Photo = $"{Name.ToLower().Replace(" ", "-")}{Path.GetExtension(Upload.FileName)}";
-            var filePath = Path.Combine(_environment.WebRootPath, "images", "cities", Photo);
-            using var stream = System.IO.File.Create(filePath);
-            await Upload.CopyToAsync(stream);
-            return RedirectToPage("/CityManager/Index");
-        }
-
-        return Page();
+        if (!ModelState.IsValid) return Page();
+        TempData["Name"] = Name;
+        Photo = $"{Name.ToLower().Replace(" ", "-")}{Path.GetExtension(Upload.FileName)}";
+        var filePath = Path.Combine(_environment.WebRootPath, "images", "cities", Photo);
+        await using var stream = System.IO.File.Create(filePath);
+        await Upload.CopyToAsync(stream);
+        return RedirectToPage("/CityManager/Index");
     }
 }

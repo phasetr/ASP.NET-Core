@@ -38,7 +38,6 @@ try
     // Add builder.Services to the container.
     builder.Services.AddRazorPages(options =>
     {
-        //options.Conventions.AddPageRoute("/Index", "FindMe");
         options.Conventions.AuthorizeFolder("/CityManager");
         options.Conventions.AuthorizeFolder("/CountryManager");
         options.Conventions.AuthorizeFolder("/PropertyManager");

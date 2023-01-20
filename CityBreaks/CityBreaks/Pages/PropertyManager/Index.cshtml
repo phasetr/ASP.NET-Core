@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using CityBreaks.AuthorizationRequirements
 @model IndexModel
-@inject IAuthorizationService authService
+@inject IAuthorizationService AuthService
 @{
     ViewData["Title"] = "Index";
 }
@@ -67,13 +67,13 @@
             <td>
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                 @{
-                    var result = await authService.AuthorizeAsync(User, item, PropertyOperations.Edit);
+                    var result = await AuthService.AuthorizeAsync(User, item, PropertyOperations.Edit);
                     if (result.Succeeded)
                     {
                         @:|
                         <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
                     }
-                    result = await authService.AuthorizeAsync(User, item, PropertyOperations.Delete);
+                    result = await AuthService.AuthorizeAsync(User, item, PropertyOperations.Delete);
                     if (result.Succeeded)
                     {
                         @:|

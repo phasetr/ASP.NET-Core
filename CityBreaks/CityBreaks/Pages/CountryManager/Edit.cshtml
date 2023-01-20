@@ -42,7 +42,7 @@
         @foreach (var country in Model.Countries)
         {
             <li>
-                <img src="/images/flags/@(country.CountryCode).png"/>
+                <img src="/images/flags/@(country.CountryCode).png" alt=""/>
                 @country.CountryName
             </li>
         }

@@ -19,14 +19,10 @@ public class CreateModel : PageModel
             !string.IsNullOrWhiteSpace(Input.CountryCode) &&
             Input.CountryName.ToLower().First() != Input.CountryCode.ToLower().First())
             ModelState.AddModelError("Input.CountryName", "The first letters of the name and code must match");
-        if (ModelState.IsValid)
-        {
-            CountryCode = Input.CountryCode;
-            CountryName = Input.CountryName;
-            return RedirectToPage("/CountryManager/Success");
-        }
-
-        return Page();
+        if (!ModelState.IsValid) return Page();
+        CountryCode = Input.CountryCode;
+        CountryName = Input.CountryName;
+        return RedirectToPage("/CountryManager/Success");
     }
 
     public class InputModel

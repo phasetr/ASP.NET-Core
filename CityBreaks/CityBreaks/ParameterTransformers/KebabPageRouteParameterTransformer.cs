@@ -6,7 +6,6 @@ public class KebabPageRouteParameterTransformer : IOutboundParameterTransformer
 {
     public string TransformOutbound(object value)
     {
-        if (value == null) return null;
-        return Regex.Replace(value.ToString(), "([a-z])([A-Z])", "$1-$2");
+        return value == null ? null : Regex.Replace(value.ToString() ?? string.Empty, "([a-z])([A-Z])", "$1-$2");
     }
 }
