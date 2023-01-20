@@ -28,17 +28,15 @@
             <a class="btn btn-outline-secondary" asp-page="/List">
                 Home
             </a>
-            @*
-            @foreach (var category in Model)
+            @foreach (var category in Model.Categories)
             {
-                <a class="btn @(category == ViewBag.SelectedCategory ? "btn-primary" : "btn-outline-secondary")"
-                   asp-action="List" asp-controller="Home"
+                <a class="btn @(category == Model.CurrentCategory ? "btn-primary" : "btn-outline-secondary")"
+                   asp-page="/List"
                    asp-route-category="@category"
                    asp-route-productPage="1">
                     @category
                 </a>
             }
-            *@
         </div>
     </div>
     <div class="col-9">
@@ -46,7 +44,7 @@
         {
             <partial name="ProductSummary" model="p"/>
         }
-        <partial name="Shared/Components/Pager" for="@Model!.PagingInfo"/>
+        <partial name="Shared/Components/Pager" for="@Model"/>
     </div>
 </div>
 </body>

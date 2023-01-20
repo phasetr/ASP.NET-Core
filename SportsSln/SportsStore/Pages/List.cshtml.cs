@@ -16,12 +16,15 @@ public class ListModel : PageModel
         _logger = logger;
     }
 
+    public List<string> Categories { get; set; } = TemporalCategories;
+
     public IEnumerable<Product> Products { get; set; } = Enumerable.Empty<Product>();
     public PagingInfo PagingInfo { get; set; } = new();
     public string? CurrentCategory { get; set; }
 
     public void OnGet(string? category, int productPage = 1)
     {
+        _logger.LogInformation("{Category}, {ProductPage}", category, productPage);
         Products = _repository.Products
             .Where(p => category == null || p.Category == category)
             .OrderBy(p => p.ProductID)
