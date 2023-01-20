@@ -1,8 +1,9 @@
 ﻿<div class="align-content-end">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity!.IsAuthenticated)
     {
         <p>
             @User.Identity.Name, you are logged in
+            <a asp-page="/Admin/Index">Admin</a>
             <a asp-area="Identity" asp-page="/Account/Logout">Sign out</a>
         </p>
     }

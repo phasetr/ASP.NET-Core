@@ -55,6 +55,12 @@ dotnet dotnet-ef database update # SQLiteの初期化
     - `anna@test.com`/`password`
 - アクセスできる`URL`参照: `Program.cs`に設定がある
     - `property-manager`などキャメルケースをケバブケースに変える
+- `Ajax`参考
+    - ユーザーとしてアクセスしてどれかの街を選ぶ
+    - ホテル名をクリックするとモーダルが出る: このモーダルで`Ajax`を利用している
+    - `Pages/City.cshtml`内でモーダルを呼んでいる
+    - `SHared`の`_PropertyModalPartial.cshtml`と`_PropertyDetailsPartial.cshtml`がモーダル処理
+    - `API`は`Minimal API`として`Program.cs`内でアクセスポイントを作っている
 ### Database
 - `DB`: `docker`で`PostgreSQL`利用
 - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング

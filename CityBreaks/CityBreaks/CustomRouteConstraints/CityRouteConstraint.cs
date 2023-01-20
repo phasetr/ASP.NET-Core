@@ -11,6 +11,6 @@ public class CityRouteConstraint : IRouteConstraint
             "copenhagen", "dubrovnik", "edinburgh",
             "london", "madrid", "paris", "rome", "venice"
         };
-        return cities.Contains(values[routeKey]?.ToString().ToLowerInvariant());
+        return cities.Contains(values[routeKey]?.ToString()?.ToLowerInvariant());
     }
 }
