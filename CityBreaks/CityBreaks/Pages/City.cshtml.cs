@@ -30,24 +30,26 @@ public class CityModel : PageModel
         City = await _cityService.GetByNameAsync(Name);
         if (City == null)
         {
-            _logger.LogWarning("City \"{name}\" not found", Name);
+            _logger.LogWarning("City \"{Name}\" not found", Name);
             return NotFound();
         }
 
-        _logger.LogInformation("City \"{name}\"  found", Name);
+        _logger.LogInformation("City \"{Name}\"  found", Name);
         return Page();
     }
 
     public async Task<PartialViewResult> OnGetPropertyDetails(int id)
     {
         var property = await _propertyService.FindAsync(id);
-        _logger.LogInformation("Property {@property} retrieved by {user}", property, User.Identity.Name);
+        if (User.Identity != null)
+            _logger.LogInformation("Property {@Property} retrieved by {User}", property, User.Identity.Name);
         var model = new BookingInputModel {Property = property};
         return Partial("_PropertyDetailsPartial", model);
     }
 
     public JsonResult OnPostBooking([FromBody] BookingInputModel model)
     {
+        if (model.EndDate == null || model.StartDate == null) return new JsonResult(new {TotalCost = 0.0});
         var numberOfDays = (int) (model.EndDate.Value - model.StartDate.Value).TotalDays;
         var totalCost = numberOfDays * model.Property.DayRate * model.NumberOfGuests;
         var result = new {TotalCost = totalCost};

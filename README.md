@@ -59,6 +59,7 @@ dotnet dotnet-ef database update # SQLiteの初期化
     - ユーザーとしてアクセスしてどれかの街を選ぶ
     - ホテル名をクリックするとモーダルが出る: このモーダルで`Ajax`を利用している
     - `Pages/City.cshtml`内でモーダルを呼んでいる
+    - `handler=propertydetails`は`cshtml.cs`の`OnGetPropertyDetails`メソッドを呼んでいる
     - `SHared`の`_PropertyModalPartial.cshtml`と`_PropertyDetailsPartial.cshtml`がモーダル処理
     - `API`は`Minimal API`として`Program.cs`内でアクセスポイントを作っている
 ### Database
