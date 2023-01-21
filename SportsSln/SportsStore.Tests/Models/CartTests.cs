@@ -2,7 +2,7 @@
 using SportsStore.Models;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Models;
 
 public class CartTests
 {

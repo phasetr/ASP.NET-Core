@@ -128,6 +128,7 @@ dotnet dotnet-ef database update # SQLiteの初期化
     - `Pages/List.cshtml`, `Shared/Components/Pager.cshtml`
 
 ## TODO
+- [モデルバインド前後にログを仕込む](https://qiita.com/gushwell/items/bcf39aaf708b9a483cf5)
 - [Razor Pagesのテスト](https://learn.microsoft.com/ja-jp/aspnet/core/test/razor-pages-tests?view=aspnetcore-7.0)
 - EF Coreで中間テーブルを作る
 - Terraform・AWS連携

@@ -6,7 +6,7 @@ using SportsStore.Models;
 using SportsStore.Models.ViewModels;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Controllers;
 
 public class HomeControllerTests
 {

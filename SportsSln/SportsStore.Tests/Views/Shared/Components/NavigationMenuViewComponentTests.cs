@@ -8,7 +8,7 @@ using SportsStore.Components;
 using SportsStore.Models;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Views.Shared.Components;
 
 public class NavigationMenuViewComponentTests
 {

@@ -4,7 +4,7 @@ using SportsStore.Models;
 using SportsStore.Pages;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Pages;
 
 public class CartPageTests
 {

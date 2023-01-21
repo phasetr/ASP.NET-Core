@@ -9,7 +9,7 @@ using SportsStore.Infrastructure;
 using SportsStore.Models.ViewModels;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Infrastructures;
 
 public class PageLinkTagHelperTests
 {

@@ -10,7 +10,7 @@ namespace SportsStore.Infrastructure;
 [HtmlTargetElement("div", Attributes = "page-model")]
 public class PageLinkTagHelper : TagHelper
 {
-    private IUrlHelperFactory _urlHelperFactory;
+    private readonly IUrlHelperFactory _urlHelperFactory;
 
     public PageLinkTagHelper(IUrlHelperFactory helperFactory)
     {

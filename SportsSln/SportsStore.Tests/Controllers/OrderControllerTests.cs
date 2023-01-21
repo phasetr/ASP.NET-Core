@@ -4,7 +4,7 @@ using SportsStore.Controllers;
 using SportsStore.Models;
 using Xunit;
 
-namespace SportsStore.Tests;
+namespace SportsStore.Tests.Controllers;
 
 public class OrderControllerTests
 {
