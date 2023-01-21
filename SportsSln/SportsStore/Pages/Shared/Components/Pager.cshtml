@@ -5,10 +5,12 @@
             @{
                 var i1 = i;
             }
-            <a asp-page="/List" 
-               asp-route-productPage="@i1" 
+            <a asp-page="/List"
+               asp-route-productPage="@i1"
                asp-route-category="@Model?.CurrentCategory"
-               class="page-link">@i1</a>
+               class="page-link">
+                @i1
+            </a>
         </li>
     }
 </ul>

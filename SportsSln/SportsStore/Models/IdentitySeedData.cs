@@ -28,7 +28,7 @@ public static class IdentitySeedData
             PhoneNumber = "555-1234"
         };
         await userManager.CreateAsync(user, AdminPassword);
-        
+
         if ((await context.Database.GetPendingMigrationsAsync()).Any()) await context.Database.MigrateAsync();
 
         if (context.Products.Any()) return;

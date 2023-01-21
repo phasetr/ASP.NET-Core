@@ -11,7 +11,7 @@ public class IdDbContext : IdentityDbContext<IdentityUser>
         : base(options)
     {
     }
+
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Order> Orders => Set<Order>();
-
 }
