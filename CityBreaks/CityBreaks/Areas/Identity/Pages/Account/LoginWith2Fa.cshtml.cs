@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CityBreaks.Areas.Identity.Pages.Account;
 
-public class LoginWith2faModel : PageModel
+public class LoginWith2FaModel : PageModel
 {
-    private readonly ILogger<LoginWith2faModel> _logger;
+    private readonly ILogger<LoginWith2FaModel> _logger;
     private readonly SignInManager<CityBreaksUser> _signInManager;
     private readonly UserManager<CityBreaksUser> _userManager;
 
-    public LoginWith2faModel(
+    public LoginWith2FaModel(
         SignInManager<CityBreaksUser> signInManager,
         UserManager<CityBreaksUser> userManager,
-        ILogger<LoginWith2faModel> logger)
+        ILogger<LoginWith2FaModel> logger)
     {
         _signInManager = signInManager;
         _userManager = userManager;
