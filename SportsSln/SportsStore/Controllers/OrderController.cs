@@ -28,6 +28,5 @@ public class OrderController : Controller
         _repository.SaveOrder(order);
         _cart.Clear();
         return RedirectToPage("/Completed", new {orderId = order.OrderID});
-
     }
 }
