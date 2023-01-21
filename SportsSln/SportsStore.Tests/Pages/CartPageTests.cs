@@ -21,7 +21,7 @@ public class CartPageTests
             p1, p2
         }.AsQueryable());
 
-        // - create a cart 
+        // - create a cart
         var testCart = new Cart();
         testCart.AddItem(p1, 2);
         testCart.AddItem(p2, 1);

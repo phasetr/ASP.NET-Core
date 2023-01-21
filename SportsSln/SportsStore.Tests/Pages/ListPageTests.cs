@@ -1,45 +1,36 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Microsoft.Extensions.Logging;
 using Moq;
-using SportsStore.Controllers;
 using SportsStore.Models;
-using SportsStore.Models.ViewModels;
+using SportsStore.Pages;
 using Xunit;
 
-namespace SportsStore.Tests.Controllers;
+namespace SportsStore.Tests.Pages;
 
-public class HomeControllerTests
+public class ListPageTests
 {
     [Fact]
     public void Can_Use_Repository()
     {
-        // Arrange
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
             new Product {ProductID = 1, Name = "P1"},
             new Product {ProductID = 2, Name = "P2"}
         }.AsQueryable());
+        var mockLogger = new Mock<ILogger<ListModel>>();
 
-        var controller = new HomeController(mock.Object);
-
-        // Act
-        var result =
-            controller.Index(null).ViewData.Model
-                as ProductsListViewModel ?? new ProductsListViewModel();
-
-        // Assert
-        var prodArray = result.Products.ToArray();
+        var listModel = new ListModel(mock.Object, mockLogger.Object);
+        listModel.OnGet(null);
+        var prodArray = listModel.Products.ToArray();
         Assert.True(prodArray.Length == 2);
         Assert.Equal("P1", prodArray[0].Name);
         Assert.Equal("P2", prodArray[1].Name);
     }
 
-
     [Fact]
     public void Can_Paginate()
     {
-        // Arrange
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
@@ -49,26 +40,20 @@ public class HomeControllerTests
             new Product {ProductID = 4, Name = "P4"},
             new Product {ProductID = 5, Name = "P5"}
         }.AsQueryable());
+        var mockLogger = new Mock<ILogger<ListModel>>();
+        var listModel = new ListModel(mock.Object, mockLogger.Object);
 
-        var controller = new HomeController(mock.Object);
-        controller.PageSize = 3;
+        listModel.OnGet(null, 2);
 
-        // Act
-        var result =
-            controller.Index(null, 2).ViewData.Model
-                as ProductsListViewModel ?? new ProductsListViewModel();
-
-        // Assert
-        var prodArray = result.Products.ToArray();
+        var prodArray = listModel.Products.ToArray();
         Assert.True(prodArray.Length == 2);
-        Assert.Equal("P4", prodArray[0].Name);
-        Assert.Equal("P5", prodArray[1].Name);
+        Assert.Equal("P3", prodArray[0].Name);
+        Assert.Equal("P4", prodArray[1].Name);
     }
 
     [Fact]
     public void Can_Send_Pagination_View_Model()
     {
-        // Arrange
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
@@ -78,29 +63,22 @@ public class HomeControllerTests
             new Product {ProductID = 4, Name = "P4"},
             new Product {ProductID = 5, Name = "P5"}
         }.AsQueryable());
+        var mockLogger = new Mock<ILogger<ListModel>>();
+        var listModel = new ListModel(mock.Object, mockLogger.Object);
 
-        // Arrange
-        var controller =
-            new HomeController(mock.Object) {PageSize = 3};
-
-        // Act
-        var result =
-            controller.Index(null, 2).ViewData.Model as
-                ProductsListViewModel ?? new ProductsListViewModel();
+        listModel.OnGet(null, 2);
 
         // Assert
-        var pageInfo = result.PagingInfo;
+        var pageInfo = listModel.PagingInfo;
         Assert.Equal(2, pageInfo.CurrentPage);
-        Assert.Equal(3, pageInfo.ItemsPerPage);
+        Assert.Equal(2, pageInfo.ItemsPerPage);
         Assert.Equal(5, pageInfo.TotalItems);
-        Assert.Equal(2, pageInfo.TotalPages);
+        Assert.Equal(3, pageInfo.TotalPages);
     }
 
     [Fact]
     public void Can_Filter_Products()
     {
-        // Arrange
-        // - create the mock repository
         var mock = new Mock<IStoreRepository>();
         mock.Setup(m => m.Products).Returns(new[]
         {
@@ -110,21 +88,16 @@ public class HomeControllerTests
             new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
             new Product {ProductID = 5, Name = "P5", Category = "Cat3"}
         }.AsQueryable());
+        var mockLogger = new Mock<ILogger<ListModel>>();
+        var listModel = new ListModel(mock.Object, mockLogger.Object);
 
-        // Arrange - create a controller and make the page size 3 items
-        var controller = new HomeController(mock.Object);
-        controller.PageSize = 3;
+        listModel.OnGet("Cat2");
+        var result = listModel.Products.ToArray();
 
-        // Action
-        var result = (controller.Index("Cat2").ViewData.Model
-            as ProductsListViewModel ?? new ProductsListViewModel()).Products.ToArray();
-
-        // Assert
         Assert.Equal(2, result.Length);
         Assert.True(result[0].Name == "P2" && result[0].Category == "Cat2");
         Assert.True(result[1].Name == "P4" && result[1].Category == "Cat2");
     }
-
 
     [Fact]
     public void Generate_Category_Specific_Product_Count()
@@ -139,20 +112,20 @@ public class HomeControllerTests
             new Product {ProductID = 4, Name = "P4", Category = "Cat2"},
             new Product {ProductID = 5, Name = "P5", Category = "Cat3"}
         }.AsQueryable());
+        var mockLogger = new Mock<ILogger<ListModel>>();
+        var listModel = new ListModel(mock.Object, mockLogger.Object);
 
-        var target = new HomeController(mock.Object);
-        target.PageSize = 3;
-
-        ProductsListViewModel? GetModel(ViewResult result)
+        int GetTotalItems(ListModel model, string? category)
         {
-            return result.ViewData.Model as ProductsListViewModel;
+            model.OnGet(category);
+            return model.PagingInfo.TotalItems;
         }
 
         // Action
-        var res1 = GetModel(target.Index("Cat1"))?.PagingInfo.TotalItems;
-        var res2 = GetModel(target.Index("Cat2"))?.PagingInfo.TotalItems;
-        var res3 = GetModel(target.Index("Cat3"))?.PagingInfo.TotalItems;
-        var resAll = GetModel(target.Index(null))?.PagingInfo.TotalItems;
+        var res1 = GetTotalItems(listModel, "Cat1");
+        var res2 = GetTotalItems(listModel, "Cat2");
+        var res3 = GetTotalItems(listModel, "Cat3");
+        var resAll = GetTotalItems(listModel, null);
 
         // Assert
         Assert.Equal(2, res1);
