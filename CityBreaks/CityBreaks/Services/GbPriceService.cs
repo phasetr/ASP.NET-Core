@@ -1,4 +1,6 @@
-﻿namespace CityBreaks.Services;
+﻿using CityBreaks.Services.Interfaces;
+
+namespace CityBreaks.Services;
 
 public class GbPriceService : IPriceService
 {

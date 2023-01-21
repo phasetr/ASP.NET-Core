@@ -1,5 +1,6 @@
 using CityBreaks.Data;
 using CityBreaks.Models;
+using CityBreaks.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CityBreaks.Services;

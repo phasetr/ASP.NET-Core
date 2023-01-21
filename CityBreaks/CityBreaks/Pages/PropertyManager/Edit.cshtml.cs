@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CityBreaks.AuthorizationRequirements;
 using CityBreaks.Models;
-using CityBreaks.Services;
+using CityBreaks.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

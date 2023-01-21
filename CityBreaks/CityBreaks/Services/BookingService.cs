@@ -1,4 +1,5 @@
 ﻿using CityBreaks.Models;
+using CityBreaks.Services.Interfaces;
 
 namespace CityBreaks.Services;
 

@@ -1,6 +1,6 @@
 ﻿using CityBreaks.Models;
 
-namespace CityBreaks.Services;
+namespace CityBreaks.Services.Interfaces;
 
 public interface IBookingService
 {

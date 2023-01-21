@@ -1,10 +1,11 @@
 ﻿using CityBreaks.Models;
+using CityBreaks.Services.Interfaces;
 
 namespace CityBreaks.Services;
 
 public class SimpleCityService : ICityService
 {
-    private readonly List<City> Cities = new()
+    private readonly List<City> _cities = new()
     {
         new City
         {
@@ -142,7 +143,7 @@ public class SimpleCityService : ICityService
 
     public Task<List<City>> GetAllAsync()
     {
-        return Task.FromResult(Cities);
+        return Task.FromResult(_cities);
     }
 
     public Task<City> GetByNameAsync(string name)
