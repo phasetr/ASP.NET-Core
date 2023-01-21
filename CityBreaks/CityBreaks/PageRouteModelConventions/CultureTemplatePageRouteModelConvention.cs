@@ -12,6 +12,7 @@ public class CultureTemplatePageRouteModelConvention : IPageRouteModelConvention
         {
             var selector = model.Selectors[i];
 
+            if (selector.AttributeRouteModel == null) continue;
             model.Selectors.Add(new SelectorModel
             {
                 AttributeRouteModel = new AttributeRouteModel
