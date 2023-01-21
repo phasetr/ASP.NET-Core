@@ -18,14 +18,13 @@ public class EmailLogger : ILogger
 
     public bool IsEnabled(LogLevel logLevel)
     {
-        return logLevel == LogLevel.Error || logLevel == LogLevel.Critical;
+        return logLevel is LogLevel.Error or LogLevel.Critical;
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
         Func<TState, Exception, string> formatter)
     {
-        if (!IsEnabled(logLevel))
-            return;
+        if (!IsEnabled(logLevel)) return;
         var htmlMessage = state + "<br><br>" +
                           exception?.Message + "<br><br>" +
                           exception?.StackTrace;
@@ -34,8 +33,8 @@ public class EmailLogger : ILogger
 
     private async Task SendLog(string htmlMessage)
     {
-        var subject = "Error in application";
-        var to = "test@example.com";
+        const string subject = "Error in application";
+        const string to = "test@example.com";
         await _emailSender.SendEmailAsync(to, subject, htmlMessage);
     }
 }

@@ -8,11 +8,8 @@ public class CountryConfiguration : IEntityTypeConfiguration<Country>
 {
     public void Configure(EntityTypeBuilder<Country> builder)
     {
-        builder.Property(x => x.CountryName)
-            .HasMaxLength(50);
-        builder.Property(x => x.CountryCode)
-            .HasColumnName("ISO 3166 code")
-            .HasMaxLength(2);
+        builder.Property(x => x.CountryName).HasMaxLength(50);
+        builder.Property(x => x.CountryCode).HasColumnName("ISO 3166 code").HasMaxLength(2);
         builder.HasData(new List<Country>
         {
             new() {Id = 1, CountryName = "Croatia", CountryCode = "hr"},

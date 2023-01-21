@@ -29,10 +29,6 @@ Log.Information("Starting up");
 try
 {
     var builder = WebApplication.CreateBuilder();
-    //var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-    //{
-    //    EnvironmentName = "Staging"
-    //});
     builder.Host.UseSerilog();
 
     // Add builder.Services to the container.
@@ -87,10 +83,8 @@ try
     builder.Services.AddScoped<IPriceService, UsPriceService>();
     builder.Services.AddScoped<IPriceService, DefaultPriceService>();
     builder.Services.AddScoped<IPropertyService, PropertyService>();
-    if (builder.Environment.IsDevelopment())
-        builder.Services.AddTransient<IEmailSender, EmailService>();
-    else
-        builder.Services.AddTransient<IEmailSender, ProductionEmailService>();
+    if (builder.Environment.IsDevelopment()) builder.Services.AddTransient<IEmailSender, EmailService>();
+    else builder.Services.AddTransient<IEmailSender, ProductionEmailService>();
 
     builder.Services.AddSingleton<IAuthorizationHandler, IsInRoleHandler>();
     builder.Services.AddSingleton<IAuthorizationHandler, HasClaimHandler>();
