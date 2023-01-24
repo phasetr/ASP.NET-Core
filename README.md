@@ -26,7 +26,7 @@ dotnet dotnet-ef database update # SQLiteの初期化
 #### 簡易自前実装
 - [2018 Simple Paging In ASP.NET Core Razor Pages](https://www.mikesdotnetting.com/article/328/simple-paging-in-asp-net-core-razor-pages)
 #### ライブラリ: LazZiya/TagHelpers
-- [GitHub](https://github.com/LazZiya/TagHelpers) 
+- [GitHub](https://github.com/LazZiya/TagHelpers)
 - [解説](https://ziyad.info/en/articles/21-Paging_TagHelper_for_ASP_NET_Core)
 
 ## 各ディレクトリの説明
@@ -62,6 +62,9 @@ dotnet dotnet-ef database update # SQLiteの初期化
     - `handler=propertydetails`は`cshtml.cs`の`OnGetPropertyDetails`メソッドを呼んでいる
     - `SHared`の`_PropertyModalPartial.cshtml`と`_PropertyDetailsPartial.cshtml`がモーダル処理
     - `API`は`Minimal API`として`Program.cs`内でアクセスポイントを作っている
+- `Filters/AsyncPageFilter.cs`に`IAsyncPageFilter`を実装してアクセスログを実装
+    - 参考: [モデルバインド前後にログを仕込む](https://qiita.com/gushwell/items/bcf39aaf708b9a483cf5),
+      [自サイト](https://phasetr.com/archive/fc/pg/dotnet/aspdotnet/)にもメモ.
 ### Database
 - `DB`: `docker`で`PostgreSQL`利用
 - 先にデータベースを作ってから`EF Core`でリバースエンジニアリング
@@ -128,7 +131,15 @@ dotnet dotnet-ef database update # SQLiteの初期化
     - `Pages/List.cshtml`, `Shared/Components/Pager.cshtml`
 
 ## TODO
-- [モデルバインド前後にログを仕込む](https://qiita.com/gushwell/items/bcf39aaf708b9a483cf5)
+- 例外処理
+    - [例外の推奨事項](https://learn.microsoft.com/ja-jp/dotnet/standard/exceptions/best-practices-for-exceptions)
+    - [ASP.NET Core Web API のエラーを処理する](https://learn.microsoft.com/ja-jp/aspnet/core/web-api/handle-errors?view=aspnetcore-7.0)
+    - [フィルターの活用](https://code-maze.com/global-error-handling-aspnetcore/)
+    - [Razor Pagesのフィルター](https://learn.microsoft.com/ja-jp/aspnet/core/razor-pages/filter?view=aspnetcore-7.0)
+    - [try-catchはフィルターに移動しよう](https://medium.com/vx-company/centralize-your-net-exception-handling-with-filters-a1e0fccf17b8)
+    - TODO: `Controller`に対する`ActionFilter`の`Razor Pages`版
+    - ログもフィルターに仕込もう
+    - <https://www.thecodebuzz.com/best-practices-for-handling-exception-in-net-core-2-1/>
 - [Razor Pagesのテスト](https://learn.microsoft.com/ja-jp/aspnet/core/test/razor-pages-tests?view=aspnetcore-7.0)
 - EF Coreで中間テーブルを作る
 - Terraform・AWS連携

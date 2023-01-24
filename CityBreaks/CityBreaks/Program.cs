@@ -2,6 +2,7 @@ using CityBreaks.AuthorizationHandlers;
 using CityBreaks.AuthorizationRequirements;
 using CityBreaks.CustomRouteConstraints;
 using CityBreaks.Data;
+using CityBreaks.Filters;
 using CityBreaks.Logging;
 using CityBreaks.Models;
 using CityBreaks.PageRouteModelConventions;
@@ -42,6 +43,9 @@ try
         options.Conventions.AuthorizeFolder("/ClaimsManager");
         options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
         options.Conventions.Add(new PageRouteTransformerConvention(new KebabPageRouteParameterTransformer()));
+    }).AddMvcOptions(options =>
+    {
+        options.Filters.Add(new AsyncPageFilter(Log.Logger));
     });
     builder.Services.Configure<RouteOptions>(options =>
     {
