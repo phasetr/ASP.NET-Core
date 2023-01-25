@@ -1,6 +1,6 @@
+using MainSample.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MainSample.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
