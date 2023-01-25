@@ -95,7 +95,17 @@ dotnet dotnet-ef database update # SQLiteの初期化
 - オリジナルは[Pro ASP.NET Core 6 ](https://github.com/Apress/pro-asp.net-core-6/tree/main/39%20-%20ASP.NET%20Core%20Identity%20-%202/End%20of%20Chapter)
 ### MainSample
 - いろいろな要素を入れたメインサンプル(にしたい)
-- シード: ユーザーまで含めて
+- `TODO`: シード: ユーザーまで含めて
+    - [Proper way to seed test data in EF Core 6.0.2](https://github.com/dotnet/efcore/issues/27599)
+    - [One To Many relationship data seeding in .NET Core](https://stackoverflow.com/questions/58599942/one-to-many-relationship-data-seeding-in-net-core)
+    - [The Fluent API HasData Method](https://www.learnentityframeworkcore.com/configuration/fluent-api/hasdata-method)
+    - [Applying Seed Data To The Database](https://www.learnentityframeworkcore.com/migrations/seeding)
+    - [Seeding one-to-many relationships](https://github.com/dotnet/efcore/issues/27208)
+- ``TODO`: グローバルなエラーハンドリング
+    - [Global Error Handling in ASP.NET Core Web API](https://code-maze.com/global-error-handling-aspnetcore/)
+    - [Centralize your .NET Core exception handling with filters](https://medium.com/vx-company/centralize-your-net-exception-handling-with-filters-a1e0fccf17b8)
+    - [Best Practices for Exception Handling in .NET Core](https://www.thecodebuzz.com/best-practices-for-handling-exception-in-net-core-2-1/)
+- `TODO`: グローバルなロギング
 - メモ: BlazorGRPC書く
 ### MvcWithApi
 - `DB`: `SQLite`
