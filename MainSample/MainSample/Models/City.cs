@@ -6,6 +6,6 @@ public class City
     public string Name { get; set; } = string.Empty;
     public string Photo { get; set; } = string.Empty;
     public int CountryId { get; set; }
-    public Country Country { get; set; } = new();
-    public List<Property> Properties { get; set; } = new();
+    public Country Country { get; set; }
+    public ICollection<Property> Properties { get; set; }
 }
