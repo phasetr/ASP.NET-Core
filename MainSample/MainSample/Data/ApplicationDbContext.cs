@@ -23,7 +23,7 @@ public class ApplicationDbContext : IdentityDbContext
         builder
             .ApplyConfiguration(new CountryConfiguration())
             .ApplyConfiguration(new CityConfiguration())
-            //.ApplyConfiguration(new PropertyConfiguration())
+            .ApplyConfiguration(new PropertyConfiguration())
             .ApplyConfiguration(new PieCategoryConfiguration())
             .ApplyConfiguration(new PieConfiguration())
             .ApplyConfiguration(new UserConfiguration());
