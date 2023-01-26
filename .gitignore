@@ -3,6 +3,7 @@
 *.eml
 .idea
 Logs
+Migrations/*
 TempMail
 bin
 obj

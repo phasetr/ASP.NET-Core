@@ -8,6 +8,7 @@
 dotnet tool restore
 dotnet libman restore # 必要ないプロジェクトあり
 dotnet restore
+dotnet dotnet-ef migrations add Init # Migrationsをコミットしていない場合は初期化
 dotnet dotnet-ef database update # SQLiteの初期化
 ```
 
