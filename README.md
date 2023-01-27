@@ -97,12 +97,24 @@ dotnet dotnet-ef database update # SQLiteの初期化
 ### MainSample
 - いろいろな要素を入れたメインサンプル(にしたい)
 - シード: ユーザーまで含めて
+- グローバルなロギング
+    - `Filters/MyAsyncPageFilter.cs`で実装
+    - `Program.cs`で仕込む
+
+```csharp
+builder.Services.AddRazorPages().AddMvcOptions(options =>
+{
+    options.Filters.Add(new MyAsyncPageFilter(logger));
+});
+```
+
 - ``TODO`: グローバルなエラーハンドリング
+    - Razor Pages用のよい方法を探す
+    - MVCから探せばよいか?
     - [Global Error Handling in ASP.NET Core Web API](https://code-maze.com/global-error-handling-aspnetcore/)
     - [Centralize your .NET Core exception handling with filters](https://medium.com/vx-company/centralize-your-net-exception-handling-with-filters-a1e0fccf17b8)
     - [Best Practices for Exception Handling in .NET Core](https://www.thecodebuzz.com/best-practices-for-handling-exception-in-net-core-2-1/)
-- `TODO`: グローバルなロギング
-- メモ: BlazorGRPC書く
+- メモ: BlazorGrpc書く
 ### MvcWithApi
 - `DB`: `SQLite`
 - MVCの公式チュートリアルが大元
