@@ -6,16 +6,13 @@ namespace EFCoreQuestionSO20230315.Data.Configuration;
 
 public class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
 {
-    public DbSet<ApplicationUser> Users { get; set; }
-    public DbSet<ApplicationRole> ROles { get; set; }
     public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
     {
-        builder.HasKey(m => new {m.UserId, m.RoleId});
         builder.HasData(new ApplicationUserRole
-            {UserId = ApplicationUserConfiguration.Admin1Guid, RoleId = ApplicationRoleConfiguration.AdminGuid});
+            {UserId = ApplicationUserConfiguration.Admin1Guid.ToString(), RoleId = ApplicationRoleConfiguration.AdminGuid.ToString()});
         builder.HasData(new ApplicationUserRole
-            {UserId = ApplicationUserConfiguration.Staff1Guid, RoleId = ApplicationRoleConfiguration.StaffGuid});
+            {UserId = ApplicationUserConfiguration.Staff1Guid.ToString(), RoleId = ApplicationRoleConfiguration.StaffGuid.ToString()});
         builder.HasData(new ApplicationUserRole
-            {UserId = ApplicationUserConfiguration.Customer1Guid, RoleId = ApplicationRoleConfiguration.CustomerGuid});
+            {UserId = ApplicationUserConfiguration.Customer1Guid.ToString(), RoleId = ApplicationRoleConfiguration.CustomerGuid.ToString()});
     }
 }
