@@ -17,6 +17,9 @@ public class ApplicationDbContext : IdentityDbContext
         builder
             .ApplyConfiguration(new ApplicationUserConfiguration())
             .ApplyConfiguration(new ApplicationRoleConfiguration())
-            .ApplyConfiguration(new ApplicationUserRoleConfiguration());
+            .ApplyConfiguration(new ApplicationUserRoleConfiguration())
+            .ApplyConfiguration(new BookConfiguration())
+            .ApplyConfiguration(new CategoryConfiguration())
+            .ApplyConfiguration(new BookCategoryConfiguration());
     }
 }
