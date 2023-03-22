@@ -1,4 +1,5 @@
-﻿using EFCoreQuestionSO20230315.Data.Configuration;
+using EFCoreQuestionSO20230315.Data.Configuration;
+using EFCoreQuestionSO20230315.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,13 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+
+    public DbSet<ApplicationUser>? ApplicationUser { get; set; }
+    public DbSet<ApplicationRole>? ApplicationRole { get; set; }
+    public DbSet<ApplicationUserRole>? ApplicationUserRole { get; set; }
+    public DbSet<Book>? Book { get; set; }
+    public DbSet<Category>? Category { get; set; }
+    public DbSet<BookCategory>? BookCategory { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
