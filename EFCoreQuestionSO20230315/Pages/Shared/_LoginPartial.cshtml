@@ -1,5 +1,5 @@
-﻿@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using EFCoreQuestionSO20230315.Models
+@inject SignInManager<ApplicationUser> SignInManager
 
 <ul class="navbar-nav">
   @if (SignInManager.IsSignedIn(User))
