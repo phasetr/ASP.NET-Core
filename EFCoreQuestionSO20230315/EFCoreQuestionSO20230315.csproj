@@ -30,6 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Areas\Identity\Pages" />
       <Folder Include="Pages\Admin\Book" />
       <Folder Include="Pages\Admin\User" />
     </ItemGroup>
