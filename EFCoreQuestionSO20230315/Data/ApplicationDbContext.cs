@@ -28,6 +28,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .ApplyConfiguration(new ApplicationUserRoleConfiguration())
             .ApplyConfiguration(new BookConfiguration())
             .ApplyConfiguration(new CategoryConfiguration())
-            .ApplyConfiguration(new BookCategoryConfiguration());
+            .ApplyConfiguration(new BookCategoryConfiguration())
+            .ApplyConfiguration(new ShopConfiguration())
+            .ApplyConfiguration(new OrderNumberConfiguration());
     }
 }
