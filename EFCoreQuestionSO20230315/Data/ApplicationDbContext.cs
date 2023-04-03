@@ -18,6 +18,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Book> Book => Set<Book>();
     public DbSet<Category> Category => Set<Category>();
     public DbSet<BookCategory> BookCategory => Set<BookCategory>();
+    public DbSet<Shop> Shop => Set<Shop>();
+    public DbSet<OrderNumber> OrderNumber => Set<OrderNumber>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
