@@ -20,6 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BookCategory> BookCategory => Set<BookCategory>();
     public DbSet<Shop> Shop => Set<Shop>();
     public DbSet<OrderNumber> OrderNumber => Set<OrderNumber>();
+    public DbSet<PaymentMethod> PaymentMethod => Set<PaymentMethod>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -32,6 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .ApplyConfiguration(new CategoryConfiguration())
             .ApplyConfiguration(new BookCategoryConfiguration())
             .ApplyConfiguration(new ShopConfiguration())
-            .ApplyConfiguration(new OrderNumberConfiguration());
+            .ApplyConfiguration(new OrderNumberConfiguration())
+            .ApplyConfiguration(new PaymentMethodConfiguration());
     }
 }

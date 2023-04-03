@@ -1,0 +1,100 @@
+@page
+@model EFCoreQuestionSO20230315.Pages.Admin.Shop.EditModel
+
+@{
+  ViewData["Title"] = "Edit";
+  Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Shop</h4>
+<hr/>
+<div class="row">
+  <div class="col-md-4">
+    <form method="post">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <input type="hidden" asp-for="Id"/>
+      <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <div>
+          <label asp-for="PaymentMethods" class="control-label"></label>
+        </div>
+        <div id="paymentMethods">
+          @if (Model.PaymentMethods.Count != 0)
+          {
+            @for (var i = 0; i < Model.PaymentMethods.Count; i++)
+            {
+              <div id="paymentMethod_@(i)" class="input-group">
+                <input asp-for="PaymentMethods[i]" class="form-control" placeholder="a payment method"/>
+                <button id="trash_@i" type="button" class="btn" onclick="deleteBtn(@i)">
+                  Delete
+                </button>
+              </div>
+            }
+          }
+          <span asp-validation-for="PaymentMethods" class="text-danger"></span>
+        </div>
+        <button type="button" onclick="addForm()">
+          Add
+        </button>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary"/>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div>
+  <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+  @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+<script>
+let i = @(Model.PaymentMethods.Count);
+function inputDataId(i) {
+  return `PaymentMethods_${i}__Name`;
+}
+function trashId(i) {
+  return `trash_${i}`;
+}
+function paymentMethodTag(i) {
+  return `<input class="form-control valid" 
+placeholder="a payment method" 
+type="text" 
+data-val="true" 
+data-val-maxlength="The field Name must be a string or array type with a maximum length of '255'." 
+data-val-maxlength-max="255" 
+data-val-required="The Name field is required." 
+id="${inputDataId(i)}" 
+maxlength="255" 
+name="PaymentMethods[${i}].Name" 
+autocomplete="off" 
+aria-describedby="PaymentMethods_${i}__Name-error" 
+aria-invalid="false">
+<button id="trash_${i}" 
+type="button" class="btn" onclick="deleteBtn(${i})">
+<i class="fa-solid fa-trash"></i>
+</button>`;
+}
+function addForm() {
+  let parent = document.getElementById('paymentMethods');
+  let paymentMethodGroup = document.createElement('div');
+  paymentMethodGroup.className = 'input-group';
+  paymentMethodGroup.innerHTML = paymentMethodTag(i);
+  parent.appendChild(paymentMethodGroup);
+  i++;
+}
+
+function deleteBtn(id) {
+  document.getElementById(`paymentMethod_${id}`).remove(); 
+}
+</script>

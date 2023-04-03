@@ -32,6 +32,7 @@
     <ItemGroup>
       <Folder Include="Areas\Identity\Pages" />
       <Folder Include="Pages\Admin\Book" />
+      <Folder Include="Pages\Admin\Shop" />
       <Folder Include="Pages\Admin\User" />
     </ItemGroup>
 
