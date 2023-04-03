@@ -61,7 +61,7 @@
 <script>
 let i = @(Model.PaymentMethods.Count);
 function inputDataId(i) {
-  return `PaymentMethods_${i}__Name`;
+  return `PaymentMethods_${i}`;
 }
 function trashId(i) {
   return `trash_${i}`;
@@ -74,9 +74,9 @@ data-val="true"
 data-val-maxlength="The field Name must be a string or array type with a maximum length of '255'." 
 data-val-maxlength-max="255" 
 data-val-required="The Name field is required." 
-id="${inputDataId(i)}" 
+id="${inputDataId(i)}__" 
 maxlength="255" 
-name="PaymentMethods[${i}].Name" 
+name="PaymentMethods[${i}]" 
 autocomplete="off" 
 aria-describedby="PaymentMethods_${i}__Name-error" 
 aria-invalid="false">
@@ -88,6 +88,7 @@ type="button" class="btn" onclick="deleteBtn(${i})">
 function addForm() {
   let parent = document.getElementById('paymentMethods');
   let paymentMethodGroup = document.createElement('div');
+  paymentMethodGroup.id = `paymentMethod_${i}`;
   paymentMethodGroup.className = 'input-group';
   paymentMethodGroup.innerHTML = paymentMethodTag(i);
   parent.appendChild(paymentMethodGroup);
