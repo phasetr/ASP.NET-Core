@@ -12,12 +12,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<ApplicationUser>? ApplicationUser { get; set; }
-    public DbSet<ApplicationRole>? ApplicationRole { get; set; }
-    public DbSet<ApplicationUserRole>? ApplicationUserRole { get; set; }
-    public DbSet<Book>? Book { get; set; }
-    public DbSet<Category>? Category { get; set; }
-    public DbSet<BookCategory>? BookCategory { get; set; }
+    public DbSet<ApplicationUser> ApplicationUser => Set<ApplicationUser>();
+    public DbSet<ApplicationRole> ApplicationRole => Set<ApplicationRole>();
+    public DbSet<ApplicationUserRole> ApplicationUserRole => Set<ApplicationUserRole>();
+    public DbSet<Book> Book => Set<Book>();
+    public DbSet<Category> Category => Set<Category>();
+    public DbSet<BookCategory> BookCategory => Set<BookCategory>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
