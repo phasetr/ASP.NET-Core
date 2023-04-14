@@ -32,7 +32,7 @@
               <div id="paymentMethod_@(i)" class="input-group">
                 <input asp-for="PaymentMethods[i]" class="form-control" placeholder="a payment method"/>
                 <button id="trash_@i" type="button" class="btn" onclick="deleteBtn(@i)">
-                  Delete
+                  <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
             }
@@ -66,6 +66,17 @@ function inputDataId(i) {
 function trashId(i) {
   return `trash_${i}`;
 }
+
+function addForm() {
+  let parent = document.getElementById('paymentMethods');
+  let paymentMethodGroup = document.createElement('div');
+  paymentMethodGroup.id = `paymentMethod_${i}`;
+  paymentMethodGroup.className = 'input-group';
+  paymentMethodGroup.innerHTML = paymentMethodTag(i);
+  parent.appendChild(paymentMethodGroup);
+  i++;
+}
+
 function paymentMethodTag(i) {
   return `<input class="form-control valid" 
 placeholder="a payment method" 
@@ -81,21 +92,11 @@ autocomplete="off"
 aria-describedby="PaymentMethods_${i}__Name-error" 
 aria-invalid="false">
 <button id="trash_${i}" 
-type="button" class="btn" onclick="deleteBtn(${i})">
+type="button" class="btn" onclick="deletePaymentMethod(${i})">
 <i class="fa-solid fa-trash"></i>
 </button>`;
 }
-function addForm() {
-  let parent = document.getElementById('paymentMethods');
-  let paymentMethodGroup = document.createElement('div');
-  paymentMethodGroup.id = `paymentMethod_${i}`;
-  paymentMethodGroup.className = 'input-group';
-  paymentMethodGroup.innerHTML = paymentMethodTag(i);
-  parent.appendChild(paymentMethodGroup);
-  i++;
-}
-
-function deleteBtn(id) {
+function deletePaymentMethod(id) {
   document.getElementById(`paymentMethod_${id}`).remove(); 
 }
 </script>

@@ -1,11 +1,23 @@
 {
   "version": 1,
   "isRoot": true,
+  "libraries": [
+    {
+      "library": "font-awesome@6.4.0",
+      "destination": "wwwroot/lib/font-awesome/"
+    }
+  ],
   "tools": {
     "dotnet-ef": {
       "version": "6.0.15",
       "commands": [
         "dotnet-ef"
+      ]
+    },
+    "microsoft.web.librarymanager.cli": {
+      "version": "2.1.175",
+      "commands": [
+        "libman"
       ]
     }
   }
