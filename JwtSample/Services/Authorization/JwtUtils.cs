@@ -47,8 +47,7 @@ public class JwtUtils : IJwtUtils
 
     public string ValidateJwtToken(string token)
     {
-        if (token == null)
-            return null;
+        if (token == null) return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -65,7 +64,7 @@ public class JwtUtils : IJwtUtils
             }, out var validatedToken);
 
             var jwtToken = (JwtSecurityToken) validatedToken;
-            var userId = jwtToken.Claims.First(x => x.Type == "id").ToString();
+            var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
             // return applicationUser id from JWT token if validation successful
             return userId;
@@ -97,7 +96,8 @@ public class JwtUtils : IJwtUtils
                 // token is a cryptographically strong random sequence of values
                 var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 // ensure token is unique by checking against db
-                var tokenIsUnique = !_context.ApplicationUsers.Any(u => u.RefreshTokens.Any(t => t.Token == token));
+                var tokenIsUnique = !_context.ApplicationUsers
+                    .Any(u => u.RefreshTokens.Any(t => t.Token == token));
 
                 if (tokenIsUnique) return token;
             }

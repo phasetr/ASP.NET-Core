@@ -1,4 +1,4 @@
-## Authentication API
+### Authentication API
 POST http://localhost:4000/users/authenticate HTTP/1.1
 content-type: application/json
 
@@ -6,3 +6,11 @@ content-type: application/json
   "username": "test",
   "password": "testTest"
 }
+
+### Get All Users, `Bearar Token`には`Authenticate`で取得した`Token`を入れる
+GET http://localhost:4000/users HTTP/1.1
+Authorization: Bearer Token
+
+### Get User By Id, `Bearar Token`には`Authenticate`で取得した`Token`を入れる
+GET http://localhost:4000/users/9145cd60-8280-428e-a399-abfbfe7db5a9 HTTP/1.1
+Authorization: Bearer Token

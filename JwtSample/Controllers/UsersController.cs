@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [AllowAnonymous]
+    [MyAllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
@@ -26,7 +26,7 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
-    [AllowAnonymous]
+    [MyAllowAnonymous]
     [HttpPost("refresh-token")]
     public IActionResult RefreshToken()
     {
