@@ -57,14 +57,14 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(string id)
     {
         var user = _userService.GetById(id);
         return Ok(user);
     }
 
     [HttpGet("{id}/refresh-tokens")]
-    public IActionResult GetRefreshTokens(int id)
+    public IActionResult GetRefreshTokens(string id)
     {
         var user = _userService.GetById(id);
         return Ok(user.RefreshTokens);

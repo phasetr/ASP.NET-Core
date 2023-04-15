@@ -12,8 +12,8 @@ public interface IUserService
     AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
     AuthenticateResponse RefreshToken(string token, string ipAddress);
     void RevokeToken(string token, string ipAddress);
-    IEnumerable<ApiUser> GetAll();
-    ApiUser GetById(int id);
+    IEnumerable<ApplicationUser> GetAll();
+    ApplicationUser GetById(string id);
 }
 
 public class UserService : IUserService
@@ -34,7 +34,7 @@ public class UserService : IUserService
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
     {
-        var user = _context.ApiUsers.SingleOrDefault(x => x.UserName == model.UserName);
+        var user = _context.ApplicationUsers.SingleOrDefault(x => x.UserName == model.UserName);
 
         // validate
         if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
@@ -45,7 +45,7 @@ public class UserService : IUserService
         var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
         user.RefreshTokens.Add(refreshToken);
 
-        // remove old refresh tokens from apiUser
+        // remove old refresh tokens from applicationUser
         RemoveOldRefreshTokens(user);
 
         // save changes to db
@@ -76,7 +76,7 @@ public class UserService : IUserService
         var newRefreshToken = RotateRefreshToken(refreshToken, ipAddress);
         user.RefreshTokens.Add(newRefreshToken);
 
-        // remove old refresh tokens from apiUser
+        // remove old refresh tokens from applicationUser
         RemoveOldRefreshTokens(user);
 
         // save changes to db
@@ -103,23 +103,23 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public IEnumerable<ApiUser> GetAll()
+    public IEnumerable<ApplicationUser> GetAll()
     {
-        return _context.ApiUsers;
+        return _context.ApplicationUsers;
     }
 
-    public ApiUser GetById(int id)
+    public ApplicationUser GetById(string id)
     {
-        var user = _context.ApiUsers.Find(id);
+        var user = _context.ApplicationUsers.Find(id);
         if (user == null) throw new KeyNotFoundException("ApiUser not found");
         return user;
     }
 
     // helper methods
 
-    private ApiUser GetUserByRefreshToken(string token)
+    private ApplicationUser GetUserByRefreshToken(string token)
     {
-        var user = _context.ApiUsers.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+        var user = _context.ApplicationUsers.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
 
         if (user == null)
             throw new AppException("Invalid token");
@@ -134,15 +134,15 @@ public class UserService : IUserService
         return newRefreshToken;
     }
 
-    private void RemoveOldRefreshTokens(ApiUser apiUser)
+    private void RemoveOldRefreshTokens(ApplicationUser applicationUser)
     {
-        // remove old inactive refresh tokens from apiUser based on TTL in app settings
-        apiUser.RefreshTokens.RemoveAll(x =>
+        // remove old inactive refresh tokens from applicationUser based on TTL in app settings
+        applicationUser.RefreshTokens.RemoveAll(x =>
             !x.IsActive &&
             x.Created.AddDays(_appSettings.RefreshTokenTtl) <= DateTime.UtcNow);
     }
 
-    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApiUser apiUser, string ipAddress, string reason)
+    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser apiUser, string ipAddress, string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
         if (string.IsNullOrEmpty(refreshToken.ReplacedByToken)) return;

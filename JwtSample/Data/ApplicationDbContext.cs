@@ -12,7 +12,6 @@ public class ApplicationDbContext : DbContext
         _configuration = configuration;
     }
 
-    public DbSet<ApiUser> ApiUsers { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
