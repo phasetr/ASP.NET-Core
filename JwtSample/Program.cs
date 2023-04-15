@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Authorization;
 using WebApi.Data;
@@ -11,8 +12,22 @@ var builder = WebApplication.CreateBuilder(args);
 // add services to DI container
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+// builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 1;
+});
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
 builder.Services.AddCors();
 builder.Services.AddControllers()
     .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
@@ -24,23 +39,6 @@ builder.Services.AddScoped<IJwtUtils, JwtUtils>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
-
-// add hardcoded test user to db on startup
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var appUser = new ApplicationUser
-    {
-        FirstName = "Test",
-        LastName = "User",
-        UserName = "test",
-        PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
-    };
-    context.ApplicationUsers.Add(appUser);
-
-    context.SaveChanges();
-}
-
 // configure HTTP request pipeline
 {
     // global cors policy

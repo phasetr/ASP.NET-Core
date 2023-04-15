@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using WebApi.Authorization;
 using WebApi.Data;
@@ -21,13 +22,16 @@ public class UserService : IUserService
     private readonly AppSettings _appSettings;
     private readonly ApplicationDbContext _context;
     private readonly IJwtUtils _jwtUtils;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public UserService(
         ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
         IJwtUtils jwtUtils,
         IOptions<AppSettings> appSettings)
     {
         _context = context;
+        _userManager = userManager;
         _jwtUtils = jwtUtils;
         _appSettings = appSettings.Value;
     }
@@ -35,10 +39,11 @@ public class UserService : IUserService
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
     {
         var user = _context.ApplicationUsers.SingleOrDefault(x => x.UserName == model.UserName);
-
         // validate
-        if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
-            throw new AppException("UserName or password is incorrect");
+        if (user is null) throw new AppException("UserName or password is incorrect");
+        var passwordValidator = new PasswordValidator<ApplicationUser>();
+        var result = passwordValidator.ValidateAsync(_userManager, user, model.Password).Result;
+        if (!result.Succeeded) throw new AppException("UserName or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
@@ -142,7 +147,8 @@ public class UserService : IUserService
             x.Created.AddDays(_appSettings.RefreshTokenTtl) <= DateTime.UtcNow);
     }
 
-    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser apiUser, string ipAddress, string reason)
+    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser apiUser, string ipAddress,
+        string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
         if (string.IsNullOrEmpty(refreshToken.ReplacedByToken)) return;
