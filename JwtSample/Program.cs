@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // add services to DI container
 {
     var services = builder.Services;
-    var env = builder.Environment;
 
     services.AddDbContext<DataContext>();
     services.AddCors();
@@ -45,7 +44,7 @@ using (var scope = app.Services.CreateScope())
 {
     // global cors policy
     app.UseCors(x => x
-        .SetIsOriginAllowed(origin => true)
+        .SetIsOriginAllowed(_ => true)
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials());
