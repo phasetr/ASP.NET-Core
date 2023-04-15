@@ -13,7 +13,7 @@ namespace WebApi.Authorization;
 public interface IJwtUtils
 {
     public string GenerateJwtToken(ApplicationUser applicationUser);
-    public string? ValidateJwtToken(string token);
+    public string ValidateJwtToken(string token);
     public RefreshToken GenerateRefreshToken(string ipAddress);
 }
 
@@ -46,7 +46,7 @@ public class JwtUtils : IJwtUtils
         return tokenHandler.WriteToken(token);
     }
 
-    public string? ValidateJwtToken(string token)
+    public string ValidateJwtToken(string token)
     {
         if (token == null)
             return null;
