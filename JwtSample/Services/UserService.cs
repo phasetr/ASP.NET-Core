@@ -34,11 +34,11 @@ public class UserService : IUserService
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
     {
-        var user = _context.ApiUsers.SingleOrDefault(x => x.Username == model.Username);
+        var user = _context.ApiUsers.SingleOrDefault(x => x.UserName == model.UserName);
 
         // validate
         if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
-            throw new AppException("Username or password is incorrect");
+            throw new AppException("UserName or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(user);

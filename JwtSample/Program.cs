@@ -32,7 +32,7 @@ using (var scope = app.Services.CreateScope())
     {
         FirstName = "Test",
         LastName = "User",
-        Username = "test",
+        UserName = "test",
         PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
     };
     context.ApiUsers.Add(testUser);
