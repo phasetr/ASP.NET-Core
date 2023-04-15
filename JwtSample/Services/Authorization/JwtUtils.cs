@@ -5,10 +5,9 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Data;
-using WebApi.Helpers;
 using WebApi.Models;
 
-namespace WebApi.Authorization;
+namespace WebApi.Services.Authorization;
 
 public interface IJwtUtils
 {

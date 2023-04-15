@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace WebApi.Helpers;
+namespace WebApi.Services;
 
 public class ErrorHandlerMiddleware
 {

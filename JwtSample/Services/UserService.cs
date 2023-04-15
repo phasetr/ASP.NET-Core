@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using WebApi.Authorization;
 using WebApi.Data;
-using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Models.Users;
+using WebApi.Services.Authorization;
 
 namespace WebApi.Services;
 

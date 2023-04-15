@@ -1,7 +1,6 @@
 using WebApi.Models;
-using WebApi.Services;
 
-namespace WebApi.Authorization;
+namespace WebApi.Services.Authorization;
 
 public class JwtMiddleware
 {

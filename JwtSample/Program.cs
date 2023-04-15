@@ -1,11 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Authorization;
 using WebApi.Data;
-using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Services;
+using WebApi.Services.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
