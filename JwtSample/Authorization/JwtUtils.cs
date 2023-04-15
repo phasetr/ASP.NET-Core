@@ -60,7 +60,7 @@ public class JwtUtils : IJwtUtils
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                // set ClockSkew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                 ClockSkew = TimeSpan.Zero
             }, out var validatedToken);
 
@@ -81,7 +81,7 @@ public class JwtUtils : IJwtUtils
     {
         var refreshToken = new RefreshToken
         {
-            Token = getUniqueToken(),
+            Token = GetUniqueToken(),
             // token is valid for 7 days
             Expires = DateTime.UtcNow.AddDays(7),
             Created = DateTime.UtcNow,
@@ -90,17 +90,17 @@ public class JwtUtils : IJwtUtils
 
         return refreshToken;
 
-        string getUniqueToken()
+        string GetUniqueToken()
         {
-            // token is a cryptographically strong random sequence of values
-            var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-            // ensure token is unique by checking against db
-            var tokenIsUnique = !_context.Users.Any(u => u.RefreshTokens.Any(t => t.Token == token));
+            while (true)
+            {
+                // token is a cryptographically strong random sequence of values
+                var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+                // ensure token is unique by checking against db
+                var tokenIsUnique = !_context.Users.Any(u => u.RefreshTokens.Any(t => t.Token == token));
 
-            if (!tokenIsUnique)
-                return getUniqueToken();
-
-            return token;
+                if (tokenIsUnique) return token;
+            }
         }
     }
 }
