@@ -86,8 +86,10 @@ public class UsersController : ControllerBase
     private string IpAddress()
     {
         // get source ip address for the current request
-        if (Request.Headers.ContainsKey("X-Forwarded-For"))
-            return Request.Headers["X-Forwarded-For"];
-        return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        if (Request.Headers.TryGetValue("X-Forwarded-For", out var address))
+            return address;
+        return HttpContext.Connection.RemoteIpAddress != null 
+            ? HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString() 
+            : "null";
     }
 }
