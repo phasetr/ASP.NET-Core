@@ -1,7 +1,6 @@
 namespace WebApi.Models.Users;
 
 using System.Text.Json.Serialization;
-using WebApi.Entities;
 
 public class AuthenticateResponse
 {

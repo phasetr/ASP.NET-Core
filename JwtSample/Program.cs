@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using WebApi.Authorization;
-using WebApi.Entities;
 using WebApi.Helpers;
+using WebApi.Models;
 using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);

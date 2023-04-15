@@ -1,3 +1,5 @@
+using WebApi.Models;
+
 namespace WebApi.Authorization;
 
 using Microsoft.Extensions.Options;
@@ -6,7 +8,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using WebApi.Entities;
 using WebApi.Helpers;
 
 public interface IJwtUtils

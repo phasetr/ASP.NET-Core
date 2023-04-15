@@ -1,8 +1,9 @@
+using WebApi.Models;
+
 namespace WebApi.Services;
 
 using BCrypt.Net;
 using Microsoft.Extensions.Options;
-using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Users;
 using WebApi.Authorization;

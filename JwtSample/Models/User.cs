@@ -1,6 +1,6 @@
-namespace WebApi.Entities;
-
 using System.Text.Json.Serialization;
+
+namespace WebApi.Models;
 
 public class User
 {

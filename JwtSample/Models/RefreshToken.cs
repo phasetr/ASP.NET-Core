@@ -1,8 +1,8 @@
-namespace WebApi.Entities;
-
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+
+namespace WebApi.Models;
 
 [Owned]
 public class RefreshToken
