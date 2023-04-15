@@ -4,11 +4,11 @@ namespace WebApi.Models.Users;
 
 public class AuthenticateResponse
 {
-    public AuthenticateResponse(User user, string jwtToken, string refreshToken)
+    public AuthenticateResponse(ApiUser apiUser, string jwtToken, string refreshToken)
     {
-        FirstName = user.FirstName;
-        LastName = user.LastName;
-        Username = user.Username;
+        FirstName = apiUser.FirstName;
+        LastName = apiUser.LastName;
+        Username = apiUser.Username;
         JwtToken = jwtToken;
         RefreshToken = refreshToken;
     }

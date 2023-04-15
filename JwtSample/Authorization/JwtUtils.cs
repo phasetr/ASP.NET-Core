@@ -12,7 +12,7 @@ namespace WebApi.Authorization;
 
 public interface IJwtUtils
 {
-    public string GenerateJwtToken(User user);
+    public string GenerateJwtToken(ApiUser apiUser);
     public int? ValidateJwtToken(string token);
     public RefreshToken GenerateRefreshToken(string ipAddress);
 }
@@ -30,14 +30,14 @@ public class JwtUtils : IJwtUtils
         _appSettings = appSettings.Value;
     }
 
-    public string GenerateJwtToken(User user)
+    public string GenerateJwtToken(ApiUser apiUser)
     {
         // generate token that is valid for 15 minutes
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] {new Claim("id", user.Id.ToString())}),
+            Subject = new ClaimsIdentity(new[] {new Claim("id", apiUser.Id.ToString())}),
             Expires = DateTime.UtcNow.AddMinutes(15),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -68,7 +68,7 @@ public class JwtUtils : IJwtUtils
             var jwtToken = (JwtSecurityToken) validatedToken;
             var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-            // return user id from JWT token if validation successful
+            // return apiUser id from JWT token if validation successful
             return userId;
         }
         catch
@@ -98,7 +98,7 @@ public class JwtUtils : IJwtUtils
                 // token is a cryptographically strong random sequence of values
                 var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 // ensure token is unique by checking against db
-                var tokenIsUnique = !_context.Users.Any(u => u.RefreshTokens.Any(t => t.Token == token));
+                var tokenIsUnique = !_context.ApiUsers.Any(u => u.RefreshTokens.Any(t => t.Token == token));
 
                 if (tokenIsUnique) return token;
             }

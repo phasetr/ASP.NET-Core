@@ -12,8 +12,8 @@ public interface IUserService
     AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
     AuthenticateResponse RefreshToken(string token, string ipAddress);
     void RevokeToken(string token, string ipAddress);
-    IEnumerable<User> GetAll();
-    User GetById(int id);
+    IEnumerable<ApiUser> GetAll();
+    ApiUser GetById(int id);
 }
 
 public class UserService : IUserService
@@ -34,7 +34,7 @@ public class UserService : IUserService
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
     {
-        var user = _context.Users.SingleOrDefault(x => x.Username == model.Username);
+        var user = _context.ApiUsers.SingleOrDefault(x => x.Username == model.Username);
 
         // validate
         if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
@@ -45,7 +45,7 @@ public class UserService : IUserService
         var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
         user.RefreshTokens.Add(refreshToken);
 
-        // remove old refresh tokens from user
+        // remove old refresh tokens from apiUser
         RemoveOldRefreshTokens(user);
 
         // save changes to db
@@ -76,7 +76,7 @@ public class UserService : IUserService
         var newRefreshToken = RotateRefreshToken(refreshToken, ipAddress);
         user.RefreshTokens.Add(newRefreshToken);
 
-        // remove old refresh tokens from user
+        // remove old refresh tokens from apiUser
         RemoveOldRefreshTokens(user);
 
         // save changes to db
@@ -103,23 +103,23 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public IEnumerable<User> GetAll()
+    public IEnumerable<ApiUser> GetAll()
     {
-        return _context.Users;
+        return _context.ApiUsers;
     }
 
-    public User GetById(int id)
+    public ApiUser GetById(int id)
     {
-        var user = _context.Users.Find(id);
-        if (user == null) throw new KeyNotFoundException("User not found");
+        var user = _context.ApiUsers.Find(id);
+        if (user == null) throw new KeyNotFoundException("ApiUser not found");
         return user;
     }
 
     // helper methods
 
-    private User GetUserByRefreshToken(string token)
+    private ApiUser GetUserByRefreshToken(string token)
     {
-        var user = _context.Users.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+        var user = _context.ApiUsers.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
 
         if (user == null)
             throw new AppException("Invalid token");
@@ -134,23 +134,23 @@ public class UserService : IUserService
         return newRefreshToken;
     }
 
-    private void RemoveOldRefreshTokens(User user)
+    private void RemoveOldRefreshTokens(ApiUser apiUser)
     {
-        // remove old inactive refresh tokens from user based on TTL in app settings
-        user.RefreshTokens.RemoveAll(x =>
+        // remove old inactive refresh tokens from apiUser based on TTL in app settings
+        apiUser.RefreshTokens.RemoveAll(x =>
             !x.IsActive &&
             x.Created.AddDays(_appSettings.RefreshTokenTtl) <= DateTime.UtcNow);
     }
 
-    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, User user, string ipAddress, string reason)
+    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApiUser apiUser, string ipAddress, string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
         if (string.IsNullOrEmpty(refreshToken.ReplacedByToken)) return;
-        var childToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken.ReplacedByToken);
+        var childToken = apiUser.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken.ReplacedByToken);
         if (childToken is {IsActive: true})
             RevokeRefreshToken(childToken, ipAddress, reason);
         else
-            RevokeDescendantRefreshTokens(childToken, user, ipAddress, reason);
+            RevokeDescendantRefreshTokens(childToken, apiUser, ipAddress, reason);
     }
 
     private static void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null,

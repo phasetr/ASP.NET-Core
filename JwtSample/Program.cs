@@ -34,14 +34,14 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var testUser = new User
+    var testUser = new ApiUser
     {
         FirstName = "Test",
-        LastName = "User",
+        LastName = "ApiUser",
         Username = "test",
         PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
     };
-    context.Users.Add(testUser);
+    context.ApiUsers.Add(testUser);
     context.SaveChanges();
 }
 
