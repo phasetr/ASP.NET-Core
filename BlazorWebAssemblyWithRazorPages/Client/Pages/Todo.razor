@@ -1,0 +1,28 @@
+@page "/todo"
+@using BlazorWebAssemblyWithRazorPages.Shared.Models
+
+<PageTitle>Todo</PageTitle>
+
+<h1>Todo (@_todos.Count(todo => !todo.IsDone))</h1>
+<input placeholder="Something todo" @bind="_newTodo"/>
+<button @onclick="AddTodo">Add todo</button>
+<ul>
+    @foreach (var todo in _todos)
+    {
+        <li>
+            <input type="checkbox" @bind="todo.IsDone"/>
+            <input @bind="todo.Title"/>
+        </li>
+    }
+</ul>
+@code {
+    private string _newTodo = default!;
+    private readonly List<TodoItem> _todos = new();
+
+    private void AddTodo()
+    {
+        if (string.IsNullOrWhiteSpace(_newTodo)) return;
+        _todos.Add(new TodoItem {Title = _newTodo});
+        _newTodo = string.Empty;
+    }
+}

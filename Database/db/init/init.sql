@@ -17,65 +17,69 @@
 DROP TABLE if exists "CartLine" CASCADE;
 
 --* RestoreFromTempTable
-CREATE TABLE "CartLine" (
-                            "CartLineId" integer NOT NULL
-    , "ProductId" bigint NOT NULL
-    , "Quantity" integer NOT NULL
-    , "OrderId" integer
-    , CONSTRAINT "CartLine_PKC" PRIMARY KEY ("CartLineId")
-) ;
+CREATE TABLE "CartLine"
+(
+  "CartLineId" integer NOT NULL,
+  "ProductId"  bigint  NOT NULL,
+  "Quantity"   integer NOT NULL,
+  "OrderId"    integer,
+  CONSTRAINT "CartLine_PKC" PRIMARY KEY ("CartLineId")
+);
 
 CREATE INDEX "IX_CartLine_OrderId"
-    ON "CartLine"("OrderId");
+  ON "CartLine" ("OrderId");
 
 CREATE INDEX "IX_CartLine_ProductId"
-    ON "CartLine"("ProductId");
+  ON "CartLine" ("ProductId");
 
 -- OrderDetails
 --* BackupToTempTable
 DROP TABLE if exists "OrderDetails" CASCADE;
 
 --* RestoreFromTempTable
-CREATE TABLE "OrderDetails" (
-                                "Id" integer NOT NULL
-    , "OrderId" integer NOT NULL
-    , "ProductId" bigint NOT NULL
-    , CONSTRAINT "OrderDetails_PKC" PRIMARY KEY ("Id")
-) ;
+CREATE TABLE "OrderDetails"
+(
+  "Id"        integer NOT NULL,
+  "OrderId"   integer NOT NULL,
+  "ProductId" bigint  NOT NULL,
+  CONSTRAINT "OrderDetails_PKC" PRIMARY KEY ("Id")
+);
 
 -- Orders
 --* BackupToTempTable
 DROP TABLE if exists "Orders" CASCADE;
 
 --* RestoreFromTempTable
-CREATE TABLE "Orders" (
-                          "OrderId" integer NOT NULL
-    , "Name" text NOT NULL
-    , "Line1" text NOT NULL
-    , "Line2" text
-    , "Line3" text
-    , "City" text NOT NULL
-    , "State" text NOT NULL
-    , "Zip" text
-    , "Country" text NOT NULL
-    , "GiftWrap" boolean NOT NULL
-    , "Shipped" boolean NOT NULL
-    , CONSTRAINT "Orders_PKC" PRIMARY KEY ("OrderId")
-) ;
+CREATE TABLE "Orders"
+(
+  "OrderId"  integer NOT NULL,
+  "Name"     text    NOT NULL,
+  "Line1"    text    NOT NULL,
+  "Line2"    text,
+  "Line3"    text,
+  "City"     text    NOT NULL,
+  "State"    text    NOT NULL,
+  "Zip"      text,
+  "Country"  text    NOT NULL,
+  "GiftWrap" boolean NOT NULL,
+  "Shipped"  boolean NOT NULL,
+  CONSTRAINT "Orders_PKC" PRIMARY KEY ("OrderId")
+);
 
 -- Products
 --* BackupToTempTable
 DROP TABLE if exists "Products" CASCADE;
 
 --* RestoreFromTempTable
-CREATE TABLE "Products" (
-                            "ProductId" bigint NOT NULL
-    , "Name" text NOT NULL
-    , "Description" text NOT NULL
-    , "Price" numeric(8, 2) NOT NULL
-    , "Category" text NOT NULL
-    , CONSTRAINT "Products_PKC" PRIMARY KEY ("ProductId")
-) ;
+CREATE TABLE "Products"
+(
+  "ProductId"   bigint        NOT NULL,
+  "Name"        text          NOT NULL,
+  "Description" text          NOT NULL,
+  "Price"       numeric(8, 2) NOT NULL,
+  "Category"    text          NOT NULL,
+  CONSTRAINT "Products_PKC" PRIMARY KEY ("ProductId")
+);
 
 COMMENT ON TABLE "CartLine" IS 'CartLine';
 COMMENT ON COLUMN "CartLine"."CartLineId" IS 'CartLineId';

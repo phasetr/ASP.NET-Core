@@ -1,45 +1,45 @@
 ﻿#components-reconnect-modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    overflow: hidden;
-    opacity: 0.9;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+  opacity: 0.9;
 }
 
 .components-reconnect-hide {
-    display: none;
+  display: none;
 }
 
 .components-reconnect-show {
-    display: block;
+  display: block;
 }
 
 .components-reconnect-show > .reconnect {
-    display: block;
+  display: block;
 }
 
 .components-reconnect-show > .failed,
 .components-reconnect-show > .rejected {
-    display: none;
+  display: none;
 }
 
 .components-reconnect-failed > .failed {
-    display: block;
+  display: block;
 }
 
 .components-reconnect-failed > .reconnect,
 .components-reconnect-failed > .rejected {
-    display: none;
+  display: none;
 }
 
 .components-reconnect-rejected > .rejected {
-    display: block;
+  display: block;
 }
 
 .components-reconnect-rejected > .reconnect,
 .components-reconnect-rejected > .failed {
-    display: none;
+  display: none;
 }
