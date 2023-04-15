@@ -1,0 +1,8 @@
+## Authentication API
+POST http://localhost:6500/users/authenticate HTTP/1.1
+content-type: application/json
+
+{
+  "username": "test",
+  "password": "test"
+}
