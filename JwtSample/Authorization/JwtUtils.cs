@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using WebApi.Data;
 using WebApi.Helpers;
 using WebApi.Models;
 
@@ -19,10 +20,10 @@ public interface IJwtUtils
 public class JwtUtils : IJwtUtils
 {
     private readonly AppSettings _appSettings;
-    private readonly DataContext _context;
+    private readonly ApplicationDbContext _context;
 
     public JwtUtils(
-        DataContext context,
+        ApplicationDbContext context,
         IOptions<AppSettings> appSettings)
     {
         _context = context;

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using WebApi.Authorization;
+using WebApi.Data;
 using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Models.Users;
@@ -18,11 +19,11 @@ public interface IUserService
 public class UserService : IUserService
 {
     private readonly AppSettings _appSettings;
-    private readonly DataContext _context;
+    private readonly ApplicationDbContext _context;
     private readonly IJwtUtils _jwtUtils;
 
     public UserService(
-        DataContext context,
+        ApplicationDbContext context,
         IJwtUtils jwtUtils,
         IOptions<AppSettings> appSettings)
     {

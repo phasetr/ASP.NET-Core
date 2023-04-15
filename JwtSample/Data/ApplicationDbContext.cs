@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
-namespace WebApi.Helpers;
+namespace WebApi.Data;
 
-public class DataContext : DbContext
+public class ApplicationDbContext : DbContext
 {
     private readonly IConfiguration _configuration;
 
-    public DataContext(IConfiguration configuration)
+    public ApplicationDbContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }

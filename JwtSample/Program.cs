@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Authorization;
+using WebApi.Data;
 using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Services;
@@ -10,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
 
-    services.AddDbContext<DataContext>();
+    // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+    //     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+    services.AddDbContext<ApplicationDbContext>();
     services.AddCors();
     services.AddControllers()
         .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
@@ -28,7 +33,7 @@ var app = builder.Build();
 // add hardcoded test user to db on startup
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var testUser = new User
     {
         FirstName = "Test",
