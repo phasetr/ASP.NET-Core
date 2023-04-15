@@ -5,11 +5,11 @@ namespace WebApi.Helpers;
 
 public class DataContext : DbContext
 {
-    private readonly IConfiguration Configuration;
+    private readonly IConfiguration _configuration;
 
     public DataContext(IConfiguration configuration)
     {
-        Configuration = configuration;
+        _configuration = configuration;
     }
 
     public DbSet<User> Users { get; set; }
