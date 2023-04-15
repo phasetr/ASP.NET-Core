@@ -36,6 +36,15 @@ using (var scope = app.Services.CreateScope())
         PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
     };
     context.ApiUsers.Add(testUser);
+    var appUser = new ApplicationUser
+    {
+        FirstName = "Test",
+        LastName = "User",
+        UserName = "test",
+        PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
+    };
+    context.ApplicationUsers.Add(appUser);
+
     context.SaveChanges();
 }
 

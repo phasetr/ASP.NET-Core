@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<ApiUser> ApiUsers { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
