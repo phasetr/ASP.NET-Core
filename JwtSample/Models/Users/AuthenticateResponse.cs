@@ -6,7 +6,6 @@ public class AuthenticateResponse
 {
     public AuthenticateResponse(User user, string jwtToken, string refreshToken)
     {
-        Id = user.Id;
         FirstName = user.FirstName;
         LastName = user.LastName;
         Username = user.Username;
@@ -14,7 +13,6 @@ public class AuthenticateResponse
         RefreshToken = refreshToken;
     }
 
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Username { get; set; }
