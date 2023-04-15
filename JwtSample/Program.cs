@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using WebApi.Authorization;
 using WebApi.Data;
 using WebApi.Helpers;
@@ -9,24 +8,19 @@ using WebApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // add services to DI container
-{
-    var services = builder.Services;
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-    // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    //     throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddCors();
+builder.Services.AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
-    services.AddDbContext<ApplicationDbContext>();
-    services.AddCors();
-    services.AddControllers()
-        .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
-
-    // configure strongly typed settings object
-    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-
-    // configure DI for application services
-    services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IUserService, UserService>();
-}
+// configure strongly typed settings object
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+// configure DI for application services
+builder.Services.AddScoped<IJwtUtils, JwtUtils>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -37,7 +31,7 @@ using (var scope = app.Services.CreateScope())
     var testUser = new ApiUser
     {
         FirstName = "Test",
-        LastName = "ApiUser",
+        LastName = "User",
         Username = "test",
         PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
     };
