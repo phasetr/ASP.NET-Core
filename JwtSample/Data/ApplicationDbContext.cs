@@ -1,22 +1,23 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Data.Configurations;
 using WebApi.Models;
 
 namespace WebApi.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    private readonly IConfiguration _configuration;
-
-    public ApplicationDbContext(IConfiguration configuration)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
     {
-        _configuration = configuration;
     }
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        // in memory database used for simplicity, change to a real db for production applications
-        options.UseInMemoryDatabase("TestDb");
+        base.OnModelCreating(builder);
+        builder
+            .ApplyConfiguration(new ApplicationUserConfiguration());
     }
 }
