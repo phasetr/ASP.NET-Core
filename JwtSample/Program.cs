@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     var services = builder.Services;
     var env = builder.Environment;
- 
+
     services.AddDbContext<DataContext>();
     services.AddCors();
     services.AddControllers()
@@ -29,7 +29,7 @@ var app = builder.Build();
 // add hardcoded test user to db on startup
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<DataContext>();    
+    var context = scope.ServiceProvider.GetRequiredService<DataContext>();
     var testUser = new User
     {
         FirstName = "Test",
