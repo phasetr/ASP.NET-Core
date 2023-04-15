@@ -1,3 +1,4 @@
+using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Authorization;
@@ -17,7 +18,7 @@ public class JwtMiddleware
         var userId = jwtUtils.ValidateJwtToken(token);
         if (userId != null)
             // attach user to context on successful jwt validation
-            context.Items["ApiUser"] = userService.GetById(userId);
+            context.Items[nameof(ApplicationUser)] = userService.GetById(userId);
 
         await _next(context);
     }

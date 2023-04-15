@@ -116,7 +116,7 @@ public class UserService : IUserService
     public ApplicationUser GetById(string id)
     {
         var user = _context.ApplicationUsers.Find(id);
-        if (user == null) throw new KeyNotFoundException("ApiUser not found");
+        if (user == null) throw new KeyNotFoundException($"{nameof(ApplicationUser)} not found");
         return user;
     }
 
@@ -147,16 +147,16 @@ public class UserService : IUserService
             x.Created.AddDays(_appSettings.RefreshTokenTtl) <= DateTime.UtcNow);
     }
 
-    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser apiUser, string ipAddress,
+    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser applicationUser, string ipAddress,
         string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
         if (string.IsNullOrEmpty(refreshToken.ReplacedByToken)) return;
-        var childToken = apiUser.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken.ReplacedByToken);
+        var childToken = applicationUser.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken.ReplacedByToken);
         if (childToken is {IsActive: true})
             RevokeRefreshToken(childToken, ipAddress, reason);
         else
-            RevokeDescendantRefreshTokens(childToken, apiUser, ipAddress, reason);
+            RevokeDescendantRefreshTokens(childToken, applicationUser, ipAddress, reason);
     }
 
     private static void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null,
