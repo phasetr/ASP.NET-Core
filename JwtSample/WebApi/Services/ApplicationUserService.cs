@@ -7,7 +7,7 @@ using WebApi.Services.Authorization;
 
 namespace WebApi.Services;
 
-public interface IUserService
+public interface IApplicationUserService
 {
     Response Authenticate(Request model, string ipAddress);
     Response RefreshToken(string token, string ipAddress);
@@ -16,14 +16,14 @@ public interface IUserService
     ApplicationUser GetById(string id);
 }
 
-public class UserService : IUserService
+public class ApplicationUserService : IApplicationUserService
 {
     private readonly AppSettings _appSettings;
     private readonly ApplicationDbContext _context;
     private readonly IJwtUtils _jwtUtils;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public UserService(
+    public ApplicationUserService(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
         IJwtUtils jwtUtils,

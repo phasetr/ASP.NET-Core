@@ -11,12 +11,12 @@ public class JwtMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, IUserService userService, IJwtUtils jwtUtils)
+    public async Task Invoke(HttpContext context, IApplicationUserService applicationUserService, IJwtUtils jwtUtils)
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         var userId = jwtUtils.ValidateJwtToken(token);
         // attach user to context on successful jwt validation
-        if (userId != null) context.Items[nameof(ApplicationUser)] = userService.GetById(userId);
+        if (userId != null) context.Items[nameof(ApplicationUser)] = applicationUserService.GetById(userId);
         await _next(context);
     }
 }

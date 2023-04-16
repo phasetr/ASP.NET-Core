@@ -10,18 +10,18 @@ namespace WebApi.Controllers;
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IApplicationUserService _applicationUserService;
 
-    public UsersController(IUserService userService)
+    public UsersController(IApplicationUserService applicationUserService)
     {
-        _userService = userService;
+        _applicationUserService = applicationUserService;
     }
 
     [MyAllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate(Request model)
     {
-        var response = _userService.Authenticate(model, IpAddress());
+        var response = _applicationUserService.Authenticate(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
@@ -31,7 +31,7 @@ public class UsersController : ControllerBase
     public IActionResult RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        var response = _userService.RefreshToken(refreshToken, IpAddress());
+        var response = _applicationUserService.RefreshToken(refreshToken, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
@@ -45,28 +45,28 @@ public class UsersController : ControllerBase
         if (string.IsNullOrEmpty(token))
             return BadRequest(new {message = "Token is required"});
 
-        _userService.RevokeToken(token, IpAddress());
+        _applicationUserService.RevokeToken(token, IpAddress());
         return Ok(new {message = "Token revoked"});
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _userService.GetAll();
+        var users = _applicationUserService.GetAll();
         return Ok(users);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
     {
-        var user = _userService.GetById(id);
+        var user = _applicationUserService.GetById(id);
         return Ok(user);
     }
 
     [HttpGet("{id}/refresh-tokens")]
     public IActionResult GetRefreshTokens(string id)
     {
-        var user = _userService.GetById(id);
+        var user = _applicationUserService.GetById(id);
         return Ok(user.RefreshTokens);
     }
 

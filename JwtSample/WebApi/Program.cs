@@ -35,7 +35,7 @@ builder.Services.AddControllers()
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 // configure DI for application services
 builder.Services.AddScoped<IJwtUtils, JwtUtils>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
 var app = builder.Build();
 // configure HTTP request pipeline
