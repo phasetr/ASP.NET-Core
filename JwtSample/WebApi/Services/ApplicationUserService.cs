@@ -79,7 +79,7 @@ public class ApplicationUserService : IApplicationUserService
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
-        var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
+        var refreshToken = await _jwtUtils.GenerateRefreshTokenAsync(ipAddress);
         user.RefreshTokens.Add(refreshToken);
 
         // remove old refresh tokens from applicationUser
@@ -110,7 +110,7 @@ public class ApplicationUserService : IApplicationUserService
         if (!refreshToken.IsActive) throw new JwtAuthenticationException("Invalid token");
 
         // replace old refresh token with a new one (rotate token)
-        var newRefreshToken = RotateRefreshToken(refreshToken, ipAddress);
+        var newRefreshToken = await RotateRefreshTokenAsync(refreshToken, ipAddress);
         user.RefreshTokens.Add(newRefreshToken);
 
         // remove old refresh tokens from applicationUser
@@ -158,7 +158,7 @@ public class ApplicationUserService : IApplicationUserService
     // helper methods
 
     /// <summary>
-    ///     データベースにアクセスしてトークンを持つユーザーを取得する.
+    ///     トークンを持つユーザーを取得する.
     /// </summary>
     /// <param name="token">リフレッシュトークン</param>
     /// <returns>該当ユーザー</returns>
@@ -177,9 +177,9 @@ public class ApplicationUserService : IApplicationUserService
     /// <param name="refreshToken">リフレッシュトークン</param>
     /// <param name="ipAddress">トークンに記録するIPアドレス</param>
     /// <returns>リフレッシュトークン</returns>
-    private RefreshToken RotateRefreshToken(RefreshToken refreshToken, string ipAddress)
+    private async Task<RefreshToken> RotateRefreshTokenAsync(RefreshToken refreshToken, string ipAddress)
     {
-        var newRefreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
+        var newRefreshToken = await _jwtUtils.GenerateRefreshTokenAsync(ipAddress);
         RevokeRefreshToken(refreshToken, ipAddress, "Replaced by new token", newRefreshToken.Token);
         return newRefreshToken;
     }

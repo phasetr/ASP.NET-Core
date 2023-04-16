@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Data;
@@ -31,7 +32,7 @@ public interface IJwtUtils
     /// </summary>
     /// <param name="ipAddress">トークンに記録するためのIPアドレス</param>
     /// <returns>リフレッシュトークン</returns>
-    public RefreshToken GenerateRefreshToken(string ipAddress);
+    public Task<RefreshToken> GenerateRefreshTokenAsync(string ipAddress);
 }
 
 public class JwtUtils : IJwtUtils
@@ -94,11 +95,11 @@ public class JwtUtils : IJwtUtils
         }
     }
 
-    public RefreshToken GenerateRefreshToken(string ipAddress)
+    public async Task<RefreshToken> GenerateRefreshTokenAsync(string ipAddress)
     {
         var refreshToken = new RefreshToken
         {
-            Token = GetUniqueToken(),
+            Token = await GetUniqueTokenAsync(),
             // token is valid for 7 days
             Expires = DateTime.UtcNow.AddDays(7),
             Created = DateTime.UtcNow,
@@ -107,15 +108,16 @@ public class JwtUtils : IJwtUtils
 
         return refreshToken;
 
-        string GetUniqueToken()
+        async Task<string> GetUniqueTokenAsync()
         {
             while (true)
             {
                 // token is a cryptographically strong random sequence of values
                 var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
                 // ensure token is unique by checking against db
-                var tokenIsUnique = !_context.ApplicationUsers
-                    .Any(u => u.RefreshTokens.Any(t => t.Token == token));
+                var tokenIsNotUnique = await _context.ApplicationUsers
+                    .AnyAsync(u => u.RefreshTokens.Any(t => t.Token == token));
+                var tokenIsUnique = !tokenIsNotUnique;
 
                 if (tokenIsUnique) return token;
             }
