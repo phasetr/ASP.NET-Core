@@ -69,23 +69,23 @@ public class UsersController : ControllerBase
     }
 
     /// <summary>
-    ///     データベースにアクセスして全てのユーザーを取得する.
+    ///     全てのユーザーを取得する.
     /// </summary>
     /// <returns>ユーザー全体を格納したJSON</returns>
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
-        var users = _applicationUserService.GetAll();
+        var users = await _applicationUserService.GetAllAsync();
         return Ok(users);
     }
 
     /// <summary>
-    ///     データベースにアクセスしてIDで指定されたユーザーを取得する.
+    ///     IDで指定されたユーザーを取得する.
     /// </summary>
     /// <param name="id">ユーザーID</param>
     /// <returns>ユーザー情報のJSON</returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
         var user = await _applicationUserService.GetByIdAsync(id);
         return Ok(user);

@@ -38,7 +38,7 @@ public interface IApplicationUserService
     ///     データベースから登録されている全ユーザーを取得する.
     /// </summary>
     /// <returns>全ユーザーのオブジェクトのリスト</returns>
-    IEnumerable<ApplicationUser> GetAll();
+    Task<IEnumerable<ApplicationUser>> GetAllAsync();
 
     /// <summary>
     ///     データベースから指定されたIDのユーザーを取得する.
@@ -143,9 +143,9 @@ public class ApplicationUserService : IApplicationUserService
     }
 
     // インターフェイスのコメント参照
-    public IEnumerable<ApplicationUser> GetAll()
+    public async Task<IEnumerable<ApplicationUser>> GetAllAsync()
     {
-        return _context.ApplicationUsers;
+        return await _context.ApplicationUsers.ToListAsync();
     }
 
     // インターフェイスのコメント参照
