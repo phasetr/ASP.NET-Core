@@ -11,10 +11,40 @@ namespace WebApi.Services;
 
 public interface IApplicationUserService
 {
-    Task<Response> AuthenticateAsync(Request model, string ipAddress);
+    /// <summary>
+    ///     ユーザーを認証してトークンをデータベースに格納する。
+    /// </summary>
+    /// <param name="requestModel">リクエストで渡されたユーザー情報を格納するオブジェクト</param>
+    /// <param name="ipAddress">トークンに記録するIPアドレス</param>
+    /// <returns>トークンを含むJSONオブジェクト</returns>
+    Task<Response> AuthenticateAsync(Request requestModel, string ipAddress);
+
+    /// <summary>
+    ///     トークンをリフレッシュしてデータベースに格納する。
+    /// </summary>
+    /// <param name="token">JWTトークン></param>
+    /// <param name="ipAddress">新たなトークンに格納するIPアドレス</param>
+    /// <returns></returns>
     Response RefreshToken(string token, string ipAddress);
+
+    /// <summary>
+    ///     リフレッシュトークンも含めてトークンを取り消す。
+    /// </summary>
+    /// <param name="token">JWTトークン</param>
+    /// <param name="ipAddress">アクセスされたIPアドレス</param>
     void RevokeToken(string token, string ipAddress);
+
+    /// <summary>
+    ///     データベースから登録されている全ユーザーを取得する.
+    /// </summary>
+    /// <returns>全ユーザーのオブジェクトのリスト</returns>
     IEnumerable<ApplicationUser> GetAll();
+
+    /// <summary>
+    ///     データベースから指定されたIDのユーザーを取得する.
+    /// </summary>
+    /// <param name="id">ユーザーID</param>
+    /// <returns>特定ユーザーのオブジェクト</returns>
     ApplicationUser GetById(string id);
 }
 
@@ -37,13 +67,14 @@ public class ApplicationUserService : IApplicationUserService
         _appSettings = appSettings.Value;
     }
 
-    public async Task<Response> AuthenticateAsync(Request model, string ipAddress)
+    // インターフェイスのコメント参照
+    public async Task<Response> AuthenticateAsync(Request requestModel, string ipAddress)
     {
-        var user = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.UserName == model.UserName);
+        var user = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.UserName == requestModel.UserName);
         // validate
         if (user is null) throw new JwtAuthenticationException("UserName or password is incorrect");
         var passwordValidator = new PasswordValidator<ApplicationUser>();
-        var result = await passwordValidator.ValidateAsync(_userManager, user, model.Password);
+        var result = await passwordValidator.ValidateAsync(_userManager, user, requestModel.Password);
         if (!result.Succeeded) throw new JwtAuthenticationException("UserName or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
@@ -61,6 +92,7 @@ public class ApplicationUserService : IApplicationUserService
         return new Response(user, jwtToken, refreshToken.Token);
     }
 
+    // インターフェイスのコメント参照
     public Response RefreshToken(string token, string ipAddress)
     {
         var user = GetUserByRefreshToken(token);
@@ -95,6 +127,7 @@ public class ApplicationUserService : IApplicationUserService
         return new Response(user, jwtToken, newRefreshToken.Token);
     }
 
+    // インターフェイスのコメント参照
     public void RevokeToken(string token, string ipAddress)
     {
         var user = GetUserByRefreshToken(token);
@@ -109,11 +142,13 @@ public class ApplicationUserService : IApplicationUserService
         _context.SaveChanges();
     }
 
+    // インターフェイスのコメント参照
     public IEnumerable<ApplicationUser> GetAll()
     {
         return _context.ApplicationUsers;
     }
 
+    // インターフェイスのコメント参照
     public ApplicationUser GetById(string id)
     {
         var user = _context.ApplicationUsers.Find(id);
@@ -123,16 +158,26 @@ public class ApplicationUserService : IApplicationUserService
 
     // helper methods
 
+    /// <summary>
+    ///     データベースにアクセスしてトークンを持つユーザーを取得する.
+    /// </summary>
+    /// <param name="token">リフレッシュトークン</param>
+    /// <returns>該当ユーザー</returns>
+    /// <exception cref="JwtAuthenticationException"></exception>
     private ApplicationUser GetUserByRefreshToken(string token)
     {
-        var user = _context.ApplicationUsers.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
-
-        if (user == null)
-            throw new JwtAuthenticationException("Invalid token");
-
+        var user = _context.ApplicationUsers
+            .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+        if (user == null) throw new JwtAuthenticationException("Invalid token");
         return user;
     }
 
+    /// <summary>
+    ///     与えられたリフレッシュトークンを無効にして新たなトークンを返す。
+    /// </summary>
+    /// <param name="refreshToken">リフレッシュトークン</param>
+    /// <param name="ipAddress">トークンに記録するIPアドレス</param>
+    /// <returns>リフレッシュトークン</returns>
     private RefreshToken RotateRefreshToken(RefreshToken refreshToken, string ipAddress)
     {
         var newRefreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
@@ -140,6 +185,10 @@ public class ApplicationUserService : IApplicationUserService
         return newRefreshToken;
     }
 
+    /// <summary>
+    ///     アプリ設定のTTLに基づいて無効なトークンを削除する。
+    /// </summary>
+    /// <param name="applicationUser">トークンを削除したいユーザーのオブジェクト</param>
     private void RemoveOldRefreshTokens(ApplicationUser applicationUser)
     {
         // remove old inactive refresh tokens from applicationUser based on TTL in app settings
@@ -148,7 +197,15 @@ public class ApplicationUserService : IApplicationUserService
             x.Created.AddDays(_appSettings.RefreshTokenTtl) <= DateTime.UtcNow);
     }
 
-    private void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser applicationUser, string ipAddress,
+    /// <summary>
+    ///     再帰的に子トークンを無効にする。
+    /// </summary>
+    /// <param name="refreshToken">リフレッシュトークン</param>
+    /// <param name="applicationUser">取り消し対象のトークンを持つユーザー</param>
+    /// <param name="ipAddress">トークンに記録するIPアドレス</param>
+    /// <param name="reason">トークンの取り消し理由</param>
+    private static void RevokeDescendantRefreshTokens(RefreshToken refreshToken, ApplicationUser applicationUser,
+        string ipAddress,
         string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
@@ -160,6 +217,13 @@ public class ApplicationUserService : IApplicationUserService
             RevokeDescendantRefreshTokens(childToken, applicationUser, ipAddress, reason);
     }
 
+    /// <summary>
+    ///     入力のトークンが無効になるように書き換える。
+    /// </summary>
+    /// <param name="token">書き換えられるトークン</param>
+    /// <param name="ipAddress">トークンに記録されるIPアドレス</param>
+    /// <param name="reason">無効化される理由</param>
+    /// <param name="replacedByToken">ReplacedByTokenに格納する値</param>
     private static void RevokeRefreshToken(RefreshToken token, string ipAddress, string reason = null,
         string replacedByToken = null)
     {
