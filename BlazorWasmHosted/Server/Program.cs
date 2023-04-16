@@ -1,5 +1,6 @@
 using BlazorWasmHosted.Server.Data;
 using BlazorWasmHosted.Server.Models;
+using BlazorWasmHosted.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 // DB
+var sensitiveDataLogging = builder.Configuration.GetValue<bool>("EnableSensitiveDataLogging");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("BlazorWasmHosted"));
+    options.UseInMemoryDatabase("BlazorWasmHosted")
+        .EnableSensitiveDataLogging(sensitiveDataLogging));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -30,6 +33,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 // Razor Pages
 // builder.Services.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Admin"); });
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IShopService, ShopService>();
 
 var app = builder.Build();
 
