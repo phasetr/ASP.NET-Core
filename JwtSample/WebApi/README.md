@@ -1,4 +1,6 @@
-# dotnet-6-jwt-refresh-tokens-api
+# JwtSample
+
+[JwtBearer](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer)を使えばよさそう。
 
 .NET 6.0 - JWT Authentication with Refresh Tokens Tutorial with Example API
 
