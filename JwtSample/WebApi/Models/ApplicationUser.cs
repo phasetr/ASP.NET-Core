@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using WebApi.Models.Authentication;
 
 namespace WebApi.Models;
 

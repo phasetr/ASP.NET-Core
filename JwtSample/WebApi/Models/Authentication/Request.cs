@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApi.Models.Users;
+namespace WebApi.Models.Authentication;
 
-public class AuthenticateRequest
+public class Request
 {
     [Required] public string UserName { get; set; }
 

@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 
-namespace WebApi.Models.Users;
+namespace WebApi.Models.Authentication;
 
-public class AuthenticateResponse
+public class Response
 {
-    public AuthenticateResponse(ApplicationUser applicationUser, string jwtToken, string refreshToken)
+    public Response(ApplicationUser applicationUser, string jwtToken, string refreshToken)
     {
         FirstName = applicationUser.FirstName;
         LastName = applicationUser.LastName;

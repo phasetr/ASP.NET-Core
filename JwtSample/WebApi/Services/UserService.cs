@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using WebApi.Data;
 using WebApi.Models;
-using WebApi.Models.Users;
+using WebApi.Models.Authentication;
 using WebApi.Services.Authorization;
 
 namespace WebApi.Services;
 
 public interface IUserService
 {
-    AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
-    AuthenticateResponse RefreshToken(string token, string ipAddress);
+    Response Authenticate(Request model, string ipAddress);
+    Response RefreshToken(string token, string ipAddress);
     void RevokeToken(string token, string ipAddress);
     IEnumerable<ApplicationUser> GetAll();
     ApplicationUser GetById(string id);
@@ -35,7 +35,7 @@ public class UserService : IUserService
         _appSettings = appSettings.Value;
     }
 
-    public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
+    public Response Authenticate(Request model, string ipAddress)
     {
         var user = _context.ApplicationUsers.SingleOrDefault(x => x.UserName == model.UserName);
         // validate
@@ -56,10 +56,10 @@ public class UserService : IUserService
         _context.Update(user);
         _context.SaveChanges();
 
-        return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
+        return new Response(user, jwtToken, refreshToken.Token);
     }
 
-    public AuthenticateResponse RefreshToken(string token, string ipAddress)
+    public Response RefreshToken(string token, string ipAddress)
     {
         var user = GetUserByRefreshToken(token);
         var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
@@ -90,7 +90,7 @@ public class UserService : IUserService
         // generate new jwt
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
 
-        return new AuthenticateResponse(user, jwtToken, newRefreshToken.Token);
+        return new Response(user, jwtToken, newRefreshToken.Token);
     }
 
     public void RevokeToken(string token, string ipAddress)

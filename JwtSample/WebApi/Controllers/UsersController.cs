@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApi.Models.Users;
+using WebApi.Models.Authentication;
 using WebApi.Services;
 using WebApi.Services.Authorization;
 
@@ -19,7 +19,7 @@ public class UsersController : ControllerBase
 
     [MyAllowAnonymous]
     [HttpPost("authenticate")]
-    public IActionResult Authenticate(AuthenticateRequest model)
+    public IActionResult Authenticate(Request model)
     {
         var response = _userService.Authenticate(model, IpAddress());
         SetTokenCookie(response.RefreshToken);

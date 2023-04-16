@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebApi.Data;
 using WebApi.Models;
+using WebApi.Models.Authentication;
 
 namespace WebApi.Services.Authorization;
 
