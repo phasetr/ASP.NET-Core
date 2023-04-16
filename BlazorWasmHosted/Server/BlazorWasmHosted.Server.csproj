@@ -26,5 +26,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\Shop\" />
+  </ItemGroup>
+
 
 </Project>

@@ -21,6 +21,7 @@ public class ErrorModel : PageModel
 
     public void OnGet()
     {
+        _logger.LogError("Error page visited");
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

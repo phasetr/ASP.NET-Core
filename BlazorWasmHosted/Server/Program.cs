@@ -28,7 +28,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Razor Pages
-builder.Services.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Admin"); });
+// builder.Services.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Admin"); });
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
