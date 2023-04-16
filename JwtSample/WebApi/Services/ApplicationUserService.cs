@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using WebApi.Data;
 using WebApi.Errors;
@@ -10,7 +11,7 @@ namespace WebApi.Services;
 
 public interface IApplicationUserService
 {
-    Response Authenticate(Request model, string ipAddress);
+    Task<Response> AuthenticateAsync(Request model, string ipAddress);
     Response RefreshToken(string token, string ipAddress);
     void RevokeToken(string token, string ipAddress);
     IEnumerable<ApplicationUser> GetAll();
@@ -36,13 +37,13 @@ public class ApplicationUserService : IApplicationUserService
         _appSettings = appSettings.Value;
     }
 
-    public Response Authenticate(Request model, string ipAddress)
+    public async Task<Response> AuthenticateAsync(Request model, string ipAddress)
     {
-        var user = _context.ApplicationUsers.SingleOrDefault(x => x.UserName == model.UserName);
+        var user = await _context.ApplicationUsers.SingleOrDefaultAsync(x => x.UserName == model.UserName);
         // validate
         if (user is null) throw new JwtAuthenticationException("UserName or password is incorrect");
         var passwordValidator = new PasswordValidator<ApplicationUser>();
-        var result = passwordValidator.ValidateAsync(_userManager, user, model.Password).Result;
+        var result = await passwordValidator.ValidateAsync(_userManager, user, model.Password);
         if (!result.Succeeded) throw new JwtAuthenticationException("UserName or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
@@ -55,7 +56,7 @@ public class ApplicationUserService : IApplicationUserService
 
         // save changes to db
         _context.Update(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return new Response(user, jwtToken, refreshToken.Token);
     }

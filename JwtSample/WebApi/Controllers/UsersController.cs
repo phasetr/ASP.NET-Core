@@ -19,9 +19,9 @@ public class UsersController : ControllerBase
 
     [MyAllowAnonymous]
     [HttpPost("authenticate")]
-    public IActionResult Authenticate(Request model)
+    public async Task<IActionResult> AuthenticateAsync(Request model)
     {
-        var response = _applicationUserService.Authenticate(model, IpAddress());
+        var response = await _applicationUserService.AuthenticateAsync(model, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
