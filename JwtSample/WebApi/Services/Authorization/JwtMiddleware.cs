@@ -11,6 +11,12 @@ public class JwtMiddleware
         _next = next;
     }
 
+    /// <summary>
+    ///     認証済みユーザーの情報をHttpContextに追加する。
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="applicationUserService"></param>
+    /// <param name="jwtUtils"></param>
     public async Task Invoke(HttpContext context, IApplicationUserService applicationUserService, IJwtUtils jwtUtils)
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
