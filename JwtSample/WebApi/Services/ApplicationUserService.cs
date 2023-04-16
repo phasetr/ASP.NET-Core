@@ -20,19 +20,19 @@ public interface IApplicationUserService
     Task<Response> AuthenticateAsync(Request requestModel, string ipAddress);
 
     /// <summary>
-    ///     トークンをリフレッシュしてデータベースに格納する。
+    ///     トークンをリフレッシュしてデータベースにも格納する。
     /// </summary>
     /// <param name="token">JWTトークン></param>
     /// <param name="ipAddress">新たなトークンに格納するIPアドレス</param>
     /// <returns></returns>
-    Response RefreshToken(string token, string ipAddress);
+    Task<Response> RefreshTokenAsync(string token, string ipAddress);
 
     /// <summary>
     ///     リフレッシュトークンも含めてトークンを取り消す。
     /// </summary>
     /// <param name="token">JWTトークン</param>
     /// <param name="ipAddress">アクセスされたIPアドレス</param>
-    void RevokeToken(string token, string ipAddress);
+    Task RevokeTokenAsync(string token, string ipAddress);
 
     /// <summary>
     ///     データベースから登録されている全ユーザーを取得する.
@@ -93,9 +93,9 @@ public class ApplicationUserService : IApplicationUserService
     }
 
     // インターフェイスのコメント参照
-    public Response RefreshToken(string token, string ipAddress)
+    public async Task<Response> RefreshTokenAsync(string token, string ipAddress)
     {
-        var user = GetUserByRefreshToken(token);
+        var user = await GetUserByRefreshTokenAsync(token);
         var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
 
         if (refreshToken.IsRevoked)
@@ -104,11 +104,10 @@ public class ApplicationUserService : IApplicationUserService
             RevokeDescendantRefreshTokens(refreshToken, user, ipAddress,
                 $"Attempted reuse of revoked ancestor token: {token}");
             _context.Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        if (!refreshToken.IsActive)
-            throw new JwtAuthenticationException("Invalid token");
+        if (!refreshToken.IsActive) throw new JwtAuthenticationException("Invalid token");
 
         // replace old refresh token with a new one (rotate token)
         var newRefreshToken = RotateRefreshToken(refreshToken, ipAddress);
@@ -119,7 +118,7 @@ public class ApplicationUserService : IApplicationUserService
 
         // save changes to db
         _context.Update(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         // generate new jwt
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
@@ -128,9 +127,9 @@ public class ApplicationUserService : IApplicationUserService
     }
 
     // インターフェイスのコメント参照
-    public void RevokeToken(string token, string ipAddress)
+    public async Task RevokeTokenAsync(string token, string ipAddress)
     {
-        var user = GetUserByRefreshToken(token);
+        var user = await GetUserByRefreshTokenAsync(token);
         var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
 
         if (!refreshToken.IsActive)
@@ -139,7 +138,7 @@ public class ApplicationUserService : IApplicationUserService
         // revoke token and save
         RevokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
         _context.Update(user);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     // インターフェイスのコメント参照
@@ -164,10 +163,10 @@ public class ApplicationUserService : IApplicationUserService
     /// <param name="token">リフレッシュトークン</param>
     /// <returns>該当ユーザー</returns>
     /// <exception cref="JwtAuthenticationException"></exception>
-    private ApplicationUser GetUserByRefreshToken(string token)
+    private async Task<ApplicationUser> GetUserByRefreshTokenAsync(string token)
     {
-        var user = _context.ApplicationUsers
-            .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+        var user = await _context.ApplicationUsers
+            .SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
         if (user == null) throw new JwtAuthenticationException("Invalid token");
         return user;
     }

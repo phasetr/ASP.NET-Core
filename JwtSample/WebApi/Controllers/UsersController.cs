@@ -42,10 +42,10 @@ public class UsersController : ControllerBase
     /// <returns>認証レスポンス用のモデルオブジェクトのJSON</returns>
     [MyAllowAnonymous]
     [HttpPost("refresh-token")]
-    public IActionResult RefreshToken()
+    public async Task<IActionResult> RefreshTokenAsync()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        var response = _applicationUserService.RefreshToken(refreshToken, IpAddress());
+        var response = await _applicationUserService.RefreshTokenAsync(refreshToken, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
@@ -64,7 +64,7 @@ public class UsersController : ControllerBase
         if (string.IsNullOrEmpty(token))
             return BadRequest(new {message = "Token is required"});
 
-        _applicationUserService.RevokeToken(token, IpAddress());
+        _applicationUserService.RevokeTokenAsync(token, IpAddress());
         return Ok(new {message = "Token revoked"});
     }
 
