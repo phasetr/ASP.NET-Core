@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
+using WebApi.Errors;
 using WebApi.Models;
 using WebApi.Services;
 using WebApi.Services.Authorization;
@@ -48,7 +49,7 @@ var app = builder.Build();
         .AllowCredentials());
 
     // global error handler
-    app.UseMiddleware<ErrorHandlerMiddleware>();
+    app.UseMiddleware<JwtAuthenticationErrorHandlerMiddleware>();
 
     // custom jwt auth middleware
     app.UseMiddleware<JwtMiddleware>();

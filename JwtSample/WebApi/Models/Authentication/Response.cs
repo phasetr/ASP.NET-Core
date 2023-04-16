@@ -18,6 +18,6 @@ public class Response
     public string UserName { get; set; }
     public string JwtToken { get; set; }
 
-    [JsonIgnore] // refresh token is returned in http only cookie
-    public string RefreshToken { get; set; }
+    // refresh token is returned in http only cookie
+    [JsonIgnore] public string RefreshToken { get; set; }
 }

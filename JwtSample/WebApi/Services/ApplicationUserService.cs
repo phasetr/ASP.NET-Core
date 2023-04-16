@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using WebApi.Data;
+using WebApi.Errors;
 using WebApi.Models;
 using WebApi.Models.Authentication;
 using WebApi.Services.Authorization;
@@ -39,10 +40,10 @@ public class ApplicationUserService : IApplicationUserService
     {
         var user = _context.ApplicationUsers.SingleOrDefault(x => x.UserName == model.UserName);
         // validate
-        if (user is null) throw new AppException("UserName or password is incorrect");
+        if (user is null) throw new JwtAuthenticationException("UserName or password is incorrect");
         var passwordValidator = new PasswordValidator<ApplicationUser>();
         var result = passwordValidator.ValidateAsync(_userManager, user, model.Password).Result;
-        if (!result.Succeeded) throw new AppException("UserName or password is incorrect");
+        if (!result.Succeeded) throw new JwtAuthenticationException("UserName or password is incorrect");
 
         // authentication successful so generate jwt and refresh tokens
         var jwtToken = _jwtUtils.GenerateJwtToken(user);
@@ -74,7 +75,7 @@ public class ApplicationUserService : IApplicationUserService
         }
 
         if (!refreshToken.IsActive)
-            throw new AppException("Invalid token");
+            throw new JwtAuthenticationException("Invalid token");
 
         // replace old refresh token with a new one (rotate token)
         var newRefreshToken = RotateRefreshToken(refreshToken, ipAddress);
@@ -99,7 +100,7 @@ public class ApplicationUserService : IApplicationUserService
         var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
 
         if (!refreshToken.IsActive)
-            throw new AppException("Invalid token");
+            throw new JwtAuthenticationException("Invalid token");
 
         // revoke token and save
         RevokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement");
@@ -126,7 +127,7 @@ public class ApplicationUserService : IApplicationUserService
         var user = _context.ApplicationUsers.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
 
         if (user == null)
-            throw new AppException("Invalid token");
+            throw new JwtAuthenticationException("Invalid token");
 
         return user;
     }

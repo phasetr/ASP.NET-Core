@@ -1,20 +1,20 @@
 using System.Globalization;
 
-namespace WebApi.Services;
+namespace WebApi.Errors;
 
 // custom exception class for throwing application specific exceptions (e.g. for validation) 
 // that can be caught and handled within the application
-public class AppException : Exception
+public class JwtAuthenticationException : Exception
 {
-    public AppException()
+    public JwtAuthenticationException()
     {
     }
 
-    public AppException(string message) : base(message)
+    public JwtAuthenticationException(string message) : base(message)
     {
     }
 
-    public AppException(string message, params object[] args)
+    public JwtAuthenticationException(string message, params object[] args)
         : base(string.Format(CultureInfo.CurrentCulture, message, args))
     {
     }

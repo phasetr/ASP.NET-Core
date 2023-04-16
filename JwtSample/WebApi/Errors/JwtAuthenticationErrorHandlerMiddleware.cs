@@ -1,13 +1,13 @@
 using System.Net;
 using System.Text.Json;
 
-namespace WebApi.Services;
+namespace WebApi.Errors;
 
-public class ErrorHandlerMiddleware
+public class JwtAuthenticationErrorHandlerMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public ErrorHandlerMiddleware(RequestDelegate next)
+    public JwtAuthenticationErrorHandlerMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -25,7 +25,7 @@ public class ErrorHandlerMiddleware
 
             response.StatusCode = error switch
             {
-                AppException _ =>
+                JwtAuthenticationException _ =>
                     // custom application error
                     (int) HttpStatusCode.BadRequest,
                 KeyNotFoundException _ =>
