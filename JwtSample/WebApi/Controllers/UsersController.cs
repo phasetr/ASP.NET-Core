@@ -12,20 +12,34 @@ public class UsersController : ControllerBase
 {
     private readonly IApplicationUserService _applicationUserService;
 
+    /// <summary>
+    ///     コンストラクター。
+    /// </summary>
+    /// <param name="applicationUserService"></param>
     public UsersController(IApplicationUserService applicationUserService)
     {
         _applicationUserService = applicationUserService;
     }
 
+    /// <summary>
+    ///     認証用のメソッド。
+    ///     誰でもアクセスできる。
+    /// </summary>
+    /// <param name="requestModel">認証リクエスト用のモデルオブジェクト</param>
+    /// <returns>トークンを含むレスポンスのJSON</returns>
     [MyAllowAnonymous]
     [HttpPost("authenticate")]
-    public async Task<IActionResult> AuthenticateAsync(Request model)
+    public async Task<IActionResult> AuthenticateAsync(Request requestModel)
     {
-        var response = await _applicationUserService.AuthenticateAsync(model, IpAddress());
+        var response = await _applicationUserService.AuthenticateAsync(requestModel, IpAddress());
         SetTokenCookie(response.RefreshToken);
         return Ok(response);
     }
 
+    /// <summary>
+    ///     リフレッシュトークンをリフレッシュする。
+    /// </summary>
+    /// <returns>認証レスポンス用のモデルオブジェクトのJSON</returns>
     [MyAllowAnonymous]
     [HttpPost("refresh-token")]
     public IActionResult RefreshToken()
@@ -36,6 +50,11 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    /// <summary>
+    ///     トークンを取り消す。
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
     [HttpPost("revoke-token")]
     public IActionResult RevokeToken(RevokeTokenRequest model)
     {
@@ -49,6 +68,10 @@ public class UsersController : ControllerBase
         return Ok(new {message = "Token revoked"});
     }
 
+    /// <summary>
+    ///     データベースにアクセスして全てのユーザーを取得する.
+    /// </summary>
+    /// <returns>ユーザー全体を格納したJSON</returns>
     [HttpGet]
     public IActionResult GetAll()
     {
@@ -56,6 +79,11 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
+    /// <summary>
+    ///     データベースにアクセスしてIDで指定されたユーザーを取得する.
+    /// </summary>
+    /// <param name="id">ユーザーID</param>
+    /// <returns>ユーザー情報のJSON</returns>
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
     {
@@ -63,6 +91,11 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    /// <summary>
+    ///     データベースにアクセスしてIDで指定されたユーザーのリフレッシュトークンを取得する.
+    /// </summary>
+    /// <param name="id">ユーザーID</param>
+    /// <returns>リフレッシュトークンの値</returns>
     [HttpGet("{id}/refresh-tokens")]
     public IActionResult GetRefreshTokens(string id)
     {
@@ -72,6 +105,11 @@ public class UsersController : ControllerBase
 
     // helper methods
 
+    /// <summary>
+    ///     クッキーにトークンを設定する.
+    ///     非同期にする必要なし.
+    /// </summary>
+    /// <param name="token">JWTトークン</param>
     private void SetTokenCookie(string token)
     {
         // append cookie with refresh token to the http response
@@ -83,6 +121,11 @@ public class UsersController : ControllerBase
         Response.Cookies.Append("refreshToken", token, cookieOptions);
     }
 
+    /// <summary>
+    ///     X-Forwarded-ForヘッダーからIPアドレスを取得する.
+    ///     非同期にする必要なし.
+    /// </summary>
+    /// <returns>X-Forwarded-Forヘッダーから取得したIPアドレス</returns>
     private string IpAddress()
     {
         // get source ip address for the current request

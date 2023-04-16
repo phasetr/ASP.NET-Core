@@ -12,8 +12,25 @@ namespace WebApi.Services.Authorization;
 
 public interface IJwtUtils
 {
+    /// <summary>
+    ///     JWTトークンを生成する。
+    /// </summary>
+    /// <param name="applicationUser">ユーザーオブジェクト</param>
+    /// <returns>JWTトークン</returns>
     public string GenerateJwtToken(ApplicationUser applicationUser);
+
+    /// <summary>
+    ///     トークンを検証してトークンが有効な場合はユーザーIDを返す。
+    /// </summary>
+    /// <param name="token">JWTトークン</param>
+    /// <returns>認証されたらユーザーID。認証失敗時はnull</returns>
     public string ValidateJwtToken(string token);
+
+    /// <summary>
+    ///     データベースにアクセスして既存のトークンと衝突しないようにトークンを生成する.
+    /// </summary>
+    /// <param name="ipAddress">トークンに記録するためのIPアドレス</param>
+    /// <returns>リフレッシュトークン</returns>
     public RefreshToken GenerateRefreshToken(string ipAddress);
 }
 

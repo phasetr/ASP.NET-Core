@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add services to DI container
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 // builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("TestDb"));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
