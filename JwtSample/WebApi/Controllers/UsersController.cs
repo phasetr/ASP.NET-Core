@@ -85,9 +85,9 @@ public class UsersController : ControllerBase
     /// <param name="id">ユーザーID</param>
     /// <returns>ユーザー情報のJSON</returns>
     [HttpGet("{id}")]
-    public IActionResult GetById(string id)
+    public async Task<IActionResult> GetById(string id)
     {
-        var user = _applicationUserService.GetById(id);
+        var user = await _applicationUserService.GetByIdAsync(id);
         return Ok(user);
     }
 
@@ -97,9 +97,9 @@ public class UsersController : ControllerBase
     /// <param name="id">ユーザーID</param>
     /// <returns>リフレッシュトークンの値</returns>
     [HttpGet("{id}/refresh-tokens")]
-    public IActionResult GetRefreshTokens(string id)
+    public async Task<IActionResult> GetRefreshTokens(string id)
     {
-        var user = _applicationUserService.GetById(id);
+        var user = await _applicationUserService.GetByIdAsync(id);
         return Ok(user.RefreshTokens);
     }
 

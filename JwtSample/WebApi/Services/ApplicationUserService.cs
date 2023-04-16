@@ -45,7 +45,7 @@ public interface IApplicationUserService
     /// </summary>
     /// <param name="id">ユーザーID</param>
     /// <returns>特定ユーザーのオブジェクト</returns>
-    ApplicationUser GetById(string id);
+    Task<ApplicationUser> GetByIdAsync(string id);
 }
 
 public class ApplicationUserService : IApplicationUserService
@@ -149,9 +149,9 @@ public class ApplicationUserService : IApplicationUserService
     }
 
     // インターフェイスのコメント参照
-    public ApplicationUser GetById(string id)
+    public async Task<ApplicationUser> GetByIdAsync(string id)
     {
-        var user = _context.ApplicationUsers.Find(id);
+        var user = await _context.ApplicationUsers.FindAsync(id);
         if (user == null) throw new KeyNotFoundException($"{nameof(ApplicationUser)} not found");
         return user;
     }

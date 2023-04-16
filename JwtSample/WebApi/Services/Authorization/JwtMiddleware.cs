@@ -16,7 +16,7 @@ public class JwtMiddleware
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
         var userId = jwtUtils.ValidateJwtToken(token);
         // attach user to context on successful jwt validation
-        if (userId != null) context.Items[nameof(ApplicationUser)] = applicationUserService.GetById(userId);
+        if (userId != null) context.Items[nameof(ApplicationUser)] = await applicationUserService.GetByIdAsync(userId);
         await _next(context);
     }
 }
