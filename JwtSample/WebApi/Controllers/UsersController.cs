@@ -53,18 +53,18 @@ public class UsersController : ControllerBase
     /// <summary>
     ///     トークンを取り消す。
     /// </summary>
-    /// <param name="model"></param>
+    /// <param name="revokeTokenRequestModel"></param>
     /// <returns></returns>
     [HttpPost("revoke-token")]
-    public IActionResult RevokeToken(RevokeTokenRequest model)
+    public async Task<IActionResult> RevokeTokenAsync(RevokeTokenRequest revokeTokenRequestModel)
     {
         // accept refresh token in request body or cookie
-        var token = model.Token ?? Request.Cookies["refreshToken"];
+        var token = revokeTokenRequestModel.Token ?? Request.Cookies["refreshToken"];
 
         if (string.IsNullOrEmpty(token))
             return BadRequest(new {message = "Token is required"});
 
-        _applicationUserService.RevokeTokenAsync(token, IpAddress());
+        await _applicationUserService.RevokeTokenAsync(token, IpAddress());
         return Ok(new {message = "Token revoked"});
     }
 
@@ -107,7 +107,6 @@ public class UsersController : ControllerBase
 
     /// <summary>
     ///     クッキーにトークンを設定する.
-    ///     非同期にする必要なし.
     /// </summary>
     /// <param name="token">JWTトークン</param>
     private void SetTokenCookie(string token)
@@ -123,7 +122,6 @@ public class UsersController : ControllerBase
 
     /// <summary>
     ///     X-Forwarded-ForヘッダーからIPアドレスを取得する.
-    ///     非同期にする必要なし.
     /// </summary>
     /// <returns>X-Forwarded-Forヘッダーから取得したIPアドレス</returns>
     private string IpAddress()
