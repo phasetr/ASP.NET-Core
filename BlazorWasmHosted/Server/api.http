@@ -1,0 +1,16 @@
+### /security/createToken
+POST http://localhost:5177/security/createToken
+content-type: application/json
+
+{
+  "UserName": "test1",
+  "Password": "test1Test!"
+}
+
+### /security/getMessage
+GET http://localhost:5177/security/getMessage
+Authorization: Bearer Token
+
+### /Admin/Index
+GET http://localhost:5177/Admin/Index
+Authorization: Bearer Token
