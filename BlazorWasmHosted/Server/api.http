@@ -9,8 +9,8 @@ content-type: application/json
 
 ### /security/getMessage
 GET http://localhost:5177/security/getMessage
-Authorization: Bearer Token
+Authorization: Bearer
 
 ### /Admin/Index
 GET http://localhost:5177/Admin/Index
-Authorization: Bearer Token
+Authorization: Bearer

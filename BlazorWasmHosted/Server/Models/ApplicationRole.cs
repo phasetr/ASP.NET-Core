@@ -2,13 +2,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BlazorWasmHosted.Server.Models;
 
-public class ApplicationRole : IdentityRole<int>
+public sealed class ApplicationRole : IdentityRole<int>
 {
 }
 
-public enum UserRoles
+public static class UserRoles
 {
-    Admin,
-    Staff,
-    Customer
+    public const string Admin = nameof(Admin);
+    public const string User = nameof(User);
 }

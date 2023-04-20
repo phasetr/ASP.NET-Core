@@ -44,6 +44,8 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddSwaggerGen();
+
 // Razor Pages
 // builder.Services.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Admin"); });
 builder.Services.AddRazorPages();
@@ -78,6 +80,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
