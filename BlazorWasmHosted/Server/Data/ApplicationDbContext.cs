@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorWasmHosted.Server.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
+    public DbSet<ApplicationRole> ApplicationRoles => Set<ApplicationRole>();
     public DbSet<Shop> Shops => Set<Shop>();
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -20,6 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(builder);
         builder
             .ApplyConfiguration(new ApplicationUserConfiguration())
+            .ApplyConfiguration(new ApplicationRoleConfiguration())
             .ApplyConfiguration(new ShopConfiguration());
     }
 }
