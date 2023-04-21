@@ -39,7 +39,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
 });
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+builder.Services
+    .AddDefaultIdentity<ApplicationUser>(options =>
         options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -120,7 +121,7 @@ app.MapPost("/security/createToken",
                 new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
-            Expires = DateTime.UtcNow.AddMinutes(5),
+            Expires = DateTime.UtcNow.AddMinutes(100),
             Issuer = issuer,
             Audience = audience,
             SigningCredentials = new SigningCredentials

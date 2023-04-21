@@ -25,11 +25,8 @@ public class ClaimsService : IClaimsService
             new Claim(ClaimTypes.Name, user.UserName!),
             new Claim(ClaimTypes.Email, user.Email!)
         };
-
         var userRoles = await _userManager.GetRolesAsync(user);
-
         userClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
-
         return userClaims;
     }
 }

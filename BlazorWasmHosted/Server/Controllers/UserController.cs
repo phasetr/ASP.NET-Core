@@ -13,18 +13,14 @@ public class UserController : ControllerBase
 {
     private readonly IClaimsService _claimsService;
     private readonly IJwtTokenService _jwtTokenService;
-    private readonly RoleManager<ApplicationRole> _roleManager;
-
     private readonly UserManager<ApplicationUser> _userManager;
 
     public UserController(
         UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager,
         IClaimsService claimsService,
         IJwtTokenService jwtTokenService)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
         _claimsService = claimsService;
         _jwtTokenService = jwtTokenService;
     }
@@ -53,20 +49,8 @@ public class UserController : ControllerBase
                 Succeeded = result.Succeeded,
                 Errors = result.Errors.Select(e => e.Description)
             });
-
-        await SeedRoles();
         await _userManager.AddToRoleAsync(newUser, UserRoles.User);
-
         return CreatedAtAction(nameof(Register), new UserRegisterResultDto {Succeeded = true});
-    }
-
-    private async Task SeedRoles()
-    {
-        if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            await _roleManager.CreateAsync(new ApplicationRole {Name = UserRoles.Admin});
-
-        if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-            await _roleManager.CreateAsync(new ApplicationRole {Name = UserRoles.User});
     }
 
     [HttpPost]

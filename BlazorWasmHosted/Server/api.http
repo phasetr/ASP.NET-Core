@@ -9,7 +9,7 @@ content-type: application/json
 
 ### /security/getMessage
 GET http://localhost:5177/security/getMessage
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjJhMTYxODBiLWQxMjAtNGUwYS1iYTcwLThkYmQzMDRlZjk1NCIsInN1YiI6InRlc3QxIiwiZW1haWwiOiJ0ZXN0MUBwaGFzZXRyLmNvbSIsImp0aSI6IjdkN2RmNmQ2LTIyOGMtNDkzNC1hODY4LTE2ZGI3YTIzMDRhYyIsIm5iZiI6MTY4MTk3OTQxMCwiZXhwIjoxNjgxOTc5NzEwLCJpYXQiOjE2ODE5Nzk0MTAsImlzcyI6InBoYXNldHIuY29tIiwiYXVkIjoicGhhc2V0ci5jb20vYXJjaGl2ZSJ9.5LbSIbVbdbfQeQfyooSs0tY82sMo54FqMm85qe6N0tR7oA-tMXbsfoocNp2xEg1jt2sHM5-pcktpZYjDOUfUiQ
+Authorization: Bearer
 
 ### /Admin/Index
 GET http://localhost:5177/Admin/Index

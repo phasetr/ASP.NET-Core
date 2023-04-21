@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BlazorWasmHosted.Server.Models;
 
-public sealed class ApplicationRole : IdentityRole<int>
+public sealed class ApplicationRole : IdentityRole
 {
 }
 

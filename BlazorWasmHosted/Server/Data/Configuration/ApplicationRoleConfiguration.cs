@@ -10,13 +10,10 @@ public class ApplicationRoleConfiguration : IEntityTypeConfiguration<Application
     {
         builder.HasData(new ApplicationRole
         {
-            Id = 1, Name = "Admin", NormalizedName = "Admin".ToUpper()
+            Id = "1", Name = nameof(UserRoles.Admin), NormalizedName = nameof(UserRoles.Admin).ToUpper()
         }, new ApplicationRole
         {
-            Id = 2, Name = "Staff", NormalizedName = "Staff".ToUpper()
-        }, new ApplicationRole
-        {
-            Id = 3, Name = "Customer", NormalizedName = "Customer".ToUpper()
+            Id = "2", Name = nameof(UserRoles.User), NormalizedName = nameof(UserRoles.User).ToUpper()
         });
     }
 }

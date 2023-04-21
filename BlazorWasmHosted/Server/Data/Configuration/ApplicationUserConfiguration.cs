@@ -15,7 +15,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.HasIndex(u => u.UserName).IsUnique();
         builder.HasData(new ApplicationUser
         {
-            Id = 1,
+            Id = "1",
             UserName = "test1",
             NormalizedUserName = "test1".ToUpper(),
             Email = "test1@phasetr.com",
@@ -24,7 +24,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             PasswordHash = Hasher.HashPassword(HashString, "test1Test!")
         }, new ApplicationUser
         {
-            Id = 2,
+            Id = "2",
             UserName = "test2",
             NormalizedUserName = "test2".ToUpper(),
             Email = "test2@phasetr.com",
