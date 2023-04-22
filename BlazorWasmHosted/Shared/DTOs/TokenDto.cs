@@ -1,4 +1,4 @@
-namespace BlazorWasmHosted.Server.DTOs;
+namespace BlazorWasmHosted.Shared.DTOs;
 
 public class TokenDto
 {

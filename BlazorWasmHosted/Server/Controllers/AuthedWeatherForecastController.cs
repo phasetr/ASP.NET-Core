@@ -1,4 +1,4 @@
-using BlazorWasmHosted.Server.DTOs;
+using BlazorWasmHosted.Shared.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

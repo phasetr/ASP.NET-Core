@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +47,35 @@ builder.Services
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSwaggerGen();
+// SwaggerにMinimal APIのエンドポイントを追加する
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo {Title = "My API", Version = "v1"});
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid JWT token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 // Razor Pages
 // builder.Services.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Admin"); });
@@ -71,8 +100,8 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey
-            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty))
-        // ClockSkew = TimeSpan.Zero // Messes with expiry
+            (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
+        ClockSkew = TimeSpan.Zero // Messes with expiry
     };
 });
 builder.Services.AddTransient<IClaimsService, ClaimsService>();
@@ -103,35 +132,35 @@ app.UseStaticFiles();
 
 // JWTサンプル
 app.MapPost("/security/createToken",
-    [AllowAnonymous] async (CreateTokenData createTokenData, UserManager<ApplicationUser> userManager) =>
-    {
-        var user = await userManager.FindByNameAsync(createTokenData.UserName);
-        if (user is null) return Results.Unauthorized();
-        var isValidPassword = await userManager.CheckPasswordAsync(user, createTokenData.Password);
-        if (!isValidPassword) return Results.Unauthorized();
-        var issuer = builder.Configuration["Jwt:Issuer"];
-        var audience = builder.Configuration["Jwt:Audience"];
-        var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty);
-        var tokenDescriptor = new SecurityTokenDescriptor
+        [AllowAnonymous] async (CreateTokenData createTokenData, UserManager<ApplicationUser> userManager) =>
         {
-            Subject = new ClaimsIdentity(new[]
+            var user = await userManager.FindByNameAsync(createTokenData.UserName);
+            if (user is null) return Results.Unauthorized();
+            var isValidPassword = await userManager.CheckPasswordAsync(user, createTokenData.Password);
+            if (!isValidPassword) return Results.Unauthorized();
+            var issuer = builder.Configuration["Jwt:Issuer"];
+            var audience = builder.Configuration["Jwt:Audience"];
+            var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim("Id", Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? string.Empty),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            }),
-            Expires = DateTime.UtcNow.AddMinutes(100),
-            Issuer = issuer,
-            Audience = audience,
-            SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-        };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var jwtToken = tokenHandler.WriteToken(token);
-        return Results.Ok(jwtToken);
-    });
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("Id", Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? string.Empty),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(100),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials
+                    (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+            return Results.Ok(jwtToken);
+        });
 app.MapGet("/security/getMessage",
     () => "Hello World!").RequireAuthorization();
 

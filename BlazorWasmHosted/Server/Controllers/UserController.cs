@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
-using BlazorWasmHosted.Server.DTOs;
 using BlazorWasmHosted.Server.Models;
 using BlazorWasmHosted.Server.Services;
+using BlazorWasmHosted.Shared.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
