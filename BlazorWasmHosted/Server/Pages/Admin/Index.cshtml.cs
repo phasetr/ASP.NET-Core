@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BlazorWasmHosted.Server.Pages;
+namespace BlazorWasmHosted.Server.Pages.Admin;
 
 public class IndexModel : PageModel
 {
