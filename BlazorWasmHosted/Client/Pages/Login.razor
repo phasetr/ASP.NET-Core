@@ -1,0 +1,63 @@
+@page "/login"
+@using BlazorWasmHosted.Client.Services
+@using BlazorWasmHosted.Client.Clients
+@using BlazorWasmHosted.Shared.DTOs
+@inject AuthenticationHttpClient Http
+@inject NavigationManager NavigationManager
+ 
+<PageTitle>Login</PageTitle>
+ 
+<h1>Login</h1>
+ 
+<EditForm Model="@_userLoginDto" OnValidSubmit="@HandleValidSubmit">
+  <CustomValidation @ref="_customValidation" />
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+ 
+  <div class="mb-3">
+    <InputText class="form-control" id="Email" @bind-Value="_userLoginDto.Email" placeholder="Email" />
+  </div>
+ 
+  <div class="mb-3">
+    <InputText class="form-control" id="Password" @bind-Value="_userLoginDto.Password" placeholder="Password" />
+  </div>
+ 
+  @if (!_loggingIn)
+  {
+    <button class="btn btn-primary" type="submit">Submit</button>
+  }
+  else
+  {
+    <p>
+      Logging in...
+    </p>
+  }
+ 
+</EditForm>
+ 
+@code {
+  private readonly UserLoginDto _userLoginDto = new();
+  private CustomValidation? _customValidation;
+  private bool _loggingIn;
+ 
+  private async Task HandleValidSubmit()
+  {
+    _loggingIn = true;
+ 
+    var result = await Http.LoginUser(_userLoginDto);
+ 
+    if (result is {Succeeded: true })
+    {
+      NavigationManager.NavigateTo("dashboard");
+    }
+    else
+    {
+      _customValidation?.ClearErrors();
+      var errors = new Dictionary<string, List<string>>();
+      if (result?.Message != null) errors.Add("", new List<string> {result.Message});
+      _customValidation?.DisplayErrors(errors);
+    }
+ 
+    _loggingIn = false;
+  }
+}
