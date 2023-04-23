@@ -1,13 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BlazorWasmHosted.Server.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BlazorWasmHosted.Server.Services;
 
 public interface IJwtTokenService
 {
-    JwtSecurityToken GetJwtToken(IEnumerable<Claim> userClaims);
+    SecurityToken GetJwtToken(ApplicationUser user);
 }
 
 public class JwtTokenService : IJwtTokenService
@@ -19,20 +20,27 @@ public class JwtTokenService : IJwtTokenService
         _configuration = configuration;
     }
 
-    public JwtSecurityToken GetJwtToken(IEnumerable<Claim> userClaims)
+    public SecurityToken GetJwtToken(ApplicationUser user)
     {
-        var authSigningKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"] ?? string.Empty));
+        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? string.Empty);
         var expiryInMinutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
-
-        var token = new JwtSecurityToken(
-            _configuration["Jwt:Issuer"],
-            _configuration["Jwt:Audience"],
-            userClaims,
-            expires: DateTime.Now.AddMinutes(expiryInMinutes),
-            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-        );
-
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim("Id", Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(expiryInMinutes),
+            Issuer = _configuration["Jwt:Issuer"],
+            Audience = _configuration["Jwt:Audience"],
+            SigningCredentials = new SigningCredentials
+                (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+        };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
         return token;
     }
 }

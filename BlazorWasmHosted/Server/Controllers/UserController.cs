@@ -67,7 +67,6 @@ public class UserController : ControllerBase
             });
 
         var user = await _userManager.FindByEmailAsync(userLoginDto.Email);
-
         if (user == null || !await _userManager.CheckPasswordAsync(user, userLoginDto.Password))
             return Unauthorized(new UserLoginResultDto
             {
@@ -75,8 +74,7 @@ public class UserController : ControllerBase
                 Message = "The email and password combination was invalid."
             });
 
-        var userClaims = await _claimsService.GetUserClaimsAsync(user);
-        var token = _jwtTokenService.GetJwtToken(userClaims);
+        var token = _jwtTokenService.GetJwtToken(user);
         return Ok(new UserLoginResultDto
         {
             Succeeded = true,

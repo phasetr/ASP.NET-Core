@@ -20,9 +20,9 @@ public static class Security
                 if (user is null) return Results.Unauthorized();
                 var isValidPassword = await userManager.CheckPasswordAsync(user, createTokenData.Password);
                 if (!isValidPassword) return Results.Unauthorized();
-                var issuer = app.Configuration["Jwt:Issuer"];
-                var audience = app.Configuration["Jwt:Audience"];
-                var key = Encoding.ASCII.GetBytes(app.Configuration["Jwt:Key"] ?? string.Empty);
+
+                var key = Encoding.UTF8.GetBytes(app.Configuration["Jwt:Key"] ?? string.Empty);
+                var expiryInMinutes = Convert.ToInt32(app.Configuration["Jwt:ExpiryInMinutes"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[]
@@ -32,9 +32,9 @@ public static class Security
                         new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(100),
-                    Issuer = issuer,
-                    Audience = audience,
+                    Expires = DateTime.UtcNow.AddMinutes(expiryInMinutes),
+                    Issuer = app.Configuration["Jwt:Issuer"],
+                    Audience = app.Configuration["Jwt:Audience"],
                     SigningCredentials = new SigningCredentials
                         (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
                 };
