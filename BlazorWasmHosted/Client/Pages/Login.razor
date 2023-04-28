@@ -15,11 +15,11 @@
   <ValidationSummary />
  
   <div class="mb-3">
-    <InputText class="form-control" id="Email" @bind-Value="_userLoginDto.Email" placeholder="Email" />
+    <InputText type="text" class="form-control" id="Email" @bind-Value="_userLoginDto.Email" placeholder="Email" />
   </div>
  
   <div class="mb-3">
-    <InputText class="form-control" id="Password" @bind-Value="_userLoginDto.Password" placeholder="Password" />
+    <InputText type="password" class="form-control" id="Password" @bind-Value="_userLoginDto.Password" placeholder="Password" />
   </div>
  
   @if (!_loggingIn)
