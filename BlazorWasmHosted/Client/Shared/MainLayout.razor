@@ -7,7 +7,16 @@
 
   <main>
     <div class="top-row px-4">
-      <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+      <AuthorizeView>
+        <Authorized>
+          <text>Hello, a user!</text>
+          <a href="/logout">Logout</a>
+        </Authorized>
+        <NotAuthorized>
+          <a href="/login">Login</a>
+          <a href="/register">Register</a>
+        </NotAuthorized>
+      </AuthorizeView>
     </div>
 
     <article class="content px-4">
