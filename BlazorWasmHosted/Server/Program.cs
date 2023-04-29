@@ -22,7 +22,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ??
                       throw new InvalidOperationException("Connection string 'DefaultConnection' not found."))
         .EnableSensitiveDataLogging(sensitiveDataLogging));
-// 
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //     options.UseInMemoryDatabase("BlazorWasmHosted")
 //         .EnableSensitiveDataLogging(sensitiveDataLogging));
@@ -91,11 +90,11 @@ builder.Services.AddAuthentication(options =>
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey
             (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? string.Empty)),
         ClockSkew = TimeSpan.Zero // Messes with expiry
