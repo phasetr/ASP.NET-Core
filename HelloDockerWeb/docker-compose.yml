@@ -1,9 +1,0 @@
-version: "3.3"
-services:
-  backend:
-    image: "mcr.microsoft.com/dotnet/sdk:6.0"
-    volumes:
-      - ./HelloDockerWeb:/app
-    command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
-    ports:
-      - "80:80"

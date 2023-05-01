@@ -1,8 +1,0 @@
-@* @page "{cityName?}" *@
-@* @page "{cityName=paris}" *@
-@page "{cityName}/{rating?}"
-@model City
-
-<h2>@RouteData.Values["cityName"] Details</h2>
-<h3>@Model.CityName Details</h3>
-<p>Minimum Rating: @Model.Rating.GetValueOrDefault()</p>
