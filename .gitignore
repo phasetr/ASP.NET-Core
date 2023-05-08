@@ -1,4 +1,4 @@
-**/wwwroot/lib/*
+#**/wwwroot/lib/*
 *.db*
 *.eml
 .idea
