@@ -13,6 +13,7 @@
     <th>
       @Html.DisplayNameFor(model => model.ApplicationUsers[0].Email)
     </th>
+    <th>@Html.DisplayNameFor(model => model.ApplicationUsers[0].ApplicationUserShops)</th>
     <th></th>
   </tr>
   </thead>
@@ -25,6 +26,14 @@
       </td>
       <td>
         @Html.DisplayFor(modelItem => item.Email)
+      </td>
+      <td>
+        <ul>
+          @foreach(var shop in item.ApplicationUserShops)
+          {
+            <li>@shop.Shop.Id: @shop.Shop.Name</li>
+          }
+        </ul>
       </td>
       <td>
         Links for CRUD

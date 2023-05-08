@@ -1,26 +1,23 @@
-using EFCoreQuestionSO20230315.Data;
 using EFCoreQuestionSO20230315.Models;
+using EFCoreQuestionSO20230315.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreQuestionSO20230315.Pages.Admin.User;
 
 public class IndexModel : PageModel
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IApplicationUserService _applicationUserService;
 
-    public IndexModel(ApplicationDbContext context)
+    public IndexModel(IApplicationUserService applicationUserService)
     {
-        _context = context;
+        _applicationUserService = applicationUserService;
     }
 
-    public List<ApplicationUser> ApplicationUsers { get; set; } = default!;
+    public IList<ApplicationUser> ApplicationUsers { get; set; } = default!;
 
     public async Task OnGetAsync()
     {
-        if (_context.ApplicationUser != null)
-            ApplicationUsers = await _context.ApplicationUser
-                .Include(m => m.ApplicationRoles)
-                .ToListAsync();
+        var applicationUsers = await _applicationUserService.GetAllAsync();
+        ApplicationUsers = applicationUsers;
     }
 }

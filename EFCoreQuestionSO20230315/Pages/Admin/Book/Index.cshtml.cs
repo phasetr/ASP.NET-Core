@@ -18,7 +18,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        if (_context.Book != null) Book = await _context.Book
+        Book = await _context.Book
             .Include(book => book.BookCategories)!
             .ThenInclude(bookCategory => bookCategory.Category)
             .ToListAsync();
