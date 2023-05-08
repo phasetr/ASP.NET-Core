@@ -17,6 +17,16 @@ public class ShopConfiguration : IEntityTypeConfiguration<Shop>
         {
             Id = 2,
             Name = "Shop2"
+        },
+        new()
+        {
+            Id = 3,
+            Name = "Shop3"
+        },
+        new()
+        {
+            Id = 4,
+            Name = "Shop4"
         }
     };
 

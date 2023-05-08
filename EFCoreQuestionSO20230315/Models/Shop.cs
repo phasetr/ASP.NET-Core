@@ -6,4 +6,6 @@ public class Shop
     public string Name { get; set; } = default!;
 
     public IList<PaymentMethod> PaymentMethods { get; set; } = default!;
+
+    public ICollection<ApplicationUserShop> ApplicationUserShops { get; set; } = default!;
 }

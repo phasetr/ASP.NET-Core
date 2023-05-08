@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ApplicationUser> ApplicationUser => Set<ApplicationUser>();
     public DbSet<ApplicationRole> ApplicationRole => Set<ApplicationRole>();
     public DbSet<ApplicationUserRole> ApplicationUserRole => Set<ApplicationUserRole>();
+    public DbSet<ApplicationUserShop> ApplicationUserShops => Set<ApplicationUserShop>();
     public DbSet<Book> Book => Set<Book>();
     public DbSet<Category> Category => Set<Category>();
     public DbSet<BookCategory> BookCategory => Set<BookCategory>();
@@ -34,6 +35,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .ApplyConfiguration(new BookCategoryConfiguration())
             .ApplyConfiguration(new ShopConfiguration())
             .ApplyConfiguration(new OrderNumberConfiguration())
-            .ApplyConfiguration(new PaymentMethodConfiguration());
+            .ApplyConfiguration(new PaymentMethodConfiguration())
+            .ApplyConfiguration(new ApplicationUserShopConfiguration());
     }
 }
