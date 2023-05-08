@@ -1,11 +1,19 @@
 ﻿@using EFCoreQuestionSO20230315.Models
+@using EFCoreQuestionSO20230315.Services
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IApplicationUserService ApplicationUserService
 
 <ul class="navbar-nav">
   @if (SignInManager.IsSignedIn(User))
   {
     <li class="nav-item">
       <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+      @foreach (var item in ApplicationUserService.GetAssignedShopsByNameAsync(User.Identity?.Name!).Result)
+      {
+        <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Shop/Edit" asp-route-id="@item.Id">@item.Name</a>
+      }
     </li>
     <li class="nav-item">
       <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new {area = ""})" method="post">
