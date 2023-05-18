@@ -1,0 +1,44 @@
+@page
+@model IndexModel
+
+<p>
+  <a asp-area="Identity" asp-page="/Account/Register">TODO: Register</a>
+</p>
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.ApplicationUsers[0].UserName)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.ApplicationUsers[0].Email)
+    </th>
+    <th>@Html.DisplayNameFor(model => model.ApplicationUsers[0].ApplicationUserShops)</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var item in Model.ApplicationUsers)
+  {
+    <tr>
+      <td>
+        @Html.DisplayFor(modelItem => item.UserName)
+      </td>
+      <td>
+        @Html.DisplayFor(modelItem => item.Email)
+      </td>
+      <td>
+        <ul>
+          @foreach (var shop in item.ApplicationUserShops)
+          {
+            <li>@shop.Shop.Id: @shop.Shop.Name</li>
+          }
+        </ul>
+      </td>
+      <td>
+        Links for CRUD
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
