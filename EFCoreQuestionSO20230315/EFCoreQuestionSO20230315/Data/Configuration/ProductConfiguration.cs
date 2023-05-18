@@ -29,42 +29,42 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
                 Id = 3,
                 Name = "Product3",
                 Price = 30,
-                ShopId = 2
+                ShopId = 1
             },
             new Product
             {
                 Id = 4,
                 Name = "Product4",
                 Price = 40,
-                ShopId = 2
+                ShopId = 1
             },
             new Product
             {
                 Id = 5,
                 Name = "Product5",
                 Price = 50,
-                ShopId = 3
+                ShopId = 1
             },
             new Product
             {
                 Id = 6,
                 Name = "Product6",
                 Price = 60,
-                ShopId = 3
+                ShopId = 1
             },
             new Product
             {
                 Id = 7,
                 Name = "Product7",
                 Price = 70,
-                ShopId = 4
+                ShopId = 1
             },
             new Product
             {
                 Id = 8,
                 Name = "Product8",
                 Price = 80,
-                ShopId = 4
+                ShopId = 1
             }
         );
     }
