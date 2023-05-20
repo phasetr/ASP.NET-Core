@@ -1,10 +1,10 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c88659b1_002Db13f_002D4b30_002Dab94_002D9daeab39cda1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetShopWithProductsByIdAsync_ShopWithProducts #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c88659b1_002Db13f_002D4b30_002Dab94_002D9daeab39cda1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetShopWithProductsByIdAsync_ShopWithProducts #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::BE0B5808-C237-4EAB-86C7-FB8ABB0C62C3::net7.0::Test.Unit.Services.ShopServiceTests.GetShopWithProductsByIdAsync_ShopWithProducts&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=da324450_002D53b7_002D4a18_002Db735_002Deeee9d8fac94/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetShopWithProductsByIdAsync_ShopWithProducts" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=da324450_002D53b7_002D4a18_002Db735_002Deeee9d8fac94/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetShopWithProductsByIdAsync_ShopWithProducts" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::BE0B5808-C237-4EAB-86C7-FB8ABB0C62C3::net7.0::Test.Unit.Services.ShopServiceTests.GetShopWithProductsByIdAsync_ShopWithProducts&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
