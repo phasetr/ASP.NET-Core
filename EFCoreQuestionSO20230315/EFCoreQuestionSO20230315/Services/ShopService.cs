@@ -20,9 +20,11 @@ public class ShopService : IShopService
 
     public async Task<Shop?> GetShopWithProductsByIdAsync(int id)
     {
-        return await (from s in _context.Shops
-                join p in _context.Products.Where(x => x.IsDeleted == false) on s.Id equals p.ShopId
-                select new {s, p})
+        return await _context.Shops
+            .Join(_context.Products.Where(p => !p.IsDeleted),
+                s => s.Id,
+                p => p.ShopId,
+                (s, p) => new {s, p})
             .GroupBy(x => x.s)
             .Select(x => new Shop
             {
