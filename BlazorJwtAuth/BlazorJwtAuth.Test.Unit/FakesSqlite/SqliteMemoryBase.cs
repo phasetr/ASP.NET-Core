@@ -22,7 +22,7 @@ public class SqliteMemoryBase : IDisposable
         Context.Database.EnsureDeleted();
         Context.Dispose();
     }
-    
+
     public ApplicationDbContext Build()
     {
         Context.SaveChanges();

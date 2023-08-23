@@ -8,14 +8,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.21"/>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.21" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.21"/>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.21"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.21"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.21">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.21"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.21"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
@@ -23,16 +23,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0"/>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.1"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj" />
-    <ProjectReference Include="..\BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj" />
-    <ProjectReference Include="..\BlazorJwtAuth.Common.EntityModels\BlazorJwtAuth.Common.EntityModels.csproj" />
-    <ProjectReference Include="..\BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj" />
+    <ProjectReference Include="..\BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj"/>
+    <ProjectReference Include="..\BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj"/>
+    <ProjectReference Include="..\BlazorJwtAuth.Common.EntityModels\BlazorJwtAuth.Common.EntityModels.csproj"/>
+    <ProjectReference Include="..\BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj"/>
   </ItemGroup>
 </Project>

@@ -11,15 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21"/>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
-    <PackageReference Include="NSubstitute" Version="5.0.0" />
+    <PackageReference Include="NSubstitute" Version="5.0.0"/>
     <PackageReference Include="xunit" Version="2.5.0"/>
     <PackageReference Include="coverlet.collector" Version="3.1.2"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj" />
-    <ProjectReference Include="..\BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj" />
+    <ProjectReference Include="..\BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj"/>
+    <ProjectReference Include="..\BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj"/>
   </ItemGroup>
 </Project>
