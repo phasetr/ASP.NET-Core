@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BlazorJwtAuth.Common.DataContext</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.21" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.21" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj" />        
+      <ProjectReference Include="..\BlazorJwtAuth.Common.EntityModels\BlazorJwtAuth.Common.EntityModels.csproj" />
+    </ItemGroup>
+
+</Project>
