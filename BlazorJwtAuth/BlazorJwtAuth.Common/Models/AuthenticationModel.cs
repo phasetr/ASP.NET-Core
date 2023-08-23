@@ -4,14 +4,14 @@ namespace BlazorJwtAuth.Common.Models;
 
 public class AuthenticationModel
 {
-    public string Message { get; set; }
+    public string Message { get; set; } = default!;
     public bool IsAuthenticated { get; set; }
-    public string UserName { get; set; }
-    public string Email { get; set; }
-    public List<string> Roles { get; set; }
-    public string Token { get; set; }
+    public string UserName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public List<string> Roles { get; set; } = default!;
+    public string Token { get; set; } = default!;
 
-    [JsonIgnore] public string RefreshToken { get; set; }
+    [JsonIgnore] public string RefreshToken { get; set; } = default!;
 
     public DateTime RefreshTokenExpiration { get; set; }
 }

@@ -36,6 +36,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<ApplicationRole>()
     .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(corsPolicyBuilder =>
+    {
+        corsPolicyBuilder.WithOrigins("https://localhost:7107");
+        corsPolicyBuilder.AllowAnyMethod();
+        corsPolicyBuilder.AllowAnyHeader();
+        corsPolicyBuilder.AllowCredentials();
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -78,6 +88,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
