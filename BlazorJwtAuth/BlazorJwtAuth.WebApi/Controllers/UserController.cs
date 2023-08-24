@@ -31,6 +31,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetTokenAsync(TokenRequestModel model)
     {
         var result = await _userService.GetTokenAsync(model);
+        // リフレッシュトークンが取得できた時だけ設定
         if (!string.IsNullOrEmpty(result.RefreshToken)) SetRefreshTokenInCookie(result.RefreshToken);
         return Ok(result);
     }
