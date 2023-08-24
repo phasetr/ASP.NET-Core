@@ -1,5 +1,7 @@
 @page "/gettoken"
 @using BlazorJwtAuth.Common.Models
+@using System.Net.Http.Headers
+@using System.Net
 @inject HttpClient Http
 @inject ILogger<GetToken> Logger
 
@@ -21,29 +23,38 @@
   <div class="row justify-content-center">
     <div class="btn-group">
       <button class="btn btn-outline-primary" @onclick="GetTokenAsync">Get Token</button>
-      <button class="btn btn-outline-primary">ボタン１</button>
+      <button class="btn btn-outline-primary" @onclick="GetSecureDataAsync">Get Secure Data</button>
       <button class="btn btn-outline-primary">ボタン２</button>
     </div>
   </div>
 </div>
 
 <h2>API Result</h2>
-<div>
-  <h3>Get Token Result</h3>
-  <dl>
-    <dt>token</dt>
-    <dd>
-      <input id="token" @bind="_token"/>
-    </dd>
-    <dt>message</dt>
-    <dd>@_message</dd>
-    <dt>is authenticated</dt>
-    <dd>@_isAuthenticated</dd>
-    <dt>user name</dt>
-    <dd>@_userName</dd>
-    <dt>refresh token expiration</dt>
-    <dd>@_refreshTokenExpiration</dd>
-  </dl>
+<div class="row">
+  <div class="col-4">
+    <h3>Get Token Result</h3>
+    <dl>
+      <dt>token</dt>
+      <dd>
+        <input id="token" @bind="_token"/>
+      </dd>
+      <dt>message</dt>
+      <dd>@_message</dd>
+      <dt>is authenticated</dt>
+      <dd>@_isAuthenticated</dd>
+      <dt>user name</dt>
+      <dd>@_userName</dd>
+      <dt>refresh token expiration</dt>
+      <dd>@_refreshTokenExpiration</dd>
+    </dl>
+  </div>
+  <div class="col-4">
+    <h3>Get Secure Data</h3>
+    <dl>
+      <dt>message</dt>
+      <dd>@_getSecureDataMessage</dd>
+    </dl>
+  </div>
 </div>
 
 @code {
@@ -55,6 +66,7 @@
   private bool? _isAuthenticated;
   private string? _userName;
   private DateTime? _refreshTokenExpiration;
+  private string? _getSecureDataMessage;
 
   private async Task GetTokenAsync()
   {
@@ -69,14 +81,13 @@
     var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
     if (res != null)
     {
-      Logger.LogInformation("IsAuthenticated: {L}", res.IsAuthenticated.ToString());
       if (res.IsAuthenticated)
       {
         _token = res.Token;
         _message = res.Message;
         _isAuthenticated = res.IsAuthenticated;
         _userName = res.UserName;
-        _refreshTokenExpiration = res.RefreshTokenExpiration;
+        _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
       }
       else
       {
@@ -87,6 +98,18 @@
         _refreshTokenExpiration = null;
       }
     }
+  }
+
+  private async Task GetSecureDataAsync()
+  {
+    Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
+    var response = await Http.GetAsync("https://localhost:5500/api/Secured");
+    _getSecureDataMessage = response.StatusCode switch
+    {
+      HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
+      HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
+      _ => "Oops! Something went wrong."
+      };
   }
 
 }
