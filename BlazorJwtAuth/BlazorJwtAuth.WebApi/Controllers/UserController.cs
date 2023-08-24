@@ -5,6 +5,7 @@ using BlazorJwtAuth.WebApi.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.WebApi.Controllers;
 
@@ -12,10 +13,14 @@ namespace BlazorJwtAuth.WebApi.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
+    private readonly ILogger<UserController> _logger;
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService)
+    public UserController(
+        ILogger<UserController> logger,
+        IUserService userService)
     {
+        _logger = logger;
         _userService = userService;
     }
 
@@ -32,6 +37,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> RefreshToken()
     {
         var refreshToken = Request.Cookies["refreshToken"];
+        _logger.LogInformation("refreshToken from cookie: {RefreshToken}", refreshToken);
         var response = await _userService.RefreshTokenAsync(refreshToken ?? string.Empty);
         if (!string.IsNullOrEmpty(response.RefreshToken))
             SetRefreshTokenInCookie(response.RefreshToken);

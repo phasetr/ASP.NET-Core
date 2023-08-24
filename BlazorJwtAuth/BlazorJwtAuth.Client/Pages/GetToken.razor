@@ -1,7 +1,9 @@
 @page "/gettoken"
+@using BlazorJwtAuth.Client.Library
 @using BlazorJwtAuth.Common.Models
 @using System.Net.Http.Headers
 @using System.Net
+@inject CookieStorageAccessor CookieStorageAccessor
 @inject HttpClient Http
 @inject ILogger<GetToken> Logger
 
@@ -24,7 +26,7 @@
     <div class="btn-group">
       <button class="btn btn-outline-primary" @onclick="GetTokenAsync">Get Token</button>
       <button class="btn btn-outline-primary" @onclick="GetSecureDataAsync">Get Secure Data</button>
-      <button class="btn btn-outline-primary">ボタン２</button>
+      <button class="btn btn-outline-primary" @onclick="PostRefreshTokenAsync">Refresh Token</button>
     </div>
   </div>
 </div>
@@ -76,7 +78,7 @@
       Password = _password
     };
     var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
-    Logger.LogInformation("{L}", await response.Content.ReadAsStringAsync());
+    Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
 
     var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
     if (res != null)
@@ -110,6 +112,14 @@
       HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
       _ => "Oops! Something went wrong."
       };
+  }
+
+  private async Task PostRefreshTokenAsync()
+  {
+    var refreshToken = await CookieStorageAccessor.GetAsync<string>("refreshToken");
+    Logger.LogInformation("refreshToken: {R}", refreshToken);
+    var response = await Http.PostAsync("https://localhost:5500/api/User/refresh-token", null);
+    Logger.LogInformation("response: {R}", response);
   }
 
 }
