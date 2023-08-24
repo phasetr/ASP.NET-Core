@@ -19,27 +19,12 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("register")]
-    //[ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<ActionResult> RegisterAsync(RegisterModel model)
-    {
-        var result = await _userService.RegisterAsync(model);
-        return Ok(result);
-    }
-
     [HttpPost("token")]
     public async Task<IActionResult> GetTokenAsync(TokenRequestModel model)
     {
         var result = await _userService.GetTokenAsync(model);
         // リフレッシュトークンが取得できた時だけ設定
         if (!string.IsNullOrEmpty(result.RefreshToken)) SetRefreshTokenInCookie(result.RefreshToken);
-        return Ok(result);
-    }
-
-    [HttpPost("add-role")]
-    public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
-    {
-        var result = await _userService.AddRoleAsync(model);
         return Ok(result);
     }
 
@@ -52,7 +37,6 @@ public class UserController : ControllerBase
             SetRefreshTokenInCookie(response.RefreshToken);
         return Ok(response);
     }
-
 
     [HttpPost("revoke-token")]
     public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest model)
@@ -71,6 +55,30 @@ public class UserController : ControllerBase
         return Ok(new {message = "Token revoked"});
     }
 
+    [Authorize]
+    [HttpPost("tokens/{id}")]
+    public async Task<IActionResult> GetRefreshTokensAsync(string id)
+    {
+        var user = await _userService.GetByIdAsync(id);
+        if (user is null) return NotFound();
+        return Ok(user.RefreshTokens);
+    }
+
+    [HttpPost("register")]
+    //[ApiExplorerSettings(IgnoreApi = true)]
+    public async Task<ActionResult> RegisterAsync(RegisterModel model)
+    {
+        var result = await _userService.RegisterAsync(model);
+        return Ok(result);
+    }
+
+    [HttpPost("add-role")]
+    public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
+    {
+        var result = await _userService.AddRoleAsync(model);
+        return Ok(result);
+    }
+
     private void SetRefreshTokenInCookie(string refreshToken)
     {
         var cookieOptions = new CookieOptions
@@ -79,14 +87,5 @@ public class UserController : ControllerBase
             Expires = DateTime.UtcNow.AddDays(10)
         };
         Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
-    }
-
-    [Authorize]
-    [HttpPost("tokens/{id}")]
-    public async Task<IActionResult> GetRefreshTokensAsync(string id)
-    {
-        var user = await _userService.GetByIdAsync(id);
-        if (user is null) return NotFound();
-        return Ok(user.RefreshTokens);
     }
 }
