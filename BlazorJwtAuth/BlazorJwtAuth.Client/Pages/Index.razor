@@ -1,7 +1,4 @@
 ﻿@page "/"
-@using BlazorJwtAuth.Common.Models
-@inject HttpClient Http
-@inject ILogger<Index> Logger
 
 <PageTitle>Index</PageTitle>
 
@@ -10,54 +7,3 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
-
-<div>
-  <h3>GetToken</h3>
-  <dl>
-    <dt>token</dt>
-    <dd>@_token</dd>
-    <dt>message</dt>
-    <dd>@_message</dd>
-    <dt>is authenticated</dt>
-    <dd>@_isAuthenticated</dd>
-    <dt>user name</dt>
-    <dd>@_userName</dd>
-    <dt>email</dt>
-    <dd>@_email</dd>
-    <dt>refresh token expiration</dt>
-    <dd>@_refreshTokenExpiration</dd>
-  </dl>
-  <button class="btn btn-primary" @onclick="GetToken">Get Token</button>
-</div>
-
-@code {
-  private string? _token;
-  private string? _message;
-  private bool? _isAuthenticated;
-  private string? _userName;
-  private string? _email;
-  private DateTime? _refreshTokenExpiration;
-
-  private async Task GetToken()
-  {
-    var addItem = new TokenRequestModel
-    {
-      Email = "user@secureapi.com",
-      Password = "Pa$$w0rd."
-    };
-    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", addItem);
-    Logger.LogInformation("{L}", response.StatusCode.ToString());
-    var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
-    if (res != null)
-    {
-      Logger.LogInformation("{L}", res.Token);
-      _token = res.Token;
-      _message = res.Message;
-      _isAuthenticated = res.IsAuthenticated;
-      _userName = res.UserName;
-      _email = res.Email;
-      _refreshTokenExpiration = res.RefreshTokenExpiration;
-    }
-  }
-
-}
