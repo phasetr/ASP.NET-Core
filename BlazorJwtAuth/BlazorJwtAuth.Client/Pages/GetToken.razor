@@ -58,12 +58,12 @@
 
   private async Task GetTokenAsync()
   {
-    var addItem = new TokenRequestModel
+    var tokenRequestModel = new TokenRequestModel
     {
       Email = _email,
       Password = _password
     };
-    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", addItem);
+    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
     Logger.LogInformation("{L}", await response.Content.ReadAsStringAsync());
 
     var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
