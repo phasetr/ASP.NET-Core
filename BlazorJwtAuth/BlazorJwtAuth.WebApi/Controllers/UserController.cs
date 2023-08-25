@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.WebApi.Service.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,19 +26,13 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetTokenAsync(TokenRequestModel model)
     {
         var result = await _userService.GetTokenAsync(model);
-        // リフレッシュトークンが取得できた時だけ設定
-        if (!string.IsNullOrEmpty(result.RefreshToken)) SetRefreshTokenInCookie(result.RefreshToken);
         return Ok(result);
     }
 
     [HttpPost("refresh-token")]
-    public async Task<IActionResult> RefreshToken()
+    public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest model)
     {
-        var refreshToken = Request.Cookies["refreshToken"];
-        _logger.LogInformation("refreshToken from cookie: {RefreshToken}", refreshToken);
-        var response = await _userService.RefreshTokenAsync(refreshToken ?? string.Empty);
-        if (!string.IsNullOrEmpty(response.RefreshToken))
-            SetRefreshTokenInCookie(response.RefreshToken);
+        var response = await _userService.RefreshTokenAsync(model.RefreshToken);
         return Ok(response);
     }
 
@@ -83,15 +75,5 @@ public class UserController : ControllerBase
     {
         var result = await _userService.AddRoleAsync(model);
         return Ok(result);
-    }
-
-    private void SetRefreshTokenInCookie(string refreshToken)
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddDays(10)
-        };
-        Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
     }
 }

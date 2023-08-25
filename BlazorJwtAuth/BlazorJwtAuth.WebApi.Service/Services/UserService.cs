@@ -118,12 +118,12 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<AuthenticationModel> RefreshTokenAsync(string token)
+    public async Task<AuthenticationModel> RefreshTokenAsync(string requestRefreshToken)
     {
         var authenticationModel = new AuthenticationModel();
         var user = _context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
-            .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+            .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == requestRefreshToken));
         if (user == null)
         {
             authenticationModel.IsAuthenticated = false;
@@ -131,9 +131,9 @@ public class UserService : IUserService
             return authenticationModel;
         }
 
-        var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
+        var oldRefreshToken = user.RefreshTokens.Single(x => x.Token == requestRefreshToken);
 
-        if (!refreshToken.IsActive)
+        if (!oldRefreshToken.IsActive)
         {
             authenticationModel.IsAuthenticated = false;
             authenticationModel.Message = "Token Not Active.";
@@ -141,7 +141,7 @@ public class UserService : IUserService
         }
 
         // Revoke Current Refresh Token
-        refreshToken.Revoked = DateTime.UtcNow;
+        oldRefreshToken.Revoked = DateTime.UtcNow;
 
         // Generate new Refresh Token and save to Database
         var newRefreshToken = CreateRefreshToken(user.Id);
@@ -159,6 +159,7 @@ public class UserService : IUserService
         authenticationModel.Roles = rolesList.ToList<string>();
         authenticationModel.RefreshToken = newRefreshToken.Token;
         authenticationModel.RefreshTokenExpiration = newRefreshToken.Expires;
+        authenticationModel.Message = "Token Refreshed Properly.";
         return authenticationModel;
     }
 

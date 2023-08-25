@@ -1,9 +1,7 @@
 @page "/gettoken"
-@using BlazorJwtAuth.Client.Library
 @using BlazorJwtAuth.Common.Models
 @using System.Net.Http.Headers
 @using System.Net
-@inject CookieStorageAccessor CookieStorageAccessor
 @inject HttpClient Http
 @inject ILogger<GetToken> Logger
 
@@ -46,6 +44,10 @@
       <dd>@_isAuthenticated</dd>
       <dt>user name</dt>
       <dd>@_userName</dd>
+      <dt>refresh token</dt>
+      <dd>
+        <input id="refreshToken" @bind="_refreshToken">
+      </dd>
       <dt>refresh token expiration</dt>
       <dd>@_refreshTokenExpiration</dd>
     </dl>
@@ -55,6 +57,13 @@
     <dl>
       <dt>message</dt>
       <dd>@_getSecureDataMessage</dd>
+    </dl>
+  </div>
+  <div class="col-4">
+    <h3>Refresh Token</h3>
+    <dl>
+      <dt>message</dt>
+      <dd>@_refreshTokenMessage</dd>
     </dl>
   </div>
 </div>
@@ -67,8 +76,10 @@
   private string? _message;
   private bool? _isAuthenticated;
   private string? _userName;
+  private string? _refreshToken;
   private DateTime? _refreshTokenExpiration;
   private string? _getSecureDataMessage;
+  private string? _refreshTokenMessage;
 
   private async Task GetTokenAsync()
   {
@@ -78,7 +89,7 @@
       Password = _password
     };
     var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
-    // Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
+    Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
 
     var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
     if (res != null)
@@ -89,6 +100,7 @@
         _message = res.Message;
         _isAuthenticated = res.IsAuthenticated;
         _userName = res.UserName;
+        _refreshToken = res.RefreshToken;
         _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
       }
       else
@@ -116,10 +128,36 @@
 
   private async Task PostRefreshTokenAsync()
   {
-    var refreshToken = await CookieStorageAccessor.GetAsync<string>("refreshToken");
-    Logger.LogInformation("refreshToken: {R}", refreshToken);
-    var response = await Http.PostAsync("https://localhost:5500/api/User/refresh-token", null);
-    Logger.LogInformation("response: {R}", response);
+    if (_refreshToken is null or "")
+    {
+      _refreshTokenMessage = "Please get a refresh token first.";
+    }
+    var refreshTokenRequest = new RefreshTokenRequest
+    {
+      RefreshToken = _refreshToken!
+    };
+    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/refresh-token", refreshTokenRequest);
+    var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
+    if (res != null)
+    {
+      if (res.IsAuthenticated)
+      {
+        _token = res.Token;
+        _message = res.Message;
+        _isAuthenticated = res.IsAuthenticated;
+        _userName = res.UserName;
+        _refreshToken = res.RefreshToken;
+        _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+      }
+      else
+      {
+        _token = "";
+        _message = res.Message;
+        _isAuthenticated = res.IsAuthenticated;
+        _userName = "";
+        _refreshTokenExpiration = null;
+      }
+    }
   }
 
 }

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace BlazorJwtAuth.Common.Models;
+﻿namespace BlazorJwtAuth.Common.Models;
 
 public class AuthenticationModel
 {
@@ -10,8 +8,6 @@ public class AuthenticationModel
     public string Email { get; set; } = default!;
     public List<string> Roles { get; set; } = default!;
     public string Token { get; set; } = default!;
-
-    [JsonIgnore] public string RefreshToken { get; set; } = default!;
-
+    public string RefreshToken { get; set; } = default!;
     public DateTime RefreshTokenExpiration { get; set; }
 }
