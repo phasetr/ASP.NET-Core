@@ -92,7 +92,12 @@
     };
     var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/token", tokenRequestModel);
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-    if (res!.IsAuthenticated)
+    if (res is null)
+    {
+      _message = "Oops! Something went wrong: response is null.";
+      return;
+    }
+    if (res.IsAuthenticated)
     {
       _token = res.Token;
       _message = res.Message;

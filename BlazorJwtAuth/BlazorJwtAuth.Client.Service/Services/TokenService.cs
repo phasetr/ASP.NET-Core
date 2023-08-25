@@ -1,6 +1,4 @@
-using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
-using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Models;
 
 namespace BlazorJwtAuth.Client.Service.Services;
@@ -16,19 +14,20 @@ public class TokenService : ITokenService
 
     public async Task<AuthenticationResponse> GetTokenAsync(GetTokenRequest tokenRequest)
     {
-        var httpClient = _httpClientFactory.CreateClient();
-        // TODO APIのURLルート取得
-        var response =
-            await httpClient.PostAsync("https://localhost:5500/User/token", JsonContent.Create(tokenRequest));
-        var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-        if (res is null)
-            return new AuthenticationResponse
-            {
-                Status = Response.ErrorResponseStatus,
-                Message = Response.ErrorResponseMessage,
-                Detail = Response.ErrorResponseDetail
-            };
-        return res;
+        throw new NotImplementedException();
+        // var httpClient = _httpClientFactory.CreateClient();
+        // // TODO APIのURLルート取得
+        // var response =
+        //     await httpClient.PostAsync("https://localhost:5500/User/token", JsonContent.Create(tokenRequest));
+        // var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
+        // if (res is null)
+        //     return new AuthenticationResponse
+        //     {
+        //         Status = Response.ErrorResponseStatus,
+        //         Message = Response.ErrorResponseMessage,
+        //         Detail = Response.ErrorResponseDetail
+        //     };
+        // return res;
     }
 
     public async Task<AuthenticationResponse> RefreshTokenAsync(string token, string refreshToken)
