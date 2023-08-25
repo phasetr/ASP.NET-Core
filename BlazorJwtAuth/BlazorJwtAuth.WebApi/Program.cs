@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Settings;
+using BlazorJwtAuth.WebApi.Middleware;
 using BlazorJwtAuth.WebApi.Service.Services;
 using JwtAuth.Common.DataContext.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,6 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<CustomErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();
