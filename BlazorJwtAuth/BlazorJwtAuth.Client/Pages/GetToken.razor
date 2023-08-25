@@ -78,7 +78,7 @@
       Password = _password
     };
     var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
-    Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
+    // Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
 
     var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
     if (res != null)

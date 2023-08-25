@@ -78,8 +78,8 @@ public class UserService : IUserService
             if (user is {RefreshTokens: not null} && user.RefreshTokens.Any(a => a.IsActive))
             {
                 var activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive);
-                authenticationModel.RefreshToken = activeRefreshToken?.Token ?? string.Empty;
-                authenticationModel.RefreshTokenExpiration = activeRefreshToken!.Expires;
+                authenticationModel.RefreshToken = activeRefreshToken!.Token;
+                authenticationModel.RefreshTokenExpiration = activeRefreshToken.Expires;
             }
             else
             {
@@ -92,6 +92,7 @@ public class UserService : IUserService
                 authenticationModel.RefreshTokenExpiration = refreshToken.Expires;
             }
 
+            authenticationModel.Message = "Token Created Properly.";
             return authenticationModel;
         }
 
