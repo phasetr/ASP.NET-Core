@@ -128,7 +128,7 @@
 
   private async Task PostRefreshTokenAsync()
   {
-    if (_refreshToken is null or "")
+    if(string.IsNullOrEmpty(_refreshToken))
     {
       _refreshTokenMessage = "Please get a refresh token first.";
       return;
