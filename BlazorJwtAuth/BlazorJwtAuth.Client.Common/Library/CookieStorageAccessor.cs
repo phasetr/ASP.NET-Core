@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace BlazorJwtAuth.Client.Library;
+namespace Blazor.JwtAuth.Client.Common.Library;
 
 public class CookieStorageAccessor
 {

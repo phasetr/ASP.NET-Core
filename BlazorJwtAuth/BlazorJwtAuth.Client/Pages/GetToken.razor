@@ -1,12 +1,11 @@
 @page "/gettoken"
 @using BlazorJwtAuth.Common.Models
+@using Authorization = BlazorJwtAuth.Common.Constants.Authorization
+@using Blazor.JwtAuth.Client.Common.Library
 @using System.Net.Http.Headers
 @using System.Net
-@using BlazorJwtAuth.Client.Library
-@using Authorization = BlazorJwtAuth.Common.Constants.Authorization
 @inject AppSettings AppSettings
 @inject HttpClient Http
-@inject ILogger<GetToken> Logger
 
 <PageTitle>Get Token</PageTitle>
 
@@ -91,30 +90,24 @@
       Email = _email,
       Password = _password
     };
-    Logger.LogInformation("{E}",AppSettings.ApiRoot);
     var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/token", tokenRequestModel);
-    Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
-
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-    if (res != null)
+    if (res!.IsAuthenticated)
     {
-      if (res.IsAuthenticated)
-      {
-        _token = res.Token;
-        _message = res.Message;
-        _isAuthenticated = res.IsAuthenticated;
-        _userName = res.UserName;
-        _refreshToken = res.RefreshToken;
-        _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
-      }
-      else
-      {
-        _token = "";
-        _message = res.Message;
-        _isAuthenticated = res.IsAuthenticated;
-        _userName = "";
-        _refreshTokenExpiration = null;
-      }
+      _token = res.Token;
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = res.UserName;
+      _refreshToken = res.RefreshToken;
+      _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+    }
+    else
+    {
+      _token = "";
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = "";
+      _refreshTokenExpiration = null;
     }
   }
 
@@ -132,7 +125,7 @@
 
   private async Task PostRefreshTokenAsync()
   {
-    if(string.IsNullOrEmpty(_refreshToken))
+    if (string.IsNullOrEmpty(_refreshToken))
     {
       _refreshTokenMessage = "Please get a refresh token first.";
       return;
