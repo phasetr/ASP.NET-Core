@@ -83,7 +83,7 @@
 
   private async Task GetTokenAsync()
   {
-    var tokenRequestModel = new TokenRequestModel
+    var tokenRequestModel = new GetTokenRequest
     {
       Email = _email,
       Password = _password
@@ -91,7 +91,7 @@
     var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
     Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
 
-    var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
+    var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
     if (res != null)
     {
       if (res.IsAuthenticated)
@@ -131,13 +131,15 @@
     if (_refreshToken is null or "")
     {
       _refreshTokenMessage = "Please get a refresh token first.";
+      return;
     }
+
     var refreshTokenRequest = new RefreshTokenRequest
     {
       RefreshToken = _refreshToken!
     };
     var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/refresh-token", refreshTokenRequest);
-    var res = await response.Content.ReadFromJsonAsync<AuthenticationModel>();
+    var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
     if (res != null)
     {
       if (res.IsAuthenticated)

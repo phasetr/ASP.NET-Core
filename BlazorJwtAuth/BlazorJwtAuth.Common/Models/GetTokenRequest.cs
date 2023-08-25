@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlazorJwtAuth.Common.Models;
 
-public class TokenRequestModel
+public class GetTokenRequest
 {
     [DefaultValue("user@secureapi.com")]
     [Required]
-    public string Email { get; set; } = default!;
+    public string Email { get; init; } = default!;
 
-    [DefaultValue("Pa$$w0rd.")] [Required] public string Password { get; set; } = default!;
+    [DefaultValue("Pa$$w0rd.")] [Required] public string Password { get; init; } = default!;
 }

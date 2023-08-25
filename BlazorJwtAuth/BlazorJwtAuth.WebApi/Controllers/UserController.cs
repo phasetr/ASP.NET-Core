@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("token")]
-    public async Task<IActionResult> GetTokenAsync(TokenRequestModel model)
+    public async Task<IActionResult> GetTokenAsync(GetTokenRequest model)
     {
         var result = await _userService.GetTokenAsync(model);
         return Ok(result);

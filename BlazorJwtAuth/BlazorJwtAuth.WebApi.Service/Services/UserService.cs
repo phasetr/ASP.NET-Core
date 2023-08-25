@@ -51,9 +51,9 @@ public class UserService : IUserService
         return $"User Registered with username {user.UserName}";
     }
 
-    public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
+    public async Task<AuthenticationResponse> GetTokenAsync(GetTokenRequest model)
     {
-        var authenticationModel = new AuthenticationModel();
+        var authenticationModel = new AuthenticationResponse();
         var user = await _context.Users
             .Include(m => m.RefreshTokens)
             .FirstOrDefaultAsync(m => m.Email == model.Email);
@@ -118,9 +118,9 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<AuthenticationModel> RefreshTokenAsync(string requestRefreshToken)
+    public async Task<AuthenticationResponse> RefreshTokenAsync(string requestRefreshToken)
     {
-        var authenticationModel = new AuthenticationModel();
+        var authenticationModel = new AuthenticationResponse();
         var user = _context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
             .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == requestRefreshToken));

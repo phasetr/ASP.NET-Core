@@ -35,7 +35,7 @@ public class UserServiceTests : SqliteMemoryBase
         var mockLogger = Substitute.For<ILogger<UserService>>();
         _sut = new UserService(userManager, _jwt, mockLogger, context);
 
-        var tokenRequestModel = new TokenRequestModel
+        var tokenRequestModel = new GetTokenRequest
         {
             Email = "noUser@phasetr.com",
             Password = "noUser"
@@ -49,7 +49,7 @@ public class UserServiceTests : SqliteMemoryBase
     [Fact]
     public async Task GetTokenAsync_ExistingUserWrongPassword_IncorrectCredential()
     {
-        var tokenRequestModel = new TokenRequestModel
+        var tokenRequestModel = new GetTokenRequest
         {
             Email = "user@secureapi.com",
             Password = "errorPassword"
@@ -76,7 +76,7 @@ public class UserServiceTests : SqliteMemoryBase
     [Fact]
     public async Task GetTokenAsync_ExistingUser_ProperResult()
     {
-        var tokenRequestModel = new TokenRequestModel
+        var tokenRequestModel = new GetTokenRequest
         {
             Email = Authorization.DefaultEmail,
             Password = Authorization.DefaultPassword
