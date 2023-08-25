@@ -3,6 +3,7 @@
 @using System.Net.Http.Headers
 @using System.Net
 @using BlazorJwtAuth.Client.Library
+@using Authorization = BlazorJwtAuth.Common.Constants.Authorization
 @inject AppSettings AppSettings
 @inject HttpClient Http
 @inject ILogger<GetToken> Logger
@@ -71,9 +72,9 @@
 </div>
 
 @code {
-  private string _userId = "userId";
-  private string _email = "user@secureapi.com";
-  private string _password = "Pa$$w0rd.";
+  private string _userId = $"{Authorization.DefaultUsername}Id";
+  private string _email = Authorization.DefaultEmail;
+  private string _password = Authorization.DefaultPassword;
   private string? _token;
   private string? _message;
   private bool? _isAuthenticated;
