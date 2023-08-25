@@ -9,3 +9,10 @@
 ```shell
 dotnet new blazorwasm -o BlazorJwtAuth.Client -f net6.0 --pwa
 ```
+
+### bunit
+
+```shell
+dotnet new --install bunit.template
+dotnet new bunit --framework xunit -o <NAME OF TEST PROJECT>
+```
