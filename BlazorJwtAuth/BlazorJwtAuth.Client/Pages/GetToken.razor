@@ -154,6 +154,7 @@
         _userName = res.UserName;
         _refreshToken = res.RefreshToken;
         _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+        _refreshTokenMessage = "Success.";
       }
       else
       {
@@ -162,6 +163,7 @@
         _isAuthenticated = res.IsAuthenticated;
         _userName = "";
         _refreshTokenExpiration = null;
+        _refreshTokenMessage = "Failed.";
       }
     }
   }
