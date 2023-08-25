@@ -1,8 +1,7 @@
 ﻿namespace BlazorJwtAuth.Common.Models;
 
-public class AuthenticationResponse
+public class AuthenticationResponse : ResponseBase
 {
-    public string Message { get; set; } = default!;
     public bool IsAuthenticated { get; set; }
     public string UserName { get; set; } = default!;
     public string Email { get; set; } = default!;

@@ -1,21 +1,17 @@
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Models;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.Client.Service.Services;
 
 public class TokenService : ITokenService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ILogger<TokenService> _logger;
 
-    public TokenService(
-        IHttpClientFactory httpClientFactory,
-        ILogger<TokenService> logger)
+    public TokenService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _logger = logger;
     }
 
     public async Task<AuthenticationResponse> GetTokenAsync(GetTokenRequest tokenRequest)
@@ -25,8 +21,14 @@ public class TokenService : ITokenService
         var response =
             await httpClient.PostAsync("https://localhost:5500/User/token", JsonContent.Create(tokenRequest));
         var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-        // TODO null処理対応
-        return res!;
+        if (res is null)
+            return new AuthenticationResponse
+            {
+                Status = Response.ErrorResponseStatus,
+                Message = Response.ErrorResponseMessage,
+                Detail = Response.ErrorResponseDetail
+            };
+        return res;
     }
 
     public async Task<AuthenticationResponse> RefreshTokenAsync(string token, string refreshToken)
