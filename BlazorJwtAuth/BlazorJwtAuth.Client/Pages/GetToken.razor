@@ -2,6 +2,8 @@
 @using BlazorJwtAuth.Common.Models
 @using System.Net.Http.Headers
 @using System.Net
+@using BlazorJwtAuth.Client.Library
+@inject AppSettings AppSettings
 @inject HttpClient Http
 @inject ILogger<GetToken> Logger
 
@@ -88,7 +90,8 @@
       Email = _email,
       Password = _password
     };
-    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/token", tokenRequestModel);
+    Logger.LogInformation("{E}",AppSettings.ApiRoot);
+    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/token", tokenRequestModel);
     Logger.LogInformation("response: {R}", await response.Content.ReadAsStringAsync());
 
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
@@ -117,7 +120,7 @@
   private async Task GetSecureDataAsync()
   {
     Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-    var response = await Http.GetAsync("https://localhost:5500/api/Secured");
+    var response = await Http.GetAsync($"{AppSettings.ApiRoot}/Secured");
     _getSecureDataMessage = response.StatusCode switch
     {
       HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
@@ -138,7 +141,7 @@
     {
       RefreshToken = _refreshToken!
     };
-    var response = await Http.PostAsJsonAsync("https://localhost:5500/api/User/refresh-token", refreshTokenRequest);
+    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/refresh-token", refreshTokenRequest);
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
     if (res != null)
     {

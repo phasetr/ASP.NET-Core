@@ -4,10 +4,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BlazorJwtAuth.WebApi.Controllers;
+namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/v1/[controller]")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =

@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace BlazorJwtAuth.WebApi.Controllers;
+namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
 {
