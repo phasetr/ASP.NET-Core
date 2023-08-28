@@ -1,0 +1,36 @@
+@page "/consumption-tax-calculator"
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
+@inject IConsumptionTaxCalculator Calculator
+
+<h2>Taxed Price</h2>
+
+<div class="row">
+  <div class="col-2">Date</div>
+  <div class="col-10">
+    <input type="date" @bind="Date"/>
+  </div>
+  <div class="col-2">Price without tax</div>
+  <div class="col-10">
+    <input id="price" type="number" @bind="Price"/>
+  </div>
+  <input class="col-2 btn btn-primary" type="button" @onclick="Calc" value="Calculate"/>
+</div>
+<div id="priceWithTax" class="mt-3 p-3 border bg-primary">Price with tax: ¥@PriceWithTax</div>
+
+@code {
+
+  [Parameter]
+  public DateTime Date { get; set; } = DateTime.Now;
+
+  [Parameter]
+  public int Price { get; set; } = 100;
+
+  [Parameter]
+  public int PriceWithTax { get; set; }
+
+  private void Calc()
+  {
+    PriceWithTax = Calculator.CalcTotalPrice(Price, Date);
+  }
+
+}

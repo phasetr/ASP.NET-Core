@@ -2,5 +2,5 @@ namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface IConsumptionTaxCalculator
 {
-    int CalcTotalPrice(int price);
+    int CalcTotalPrice(int price, DateTime date);
 }
