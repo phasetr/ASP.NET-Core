@@ -1,6 +1,6 @@
 using BlazorJwtAuth.Client.Pages;
 
-namespace BlazorJwtAuth.Test.Client.Unit;
+namespace BlazorJwtAuth.Test.Client.Unit.Pages;
 
 /// <summary>
 ///     These tests are written entirely in C#.
