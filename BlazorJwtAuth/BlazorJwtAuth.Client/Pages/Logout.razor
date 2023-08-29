@@ -1,0 +1,16 @@
+@page "/logout"
+@using BlazorJwtAuth.Client.Service.Services
+@inject AuthenticationHttpClient Http
+@inject NavigationManager NavigationManager
+
+<h1>Logout</h1>
+
+<text>Logging out...</text>
+
+@code {
+  protected override async Task OnInitializedAsync()
+  {
+    await Http.LogoutUser();
+    NavigationManager.NavigateTo("login");
+  }
+}

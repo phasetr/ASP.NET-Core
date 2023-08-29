@@ -11,4 +11,5 @@ public interface IUserService
     Task<AuthenticationResponse> RefreshTokenAsync(string requestRefreshToken);
     Task<bool> RevokeTokenAsync(string token);
     Task<ApplicationUser?> GetByIdAsync(string id);
+    Task<ApplicationUser?> GetByEmailAsync(string email);
 }

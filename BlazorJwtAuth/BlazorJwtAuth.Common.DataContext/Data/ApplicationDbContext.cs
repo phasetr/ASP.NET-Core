@@ -1,9 +1,9 @@
-﻿using BlazorJwtAuth.Common.EntityModels.Entities;
-using JwtAuth.Common.DataContext.Data.Configuration;
+﻿using BlazorJwtAuth.Common.DataContext.Data.Configuration;
+using BlazorJwtAuth.Common.EntityModels.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace JwtAuth.Common.DataContext.Data;
+namespace BlazorJwtAuth.Common.DataContext.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

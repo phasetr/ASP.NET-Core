@@ -1,4 +1,4 @@
-using JwtAuth.Common.DataContext.Data;
+using BlazorJwtAuth.Common.DataContext.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlazorJwtAuth.Test.Unit.FakesSqlite;

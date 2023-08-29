@@ -1,10 +1,10 @@
 using System;
 using System.Text;
+using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.WebApi.Middleware;
 using BlazorJwtAuth.WebApi.Service.Services;
-using JwtAuth.Common.DataContext.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +25,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
+    options.User.RequireUniqueEmail = true;
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -53,6 +54,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // User Manager Service
+builder.Services.AddScoped<IClaimsService, ClaimsService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // Adding Authentication - JWT
@@ -60,6 +63,7 @@ builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(o =>
     {

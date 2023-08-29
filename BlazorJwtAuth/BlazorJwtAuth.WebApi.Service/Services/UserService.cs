@@ -2,10 +2,10 @@
 using System.Security.Claims;
 using System.Text;
 using BlazorJwtAuth.Common.Constants;
+using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Settings;
-using JwtAuth.Common.DataContext.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -39,7 +39,8 @@ public class UserService : IUserService
             UserName = model.Username,
             Email = model.Email,
             FirstName = model.FirstName,
-            LastName = model.LastName
+            LastName = model.LastName,
+            SecurityStamp = Guid.NewGuid().ToString()
         };
         var userWithSameEmail = await _userManager.FindByEmailAsync(model.Email);
 
@@ -190,6 +191,11 @@ public class UserService : IUserService
         return await _context.Users.FindAsync(id);
     }
 
+    public async Task<ApplicationUser?> GetByEmailAsync(string email)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
     public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
     {
         var userClaims = await _userManager.GetClaimsAsync(user);
@@ -234,5 +240,5 @@ public class UserService : IUserService
     }
 
     // TODO : Update User Details
-    // TODO : Remove User from Role 
+    // TODO : Remove User from Role
 }

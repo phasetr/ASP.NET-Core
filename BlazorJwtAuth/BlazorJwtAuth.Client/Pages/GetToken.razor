@@ -90,7 +90,7 @@
       Email = _email,
       Password = _password
     };
-    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/token", tokenRequestModel);
+    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiBaseAddress}/User/token", tokenRequestModel);
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
     if (res is null)
     {
@@ -119,7 +119,7 @@
   private async Task GetSecureDataAsync()
   {
     Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-    var response = await Http.GetAsync($"{AppSettings.ApiRoot}/Secured");
+    var response = await Http.GetAsync($"{AppSettings.ApiBaseAddress}/Secured");
     _getSecureDataMessage = response.StatusCode switch
     {
       HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
@@ -140,7 +140,7 @@
     {
       RefreshToken = _refreshToken!
     };
-    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiRoot}/User/refresh-token", refreshTokenRequest);
+    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiBaseAddress}/User/refresh-token", refreshTokenRequest);
     var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
     if (res != null)
     {
