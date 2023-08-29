@@ -4,9 +4,6 @@
     <Found Context="routeData">
       <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
         <Authorizing>
-          <text>Authorizing user, please wait...</text>
-          @*<RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>*@
-          @*<FocusOnNavigate RouteData="@routeData" Selector="h1"/>*@
         </Authorizing>
         <NotAuthorized>
           <RedirectToLogin/>

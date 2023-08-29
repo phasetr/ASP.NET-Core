@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Blazor.JwtAuth.Client.Common.Classes;
 
-public class CustomValidation
+public class CustomValidation : ComponentBase
 {
     private ValidationMessageStore? _messageStore;
 
     [CascadingParameter] private EditContext? CurrentEditContext { get; }
 
-    protected void OnInitialized()
+    protected override void OnInitialized()
     {
         if (CurrentEditContext is null)
             throw new InvalidOperationException(
@@ -20,10 +20,8 @@ public class CustomValidation
 
         _messageStore = new ValidationMessageStore(CurrentEditContext);
 
-        CurrentEditContext.OnValidationRequested += (s, e) =>
-            _messageStore?.Clear();
-        CurrentEditContext.OnFieldChanged += (s, e) =>
-            _messageStore?.Clear(e.FieldIdentifier);
+        CurrentEditContext.OnValidationRequested += (_, _) => _messageStore?.Clear();
+        CurrentEditContext.OnFieldChanged += (_, e) => _messageStore?.Clear(e.FieldIdentifier);
     }
 
     public void DisplayErrors(Dictionary<string, List<string>> errors)

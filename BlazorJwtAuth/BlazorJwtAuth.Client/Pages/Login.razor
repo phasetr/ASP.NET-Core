@@ -13,7 +13,7 @@
 <h1>Login</h1>
 
 <EditForm Model="@_userLoginDto" OnValidSubmit="@HandleValidSubmit">
-  @*<CustomValidation @ref="_customValidation" />*@
+  <CustomValidation @ref="_customValidation"/>
   <DataAnnotationsValidator/>
   <ValidationSummary/>
 
@@ -52,7 +52,7 @@
 
     if (result.Succeeded)
     {
-      NavigationManager.NavigateTo("dashboard");
+      NavigationManager.NavigateTo("/auth/dashboard");
     }
     else
     {
