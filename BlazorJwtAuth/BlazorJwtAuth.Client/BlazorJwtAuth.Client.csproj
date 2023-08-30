@@ -24,4 +24,10 @@
     <ProjectReference Include="..\BlazorJwtAuth.Client.Service\BlazorJwtAuth.Client.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\Auth\Login.razor" />
+    <AdditionalFiles Include="Pages\Auth\Logout.razor" />
+    <AdditionalFiles Include="Pages\Auth\Register.razor" />
+  </ItemGroup>
+
 </Project>

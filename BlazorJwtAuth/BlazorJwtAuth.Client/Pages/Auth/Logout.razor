@@ -1,4 +1,4 @@
-@page "/logout"
+@page "/auth/logout"
 @using BlazorJwtAuth.Client.Service.Services
 @inject AuthenticationHttpClient Http
 @inject NavigationManager NavigationManager
@@ -11,6 +11,6 @@
   protected override async Task OnInitializedAsync()
   {
     await Http.LogoutUser();
-    NavigationManager.NavigateTo("login");
+    NavigationManager.NavigateTo("auth/login");
   }
 }
