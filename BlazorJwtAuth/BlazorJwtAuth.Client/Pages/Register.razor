@@ -1,7 +1,8 @@
 @page "/register"
 @using BlazorJwtAuth.Common.Dto
-@using BlazorJwtAuth.Client.Service.Services
+@using Blazor.JwtAuth.Client.Common.Classes
 @using Blazor.JwtAuth.Client.Common.Library
+@using BlazorJwtAuth.Client.Service.Services
 @inject AppSettings AppSettings
 @inject AuthenticationHttpClient Http
 
@@ -12,7 +13,7 @@
 @if (!_succeeded)
 {
   <EditForm Model="@_userRegisterDto" OnValidSubmit="@HandleValidSubmit">
-    @*<CustomValidation @ref="_customValidation"/>*@
+    <CustomValidation @ref="_customValidation"/>
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
@@ -49,7 +50,7 @@ else
 
 @code {
   private readonly UserRegisterDto _userRegisterDto = new();
-  // private CustomValidation? _customValidation;
+  private CustomValidation? _customValidation;
   private bool _registering;
   private bool _succeeded;
 
@@ -64,9 +65,9 @@ else
       _succeeded = true;
     }
 
-  // _customValidation?.ClearErrors();
-  // var errors = new Dictionary<string, List<string>> {{"", result.Errors.ToList()}};
-  // _customValidation?.DisplayErrors(errors);
+    _customValidation?.ClearErrors();
+    var errors = new Dictionary<string, List<string>> {{"", result.Errors.ToList()}};
+    _customValidation?.DisplayErrors(errors);
     _registering = false;
   }
 

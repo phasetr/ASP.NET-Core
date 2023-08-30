@@ -7,6 +7,11 @@
   - [.NET 6.0 JWT Token Authentication C# API Tutorial](https://trystanwilcock.com/2022/08/13/net-6-0-jwt-token-authentication-c-sharp-api-tutorial/) 
   - [.NET 6.0 Blazor WebAssembly JWT Token Authentication From Scratch C# Tutorial](https://trystanwilcock.com/2022/09/28/net-6-0-blazor-webassembly-jwt-token-authentication-from-scratch-c-sharp-wasm-tutorial/)
 
+## TODO
+
+- コントローラーのテスト、認証付きコントローラーのテスト
+- フロントの認証付き画面のテスト
+
 ## Blazor
 
 ```shell
