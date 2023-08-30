@@ -1,7 +1,7 @@
 ﻿using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Models;
 
-namespace BlazorJwtAuth.WebApi.Service.Services;
+namespace BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 
 public interface IUserService
 {

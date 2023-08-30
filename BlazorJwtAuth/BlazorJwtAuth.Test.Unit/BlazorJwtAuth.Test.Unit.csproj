@@ -21,5 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj"/>
     <ProjectReference Include="..\BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj"/>
+    <ProjectReference Include="..\BlazorJwtAuth.WebApi\BlazorJwtAuth.WebApi.csproj" />
   </ItemGroup>
 </Project>

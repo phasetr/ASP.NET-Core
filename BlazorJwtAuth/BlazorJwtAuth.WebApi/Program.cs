@@ -5,6 +5,7 @@ using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.WebApi.Middleware;
 using BlazorJwtAuth.WebApi.Service.Services;
+using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;

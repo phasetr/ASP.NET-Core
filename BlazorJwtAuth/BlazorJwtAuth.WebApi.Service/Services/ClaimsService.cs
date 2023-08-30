@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using BlazorJwtAuth.Common.EntityModels.Entities;
+using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace BlazorJwtAuth.WebApi.Service.Services;
@@ -17,7 +18,7 @@ public class ClaimsService : IClaimsService
     {
         List<Claim> userClaims = new()
         {
-            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.Email, user.Email)
         };
 

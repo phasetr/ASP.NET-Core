@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace BlazorJwtAuth.WebApi.Service.Services;
+namespace BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 
 public interface IJwtTokenService
 {
