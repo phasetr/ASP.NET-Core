@@ -1,12 +1,11 @@
 @page "/login"
 @using BlazorJwtAuth.Common.Dto
-@using BlazorJwtAuth.Client.Service.Services
 @using BlazorJwtAuth.Client.Common.Classes
 @using BlazorJwtAuth.Client.Common.Library
+@using BlazorJwtAuth.Client.Service.Services
 @inject AuthenticationHttpClient Http
 @inject NavigationManager NavigationManager
 @inject AppSettings AppSettings
-@inject ILogger<Login> Logger
 
 <PageTitle>Login</PageTitle>
 
@@ -46,10 +45,7 @@
   private async Task HandleValidSubmit()
   {
     _loggingIn = true;
-
     var result = await Http.LoginUser(_userLoginDto, AppSettings);
-    Logger.LogInformation("Login succeeded: {ResultSucceeded}", result.Succeeded);
-
     if (result.Succeeded)
     {
       NavigationManager.NavigateTo("/auth/dashboard");
@@ -60,7 +56,6 @@
       var errors = new Dictionary<string, List<string>> {{"", new List<string> {result.Message}}};
       _customValidation?.DisplayErrors(errors);
     }
-
     _loggingIn = false;
   }
 
