@@ -7,7 +7,7 @@ public class CustomValidation : ComponentBase
 {
     private ValidationMessageStore? _messageStore;
 
-    [CascadingParameter] private EditContext? CurrentEditContext { get; }
+    [CascadingParameter] private EditContext? CurrentEditContext { get; set; }
 
     protected override void OnInitialized()
     {

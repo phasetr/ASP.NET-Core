@@ -29,7 +29,9 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         try
         {
             var tokenDto = await _tokenService.GetToken();
-            var identity = string.IsNullOrEmpty(tokenDto.Token) || tokenDto.Expiration < DateTime.Now
+            // TODO：トークンが切れている場合はリフレッシュトークンを使ってトークンを再取得する
+            // トークンをUTCで発行しているため現在時刻と比較するときはUTCで比較する
+            var identity = string.IsNullOrEmpty(tokenDto.Token) || tokenDto.Expiration < DateTime.UtcNow
                 ? new ClaimsIdentity()
                 : new ClaimsIdentity(ParseClaimsFromJwt(tokenDto.Token), "jwt");
             return new AuthenticationState(new ClaimsPrincipal(identity));
