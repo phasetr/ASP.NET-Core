@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Unit", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Client", "BlazorJwtAuth.Client\BlazorJwtAuth.Client.csproj", "{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Client.Unit", "BlazorJwtAuth.Test.Client.Unit\BlazorJwtAuth.Test.Client.Unit.csproj", "{4C0C0ED8-AD4C-4B1D-A0DF-A062977E1FB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Client.Unit", "BlazorJwtAuth.Test.Client.Unit\BlazorJwtAuth.Test.Client.Unit.csproj", "{100715A9-43B4-4E2A-921A-4E7704924B62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Client.Service", "BlazorJwtAuth.Client.Service\BlazorJwtAuth.Client.Service.csproj", "{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}"
 EndProject
@@ -57,10 +57,6 @@ Global
 		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C0C0ED8-AD4C-4B1D-A0DF-A062977E1FB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C0C0ED8-AD4C-4B1D-A0DF-A062977E1FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C0C0ED8-AD4C-4B1D-A0DF-A062977E1FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C0C0ED8-AD4C-4B1D-A0DF-A062977E1FB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{90214012-C6CE-4AC8-A117-6352DBA464BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90214012-C6CE-4AC8-A117-6352DBA464BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90214012-C6CE-4AC8-A117-6352DBA464BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100715A9-43B4-4E2A-921A-4E7704924B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100715A9-43B4-4E2A-921A-4E7704924B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100715A9-43B4-4E2A-921A-4E7704924B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100715A9-43B4-4E2A-921A-4E7704924B62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
