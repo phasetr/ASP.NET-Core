@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
-using Blazor.JwtAuth.Client.Common.Library;
 using Blazored.LocalStorage;
+using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
