@@ -2,6 +2,7 @@ using Blazored.LocalStorage;
 using BlazorJwtAuth.Client;
 using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Client.Service.Classes;
+using BlazorJwtAuth.Client.Service.Clients;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,11 +14,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton(p => p.GetRequiredService<IConfiguration>().Get<AppSettings>());
-var apiRoot = builder.Configuration[nameof(AppSettings.ApiBaseAddress)];
-if (string.IsNullOrWhiteSpace(apiRoot))
+var apiBaseAddress = builder.Configuration[nameof(AppSettings.ApiBaseAddress)];
+if (string.IsNullOrWhiteSpace(apiBaseAddress))
     throw new Exception("ApiBaseAddress is not set in appsettings.json");
 builder.Services.AddHttpClient<AuthenticationHttpClient>(client =>
-    client.BaseAddress = new Uri(apiRoot));
+    client.BaseAddress = new Uri(apiBaseAddress));
+builder.Services.AddHttpClient<WeatherForecastHttpClient>(client =>
+    client.BaseAddress = new Uri(apiBaseAddress));
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage();
