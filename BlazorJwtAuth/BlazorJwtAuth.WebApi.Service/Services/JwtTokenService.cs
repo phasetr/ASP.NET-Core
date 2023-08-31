@@ -10,10 +10,14 @@ namespace BlazorJwtAuth.WebApi.Service.Services;
 public class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _configuration;
+    private readonly IPtDateTime _dateTime;
 
-    public JwtTokenService(IConfiguration configuration)
+    public JwtTokenService(
+        IConfiguration configuration,
+        IPtDateTime dateTime)
     {
         _configuration = configuration;
+        _dateTime = dateTime;
     }
 
     public JwtSecurityToken GetJwtToken(IEnumerable<Claim> userClaims)
@@ -25,7 +29,7 @@ public class JwtTokenService : IJwtTokenService
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: userClaims,
-            expires: DateTime.Now.AddMinutes(expiryInMinutes),
+            expires: _dateTime.UtcNow.AddMinutes(expiryInMinutes),
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
         );
 

@@ -40,6 +40,7 @@ public class TokenService : ITokenService
 
     public async Task<AuthenticationResponse> RefreshTokenAsync(string token, string refreshToken)
     {
+        // TODO：実装
         await Task.Delay(1);
         throw new NotImplementedException();
     }
