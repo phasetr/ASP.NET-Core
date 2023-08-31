@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Models;
-using BlazorJwtAuth.WebApi.Service.Services;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
