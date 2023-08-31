@@ -13,5 +13,10 @@ public class ApplicationUserRoleConfiguration : IEntityTypeConfiguration<Applica
             UserId = "userId",
             RoleId = "UserId"
         });
+        builder.HasData(new ApplicationUserRole
+        {
+            UserId = "adminId",
+            RoleId = "AdministratorId"
+        });
     }
 }

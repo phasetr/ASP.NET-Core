@@ -28,5 +28,18 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasData(DefaultUser);
+        builder.HasData(new ApplicationUser()
+        {
+            Id = "adminId",
+            UserName = "admin",
+            NormalizedUserName = "ADMIN",
+            Email = "admin@secureapi.com",
+            NormalizedEmail = "ADMIN@SECUREAPI.COM",
+            EmailConfirmed = true,
+            FirstName = "admin first",
+            LastName = "admin last",
+            PhoneNumberConfirmed = true,
+            PasswordHash = Hasher.HashPassword(HashString, "adminpass")
+        });
     }
 }

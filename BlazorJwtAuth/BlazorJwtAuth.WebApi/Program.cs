@@ -102,3 +102,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();
+
+// 統合テストのために追加
+public partial class Program { }
