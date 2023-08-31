@@ -19,25 +19,19 @@ public class UserController : ControllerBase
 {
     private readonly IClaimsService _claimsService;
     private readonly IJwtTokenService _jwtTokenService;
-    private readonly ILogger<UserController> _logger;
-    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserService _userService;
 
     public UserController(
         IClaimsService claimsService,
         IJwtTokenService jwtTokenService,
-        ILogger<UserController> logger,
         IUserService userService,
-        RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager)
     {
-        _logger = logger;
         _userService = userService;
         _userManager = userManager;
         _claimsService = claimsService;
         _jwtTokenService = jwtTokenService;
-        _roleManager = roleManager;
     }
 
     [HttpPost("token")]
@@ -81,7 +75,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    //[ApiExplorerSettings(IgnoreApi = true)]
     public async Task<ActionResult> RegisterAsync(RegisterModel model)
     {
         var result = await _userService.RegisterAsync(model);

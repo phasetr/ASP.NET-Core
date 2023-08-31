@@ -14,7 +14,7 @@ using NSubstitute;
 
 namespace BlazorJwtAuth.Test.Unit.WebApi.Service.Service;
 
-public class UserServiceTests : SqliteMemoryBase
+public partial class UserServiceTests : SqliteMemoryBase
 {
     private readonly IOptions<Jwt> _jwt = new OptionsWrapper<Jwt>(new Jwt
     {
