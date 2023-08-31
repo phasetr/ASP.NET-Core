@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace BlazorJwtAuth.Test.Integration.WebApi.Controllers.V1;
 
-public class BasicTests
+public class HomeControllerTests
     : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public BasicTests(WebApplicationFactory<Program> factory)
+    public HomeControllerTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
