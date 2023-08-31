@@ -14,15 +14,15 @@ public class ClaimsService : IClaimsService
         _userManager = userManager;
     }
 
-    public async Task<List<Claim>> GetUserClaimsAsync(ApplicationUser user)
+    public async Task<List<Claim>> GetUserClaimsAsync(ApplicationUser applicationUser)
     {
         List<Claim> userClaims = new()
         {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Name, applicationUser.UserName),
+            new Claim(ClaimTypes.Email, applicationUser.Email)
         };
 
-        var userRoles = await _userManager.GetRolesAsync(user);
+        var userRoles = await _userManager.GetRolesAsync(applicationUser);
 
         userClaims.AddRange(userRoles.Select(userRole =>
             new Claim(ClaimTypes.Role, userRole)));
