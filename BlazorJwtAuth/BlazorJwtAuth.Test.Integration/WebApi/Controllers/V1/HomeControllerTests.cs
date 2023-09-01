@@ -27,7 +27,7 @@ public class HomeControllerTests
         Assert.Equal("text/plain; charset=utf-8",
             response.Content.Headers.ContentType?.ToString());
     }
-    
+
     [Fact]
     public async Task Post_EndpointsReturnSuccessAndCorrectContentType()
     {

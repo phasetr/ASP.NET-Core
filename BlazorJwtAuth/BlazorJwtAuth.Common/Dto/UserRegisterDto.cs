@@ -4,9 +4,7 @@ namespace BlazorJwtAuth.Common.Dto;
 
 public class UserRegisterDto
 {
-    [Required]
-    [EmailAddress]
-    public string? Email { get; set; }
+    [Required] [EmailAddress] public string? Email { get; set; }
 
     [Required]
     [DataType(DataType.Password)]

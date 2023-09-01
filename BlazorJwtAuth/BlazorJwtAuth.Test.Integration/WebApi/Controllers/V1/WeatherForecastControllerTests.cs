@@ -21,7 +21,7 @@ public class WeatherForecastControllerTests
     {
         _factory = factory;
     }
-    
+
     [Fact]
     public async Task Get_WhenNoAuthCalled_Returns401()
     {

@@ -28,7 +28,7 @@ public class TaxedPriceTests : TestContext
         var v = cut.Find("#priceWithTax").InnerHtml;
         Assert.Equal("Price with tax: ¥1080", v);
     }
-    
+
     [Fact]
     public void PriceWithTax_Rate10percent_Test()
     {

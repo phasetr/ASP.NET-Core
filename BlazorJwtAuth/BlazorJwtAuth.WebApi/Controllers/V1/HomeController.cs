@@ -11,7 +11,7 @@ public class HomeController : ControllerBase
     {
         return Ok("This is get, api/v1");
     }
-    
+
     [HttpPost]
     public IActionResult PostIndex()
     {

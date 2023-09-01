@@ -24,12 +24,12 @@ public class ClaimsServiceTests : SqliteMemoryBase
             UserName = "noUser"
         };
         var claims = await _sut.GetUserClaimsAsync(user);
-        
+
         Assert.Equal(2, claims.Count);
         Assert.Equal("noUser", claims[0].Value);
         Assert.Equal("noUser@phasetr.com", claims[1].Value);
     }
-    
+
     [Fact]
     public async Task GetUserClaimsAsync_ExistingUserWithRoles_CreateClaims()
     {
@@ -45,7 +45,7 @@ public class ClaimsServiceTests : SqliteMemoryBase
             UserName = "user"
         };
         var claims = await _sut.GetUserClaimsAsync(user);
-        
+
         Assert.Equal(3, claims.Count);
         Assert.Equal("user", claims[0].Value);
         Assert.Equal("user@secureapi.com", claims[1].Value);

@@ -31,7 +31,7 @@ public class CookieStorageAccessor
         var result = await _accessorJsRef.Value.InvokeAsync<T>("get", key);
         return result;
     }
-    
+
     public async Task<T> GetAllAsync<T>(string key)
     {
         await WaitForReference();

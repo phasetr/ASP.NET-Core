@@ -26,9 +26,9 @@ public class JwtTokenService : IJwtTokenService
         var expiryInMinutes = Convert.ToInt32(_configuration["Jwt:DurationInMinutes"]);
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: userClaims,
+            _configuration["Jwt:Issuer"],
+            _configuration["Jwt:Audience"],
+            userClaims,
             expires: _dateTime.UtcNow.AddMinutes(expiryInMinutes),
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
         );

@@ -15,7 +15,7 @@ public class SecureControllersTests
         Assert.Equal("This Secured Data is available only for Authenticated Users.",
             okValue);
     }
-    
+
     [Fact]
     public void PostSecureData_Should_Return_Ok()
     {

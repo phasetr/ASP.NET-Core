@@ -8,9 +8,11 @@
 <text>Logging out...</text>
 
 @code {
+
   protected override async Task OnInitializedAsync()
   {
     await Http.LogoutUser();
     NavigationManager.NavigateTo("auth/login");
   }
+
 }

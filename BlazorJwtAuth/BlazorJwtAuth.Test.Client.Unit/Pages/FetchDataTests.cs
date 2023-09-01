@@ -30,6 +30,6 @@ public class FetchDataTests : TestContext
         var cut = RenderComponent<FetchData>();
         cut.WaitForElements("tbody").MarkupMatches(
             "<tbody><tr><td>2023/01/01</td><td>1</td><td>33</td><td>Summary1</td></tr>"
-            +"<tr><td>2023/01/02</td><td>2</td><td>35</td><td>Summary2</td></tr></tbody>");
+            + "<tr><td>2023/01/02</td><td>2</td><td>35</td><td>Summary2</td></tr></tbody>");
     }
 }

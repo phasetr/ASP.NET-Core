@@ -28,7 +28,7 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.HasData(DefaultUser);
-        builder.HasData(new ApplicationUser()
+        builder.HasData(new ApplicationUser
         {
             Id = "adminId",
             UserName = "admin",

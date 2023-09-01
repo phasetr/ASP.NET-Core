@@ -6,5 +6,5 @@ public class UserRegisterResultDto : ResponseBase
 {
     public bool Succeeded { get; set; }
 
-    public IEnumerable<string> Errors { get; set; } = default!;    
+    public IEnumerable<string> Errors { get; set; } = default!;
 }
