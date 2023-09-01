@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorJwtAuth.Test.Unit.WebApi.Controllers.V1;
 
-public class SecureControllersTests
+public class SecureControllerTests
 {
     [Fact]
     public void GetSecureData_Should_Return_Ok()
