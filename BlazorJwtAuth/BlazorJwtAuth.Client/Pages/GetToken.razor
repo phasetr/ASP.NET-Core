@@ -24,9 +24,9 @@
 <div class="container mt-4">
   <div class="row justify-content-center">
     <div class="btn-group">
-      <button class="btn btn-outline-primary" @onclick="GetTokenAsync">Get Token</button>
-      <button class="btn btn-outline-primary" @onclick="GetSecureDataAsync">Get Secure Data</button>
-      <button class="btn btn-outline-primary" @onclick="PostRefreshTokenAsync">Refresh Token</button>
+      <button id="getTokenAsync" class="btn btn-outline-primary" @onclick="GetTokenAsync">Get Token</button>
+      <button id="getSecureDataAsync" class="btn btn-outline-primary" @onclick="GetSecureDataAsync">Get Secure Data</button>
+      <button id="postRefreshTokenAsync" class="btn btn-outline-primary" @onclick="PostRefreshTokenAsync">Refresh Token</button>
     </div>
   </div>
 </div>
@@ -35,7 +35,7 @@
 <div class="row">
   <div class="col-4">
     <h3>Get Token Result</h3>
-    <dl>
+    <dl id="getTokenResult">
       <dt>token</dt>
       <dd>
         <input id="token" @bind="_token"/>
