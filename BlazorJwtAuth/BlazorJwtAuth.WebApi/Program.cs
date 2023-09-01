@@ -58,6 +58,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IClaimsService, ClaimsService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPtDateTime, PtDateTime>();
+builder.Services.AddSingleton<Random>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // Adding Authentication - JWT
