@@ -1,11 +1,11 @@
 @page "/gettoken"
+@using BlazorJwtAuth.Common.Constants
 @using BlazorJwtAuth.Common.Models
-@using Authorization = BlazorJwtAuth.Common.Constants.Authorization
 @using BlazorJwtAuth.Client.Common.Library
-@using System.Net.Http.Headers
-@using System.Net
+@using BlazorJwtAuth.Client.Service.Clients
 @inject AppSettings AppSettings
-@inject HttpClient Http
+@inject TokenHttpClient TokenHttpClient
+@inject SecuredHttpClient SecuredHttpClient
 
 <PageTitle>Get Token</PageTitle>
 
@@ -92,13 +92,7 @@
       Email = _email,
       Password = _password
     };
-    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiBaseAddress}/User/token", tokenRequestModel);
-    var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-    if (res is null)
-    {
-      _message = "Oops! Something went wrong: response is null.";
-      return;
-    }
+    var res = await TokenHttpClient.GetTokenAsync(AppSettings, tokenRequestModel);
     if (res.IsAuthenticated)
     {
       _token = res.Token;
@@ -120,14 +114,13 @@
 
   private async Task GetSecureDataAsync()
   {
-    Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-    var response = await Http.GetAsync($"{AppSettings.ApiBaseAddress}/Secured");
-    _getSecureDataMessage = response.StatusCode switch
+    if (_token is null)
     {
-      HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
-      HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
-      _ => "Oops! Something went wrong."
-      };
+      _getSecureDataMessage = "You need to assign a token!";
+      return;
+    }
+    var res = await SecuredHttpClient.GetSecuredDataAsync(AppSettings, _token!);
+    _getSecureDataMessage = res.Message;
   }
 
   private async Task PostRefreshTokenAsync()
@@ -142,29 +135,25 @@
     {
       RefreshToken = _refreshToken!
     };
-    var response = await Http.PostAsJsonAsync($"{AppSettings.ApiBaseAddress}/User/refresh-token", refreshTokenRequest);
-    var res = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
-    if (res != null)
+    var res = await TokenHttpClient.RefreshTokenAsync(AppSettings, refreshTokenRequest);
+    if (res.IsAuthenticated)
     {
-      if (res.IsAuthenticated)
-      {
-        _token = res.Token;
-        _message = res.Message;
-        _isAuthenticated = res.IsAuthenticated;
-        _userName = res.UserName;
-        _refreshToken = res.RefreshToken;
-        _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
-        _refreshTokenMessage = "Success.";
-      }
-      else
-      {
-        _token = "";
-        _message = res.Message;
-        _isAuthenticated = res.IsAuthenticated;
-        _userName = "";
-        _refreshTokenExpiration = null;
-        _refreshTokenMessage = "Failed.";
-      }
+      _token = res.Token;
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = res.UserName;
+      _refreshToken = res.RefreshToken;
+      _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+      _refreshTokenMessage = "Success.";
+    }
+    else
+    {
+      _token = "";
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = "";
+      _refreshTokenExpiration = null;
+      _refreshTokenMessage = "Failed.";
     }
   }
 

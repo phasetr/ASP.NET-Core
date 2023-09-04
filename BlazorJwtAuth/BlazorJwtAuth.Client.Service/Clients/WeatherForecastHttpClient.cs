@@ -11,7 +11,9 @@ public class WeatherForecastHttpClient
     private readonly HttpClient _http;
     private readonly ITokenService _tokenService;
 
-    public WeatherForecastHttpClient(HttpClient http, ITokenService tokenService)
+    public WeatherForecastHttpClient(
+        HttpClient http,
+        ITokenService tokenService)
     {
         _http = http;
         _tokenService = tokenService;
