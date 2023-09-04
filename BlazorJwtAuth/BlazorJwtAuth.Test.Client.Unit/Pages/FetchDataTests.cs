@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BlazorJwtAuth.Client.Pages;
+using BlazorJwtAuth.Common.Dto;
 using RichardSzalay.MockHttp;
 
 namespace BlazorJwtAuth.Test.Client.Unit.Pages;
@@ -11,7 +12,7 @@ public class FetchDataTests : TestContext
     public void Sample_Test()
     {
         var mock = Services.AddMockHttpClient();
-        mock.When("/sample-data/weather.json").RespondJson(new List<FetchData.WeatherForecast>
+        mock.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastDto>
         {
             new()
             {
