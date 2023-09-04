@@ -6,7 +6,7 @@ using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.Extensions.Logging;
 
-namespace BlazorJwtAuth.Client.Service.Services;
+namespace BlazorJwtAuth.Client.Service.Clients;
 
 public class AuthenticationHttpClient
 {
