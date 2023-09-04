@@ -34,6 +34,8 @@ public class GetTokenTests : TestContext
         });
 
         var cut = RenderComponent<GetToken>();
+        cut.Find("#apiBaseAddress")
+            .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="https://localhost:5001"/>""");
         cut.Find("#getTokenAsync").Click();
         cut.WaitForElement("#getTokenResult").MarkupMatches(
             """
