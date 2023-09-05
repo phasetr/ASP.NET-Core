@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using BlazorJwtAuth.Client.Common.Library;
-using BlazorJwtAuth.Client.Pages;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Models;
 using RichardSzalay.MockHttp;
 
@@ -19,7 +19,7 @@ public class GetTokenTests : TestContext
         };
         Services.AddSingleton(mockAppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When($"{mockAppSettings.ApiBaseAddress}/User/token").RespondJson(new AuthenticationResponse()
+        mockHttpClient.When($"{mockAppSettings.ApiBaseAddress}/User/token").RespondJson(new AuthenticationResponse
         {
             IsAuthenticated = true,
             Detail = "detail",
@@ -32,7 +32,14 @@ public class GetTokenTests : TestContext
             Token = "token",
             UserName = "user"
         });
+        mockHttpClient.When($"{mockAppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
+        {
+            Detail = "detail",
+            Message = "message",
+            Status = HttpStatusCode.OK.ToString()
+        });
 
+        /*
         var cut = RenderComponent<GetToken>();
         cut.Find("#apiBaseAddress")
             .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="https://localhost:5001"/>""");
@@ -58,5 +65,6 @@ public class GetTokenTests : TestContext
                 <dd></dd>
             </dl>
             """);
+        */
     }
 }

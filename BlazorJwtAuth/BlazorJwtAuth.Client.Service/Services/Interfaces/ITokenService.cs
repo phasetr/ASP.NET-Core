@@ -4,7 +4,7 @@ namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface ITokenService
 {
-    Task<TokenDto> GetToken();
-    Task RemoveToken();
-    Task SetToken(TokenDto tokenDto);
+    Task<TokenDto> GetTokenAsync();
+    Task RemoveTokenAsync();
+    Task SetTokenAsync(TokenDto tokenDto);
 }

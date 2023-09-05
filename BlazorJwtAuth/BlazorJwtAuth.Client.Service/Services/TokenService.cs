@@ -13,17 +13,17 @@ public class TokenService : ITokenService
         _localStorageService = localStorageService;
     }
 
-    public async Task<TokenDto> GetToken()
+    public async Task<TokenDto> GetTokenAsync()
     {
         return await _localStorageService.GetItemAsync<TokenDto>("token");
     }
 
-    public async Task RemoveToken()
+    public async Task RemoveTokenAsync()
     {
         await _localStorageService.RemoveItemAsync("token");
     }
 
-    public async Task SetToken(TokenDto tokenDto)
+    public async Task SetTokenAsync(TokenDto tokenDto)
     {
         await _localStorageService.SetItemAsync("token", tokenDto);
     }

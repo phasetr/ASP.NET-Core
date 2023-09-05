@@ -23,7 +23,7 @@ public class WeatherForecastHttpClient
     {
         try
         {
-            var token = await _tokenService.GetToken();
+            var token = await _tokenService.GetTokenAsync();
 
             if (token.Expiration > DateTime.UtcNow)
                 _http.DefaultRequestHeaders.Authorization =

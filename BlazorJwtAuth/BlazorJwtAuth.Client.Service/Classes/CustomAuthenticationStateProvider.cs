@@ -28,7 +28,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         try
         {
-            var tokenDto = await _tokenService.GetToken();
+            var tokenDto = await _tokenService.GetTokenAsync();
             // TODO：トークンが切れている場合はリフレッシュトークンを使ってトークンを再取得する
             // トークンをUTCで発行しているため現在時刻と比較するときはUTCで比較する
             var identity = string.IsNullOrEmpty(tokenDto.Token) || tokenDto.Expiration < DateTime.UtcNow

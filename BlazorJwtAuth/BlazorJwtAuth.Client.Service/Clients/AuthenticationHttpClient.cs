@@ -78,7 +78,7 @@ public class AuthenticationHttpClient
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
                     Detail = "Unable to deserialize response from server."
                 };
-            await _tokenService.SetToken(result.Token);
+            await _tokenService.SetTokenAsync(result.Token);
             _customAuthenticationStateProvider.StateChanged();
             return result;
         }
@@ -97,7 +97,7 @@ public class AuthenticationHttpClient
 
     public async Task LogoutUser()
     {
-        await _tokenService.RemoveToken();
+        await _tokenService.RemoveTokenAsync();
         _customAuthenticationStateProvider.StateChanged();
     }
 }
