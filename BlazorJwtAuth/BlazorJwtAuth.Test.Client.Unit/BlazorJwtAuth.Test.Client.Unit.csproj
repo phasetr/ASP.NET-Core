@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NSubstitute" Version="5.0.0"/>
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
     <PackageReference Include="xunit" Version="2.5.0"/>
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
@@ -41,5 +42,10 @@
 
   <ItemGroup>
     <AdditionalFiles Include="Pages\CounterRazorTests.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Service\Classes\"/>
+    <Folder Include="Service\Clients\"/>
   </ItemGroup>
 </Project>

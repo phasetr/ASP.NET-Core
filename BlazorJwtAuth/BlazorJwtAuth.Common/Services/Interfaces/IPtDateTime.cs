@@ -1,4 +1,4 @@
-namespace BlazorJwtAuth.WebApi.Service.Services.Interfaces;
+namespace BlazorJwtAuth.Common.Services.Interfaces;
 
 public interface IPtDateTime
 {

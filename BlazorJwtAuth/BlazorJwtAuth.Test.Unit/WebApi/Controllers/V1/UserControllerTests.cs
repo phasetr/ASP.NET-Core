@@ -1,10 +1,10 @@
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Services.Interfaces;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.Test.Unit.FakesSqlite;
 using BlazorJwtAuth.WebApi.Controllers.V1;
 using BlazorJwtAuth.WebApi.Service.Services;
-using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;

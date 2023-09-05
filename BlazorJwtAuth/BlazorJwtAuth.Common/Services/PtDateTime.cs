@@ -1,6 +1,6 @@
-using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Services.Interfaces;
 
-namespace BlazorJwtAuth.WebApi.Service.Services;
+namespace BlazorJwtAuth.Common.Services;
 
 public class PtDateTime : IPtDateTime
 {

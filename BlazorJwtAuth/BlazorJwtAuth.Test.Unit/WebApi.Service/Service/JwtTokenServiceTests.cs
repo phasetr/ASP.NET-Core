@@ -1,7 +1,7 @@
 using System.Security.Claims;
+using BlazorJwtAuth.Common.Services.Interfaces;
 using BlazorJwtAuth.Test.Unit.FakesSqlite;
 using BlazorJwtAuth.WebApi.Service.Services;
-using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 

@@ -3,19 +3,23 @@ using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
+using BlazorJwtAuth.Common.Services.Interfaces;
 
-namespace BlazorJwtAuth.Client.Service.Clients;
+namespace BlazorJwtAuth.Client.Service.Services;
 
-public class WeatherForecastHttpClient
+public class WeatherForecastHttpClientService : IWeatherForecastHttpClientService
 {
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IPtDateTime _ptDateTime;
     private readonly ITokenService _tokenService;
 
-    public WeatherForecastHttpClient(
-        HttpClient http,
+    public WeatherForecastHttpClientService(
+        IHttpClientFactory httpClientFactory,
+        IPtDateTime ptDateTime,
         ITokenService tokenService)
     {
-        _http = http;
+        _httpClientFactory = httpClientFactory;
+        _ptDateTime = ptDateTime;
         _tokenService = tokenService;
     }
 
@@ -23,14 +27,13 @@ public class WeatherForecastHttpClient
     {
         try
         {
+            var httpClient = _httpClientFactory.CreateClient();
             var token = await _tokenService.GetTokenAsync();
-
-            if (token.Expiration > DateTime.UtcNow)
-                _http.DefaultRequestHeaders.Authorization =
+            if (token.Expiration > _ptDateTime.UtcNow)
+                httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", $"{token.Token}");
-
             var response =
-                await _http.GetFromJsonAsync<WeatherForecastDto[]>(
+                await httpClient.GetFromJsonAsync<WeatherForecastDto[]>(
                     $"{appSettings.ApiBaseAddress}/WeatherForecast");
             return response ?? Array.Empty<WeatherForecastDto>();
         }

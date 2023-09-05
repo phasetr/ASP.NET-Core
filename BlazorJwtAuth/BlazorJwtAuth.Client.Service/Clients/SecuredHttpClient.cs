@@ -16,17 +16,28 @@ public class SecuredHttpClient
 
     public async Task<SecuredDataResultDto> GetSecuredDataAsync(AppSettings appSettings, string token)
     {
-        _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        var response = await _http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
-        return new SecuredDataResultDto
+        try
         {
-            Message = response.StatusCode switch
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
+            return new SecuredDataResultDto
             {
-                HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
-                HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
-                _ => "Oops! Something went wrong."
-            },
-            Status = response.StatusCode.ToString()
-        };
+                Message = response.StatusCode switch
+                {
+                    HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
+                    HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
+                    _ => "Oops! Something went wrong."
+                },
+                Status = response.StatusCode.ToString()
+            };
+        }
+        catch (Exception ex)
+        {
+            return new SecuredDataResultDto
+            {
+                Message = ex.Message,
+                Status = HttpStatusCode.InternalServerError.ToString()
+            };
+        }
     }
 }
