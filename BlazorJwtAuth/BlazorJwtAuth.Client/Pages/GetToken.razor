@@ -2,10 +2,9 @@
 @using BlazorJwtAuth.Common.Constants
 @using BlazorJwtAuth.Common.Models
 @using BlazorJwtAuth.Client.Common.Library
-@using BlazorJwtAuth.Client.Service.Clients
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
-@inject TokenHttpClient TokenHttpClient
+@inject ITokenHttpClientService TokenHttpClientService
 @inject ISecuredHttpClientService SecuredHttpClientService
 
 <PageTitle>Get Token</PageTitle>
@@ -93,7 +92,7 @@
       Email = _email,
       Password = _password
     };
-    var res = await TokenHttpClient.GetTokenAsync(AppSettings, tokenRequestModel);
+    var res = await TokenHttpClientService.GetTokenAsync(AppSettings, tokenRequestModel);
     if (res.IsAuthenticated)
     {
       _token = res.Token;
@@ -136,7 +135,7 @@
     {
       RefreshToken = _refreshToken!
     };
-    var res = await TokenHttpClient.RefreshTokenAsync(AppSettings, refreshTokenRequest);
+    var res = await TokenHttpClientService.RefreshTokenAsync(AppSettings, refreshTokenRequest);
     if (res.IsAuthenticated)
     {
       _token = res.Token;

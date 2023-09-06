@@ -20,7 +20,6 @@ var apiBaseAddress = builder.Configuration[nameof(AppSettings.ApiBaseAddress)];
 if (string.IsNullOrWhiteSpace(apiBaseAddress))
     throw new Exception("ApiBaseAddress is not set in appsettings.json");
 builder.Services.AddHttpClient<AuthenticationHttpClient>(client => client.BaseAddress = new Uri(apiBaseAddress));
-builder.Services.AddHttpClient<TokenHttpClient>(client => client.BaseAddress = new Uri(apiBaseAddress));
 builder.Services.AddAuthorizationCore();
 builder.Services.AddBlazoredLocalStorage();
 
@@ -31,6 +30,7 @@ builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri(builder.Ho
 builder.Services.AddScoped<CookieStorageAccessor>();
 builder.Services.AddScoped<IPtDateTime, PtDateTime>();
 builder.Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
+builder.Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IWeatherForecastHttpClientService, WeatherForecastHttpClientService>();
 builder.Services.AddSingleton<IConsumptionTaxCalculator, ConsumptionTaxCalculator>();

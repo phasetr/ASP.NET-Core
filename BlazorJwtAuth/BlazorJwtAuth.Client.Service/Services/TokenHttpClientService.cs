@@ -1,39 +1,25 @@
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Common.Library;
-using BlazorJwtAuth.Common.Dto;
+using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Models;
 
-namespace BlazorJwtAuth.Client.Service.Clients;
+namespace BlazorJwtAuth.Client.Service.Services;
 
-public class TokenHttpClient
+public class TokenHttpClientService : ITokenHttpClientService
 {
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public TokenHttpClient(HttpClient http)
+    public TokenHttpClientService(IHttpClientFactory httpClientFactory)
     {
-        _http = http;
-    }
-
-    public async Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings)
-    {
-        try
-        {
-            var response =
-                await _http.GetFromJsonAsync<WeatherForecastDto[]>(
-                    $"{appSettings.ApiBaseAddress}/WeatherForecast");
-            return response ?? Array.Empty<WeatherForecastDto>();
-        }
-        catch
-        {
-            return Array.Empty<WeatherForecastDto>();
-        }
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<AuthenticationResponse> GetTokenAsync(AppSettings appSettings, GetTokenRequest getTokenRequest)
     {
         try
         {
-            var response = await _http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenRequest);
+            var http = _httpClientFactory.CreateClient();
+            var response = await http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenRequest);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
             if (result is null)
                 return new AuthenticationResponse
@@ -73,7 +59,8 @@ public class TokenHttpClient
     {
         try
         {
-            var response = await _http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/refresh-token",
+            var http = _httpClientFactory.CreateClient();
+            var response = await http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/refresh-token",
                 refreshTokenRequest);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
             if (result is null)
