@@ -43,9 +43,4 @@
   <ItemGroup>
     <AdditionalFiles Include="Pages\CounterRazorTests.razor" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Service\Classes\"/>
-    <Folder Include="Service\Clients\"/>
-  </ItemGroup>
 </Project>

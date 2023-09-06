@@ -4,7 +4,6 @@ using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Client.Service.Classes;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.Client.Service.Clients;
 
@@ -12,19 +11,15 @@ public class AuthenticationHttpClient
 {
     private readonly CustomAuthenticationStateProvider _customAuthenticationStateProvider;
     private readonly HttpClient _http;
-    private readonly ILogger<AuthenticationHttpClient> _logger;
-
     private readonly ITokenService _tokenService;
 
     public AuthenticationHttpClient(
         CustomAuthenticationStateProvider customAuthenticationStateProvider,
         HttpClient http,
-        ILogger<AuthenticationHttpClient> logger,
         ITokenService tokenService)
     {
         _customAuthenticationStateProvider = customAuthenticationStateProvider;
         _http = http;
-        _logger = logger;
         _tokenService = tokenService;
     }
 
@@ -50,11 +45,9 @@ public class AuthenticationHttpClient
         }
         catch (Exception ex)
         {
-            _logger.LogError("{E}", ex.Message);
-            _logger.LogError("{E}", ex.StackTrace);
-
             return new UserRegisterResultDto
             {
+                Message = ex.Message,
                 Succeeded = false,
                 Errors = new List<string>
                 {
@@ -84,13 +77,10 @@ public class AuthenticationHttpClient
         }
         catch (Exception ex)
         {
-            _logger.LogError("{E}", ex.Message);
-            _logger.LogError("{E}", ex.StackTrace);
-
             return new UserLoginResultDto
             {
-                Succeeded = false,
-                Message = "Sorry, we were unable to log you in at this time. Please try again shortly."
+                Message = ex.Message,
+                Succeeded = false
             };
         }
     }

@@ -33,10 +33,8 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         }
         catch
         {
-            // ignored
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
-
-        return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
     }
 
     private static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
