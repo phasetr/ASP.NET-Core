@@ -2,20 +2,15 @@ using System.Security.Claims;
 using System.Text.Json;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.Client.Service.Classes;
 
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
-    private readonly ILogger<CustomAuthenticationStateProvider> _logger;
     private readonly ITokenService _tokenService;
 
-    public CustomAuthenticationStateProvider(
-        ILogger<CustomAuthenticationStateProvider> logger,
-        ITokenService tokenService)
+    public CustomAuthenticationStateProvider(ITokenService tokenService)
     {
-        _logger = logger;
         _tokenService = tokenService;
     }
 
@@ -36,10 +31,9 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
                 : new ClaimsIdentity(ParseClaimsFromJwt(tokenDto.Token), "jwt");
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
-        catch (Exception e)
+        catch
         {
-            _logger.LogError("{E}", e.Message);
-            _logger.LogError("{E}", e.StackTrace);
+            // ignored
         }
 
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));

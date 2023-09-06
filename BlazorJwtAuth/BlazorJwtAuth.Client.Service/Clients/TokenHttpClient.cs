@@ -2,19 +2,16 @@ using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Models;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorJwtAuth.Client.Service.Clients;
 
 public class TokenHttpClient
 {
     private readonly HttpClient _http;
-    private readonly ILogger<TokenHttpClient> _logger;
 
-    public TokenHttpClient(HttpClient http, ILogger<TokenHttpClient> logger)
+    public TokenHttpClient(HttpClient http)
     {
         _http = http;
-        _logger = logger;
     }
 
     public async Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings)
@@ -62,7 +59,6 @@ public class TokenHttpClient
         }
         catch (Exception ex)
         {
-            _logger.LogError("{E}", ex.Message);
             return new AuthenticationResponse
             {
                 Detail = ex.Message,
@@ -104,7 +100,6 @@ public class TokenHttpClient
         }
         catch (Exception ex)
         {
-            _logger.LogError("{E}", ex.Message);
             return new AuthenticationResponse
             {
                 Detail = ex.Message,
