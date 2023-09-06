@@ -1,25 +1,27 @@
 using System.Net;
 using System.Net.Http.Headers;
 using BlazorJwtAuth.Client.Common.Library;
+using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
 
-namespace BlazorJwtAuth.Client.Service.Clients;
+namespace BlazorJwtAuth.Client.Service.Services;
 
-public class SecuredHttpClient
+public class SecuredHttpClientService : ISecuredHttpClientService
 {
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public SecuredHttpClient(HttpClient http)
+    public SecuredHttpClientService(IHttpClientFactory httpClientFactory)
     {
-        _http = http;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<SecuredDataResultDto> GetSecuredDataAsync(AppSettings appSettings, string token)
     {
         try
         {
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
             return new SecuredDataResultDto
             {
                 Message = response.StatusCode switch

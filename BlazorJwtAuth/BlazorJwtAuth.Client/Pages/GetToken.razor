@@ -3,9 +3,10 @@
 @using BlazorJwtAuth.Common.Models
 @using BlazorJwtAuth.Client.Common.Library
 @using BlazorJwtAuth.Client.Service.Clients
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
 @inject TokenHttpClient TokenHttpClient
-@inject SecuredHttpClient SecuredHttpClient
+@inject ISecuredHttpClientService SecuredHttpClientService
 
 <PageTitle>Get Token</PageTitle>
 
@@ -119,7 +120,7 @@
       _getSecureDataMessage = "You need to assign a token!";
       return;
     }
-    var res = await SecuredHttpClient.GetSecuredDataAsync(AppSettings, _token!);
+    var res = await SecuredHttpClientService.GetSecuredDataAsync(AppSettings, _token!);
     _getSecureDataMessage = res.Message;
   }
 
