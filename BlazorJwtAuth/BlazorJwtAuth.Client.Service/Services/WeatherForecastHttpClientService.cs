@@ -32,10 +32,10 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
             if (token.Expiration > _ptDateTime.UtcNow)
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", $"{token.Token}");
-            var response =
-                await httpClient.GetFromJsonAsync<WeatherForecastDto[]>(
-                    $"{appSettings.ApiBaseAddress}/WeatherForecast");
-            return response ?? Array.Empty<WeatherForecastDto>();
+            var response = await httpClient
+                .GetAsync($"{appSettings.ApiBaseAddress}/WeatherForecast");
+            var result = await response.Content.ReadFromJsonAsync<WeatherForecastDto[]>();
+            return result ?? Array.Empty<WeatherForecastDto>();
         }
         catch
         {
