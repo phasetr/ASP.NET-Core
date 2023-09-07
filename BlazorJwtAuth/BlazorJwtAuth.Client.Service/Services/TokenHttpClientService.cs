@@ -32,15 +32,15 @@ public class TokenHttpClientService : ITokenHttpClientService
             return new AuthenticationResponse
             {
                 Detail = result.Detail,
+                Email = result.Email,
                 IsAuthenticated = result.IsAuthenticated,
                 Message = result.Message,
-                Status = result.Status,
-                Token = result.Token,
-                UserName = result.UserName,
-                Email = result.Email,
                 RefreshToken = result.RefreshToken,
                 RefreshTokenExpiration = result.RefreshTokenExpiration,
-                Roles = result.Roles
+                Roles = result.Roles,
+                Status = result.Status,
+                Token = result.Token,
+                UserName = result.UserName
             };
         }
         catch (Exception ex)
