@@ -32,14 +32,14 @@ public class AuthenticationHttpClient
             if (result is null)
                 return new UserRegisterResultDto
                 {
-                    Succeeded = false,
+                    Detail = "Unable to deserialize response from server.",
                     Errors = new List<string>
                     {
                         "Sorry, we were unable to register you at this time. Please try again shortly."
                     },
-                    Status = HttpStatusCode.BadRequest.ToString(),
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
-                    Detail = "Unable to deserialize response from server."
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Succeeded = false
                 };
             return result;
         }
@@ -66,10 +66,10 @@ public class AuthenticationHttpClient
             if (result is null)
                 return new UserLoginResultDto
                 {
-                    Succeeded = false,
-                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Detail = "Unable to deserialize response from server.",
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
-                    Detail = "Unable to deserialize response from server."
+                    Status = HttpStatusCode.BadRequest.ToString(),
+                    Succeeded = false
                 };
             await _tokenService.SetTokenAsync(result.Token);
             _customAuthenticationStateProvider.StateChanged();
