@@ -1,4 +1,3 @@
-using System.Data.Common;
 using BlazorJwtAuth.Common.DataContext.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -16,25 +15,21 @@ public class CustomWebApplicationFactory<TProgram>
         builder.ConfigureServices(services =>
         {
             var dbContextDescriptor = services.SingleOrDefault(
-                d => d.ServiceType ==
-                     typeof(DbContextOptions<ApplicationDbContext>));
-            services.Remove(dbContextDescriptor!);
-            var dbConnectionDescriptor = services.SingleOrDefault(
-                d => d.ServiceType ==
-                     typeof(DbConnection));
-            services.Remove(dbConnectionDescriptor!);
-            // Create open SqliteConnection so EF won't automatically close it.
-            services.AddSingleton<DbConnection>(_ =>
+                d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+            if (dbContextDescriptor is not null) services.Remove(dbContextDescriptor);
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                var connection = new SqliteConnection("DataSource=:memory:");
-                connection.Open();
-                return connection;
+                options.UseSqlite(new SqliteConnection("DataSource=:memory:"));
             });
-            services.AddDbContext<ApplicationDbContext>((container, options) =>
-            {
-                var connection = container.GetRequiredService<DbConnection>();
-                options.UseSqlite(connection);
-            });
+
+            var sp = services.BuildServiceProvider();
+            // Scopeを作ってDbContextが使いまわされないようにする
+            using var scope = sp.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            // DB作り直し
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            db.SaveChanges();
         });
         builder.UseEnvironment("Development");
     }

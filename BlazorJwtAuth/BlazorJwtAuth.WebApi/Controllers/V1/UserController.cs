@@ -32,6 +32,16 @@ public class UserController : ControllerBase
         _jwtTokenService = jwtTokenService;
     }
 
+    /// <summary>
+    ///     単なるURLのテスト用
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public IActionResult GetAsync()
+    {
+        return Ok("This is the user controller!");
+    }
+
     [HttpPost("token")]
     public async Task<IActionResult> GetTokenAsync(GetTokenRequest model)
     {
@@ -110,6 +120,20 @@ public class UserController : ControllerBase
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo
             }
+        });
+    }
+
+    [HttpGet("{email}")]
+    public async Task<IActionResult> GetByEmailAsync(string email)
+    {
+        var user = await _userService.GetByEmailAsync(email);
+        if (user is null) return NotFound();
+        return Ok(new UserGetByEmailResultDto
+        {
+            UserId = user.Id,
+            UserName = user.UserName,
+            FirstName = user.FirstName,
+            LastName = user.LastName
         });
     }
 }

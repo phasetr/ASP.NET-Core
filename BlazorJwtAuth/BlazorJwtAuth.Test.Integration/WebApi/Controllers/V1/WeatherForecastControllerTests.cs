@@ -3,12 +3,9 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.Models;
-using BlazorJwtAuth.Test.Integration.Helpers;
 using BlazorJwtAuth.WebApi;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorJwtAuth.Test.Integration.WebApi.Controllers.V1;
 
@@ -25,14 +22,6 @@ public class WeatherForecastControllerTests
     [Fact]
     public async Task Get_WhenNoAuthCalled_Returns401()
     {
-        // データベースの初期化
-        using (var scope = _factory.Services.CreateScope())
-        {
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-            Utilities.ReinitializeDbForTests(db);
-        }
-
         // HTTPクライアントの初期化
         var client = _factory.CreateClient();
 
@@ -44,14 +33,6 @@ public class WeatherForecastControllerTests
     [Fact]
     public async Task Get_WhenAuthCalled_ReturnsOk()
     {
-        // データベースの初期化
-        using (var scope = _factory.Services.CreateScope())
-        {
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<ApplicationDbContext>();
-            Utilities.ReinitializeDbForTests(db);
-        }
-
         // HTTPクライアントの初期化
         var client = _factory.CreateClient();
 

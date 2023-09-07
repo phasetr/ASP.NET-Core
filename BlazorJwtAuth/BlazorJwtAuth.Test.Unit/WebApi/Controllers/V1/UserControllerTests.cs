@@ -1,3 +1,4 @@
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Services.Interfaces;
@@ -147,5 +148,80 @@ public class UserControllerTests
         var okValue = Assert.IsAssignableFrom<AuthenticationResponse>(resultObject.Value);
         Assert.True(okValue.IsAuthenticated);
         Assert.Equal("Token Created Properly.", okValue.Message);
+    }
+
+    [Fact]
+    public async Task GetByUserIdAsync_ExistingUser()
+    {
+        var context = new ApplicationDbContextFakeSqliteBuilder().Build();
+        var userStore = new UserStore<ApplicationUser>(context);
+        // パスワード認証があるため、ハッシャーも設定する
+        var passwordHasher = new PasswordHasher<ApplicationUser>();
+        var userManager = new UserManager<ApplicationUser>(
+            userStore, null, passwordHasher,
+            null, null, null,
+            null, null, null);
+        var claimsService = new ClaimsService(userManager);
+        var configuration = Substitute.For<IConfiguration>();
+        configuration["Jwt:Key"].Returns("abcdefghijklmnopqrstuvwxyz012345");
+        configuration["Jwt:DurationInMinutes"].Returns("30");
+        configuration["Jwt:Issuer"].Returns("Issuer");
+        configuration["Jwt:Audience"].Returns("Audience");
+        var ptDateTime = Substitute.For<IPtDateTime>();
+        var jwt = Substitute.For<IOptions<Jwt>>();
+        jwt.Value.Returns(new Jwt
+        {
+            Key = "abcdefghijklmnopqrstuvwxyz012345",
+            DurationInMinutes = 30,
+            Issuer = "Issuer",
+            Audience = "Audience"
+        });
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
+
+        var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
+        var result = await controller.GetByEmailAsync("user@secureapi.com");
+        Assert.NotNull(result);
+        var resultObject = Assert.IsType<OkObjectResult>(result);
+        var okValue = Assert.IsAssignableFrom<UserGetByEmailResultDto>(resultObject.Value);
+        Assert.Equal("userId", okValue.UserId);
+        Assert.Equal("user", okValue.UserName);
+        Assert.Equal("First", okValue.FirstName);
+        Assert.Equal("Last", okValue.LastName);
+    }
+
+    [Fact]
+    public async Task GetByUserIdAsync_NonExistentUser()
+    {
+        var context = new ApplicationDbContextFakeSqliteBuilder().Build();
+        var userStore = new UserStore<ApplicationUser>(context);
+        // パスワード認証があるため、ハッシャーも設定する
+        var passwordHasher = new PasswordHasher<ApplicationUser>();
+        var userManager = new UserManager<ApplicationUser>(
+            userStore, null, passwordHasher,
+            null, null, null,
+            null, null, null);
+        var claimsService = new ClaimsService(userManager);
+        var configuration = Substitute.For<IConfiguration>();
+        configuration["Jwt:Key"].Returns("abcdefghijklmnopqrstuvwxyz012345");
+        configuration["Jwt:DurationInMinutes"].Returns("30");
+        configuration["Jwt:Issuer"].Returns("Issuer");
+        configuration["Jwt:Audience"].Returns("Audience");
+        var ptDateTime = Substitute.For<IPtDateTime>();
+        var jwt = Substitute.For<IOptions<Jwt>>();
+        jwt.Value.Returns(new Jwt
+        {
+            Key = "abcdefghijklmnopqrstuvwxyz012345",
+            DurationInMinutes = 30,
+            Issuer = "Issuer",
+            Audience = "Audience"
+        });
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
+
+        var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
+        var result = await controller.GetByEmailAsync("nouser@secureapi.com");
+        Assert.NotNull(result);
+        Assert.IsType<NotFoundResult>(result);
     }
 }

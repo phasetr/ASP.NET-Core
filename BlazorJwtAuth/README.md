@@ -6,10 +6,7 @@
 - 認証
   - [.NET 6.0 JWT Token Authentication C# API Tutorial](https://trystanwilcock.com/2022/08/13/net-6-0-jwt-token-authentication-c-sharp-api-tutorial/) 
   - [.NET 6.0 Blazor WebAssembly JWT Token Authentication From Scratch C# Tutorial](https://trystanwilcock.com/2022/09/28/net-6-0-blazor-webassembly-jwt-token-authentication-from-scratch-c-sharp-wasm-tutorial/)
-
-## TODO
-
-- 認証付きコントローラーの統合テスト
+- 結合テストの参考ページ: [ASP.NET Core で Web API の結合テストをしよう](https://qiita.com/okazuki/items/cbda6c456dcba8fee503) 
 
 ## Blazor
 
