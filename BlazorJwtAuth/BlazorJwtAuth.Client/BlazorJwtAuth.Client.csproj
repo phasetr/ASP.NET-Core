@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj" />
-    <ProjectReference Include="..\BlazorJwtAuth.Client.Common\BlazorJwtAuth.Client.Common.csproj" />
     <ProjectReference Include="..\BlazorJwtAuth.Client.Service\BlazorJwtAuth.Client.Service.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace BlazorJwtAuth.Client.Common.Classes;
+namespace BlazorJwtAuth.Client.Service.Classes;
 
 public class CustomValidation : ComponentBase
 {

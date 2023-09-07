@@ -1,8 +1,8 @@
 using Blazored.LocalStorage;
 using BlazorJwtAuth.Client;
-using BlazorJwtAuth.Client.Common.Library;
 using BlazorJwtAuth.Client.Service.Classes;
 using BlazorJwtAuth.Client.Service.Clients;
+using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Services;

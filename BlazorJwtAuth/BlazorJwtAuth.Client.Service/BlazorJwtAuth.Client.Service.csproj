@@ -6,7 +6,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BlazorJwtAuth.Client.Common\BlazorJwtAuth.Client.Common.csproj" />
         <ProjectReference Include="..\BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj"/>
     </ItemGroup>
 

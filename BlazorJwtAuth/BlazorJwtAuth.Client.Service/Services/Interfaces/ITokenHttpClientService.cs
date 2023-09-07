@@ -1,4 +1,4 @@
-using BlazorJwtAuth.Client.Common.Library;
+using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Common.Models;
 
 namespace BlazorJwtAuth.Client.Service.Services.Interfaces;

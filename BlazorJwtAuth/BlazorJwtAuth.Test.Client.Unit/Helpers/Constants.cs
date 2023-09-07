@@ -1,4 +1,4 @@
-using BlazorJwtAuth.Client.Common.Library;
+using BlazorJwtAuth.Client.Service.Helpers;
 
 namespace BlazorJwtAuth.Test.Client.Unit.Helpers;
 

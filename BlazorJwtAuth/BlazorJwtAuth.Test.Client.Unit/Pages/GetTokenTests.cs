@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using BlazorJwtAuth.Client.Common.Library;
+using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Models;
 using RichardSzalay.MockHttp;
