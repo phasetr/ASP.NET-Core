@@ -24,6 +24,8 @@ public class TaxedPriceTests : TestContext
         var cut = ctx.RenderComponent<TaxedPrice>(p =>
             p.Add(d => d.Date, new DateTime(2022, 9, 30))
                 .Add(d => d.Price, 1000));
+        var v0 = cut.Find("#priceWithTax").InnerHtml;
+        Assert.Equal("Price with tax: ¥0", v0);
         cut.Find("input[type=button]").Click();
         var v = cut.Find("#priceWithTax").InnerHtml;
         Assert.Equal("Price with tax: ¥1080", v);
@@ -37,6 +39,8 @@ public class TaxedPriceTests : TestContext
         var cut = ctx.RenderComponent<TaxedPrice>(p =>
             p.Add(d => d.Date, new DateTime(2023, 9, 30))
                 .Add(d => d.Price, 1000));
+        var v0 = cut.Find("#priceWithTax").InnerHtml;
+        Assert.Equal("Price with tax: ¥0", v0);
         cut.Find("input[type=button]").Click();
         var v = cut.Find("#priceWithTax").InnerHtml;
         Assert.Equal("Price with tax: ¥1100", v);
