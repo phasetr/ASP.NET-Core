@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -39,11 +40,13 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.GetAsync("api/v1/Secured");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadAsStringAsync();
+        var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
 
         // レスポンスを確認
-        Assert.NotEmpty(result);
-        Assert.Equal("This Secured Data is available only for Authenticated Users.", result);
+        Assert.NotNull(result);
+        Assert.Null(result.Detail);
+        Assert.Equal("This Secured Data is available only for Authenticated Users.", result.Message);
+        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
     }
 
     [Fact]
@@ -68,10 +71,12 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.PostAsync("api/v1/Secured", null);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadAsStringAsync();
+        var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
 
         // レスポンスを確認
-        Assert.NotEmpty(result);
-        Assert.Equal("This Secured Data is available only for Administrators.", result);
+        Assert.NotNull(result);
+        Assert.Null(result.Detail);
+        Assert.Equal("This Secured Data is available only for Administrators.", result.Message);
+        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
     }
 }
