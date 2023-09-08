@@ -1,6 +1,6 @@
 @page "/auth/logout"
-@using BlazorJwtAuth.Client.Service.Clients
-@inject AuthenticationHttpClient Http
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
+@inject IAuthenticationHttpClientService Http
 @inject NavigationManager NavigationManager
 
 <h1>Logout</h1>

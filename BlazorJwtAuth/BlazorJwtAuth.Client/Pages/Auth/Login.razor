@@ -1,9 +1,9 @@
 @page "/auth/login"
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Classes
-@using BlazorJwtAuth.Client.Service.Clients
 @using BlazorJwtAuth.Client.Service.Helpers
-@inject AuthenticationHttpClient Http
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
+@inject IAuthenticationHttpClientService Http
 @inject NavigationManager NavigationManager
 @inject AppSettings AppSettings
 

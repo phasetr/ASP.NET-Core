@@ -5,21 +5,21 @@ using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
 
-namespace BlazorJwtAuth.Client.Service.Clients;
+namespace BlazorJwtAuth.Client.Service.Services;
 
-public class AuthenticationHttpClient
+public class AuthenticationHttpClientService : IAuthenticationHttpClientService
 {
     private readonly CustomAuthenticationStateProvider _customAuthenticationStateProvider;
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ITokenService _tokenService;
 
-    public AuthenticationHttpClient(
+    public AuthenticationHttpClientService(
         CustomAuthenticationStateProvider customAuthenticationStateProvider,
-        HttpClient http,
+        IHttpClientFactory httpClientFactory,
         ITokenService tokenService)
     {
         _customAuthenticationStateProvider = customAuthenticationStateProvider;
-        _http = http;
+        _httpClientFactory = httpClientFactory;
         _tokenService = tokenService;
     }
 
@@ -27,7 +27,8 @@ public class AuthenticationHttpClient
     {
         try
         {
-            var response = await _http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/register", userRegisterDto);
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/register", userRegisterDto);
             var result = await response.Content.ReadFromJsonAsync<UserRegisterResultDto>();
             if (result is null)
                 return new UserRegisterResultDto
@@ -61,7 +62,8 @@ public class AuthenticationHttpClient
     {
         try
         {
-            var response = await _http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/login", userLoginDto);
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/login", userLoginDto);
             var result = await response.Content.ReadFromJsonAsync<UserLoginResultDto>();
             if (result is null)
                 return new UserLoginResultDto

@@ -1,10 +1,10 @@
 @page "/auth/register"
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Classes
-@using BlazorJwtAuth.Client.Service.Clients
 @using BlazorJwtAuth.Client.Service.Helpers
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
-@inject AuthenticationHttpClient Http
+@inject IAuthenticationHttpClientService Http
 
 <PageTitle>Register</PageTitle>
 
