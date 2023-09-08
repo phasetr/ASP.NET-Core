@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using BlazorJwtAuth.Client.Service.Helpers;
+using System.Net.Http;
+using BlazorJwtAuth.Client.Pages;
+using BlazorJwtAuth.Client.Service.Services;
+using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Test.Client.Unit.Helpers;
 using RichardSzalay.MockHttp;
 
 namespace BlazorJwtAuth.Test.Client.Unit.Pages;
@@ -13,13 +17,9 @@ public class GetTokenTests : TestContext
     [Fact]
     public void GetTokenAsync_Authenticated()
     {
-        var mockAppSettings = new AppSettings
-        {
-            ApiBaseAddress = "https://localhost:5001"
-        };
-        Services.AddSingleton(mockAppSettings);
+        Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When($"{mockAppSettings.ApiBaseAddress}/User/token").RespondJson(new AuthenticationResponse
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/User/token").RespondJson(new AuthenticationResponse
         {
             IsAuthenticated = true,
             Detail = "detail",
@@ -32,17 +32,22 @@ public class GetTokenTests : TestContext
             Token = "token",
             UserName = "user"
         });
-        mockHttpClient.When($"{mockAppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
         {
             Detail = "detail",
             Message = "message",
             Status = HttpStatusCode.OK.ToString()
         });
+        Services.AddHttpClient<HttpClient>(client =>
+            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
+        Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
+        Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
-        /*
         var cut = RenderComponent<GetToken>();
         cut.Find("#apiBaseAddress")
-            .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="https://localhost:5001"/>""");
+            .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="http://localhost"/>""");
+        cut.Find("#getTokenAsync")
+            .MarkupMatches("""<button id="getTokenAsync" class="btn btn-outline-primary">Get Token</button>""");
         cut.Find("#getTokenAsync").Click();
         cut.WaitForElement("#getTokenResult").MarkupMatches(
             """
@@ -65,6 +70,5 @@ public class GetTokenTests : TestContext
                 <dd></dd>
             </dl>
             """);
-        */
     }
 }
