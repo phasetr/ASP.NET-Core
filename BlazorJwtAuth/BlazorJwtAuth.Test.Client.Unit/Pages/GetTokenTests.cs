@@ -71,4 +71,59 @@ public class GetTokenTests : TestContext
             </dl>
             """);
     }
+
+    [Fact]
+    public void GetSecuredDataAsync_NoToken()
+    {
+        Services.AddSingleton(Constants.AppSettings);
+        var mockHttpClient = Services.AddMockHttpClient();
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
+        {
+            Detail = "detail",
+            Message = "message",
+            Status = HttpStatusCode.OK.ToString()
+        });
+        Services.AddHttpClient<HttpClient>(client =>
+            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
+        Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
+        Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
+
+        var cut = RenderComponent<GetToken>();
+        cut.Find("#apiBaseAddress")
+            .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="http://localhost"/>""");
+        cut.Find("#getSecureDataAsync")
+            .MarkupMatches(
+                """<button id="getSecureDataAsync" class="btn btn-outline-primary">Get Secure Data</button>""");
+        cut.Find("#getSecureDataAsync").Click();
+        cut.WaitForElement("#secureDataMessage")
+            .MarkupMatches("""<dd id="secureDataMessage">You need to assign a token!</dd>""");
+    }
+
+    [Fact]
+    public void GetSecuredDataAsync_WithProperToken()
+    {
+        Services.AddSingleton(Constants.AppSettings);
+        var mockHttpClient = Services.AddMockHttpClient();
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
+        {
+            Detail = "detail",
+            Message = "message",
+            Status = HttpStatusCode.OK.ToString()
+        });
+        Services.AddHttpClient<HttpClient>(client =>
+            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
+        Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
+        Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
+
+        var cut = RenderComponent<GetToken>(parameters =>
+            parameters.Add(p => p.Token, "token"));
+        cut.Find("#apiBaseAddress")
+            .MarkupMatches("""<input id="apiBaseAddress" class="col-8" value="http://localhost"/>""");
+        cut.Find("#getSecureDataAsync")
+            .MarkupMatches(
+                """<button id="getSecureDataAsync" class="btn btn-outline-primary">Get Secure Data</button>""");
+        cut.Find("#getSecureDataAsync").Click();
+        cut.WaitForElement("#secureDataMessage")
+            .MarkupMatches("""<dd id="secureDataMessage"></dd>""");
+    }
 }

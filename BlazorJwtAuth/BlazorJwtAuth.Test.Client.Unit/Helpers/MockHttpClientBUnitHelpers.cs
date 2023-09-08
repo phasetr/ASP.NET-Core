@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using RichardSzalay.MockHttp;
 
-namespace BlazorJwtAuth.Test.Client.Unit;
+namespace BlazorJwtAuth.Test.Client.Unit.Helpers;
 
 public static class MockHttpClientBUnitHelpers
 {
@@ -13,7 +13,7 @@ public static class MockHttpClientBUnitHelpers
     {
         var mockHttpHandler = new MockHttpMessageHandler();
         var httpClient = mockHttpHandler.ToHttpClient();
-        httpClient.BaseAddress = new Uri("http://localhost");
+        httpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
         services.AddSingleton(httpClient);
         return mockHttpHandler;
     }

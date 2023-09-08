@@ -40,7 +40,7 @@
     <dl id="getTokenResult">
       <dt>token</dt>
       <dd>
-        <input id="token" @bind="_token"/>
+        <input id="token" @bind="Token"/>
       </dd>
       <dt>message</dt>
       <dd>@_message</dd>
@@ -60,7 +60,7 @@
     <h3>Get Secure Data</h3>
     <dl>
       <dt>message</dt>
-      <dd>@_getSecureDataMessage</dd>
+      <dd id="secureDataMessage">@_getSecureDataMessage</dd>
     </dl>
   </div>
   <div class="col-4">
@@ -73,10 +73,13 @@
 </div>
 
 @code {
+
+  [Parameter]
+  public string? Token { get; set; }
+
   private string _userId = $"{Authorization.DefaultUsername}Id";
   private string _email = Authorization.DefaultEmail;
   private string _password = Authorization.DefaultPassword;
-  private string? _token;
   private string? _message;
   private bool? _isAuthenticated;
   private string? _userName;
@@ -85,7 +88,7 @@
   private string? _getSecureDataMessage;
   private string? _refreshTokenMessage;
 
-  private async Task GetTokenAsync()
+  public async Task GetTokenAsync()
   {
     var tokenRequestModel = new GetTokenRequest
     {
@@ -95,7 +98,7 @@
     var res = await TokenHttpClientService.GetTokenAsync(AppSettings, tokenRequestModel);
     if (res.IsAuthenticated)
     {
-      _token = res.Token;
+      Token = res.Token;
       _message = res.Message;
       _isAuthenticated = res.IsAuthenticated;
       _userName = res.UserName;
@@ -104,7 +107,7 @@
     }
     else
     {
-      _token = "";
+      Token = "";
       _message = res.Message;
       _isAuthenticated = res.IsAuthenticated;
       _userName = "";
@@ -112,18 +115,18 @@
     }
   }
 
-  private async Task GetSecureDataAsync()
+  public async Task GetSecureDataAsync()
   {
-    if (_token is null)
+    if (Token is null)
     {
       _getSecureDataMessage = "You need to assign a token!";
       return;
     }
-    var res = await SecuredHttpClientService.GetSecuredDataAsync(AppSettings, _token!);
+    var res = await SecuredHttpClientService.GetSecuredDataAsync(AppSettings, Token!);
     _getSecureDataMessage = res.Message;
   }
 
-  private async Task PostRefreshTokenAsync()
+  public async Task PostRefreshTokenAsync()
   {
     if (string.IsNullOrEmpty(_refreshToken))
     {
@@ -138,7 +141,7 @@
     var res = await TokenHttpClientService.RefreshTokenAsync(AppSettings, refreshTokenRequest);
     if (res.IsAuthenticated)
     {
-      _token = res.Token;
+      Token = res.Token;
       _message = res.Message;
       _isAuthenticated = res.IsAuthenticated;
       _userName = res.UserName;
@@ -148,7 +151,7 @@
     }
     else
     {
-      _token = "";
+      Token = "";
       _message = res.Message;
       _isAuthenticated = res.IsAuthenticated;
       _userName = "";
