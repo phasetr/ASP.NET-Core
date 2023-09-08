@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
@@ -22,12 +23,13 @@ public class SecuredHttpClientService : ISecuredHttpClientService
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
+            var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
             return new SecuredDataResultDto
             {
                 Message = response.StatusCode switch
                 {
                     HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
-                    HttpStatusCode.OK => await response.Content.ReadAsStringAsync(),
+                    HttpStatusCode.OK => result!.Message,
                     _ => "Oops! Something went wrong."
                 },
                 Status = response.StatusCode.ToString()

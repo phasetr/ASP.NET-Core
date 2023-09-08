@@ -106,7 +106,7 @@ public class GetTokenTests : TestContext
         var mockHttpClient = Services.AddMockHttpClient();
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResultDto
         {
-            Detail = "detail",
+            Detail = "",
             Message = "message",
             Status = HttpStatusCode.OK.ToString()
         });

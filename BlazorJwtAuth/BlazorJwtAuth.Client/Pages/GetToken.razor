@@ -88,7 +88,7 @@
   private string? _getSecureDataMessage;
   private string? _refreshTokenMessage;
 
-  public async Task GetTokenAsync()
+  private async Task GetTokenAsync()
   {
     var tokenRequestModel = new GetTokenRequest
     {
@@ -115,7 +115,7 @@
     }
   }
 
-  public async Task GetSecureDataAsync()
+  private async Task GetSecureDataAsync()
   {
     if (Token is null)
     {
@@ -126,7 +126,7 @@
     _getSecureDataMessage = res.Message;
   }
 
-  public async Task PostRefreshTokenAsync()
+  private async Task PostRefreshTokenAsync()
   {
     if (string.IsNullOrEmpty(_refreshToken))
     {
