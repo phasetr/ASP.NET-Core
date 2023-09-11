@@ -24,7 +24,7 @@ public class HomeControllerTests
 
         // Assert
         response.EnsureSuccessStatusCode();
-        Assert.Equal("text/plain; charset=utf-8",
+        Assert.Equal("application/json; charset=utf-8",
             response.Content.Headers.ContentType?.ToString());
     }
 
@@ -34,7 +34,7 @@ public class HomeControllerTests
         var client = _factory.CreateClient();
         var response = await client.PostAsync("/api/v1", null);
         response.EnsureSuccessStatusCode();
-        Assert.Equal("text/plain; charset=utf-8",
+        Assert.Equal("application/json; charset=utf-8",
             response.Content.Headers.ContentType?.ToString());
     }
 }

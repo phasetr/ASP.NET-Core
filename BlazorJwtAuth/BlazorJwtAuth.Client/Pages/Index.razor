@@ -1,4 +1,9 @@
 ﻿@page "/"
+@using BlazorJwtAuth.Common.Models
+@using BlazorJwtAuth.Client.Service.Helpers
+@using System.Net
+@inject AppSettings AppSettings
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +12,59 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
+
+<h2>GET API RESULT</h2>
+<dl>
+  <dt>API Base URL</dt>
+  <dd id="apiBaseAddress">@AppSettings.ApiBaseAddress</dd>
+  <dt>GET Message</dt>
+  <dd id="getMessage">@GetMessage</dd>
+</dl>
+
+@code {
+  private string GetMessage { get; set; } = "Loading...";
+
+  protected override async Task OnInitializedAsync()
+  {
+    await GetMessages();
+  }
+
+  private async Task GetMessages()
+  {
+  // TODO: 下記のプライベートメソッドをサービスクラスに移動したい：テストが動くかどうかが問題
+    var response = await GetIndexAsync();
+    GetMessage = response.Message;
+  }
+
+  private async Task<ResponseBase> GetIndexAsync()
+  {
+    try
+    {
+      var response = await Http.GetAsync(AppSettings.ApiBaseAddress);
+      var result = await response.Content.ReadFromJsonAsync<ResponseBase>();
+      if (result is null)
+        return new ResponseBase
+        {
+          Detail = "",
+          Message = "Response is null"
+        };
+
+      return new ResponseBase
+      {
+        Detail = result.Detail,
+        Message = result.Message,
+        Status = result.Status
+      };
+    }
+    catch (Exception ex)
+    {
+      return new ResponseBase
+      {
+        Detail = ex.Message,
+        Message = "Sorry, some problem occurred. Please try again.",
+        Status = HttpStatusCode.InternalServerError.ToString()
+      };
+    }
+  }
+
+}

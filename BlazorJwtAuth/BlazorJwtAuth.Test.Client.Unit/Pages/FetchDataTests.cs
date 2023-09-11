@@ -12,8 +12,8 @@ public class FetchDataTests : TestContext
     [Fact]
     public void Sample_Test()
     {
-        var mock = Services.AddMockHttpClient();
-        mock.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastDto>
+        var mockHttpClient = Services.AddMockHttpClient();
+        mockHttpClient.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastDto>
         {
             new()
             {

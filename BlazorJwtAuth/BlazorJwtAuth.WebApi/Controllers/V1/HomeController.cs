@@ -1,3 +1,5 @@
+using System.Net;
+using BlazorJwtAuth.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorJwtAuth.WebApi.Controllers.V1;
@@ -9,12 +11,22 @@ public class HomeController : ControllerBase
     [HttpGet]
     public IActionResult GetIndex()
     {
-        return Ok("This is get, api/v1");
+        return Ok(new ResponseBase
+        {
+            Detail = "",
+            Message = "This is get, api/v1",
+            Status = HttpStatusCode.OK.ToString()
+        });
     }
 
     [HttpPost]
     public IActionResult PostIndex()
     {
-        return Ok("This is post, api/v1");
+        return Ok(new ResponseBase
+        {
+            Detail = "",
+            Message = "This is post, api/v1",
+            Status = HttpStatusCode.OK.ToString()
+        });
     }
 }
