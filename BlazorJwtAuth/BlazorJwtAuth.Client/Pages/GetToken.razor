@@ -4,8 +4,9 @@
 @using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
-@inject ITokenHttpClientService TokenHttpClientService
-@inject ISecuredHttpClientService SecuredHttpClientService
+@inject HttpClient HttpClient
+@inject ITokenHttpClientService TokenService
+@inject ISecuredHttpClientService SecuredService
 
 <PageTitle>Get Token</PageTitle>
 
@@ -95,7 +96,7 @@
       Email = _email,
       Password = _password
     };
-    var res = await TokenHttpClientService.GetTokenAsync(AppSettings, tokenRequestModel);
+    var res = await TokenService.GetTokenAsync(AppSettings, HttpClient, tokenRequestModel);
     if (res.IsAuthenticated)
     {
       Token = res.Token;
@@ -122,7 +123,7 @@
       _getSecureDataMessage = "You need to assign a token!";
       return;
     }
-    var res = await SecuredHttpClientService.GetSecuredDataAsync(AppSettings, Token!);
+    var res = await SecuredService.GetSecuredDataAsync(AppSettings, HttpClient, Token!);
     _getSecureDataMessage = res.Message;
   }
 
@@ -138,7 +139,7 @@
     {
       RefreshToken = _refreshToken!
     };
-    var res = await TokenHttpClientService.RefreshTokenAsync(AppSettings, refreshTokenRequest);
+    var res = await TokenService.RefreshTokenAsync(AppSettings, HttpClient, refreshTokenRequest);
     if (res.IsAuthenticated)
     {
       Token = res.Token;

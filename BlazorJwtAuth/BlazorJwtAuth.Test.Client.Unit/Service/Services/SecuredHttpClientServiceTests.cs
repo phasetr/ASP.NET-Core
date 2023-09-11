@@ -1,11 +1,9 @@
 using System.Net;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
-using NSubstitute;
 using RichardSzalay.MockHttp;
 
 namespace BlazorJwtAuth.Test.Client.Unit.Service.Services;
@@ -26,12 +24,9 @@ public class SecuredHttpClientServiceTests
                     Status = HttpStatusCode.Unauthorized.ToString()
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        var sut = new SecuredHttpClientService(mockHttpClientFactory);
-
-        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, "token");
+        var sut = new SecuredHttpClientService();
+        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, mockHttpClient, "token");
 
         Assert.NotNull(result);
         Assert.Equal("Unauthorized: Please check your token.", result.Message);
@@ -52,12 +47,9 @@ public class SecuredHttpClientServiceTests
                     Status = HttpStatusCode.OK.ToString()
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        var sut = new SecuredHttpClientService(mockHttpClientFactory);
-
-        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, "token");
+        var sut = new SecuredHttpClientService();
+        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, mockHttpClient, "token");
 
         Assert.NotNull(result);
         Assert.Equal("message", result.Message);
@@ -78,12 +70,9 @@ public class SecuredHttpClientServiceTests
                     Status = HttpStatusCode.Ambiguous.ToString()
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        var sut = new SecuredHttpClientService(mockHttpClientFactory);
-
-        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, "token");
+        var sut = new SecuredHttpClientService();
+        var result = await sut.GetSecuredDataAsync(Constants.AppSettings, mockHttpClient, "token");
 
         Assert.NotNull(result);
         Assert.Equal("Oops! Something went wrong.", result.Message);

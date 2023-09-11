@@ -1,4 +1,3 @@
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
@@ -25,8 +24,6 @@ public class WeatherForecastHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/WeatherForecast")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
         var mockTokenService = Substitute.For<ITokenService>();
         mockTokenService.GetTokenAsync().Returns(new TokenDto
@@ -35,12 +32,8 @@ public class WeatherForecastHttpClientServiceTests
             Expiration = now.AddHours(1)
         });
 
-        _sut = new WeatherForecastHttpClientService(
-            mockHttpClientFactory,
-            _ptDateTime,
-            mockTokenService);
-
-        var result = await _sut.GetForecastAsync(Constants.AppSettings);
+        _sut = new WeatherForecastHttpClientService(_ptDateTime, mockTokenService);
+        var result = await _sut.GetForecastAsync(Constants.AppSettings, mockHttpClient);
 
         Assert.NotNull(result);
         Assert.Empty(result);
@@ -63,8 +56,6 @@ public class WeatherForecastHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/WeatherForecast")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
         var mockTokenService = Substitute.For<ITokenService>();
         mockTokenService.GetTokenAsync().Returns(new TokenDto
@@ -73,12 +64,8 @@ public class WeatherForecastHttpClientServiceTests
             Expiration = now.AddHours(1)
         });
 
-        _sut = new WeatherForecastHttpClientService(
-            mockHttpClientFactory,
-            _ptDateTime,
-            mockTokenService);
-
-        var result = await _sut.GetForecastAsync(Constants.AppSettings);
+        _sut = new WeatherForecastHttpClientService(_ptDateTime, mockTokenService);
+        var result = await _sut.GetForecastAsync(Constants.AppSettings, mockHttpClient);
 
         Assert.NotNull(result);
         Assert.Single(result);

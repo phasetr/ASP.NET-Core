@@ -9,16 +9,13 @@ namespace BlazorJwtAuth.Client.Service.Services;
 
 public class WeatherForecastHttpClientService : IWeatherForecastHttpClientService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IPtDateTime _ptDateTime;
     private readonly ITokenService _tokenService;
 
     public WeatherForecastHttpClientService(
-        IHttpClientFactory httpClientFactory,
         IPtDateTime ptDateTime,
         ITokenService tokenService)
     {
-        _httpClientFactory = httpClientFactory;
         _ptDateTime = ptDateTime;
         _tokenService = tokenService;
     }

@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Services;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
-using NSubstitute;
 using RichardSzalay.MockHttp;
 
 namespace BlazorJwtAuth.Test.Client.Unit.Service.Services;
@@ -37,12 +35,9 @@ public class TokenHttpClientServiceTests
                 UserName = "user"
             }));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        _sut = new TokenHttpClientService(mockHttpClientFactory);
-
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, new GetTokenRequest
+        _sut = new TokenHttpClientService();
+        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenRequest
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -70,12 +65,9 @@ public class TokenHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/token")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        _sut = new TokenHttpClientService(mockHttpClientFactory);
-
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, new GetTokenRequest
+        _sut = new TokenHttpClientService();
+        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenRequest
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -108,13 +100,11 @@ public class TokenHttpClientServiceTests
                 UserName = "user"
             }));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        _sut = new TokenHttpClientService(mockHttpClientFactory);
-
+        _sut = new TokenHttpClientService();
         var result = await _sut.RefreshTokenAsync(
             Constants.AppSettings,
+            mockHttpClient,
             new RefreshTokenRequest
             {
                 RefreshToken = "refresh-token"
@@ -142,13 +132,11 @@ public class TokenHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/refresh-token")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
-        var mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
-        mockHttpClientFactory.CreateClient().Returns(mockHttpClient);
 
-        _sut = new TokenHttpClientService(mockHttpClientFactory);
-
+        _sut = new TokenHttpClientService();
         var result = await _sut.RefreshTokenAsync(
             Constants.AppSettings,
+            mockHttpClient,
             new RefreshTokenRequest
             {
                 RefreshToken = "refresh-token"

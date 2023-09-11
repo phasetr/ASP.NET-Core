@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using BlazorJwtAuth.Client.Pages;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
@@ -19,14 +18,15 @@ public class GetTokenTests : TestContext
     {
         Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
+        var dateTime = new DateTime(2023, 1, 1, 0, 0, 0);
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/User/token").RespondJson(new AuthenticationResponse
         {
             IsAuthenticated = true,
             Detail = "detail",
-            Email = "user@securityapit.com",
+            Email = "user@secureapi.com",
             Message = "message",
             RefreshToken = "refreshToken",
-            RefreshTokenExpiration = DateTime.Now.AddDays(1),
+            RefreshTokenExpiration = dateTime.AddDays(1),
             Roles = new List<string> {"Moderator"},
             Status = HttpStatusCode.OK.ToString(),
             Token = "token",
@@ -38,8 +38,6 @@ public class GetTokenTests : TestContext
             Message = "message",
             Status = HttpStatusCode.OK.ToString()
         });
-        Services.AddHttpClient<HttpClient>(client =>
-            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
@@ -54,20 +52,20 @@ public class GetTokenTests : TestContext
             <dl id="getTokenResult">
                 <dt>token</dt>
                 <dd>
-                    <input id="token">
+                    <input id="token" value="token">
                 </dd>
                 <dt>message</dt>
-                <dd></dd>
+                <dd>message</dd>
                 <dt>is authenticated</dt>
-                <dd></dd>
+                <dd>True</dd>
                 <dt>user name</dt>
-                <dd></dd>
+                <dd>user</dd>
                 <dt>refresh token</dt>
                 <dd>
-                    <input id="refreshToken">
+                    <input id="refreshToken" value="refreshToken">
                 </dd>
                 <dt>refresh token expiration</dt>
-                <dd></dd>
+                <dd>2023/01/02 9:00:00</dd>
             </dl>
             """);
     }
@@ -83,8 +81,6 @@ public class GetTokenTests : TestContext
             Message = "message",
             Status = HttpStatusCode.OK.ToString()
         });
-        Services.AddHttpClient<HttpClient>(client =>
-            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
@@ -110,8 +106,6 @@ public class GetTokenTests : TestContext
             Message = "message",
             Status = HttpStatusCode.OK.ToString()
         });
-        Services.AddHttpClient<HttpClient>(client =>
-            client.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress));
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
@@ -124,6 +118,6 @@ public class GetTokenTests : TestContext
                 """<button id="getSecureDataAsync" class="btn btn-outline-primary">Get Secure Data</button>""");
         cut.Find("#getSecureDataAsync").Click();
         cut.WaitForElement("#secureDataMessage")
-            .MarkupMatches("""<dd id="secureDataMessage"></dd>""");
+            .MarkupMatches("""<dd id="secureDataMessage">message</dd>""");
     }
 }

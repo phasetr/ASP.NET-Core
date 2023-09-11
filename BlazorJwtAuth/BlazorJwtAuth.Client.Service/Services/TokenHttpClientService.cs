@@ -7,19 +7,13 @@ namespace BlazorJwtAuth.Client.Service.Services;
 
 public class TokenHttpClientService : ITokenHttpClientService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    public TokenHttpClientService(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
-
-    public async Task<AuthenticationResponse> GetTokenAsync(AppSettings appSettings, GetTokenRequest getTokenRequest)
+    public async Task<AuthenticationResponse> GetTokenAsync(AppSettings appSettings, HttpClient httpClient,
+        GetTokenRequest getTokenRequest)
     {
         try
         {
-            var http = _httpClientFactory.CreateClient();
-            var response = await http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenRequest);
+            var response =
+                await httpClient.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenRequest);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
             if (result is null)
                 return new AuthenticationResponse
@@ -55,12 +49,12 @@ public class TokenHttpClientService : ITokenHttpClientService
     }
 
     public async Task<AuthenticationResponse> RefreshTokenAsync(AppSettings appSettings,
+        HttpClient httpClient,
         RefreshTokenRequest refreshTokenRequest)
     {
         try
         {
-            var http = _httpClientFactory.CreateClient();
-            var response = await http.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/refresh-token",
+            var response = await httpClient.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/refresh-token",
                 refreshTokenRequest);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
             if (result is null)

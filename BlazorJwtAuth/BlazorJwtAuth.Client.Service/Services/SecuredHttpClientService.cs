@@ -9,20 +9,15 @@ namespace BlazorJwtAuth.Client.Service.Services;
 
 public class SecuredHttpClientService : ISecuredHttpClientService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    public SecuredHttpClientService(IHttpClientFactory httpClientFactory)
-    {
-        _httpClientFactory = httpClientFactory;
-    }
-
-    public async Task<SecuredDataResultDto> GetSecuredDataAsync(AppSettings appSettings, string token)
+    public async Task<SecuredDataResultDto> GetSecuredDataAsync(
+        AppSettings appSettings,
+        HttpClient httpClient,
+        string token)
     {
         try
         {
-            var http = _httpClientFactory.CreateClient();
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await http.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await httpClient.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
             var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
             return new SecuredDataResultDto
             {
