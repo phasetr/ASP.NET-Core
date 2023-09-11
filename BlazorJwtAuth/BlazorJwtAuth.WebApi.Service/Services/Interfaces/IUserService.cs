@@ -1,14 +1,14 @@
-﻿using BlazorJwtAuth.Common.EntityModels.Entities;
-using BlazorJwtAuth.Common.Models;
+﻿using BlazorJwtAuth.Common.Dto;
+using BlazorJwtAuth.Common.EntityModels.Entities;
 
 namespace BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<string> RegisterAsync(RegisterModel model);
-    Task<AuthenticationResponse> GetTokenAsync(GetTokenRequest model);
-    Task<string> AddRoleAsync(AddRoleModel model);
-    Task<AuthenticationResponse> RefreshTokenAsync(string requestRefreshToken);
+    Task<string> RegisterAsync(RegisterDto dto);
+    Task<AuthenticationResponseDto> GetTokenAsync(GetTokenResponseDto model);
+    Task<string> AddRoleAsync(AddRoleDto dto);
+    Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken);
     Task<bool> RevokeTokenAsync(string token);
     Task<ApplicationUser?> GetByIdAsync(string id);
     Task<ApplicationUser?> GetByEmailAsync(string email);

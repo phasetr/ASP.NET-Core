@@ -1,6 +1,5 @@
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
-using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Services.Interfaces;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.Test.Unit.FakesSqlite;
@@ -49,13 +48,13 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenRequest
+        var result = await controller.GetTokenAsync(new GetTokenResponseDto
         {
             Email = "nouser@secureapi.com",
             Password = "Pa$$w0rd."
         });
         var resultObject = Assert.IsType<OkObjectResult>(result);
-        var okValue = Assert.IsAssignableFrom<AuthenticationResponse>(resultObject.Value);
+        var okValue = Assert.IsAssignableFrom<AuthenticationResponseDto>(resultObject.Value);
         Assert.False(okValue.IsAuthenticated);
         Assert.Equal($"No Accounts Registered with nouser@secureapi.com.", okValue.Message);
     }
@@ -95,14 +94,14 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenRequest
+        var result = await controller.GetTokenAsync(new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "WrongPassword"
         });
         Assert.NotNull(result);
         var resultObject = Assert.IsType<OkObjectResult>(result);
-        var okValue = Assert.IsAssignableFrom<AuthenticationResponse>(resultObject.Value);
+        var okValue = Assert.IsAssignableFrom<AuthenticationResponseDto>(resultObject.Value);
         Assert.False(okValue.IsAuthenticated);
         Assert.Equal($"Incorrect Credentials for user user@secureapi.com.", okValue.Message);
     }
@@ -138,14 +137,14 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenRequest
+        var result = await controller.GetTokenAsync(new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
         });
         Assert.NotNull(result);
         var resultObject = Assert.IsType<OkObjectResult>(result);
-        var okValue = Assert.IsAssignableFrom<AuthenticationResponse>(resultObject.Value);
+        var okValue = Assert.IsAssignableFrom<AuthenticationResponseDto>(resultObject.Value);
         Assert.True(okValue.IsAuthenticated);
         Assert.Equal("Token Created Properly.", okValue.Message);
     }
@@ -183,7 +182,7 @@ public class UserControllerTests
         var result = await controller.GetByEmailAsync("user@secureapi.com");
         Assert.NotNull(result);
         var resultObject = Assert.IsType<OkObjectResult>(result);
-        var okValue = Assert.IsAssignableFrom<UserGetByEmailResultDto>(resultObject.Value);
+        var okValue = Assert.IsAssignableFrom<UserGetByEmailResponseDto>(resultObject.Value);
         Assert.Equal("userId", okValue.UserId);
         Assert.Equal("user", okValue.UserName);
         Assert.Equal("First", okValue.FirstName);

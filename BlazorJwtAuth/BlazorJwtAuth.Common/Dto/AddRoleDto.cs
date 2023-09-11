@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlazorJwtAuth.Common.Models;
+namespace BlazorJwtAuth.Common.Dto;
 
-public class AddRoleModel
+public class AddRoleDto
 {
     [Required] public string Email { get; set; } = default!;
 

@@ -1,9 +1,9 @@
 using BlazorJwtAuth.Client.Service.Helpers;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 
 namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface IHomeHttpClientService
 {
-    Task<ResponseBase> GetIndexAsync(AppSettings appSettings, HttpClient httpClient);
+    Task<ResponseBaseDto> GetIndexAsync(AppSettings appSettings, HttpClient httpClient);
 }

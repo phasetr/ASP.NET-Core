@@ -1,6 +1,6 @@
-﻿namespace BlazorJwtAuth.Common.Models;
+﻿namespace BlazorJwtAuth.Common.Dto;
 
-public class AuthenticationResponse : ResponseBase
+public class AuthenticationResponseDto : ResponseBaseDto
 {
     public string Email { get; set; } = default!;
     public bool IsAuthenticated { get; set; }

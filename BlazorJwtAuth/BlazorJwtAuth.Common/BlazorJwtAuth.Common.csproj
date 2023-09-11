@@ -7,4 +7,5 @@
     <RootNamespace>BlazorJwtAuth.Common</RootNamespace>
   </PropertyGroup>
 
+
 </Project>

@@ -5,7 +5,7 @@ namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface IAuthenticationHttpClientService
 {
-    Task<UserRegisterResultDto> RegisterUser(UserRegisterDto userRegisterDto, AppSettings appSettings);
-    Task<UserLoginResultDto> LoginUser(UserLoginDto userLoginDto, AppSettings appSettings);
+    Task<UserRegisterResponseDto> RegisterUser(UserRegisterDto userRegisterDto, AppSettings appSettings);
+    Task<UserLoginResponseDto> LoginUser(UserLoginDto userLoginDto, AppSettings appSettings);
     Task LogoutUser();
 }

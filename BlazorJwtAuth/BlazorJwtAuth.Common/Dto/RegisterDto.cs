@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BlazorJwtAuth.Common.Models;
+namespace BlazorJwtAuth.Common.Dto;
 
-public class RegisterModel
+public class RegisterDto
 {
     [Required] public string FirstName { get; set; } = default!;
 

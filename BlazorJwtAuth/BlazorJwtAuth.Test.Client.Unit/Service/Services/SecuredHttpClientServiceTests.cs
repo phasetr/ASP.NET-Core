@@ -18,7 +18,7 @@ public class SecuredHttpClientServiceTests
             .Respond(
                 HttpStatusCode.Unauthorized,
                 "application/json",
-                JsonSerializer.Serialize(new SecuredDataResultDto()
+                JsonSerializer.Serialize(new SecuredDataResponseDto()
                 {
                     Message = "Unauthorized: Please check your token.",
                     Status = HttpStatusCode.Unauthorized.ToString()
@@ -41,7 +41,7 @@ public class SecuredHttpClientServiceTests
             .Respond(
                 HttpStatusCode.OK,
                 "application/json",
-                JsonSerializer.Serialize(new SecuredDataResultDto()
+                JsonSerializer.Serialize(new SecuredDataResponseDto()
                 {
                     Message = "message",
                     Status = HttpStatusCode.OK.ToString()
@@ -64,7 +64,7 @@ public class SecuredHttpClientServiceTests
             .Respond(
                 HttpStatusCode.Ambiguous,
                 "application/json",
-                JsonSerializer.Serialize(new SecuredDataResultDto()
+                JsonSerializer.Serialize(new SecuredDataResponseDto()
                 {
                     Message = "\"Ambiguous data\"",
                     Status = HttpStatusCode.Ambiguous.ToString()

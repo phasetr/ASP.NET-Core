@@ -1,8 +1,6 @@
-using BlazorJwtAuth.Common.Models;
-
 namespace BlazorJwtAuth.Common.Dto;
 
-public class UserRegisterResultDto : ResponseBase
+public class UserRegisterResponseDto : ResponseBaseDto
 {
     public bool Succeeded { get; set; }
 

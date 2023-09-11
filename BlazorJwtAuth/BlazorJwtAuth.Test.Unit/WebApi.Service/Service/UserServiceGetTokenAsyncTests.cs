@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using BlazorJwtAuth.Common.Constants;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
-using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.Test.Unit.FakesSqlite;
 using BlazorJwtAuth.WebApi.Service.Services;
@@ -35,7 +35,7 @@ public partial class UserServiceTests : SqliteMemoryBase
         var mockLogger = Substitute.For<ILogger<UserService>>();
         _sut = new UserService(userManager, _jwt, mockLogger, context);
 
-        var tokenRequestModel = new GetTokenRequest
+        var tokenRequestModel = new GetTokenResponseDto
         {
             Email = "noUser@phasetr.com",
             Password = "noUser"
@@ -49,7 +49,7 @@ public partial class UserServiceTests : SqliteMemoryBase
     [Fact]
     public async Task GetTokenAsync_ExistingUserWrongPassword_IncorrectCredential()
     {
-        var tokenRequestModel = new GetTokenRequest
+        var tokenRequestModel = new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "errorPassword"
@@ -76,7 +76,7 @@ public partial class UserServiceTests : SqliteMemoryBase
     [Fact]
     public async Task GetTokenAsync_ExistingUser_ProperResult()
     {
-        var tokenRequestModel = new GetTokenRequest
+        var tokenRequestModel = new GetTokenResponseDto
         {
             Email = Authorization.DefaultEmail,
             Password = Authorization.DefaultPassword

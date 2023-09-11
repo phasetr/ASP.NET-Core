@@ -23,15 +23,15 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         _tokenService = tokenService;
     }
 
-    public async Task<UserRegisterResultDto> RegisterUser(UserRegisterDto userRegisterDto, AppSettings appSettings)
+    public async Task<UserRegisterResponseDto> RegisterUser(UserRegisterDto userRegisterDto, AppSettings appSettings)
     {
         try
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/register", userRegisterDto);
-            var result = await response.Content.ReadFromJsonAsync<UserRegisterResultDto>();
+            var result = await response.Content.ReadFromJsonAsync<UserRegisterResponseDto>();
             if (result is null)
-                return new UserRegisterResultDto
+                return new UserRegisterResponseDto
                 {
                     Detail = "Unable to deserialize response from server.",
                     Errors = new List<string>
@@ -46,7 +46,7 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         }
         catch (Exception ex)
         {
-            return new UserRegisterResultDto
+            return new UserRegisterResponseDto
             {
                 Message = ex.Message,
                 Succeeded = false,
@@ -58,15 +58,15 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         }
     }
 
-    public async Task<UserLoginResultDto> LoginUser(UserLoginDto userLoginDto, AppSettings appSettings)
+    public async Task<UserLoginResponseDto> LoginUser(UserLoginDto userLoginDto, AppSettings appSettings)
     {
         try
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/login", userLoginDto);
-            var result = await response.Content.ReadFromJsonAsync<UserLoginResultDto>();
+            var result = await response.Content.ReadFromJsonAsync<UserLoginResponseDto>();
             if (result is null)
-                return new UserLoginResultDto
+                return new UserLoginResponseDto
                 {
                     Detail = "Unable to deserialize response from server.",
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
@@ -79,7 +79,7 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         }
         catch (Exception ex)
         {
-            return new UserLoginResultDto
+            return new UserLoginResponseDto
             {
                 Message = ex.Message,
                 Succeeded = false

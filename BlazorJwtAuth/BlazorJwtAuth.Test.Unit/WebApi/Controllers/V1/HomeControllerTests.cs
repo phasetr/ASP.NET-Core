@@ -1,5 +1,5 @@
 using System.Net;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.WebApi.Controllers.V1;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +13,7 @@ public class HomeControllerTests
         var controller = new HomeController();
         var response = controller.GetIndex();
         var responseObject = Assert.IsType<OkObjectResult>(response);
-        var result = Assert.IsAssignableFrom<ResponseBase>(responseObject.Value);
+        var result = Assert.IsAssignableFrom<ResponseBaseDto>(responseObject.Value);
         Assert.Empty(result.Detail);
         Assert.Equal("This is get, api/v1", result.Message);
         Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
@@ -25,7 +25,7 @@ public class HomeControllerTests
         var controller = new HomeController();
         var response = controller.PostIndex();
         var responseObject = Assert.IsType<OkObjectResult>(response);
-        var result = Assert.IsAssignableFrom<ResponseBase>(responseObject.Value);
+        var result = Assert.IsAssignableFrom<ResponseBaseDto>(responseObject.Value);
         Assert.Empty(result.Detail);
         Assert.Equal("This is post, api/v1", result.Message);
         Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);

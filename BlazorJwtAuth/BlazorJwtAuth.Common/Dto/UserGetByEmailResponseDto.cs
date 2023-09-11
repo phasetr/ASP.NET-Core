@@ -1,6 +1,6 @@
 namespace BlazorJwtAuth.Common.Dto;
 
-public class UserGetByEmailResultDto
+public class UserGetByEmailResponseDto
 {
     public string UserId { get; set; } = default!;
     public string UserName { get; set; } = default!;

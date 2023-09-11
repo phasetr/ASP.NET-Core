@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 

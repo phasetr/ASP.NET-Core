@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
-using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,21 +42,21 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("token")]
-    public async Task<IActionResult> GetTokenAsync(GetTokenRequest model)
+    public async Task<IActionResult> GetTokenAsync(GetTokenResponseDto model)
     {
         var result = await _userService.GetTokenAsync(model);
         return Ok(result);
     }
 
     [HttpPost("refresh-token")]
-    public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequest model)
+    public async Task<IActionResult> RefreshTokenAsync(RefreshTokenDto model)
     {
         var response = await _userService.RefreshTokenAsync(model.RefreshToken);
         return Ok(response);
     }
 
     [HttpPost("revoke-token")]
-    public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest model)
+    public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenDto model)
     {
         // accept token from request body or cookie
         // var token = model.Token ?? Request.Cookies["refreshToken"];
@@ -83,16 +82,16 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> RegisterAsync(RegisterModel model)
+    public async Task<ActionResult> RegisterAsync(RegisterDto dto)
     {
-        var result = await _userService.RegisterAsync(model);
+        var result = await _userService.RegisterAsync(dto);
         return Ok(result);
     }
 
     [HttpPost("add-role")]
-    public async Task<IActionResult> AddRoleAsync(AddRoleModel model)
+    public async Task<IActionResult> AddRoleAsync(AddRoleDto dto)
     {
-        var result = await _userService.AddRoleAsync(model);
+        var result = await _userService.AddRoleAsync(dto);
         return Ok(result);
     }
 
@@ -103,7 +102,7 @@ public class UserController : ControllerBase
     {
         var user = await _userService.GetByEmailAsync(userLoginDto.Email ?? string.Empty);
         if (user == null || !await _userManager.CheckPasswordAsync(user, userLoginDto.Password))
-            return Unauthorized(new UserLoginResultDto
+            return Unauthorized(new UserLoginResponseDto
             {
                 Succeeded = false,
                 Message = "The email and password combination was invalid."
@@ -112,7 +111,7 @@ public class UserController : ControllerBase
 
         var token = _jwtTokenService.GetJwtToken(userClaims);
 
-        return Ok(new UserLoginResultDto
+        return Ok(new UserLoginResponseDto
         {
             Succeeded = true,
             Token = new TokenDto
@@ -128,7 +127,7 @@ public class UserController : ControllerBase
     {
         var user = await _userService.GetByEmailAsync(email);
         if (user is null) return NotFound();
-        return Ok(new UserGetByEmailResultDto
+        return Ok(new UserGetByEmailResponseDto
         {
             UserId = user.Id,
             UserName = user.UserName,

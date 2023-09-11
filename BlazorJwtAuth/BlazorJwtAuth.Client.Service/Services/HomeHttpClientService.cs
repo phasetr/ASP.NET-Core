@@ -2,27 +2,27 @@ using System.Net;
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 
 namespace BlazorJwtAuth.Client.Service.Services;
 
 public class HomeHttpClientService : IHomeHttpClientService
 {
-    public async Task<ResponseBase> GetIndexAsync(AppSettings appSettings, HttpClient httpClient)
+    public async Task<ResponseBaseDto> GetIndexAsync(AppSettings appSettings, HttpClient httpClient)
     {
         try
         {
             var response = await httpClient.GetAsync(appSettings.ApiBaseAddress);
-            var result = await response.Content.ReadFromJsonAsync<ResponseBase>();
+            var result = await response.Content.ReadFromJsonAsync<ResponseBaseDto>();
             if (result is null)
-                return new ResponseBase
+                return new ResponseBaseDto
                 {
                     Detail = "",
                     Message = "Response is null",
                     Status = HttpStatusCode.InternalServerError.ToString()
                 };
 
-            return new ResponseBase
+            return new ResponseBaseDto
             {
                 Detail = result.Detail,
                 Message = result.Message,
@@ -31,7 +31,7 @@ public class HomeHttpClientService : IHomeHttpClientService
         }
         catch (Exception ex)
         {
-            return new ResponseBase
+            return new ResponseBaseDto
             {
                 Detail = ex.Message,
                 Message = "Sorry, some problem occurred. Please try again.",

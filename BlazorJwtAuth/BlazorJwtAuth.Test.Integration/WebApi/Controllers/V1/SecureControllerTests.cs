@@ -4,7 +4,6 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using BlazorJwtAuth.Common.Dto;
-using BlazorJwtAuth.Common.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace BlazorJwtAuth.Test.Integration.WebApi.Controllers.V1;
@@ -25,7 +24,7 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenRequest
+        var getTokenRequest = new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -33,14 +32,14 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var json = JsonSerializer.Serialize(getTokenRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync("/api/v1/User/token", content);
-        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponse>();
+        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
         Assert.NotNull(token);
 
         // APIにトークンを付与してリクエスト
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.GetAsync("api/v1/Secured");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
+        var result = await response.Content.ReadFromJsonAsync<SecuredDataResponseDto>();
 
         // レスポンスを確認
         Assert.NotNull(result);
@@ -56,7 +55,7 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenRequest
+        var getTokenRequest = new GetTokenResponseDto
         {
             Email = "admin@secureapi.com",
             Password = "adminpass"
@@ -64,14 +63,14 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var json = JsonSerializer.Serialize(getTokenRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync("/api/v1/User/token", content);
-        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponse>();
+        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
         Assert.NotNull(token);
 
         // APIにトークンを付与してPOSTリクエスト
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.PostAsync("api/v1/Secured", null);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
+        var result = await response.Content.ReadFromJsonAsync<SecuredDataResponseDto>();
 
         // レスポンスを確認
         Assert.NotNull(result);

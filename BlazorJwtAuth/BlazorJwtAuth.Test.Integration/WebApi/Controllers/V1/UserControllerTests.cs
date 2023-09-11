@@ -41,7 +41,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.GetAsync($"/api/v1/User/user@secureapi.com");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<UserGetByEmailResultDto>();
+        var result = await response.Content.ReadFromJsonAsync<UserGetByEmailResponseDto>();
 
         // レスポンスを確認
         Assert.NotNull(result);

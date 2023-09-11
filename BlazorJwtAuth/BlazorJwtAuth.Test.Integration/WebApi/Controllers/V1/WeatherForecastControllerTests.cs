@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.WebApi;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -37,7 +37,7 @@ public class WeatherForecastControllerTests
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenRequest
+        var getTokenRequest = new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -45,7 +45,7 @@ public class WeatherForecastControllerTests
         var json = JsonSerializer.Serialize(getTokenRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync("/api/v1/User/token", content);
-        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponse>();
+        var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
         Assert.NotNull(token);
 
         // APIにトークンを付与してリクエスト

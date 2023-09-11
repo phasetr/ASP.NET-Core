@@ -5,5 +5,5 @@ namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface ISecuredHttpClientService
 {
-    Task<SecuredDataResultDto> GetSecuredDataAsync(AppSettings appSettings, HttpClient httpClient, string token);
+    Task<SecuredDataResponseDto> GetSecuredDataAsync(AppSettings appSettings, HttpClient httpClient, string token);
 }

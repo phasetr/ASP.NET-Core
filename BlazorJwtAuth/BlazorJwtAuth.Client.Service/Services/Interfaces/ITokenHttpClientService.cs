@@ -1,13 +1,13 @@
 using BlazorJwtAuth.Client.Service.Helpers;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 
 namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface ITokenHttpClientService
 {
-    Task<AuthenticationResponse> GetTokenAsync(AppSettings appSettings, HttpClient httpClient,
-        GetTokenRequest getTokenRequest);
+    Task<AuthenticationResponseDto> GetTokenAsync(AppSettings appSettings, HttpClient httpClient,
+        GetTokenResponseDto getTokenResponseDto);
 
-    Task<AuthenticationResponse> RefreshTokenAsync(AppSettings appSettings, HttpClient httpClient,
-        RefreshTokenRequest refreshTokenRequest);
+    Task<AuthenticationResponseDto> RefreshTokenAsync(AppSettings appSettings, HttpClient httpClient,
+        RefreshTokenDto refreshTokenDto);
 }

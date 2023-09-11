@@ -1,29 +1,29 @@
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 
 namespace BlazorJwtAuth.Client.Service.Services;
 
 public class TokenHttpClientService : ITokenHttpClientService
 {
-    public async Task<AuthenticationResponse> GetTokenAsync(AppSettings appSettings, HttpClient httpClient,
-        GetTokenRequest getTokenRequest)
+    public async Task<AuthenticationResponseDto> GetTokenAsync(AppSettings appSettings, HttpClient httpClient,
+        GetTokenResponseDto getTokenResponseDto)
     {
         try
         {
             var response =
-                await httpClient.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenRequest);
-            var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
+                await httpClient.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/token", getTokenResponseDto);
+            var result = await response.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
             if (result is null)
-                return new AuthenticationResponse
+                return new AuthenticationResponseDto
                 {
                     Detail = "Unable to deserialize response from server.",
                     IsAuthenticated = false,
                     Message = "Sorry, we were unable to authenticate you at this time. Please try again shortly."
                 };
 
-            return new AuthenticationResponse
+            return new AuthenticationResponseDto
             {
                 Detail = result.Detail,
                 Email = result.Email,
@@ -39,7 +39,7 @@ public class TokenHttpClientService : ITokenHttpClientService
         }
         catch (Exception ex)
         {
-            return new AuthenticationResponse
+            return new AuthenticationResponseDto
             {
                 Detail = ex.Message,
                 IsAuthenticated = false,
@@ -48,24 +48,24 @@ public class TokenHttpClientService : ITokenHttpClientService
         }
     }
 
-    public async Task<AuthenticationResponse> RefreshTokenAsync(AppSettings appSettings,
+    public async Task<AuthenticationResponseDto> RefreshTokenAsync(AppSettings appSettings,
         HttpClient httpClient,
-        RefreshTokenRequest refreshTokenRequest)
+        RefreshTokenDto refreshTokenDto)
     {
         try
         {
             var response = await httpClient.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/refresh-token",
-                refreshTokenRequest);
-            var result = await response.Content.ReadFromJsonAsync<AuthenticationResponse>();
+                refreshTokenDto);
+            var result = await response.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
             if (result is null)
-                return new AuthenticationResponse
+                return new AuthenticationResponseDto
                 {
                     Detail = "Unable to deserialize response from server.",
                     IsAuthenticated = false,
                     Message = "Sorry, we were unable to refresh a token. Please try again shortly."
                 };
 
-            return new AuthenticationResponse
+            return new AuthenticationResponseDto
             {
                 Detail = result.Detail,
                 IsAuthenticated = result.IsAuthenticated,
@@ -81,7 +81,7 @@ public class TokenHttpClientService : ITokenHttpClientService
         }
         catch (Exception ex)
         {
-            return new AuthenticationResponse
+            return new AuthenticationResponseDto
             {
                 Detail = ex.Message,
                 IsAuthenticated = false,

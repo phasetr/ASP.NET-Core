@@ -1,6 +1,6 @@
 @page "/gettoken"
 @using BlazorJwtAuth.Common.Constants
-@using BlazorJwtAuth.Common.Models
+@using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
@@ -91,7 +91,7 @@
 
   private async Task GetTokenAsync()
   {
-    var tokenRequestModel = new GetTokenRequest
+    var tokenRequestModel = new GetTokenResponseDto
     {
       Email = _email,
       Password = _password
@@ -135,7 +135,7 @@
       return;
     }
 
-    var refreshTokenRequest = new RefreshTokenRequest
+    var refreshTokenRequest = new RefreshTokenDto
     {
       RefreshToken = _refreshToken!
     };

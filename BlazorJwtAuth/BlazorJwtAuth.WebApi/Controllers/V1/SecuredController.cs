@@ -13,7 +13,7 @@ public class SecuredController : ControllerBase
     [HttpGet]
     public IActionResult GetSecuredData()
     {
-        return Ok(new SecuredDataResultDto
+        return Ok(new SecuredDataResponseDto
         {
             Message = "This Secured Data is available only for Authenticated Users.",
             Status = HttpStatusCode.OK.ToString()
@@ -24,7 +24,7 @@ public class SecuredController : ControllerBase
     [Authorize(Roles = "Administrator")]
     public IActionResult PostSecuredData()
     {
-        return Ok(new SecuredDataResultDto
+        return Ok(new SecuredDataResponseDto
         {
             Message = "This Secured Data is available only for Administrators.",
             Status = HttpStatusCode.OK.ToString()

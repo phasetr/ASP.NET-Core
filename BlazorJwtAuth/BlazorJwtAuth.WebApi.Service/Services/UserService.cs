@@ -3,8 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.DataContext.Data;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
-using BlazorJwtAuth.Common.Models;
 using BlazorJwtAuth.Common.Settings;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -33,29 +33,29 @@ public class UserService : IUserService
         _jwt = jwt.Value;
     }
 
-    public async Task<string> RegisterAsync(RegisterModel model)
+    public async Task<string> RegisterAsync(RegisterDto dto)
     {
         var user = new ApplicationUser
         {
-            UserName = model.Username,
-            Email = model.Email,
-            FirstName = model.FirstName,
-            LastName = model.LastName,
+            UserName = dto.Username,
+            Email = dto.Email,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
             SecurityStamp = Guid.NewGuid().ToString()
         };
-        var userWithSameEmail = await _userManager.FindByEmailAsync(model.Email);
+        var userWithSameEmail = await _userManager.FindByEmailAsync(dto.Email);
 
         if (userWithSameEmail != null) return $"Email {user.Email} is already registered.";
 
-        var result = await _userManager.CreateAsync(user, model.Password);
+        var result = await _userManager.CreateAsync(user, dto.Password);
         if (result.Succeeded) await _userManager.AddToRoleAsync(user, Authorization.DefaultRole.ToString());
 
         return $"User Registered with username {user.UserName}";
     }
 
-    public async Task<AuthenticationResponse> GetTokenAsync(GetTokenRequest model)
+    public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenResponseDto model)
     {
-        var authenticationModel = new AuthenticationResponse();
+        var authenticationModel = new AuthenticationResponseDto();
         var user = await _context.Users
             .Include(m => m.RefreshTokens)
             .FirstOrDefaultAsync(m => m.Email == model.Email);
@@ -103,26 +103,26 @@ public class UserService : IUserService
         return authenticationModel;
     }
 
-    public async Task<string> AddRoleAsync(AddRoleModel model)
+    public async Task<string> AddRoleAsync(AddRoleDto dto)
     {
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null) return $"No Accounts Registered with {model.Email}.";
-        if (!await _userManager.CheckPasswordAsync(user, model.Password))
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        if (user == null) return $"No Accounts Registered with {dto.Email}.";
+        if (!await _userManager.CheckPasswordAsync(user, dto.Password))
             return $"Incorrect Credentials for user {user.Email}.";
-        var roleExists = Enum.GetNames(typeof(Authorization.Roles)).Any(x => x.ToLower() == model.Role.ToLower());
+        var roleExists = Enum.GetNames(typeof(Authorization.Roles)).Any(x => x.ToLower() == dto.Role.ToLower());
 
-        if (!roleExists) return $"Role {model.Role} not found.";
+        if (!roleExists) return $"Role {dto.Role} not found.";
         {
             var validRole = Enum.GetValues(typeof(Authorization.Roles))
-                .Cast<Authorization.Roles>().FirstOrDefault(x => x.ToString().ToLower() == model.Role.ToLower());
+                .Cast<Authorization.Roles>().FirstOrDefault(x => x.ToString().ToLower() == dto.Role.ToLower());
             await _userManager.AddToRoleAsync(user, validRole.ToString());
-            return $"Added {model.Role} to user {model.Email}.";
+            return $"Added {dto.Role} to user {dto.Email}.";
         }
     }
 
-    public async Task<AuthenticationResponse> RefreshTokenAsync(string requestRefreshToken)
+    public async Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken)
     {
-        var authenticationModel = new AuthenticationResponse();
+        var authenticationModel = new AuthenticationResponseDto();
         var user = _context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
             .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == requestRefreshToken));

@@ -3,7 +3,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
-using BlazorJwtAuth.Common.Models;
+using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Services;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
 using RichardSzalay.MockHttp;
@@ -21,7 +21,7 @@ public class TokenHttpClientServiceTests
         var dateTime = _ptDateTime.UtcNow;
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/token")
-            .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponse
+            .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
                 Detail = "detail",
                 Email = "user@secureapi.com",
@@ -37,7 +37,7 @@ public class TokenHttpClientServiceTests
         var mockHttpClient = mockHttp.ToHttpClient();
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenRequest
+        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -61,13 +61,13 @@ public class TokenHttpClientServiceTests
     public async Task GetTokenAsync_Failed()
     {
         var mockHttp = new MockHttpMessageHandler();
-        AuthenticationResponse? authenticationResponse = null;
+        AuthenticationResponseDto? authenticationResponse = null;
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/token")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenRequest
+        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -86,7 +86,7 @@ public class TokenHttpClientServiceTests
         var dateTime = _ptDateTime.UtcNow;
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/refresh-token")
-            .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponse
+            .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
                 Detail = "detail",
                 Email = "user@secureapi.com",
@@ -105,7 +105,7 @@ public class TokenHttpClientServiceTests
         var result = await _sut.RefreshTokenAsync(
             Constants.AppSettings,
             mockHttpClient,
-            new RefreshTokenRequest
+            new RefreshTokenDto
             {
                 RefreshToken = "refresh-token"
             });
@@ -128,7 +128,7 @@ public class TokenHttpClientServiceTests
     public async Task RefreshTokenAsync_Failed()
     {
         var mockHttp = new MockHttpMessageHandler();
-        AuthenticationResponse? authenticationResponse = null;
+        AuthenticationResponseDto? authenticationResponse = null;
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/refresh-token")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
@@ -137,7 +137,7 @@ public class TokenHttpClientServiceTests
         var result = await _sut.RefreshTokenAsync(
             Constants.AppSettings,
             mockHttpClient,
-            new RefreshTokenRequest
+            new RefreshTokenDto
             {
                 RefreshToken = "refresh-token"
             });

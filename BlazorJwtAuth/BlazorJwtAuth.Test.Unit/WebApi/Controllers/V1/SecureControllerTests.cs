@@ -13,7 +13,7 @@ public class SecureControllerTests
         var controller = new SecuredController();
         var response = controller.GetSecuredData();
         var responseObject = Assert.IsType<OkObjectResult>(response);
-        var result = Assert.IsAssignableFrom<SecuredDataResultDto>(responseObject.Value);
+        var result = Assert.IsAssignableFrom<SecuredDataResponseDto>(responseObject.Value);
         Assert.Null(result.Detail);
         Assert.Equal("This Secured Data is available only for Authenticated Users.", result.Message);
         Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
@@ -25,7 +25,7 @@ public class SecureControllerTests
         var controller = new SecuredController();
         var response = controller.PostSecuredData();
         var responseObject = Assert.IsType<OkObjectResult>(response);
-        var result = Assert.IsAssignableFrom<SecuredDataResultDto>(responseObject.Value);
+        var result = Assert.IsAssignableFrom<SecuredDataResponseDto>(responseObject.Value);
         Assert.Null(result.Detail);
         Assert.Equal("This Secured Data is available only for Administrators.", result.Message);
         Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);

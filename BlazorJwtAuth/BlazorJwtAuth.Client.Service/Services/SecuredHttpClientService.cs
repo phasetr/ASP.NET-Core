@@ -9,7 +9,7 @@ namespace BlazorJwtAuth.Client.Service.Services;
 
 public class SecuredHttpClientService : ISecuredHttpClientService
 {
-    public async Task<SecuredDataResultDto> GetSecuredDataAsync(
+    public async Task<SecuredDataResponseDto> GetSecuredDataAsync(
         AppSettings appSettings,
         HttpClient httpClient,
         string token)
@@ -18,8 +18,8 @@ public class SecuredHttpClientService : ISecuredHttpClientService
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var response = await httpClient.GetAsync($"{appSettings.ApiBaseAddress}/Secured");
-            var result = await response.Content.ReadFromJsonAsync<SecuredDataResultDto>();
-            return new SecuredDataResultDto
+            var result = await response.Content.ReadFromJsonAsync<SecuredDataResponseDto>();
+            return new SecuredDataResponseDto
             {
                 Message = response.StatusCode switch
                 {
@@ -32,7 +32,7 @@ public class SecuredHttpClientService : ISecuredHttpClientService
         }
         catch (Exception ex)
         {
-            return new SecuredDataResultDto
+            return new SecuredDataResponseDto
             {
                 Message = ex.Message,
                 Status = HttpStatusCode.InternalServerError.ToString()
