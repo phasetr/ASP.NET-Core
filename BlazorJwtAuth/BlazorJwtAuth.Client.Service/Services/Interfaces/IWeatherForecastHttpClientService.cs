@@ -5,5 +5,5 @@ namespace BlazorJwtAuth.Client.Service.Services.Interfaces;
 
 public interface IWeatherForecastHttpClientService
 {
-    Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings);
+    Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings, HttpClient httpClient);
 }

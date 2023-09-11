@@ -3,7 +3,7 @@
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
 @inject HttpClient HttpClient
-@inject IHomeHttpClientService HomeHttpClientService
+@inject IHomeHttpClientService Service
 
 <PageTitle>Index</PageTitle>
 
@@ -31,7 +31,7 @@ Welcome to your new app.
 
   private async Task GetMessages()
   {
-    var response = await HomeHttpClientService.GetIndexAsync(AppSettings, HttpClient);
+    var response = await Service.GetIndexAsync(AppSettings, HttpClient);
     GetMessage = response.Message;
   }
 

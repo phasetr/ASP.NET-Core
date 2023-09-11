@@ -4,7 +4,8 @@
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @attribute [Authorize]
 @inject AppSettings AppSettings
-@inject IWeatherForecastHttpClientService Http
+@inject HttpClient HttpClient
+@inject IWeatherForecastHttpClientService Service
 
 <PageTitle>Weather forecast</PageTitle>
 <h1>Weather forecast</h1>
@@ -46,7 +47,7 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _forecasts = await Http.GetForecastAsync(AppSettings);
+    _forecasts = await Service.GetForecastAsync(AppSettings, HttpClient);
   }
 
 }

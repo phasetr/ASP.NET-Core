@@ -23,11 +23,10 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
         _tokenService = tokenService;
     }
 
-    public async Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings)
+    public async Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings, HttpClient httpClient)
     {
         try
         {
-            var httpClient = _httpClientFactory.CreateClient();
             var token = await _tokenService.GetTokenAsync();
             if (token.Expiration > _ptDateTime.UtcNow)
                 httpClient.DefaultRequestHeaders.Authorization =
