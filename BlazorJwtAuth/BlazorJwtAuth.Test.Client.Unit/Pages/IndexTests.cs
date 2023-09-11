@@ -1,5 +1,7 @@
 using System.Net;
 using BlazorJwtAuth.Client.Pages;
+using BlazorJwtAuth.Client.Service.Services;
+using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
 using RichardSzalay.MockHttp;
@@ -12,6 +14,7 @@ public class IndexTests : TestContext
     public void H1_StringContent()
     {
         Services.AddSingleton(Constants.AppSettings);
+        Services.AddScoped<IHomeHttpClientService, HomeHttpClientService>();
         var cut = RenderComponent<Index>();
         cut.Find("h1").MarkupMatches("<h1>Hello, world!</h1>");
     }
@@ -28,6 +31,7 @@ public class IndexTests : TestContext
                 Message = "message",
                 Status = HttpStatusCode.OK.ToString()
             });
+        Services.AddScoped<IHomeHttpClientService, HomeHttpClientService>();
 
         var cut = RenderComponent<Index>();
         cut.Find("#apiBaseAddress")

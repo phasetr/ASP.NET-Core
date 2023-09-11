@@ -28,6 +28,7 @@ builder.Services.AddScoped<CookieStorageAccessor>();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped(_ => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 builder.Services.AddScoped<IAuthenticationHttpClientService, AuthenticationHttpClientService>();
+builder.Services.AddScoped<IHomeHttpClientService, HomeHttpClientService>();
 builder.Services.AddScoped<IPtDateTime, PtDateTime>();
 builder.Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
 builder.Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();

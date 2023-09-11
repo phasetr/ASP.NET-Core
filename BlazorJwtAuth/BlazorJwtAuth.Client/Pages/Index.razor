@@ -1,9 +1,9 @@
 ﻿@page "/"
-@using BlazorJwtAuth.Common.Models
 @using BlazorJwtAuth.Client.Service.Helpers
-@using System.Net
+@using BlazorJwtAuth.Client.Service.Services.Interfaces
 @inject AppSettings AppSettings
-@inject HttpClient Http
+@inject HttpClient HttpClient
+@inject IHomeHttpClientService HomeHttpClientService
 
 <PageTitle>Index</PageTitle>
 
@@ -31,40 +31,8 @@ Welcome to your new app.
 
   private async Task GetMessages()
   {
-  // TODO: 下記のプライベートメソッドをサービスクラスに移動したい：テストが動くかどうかが問題
-    var response = await GetIndexAsync();
+    var response = await HomeHttpClientService.GetIndexAsync(AppSettings, HttpClient);
     GetMessage = response.Message;
-  }
-
-  private async Task<ResponseBase> GetIndexAsync()
-  {
-    try
-    {
-      var response = await Http.GetAsync(AppSettings.ApiBaseAddress);
-      var result = await response.Content.ReadFromJsonAsync<ResponseBase>();
-      if (result is null)
-        return new ResponseBase
-        {
-          Detail = "",
-          Message = "Response is null"
-        };
-
-      return new ResponseBase
-      {
-        Detail = result.Detail,
-        Message = result.Message,
-        Status = result.Status
-      };
-    }
-    catch (Exception ex)
-    {
-      return new ResponseBase
-      {
-        Detail = ex.Message,
-        Message = "Sorry, some problem occurred. Please try again.",
-        Status = HttpStatusCode.InternalServerError.ToString()
-      };
-    }
   }
 
 }
