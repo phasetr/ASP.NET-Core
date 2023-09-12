@@ -1,8 +1,8 @@
-@page "/auth/register"
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Classes
 @using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
+@attribute [Route(ClientPath.AuthRegister)]
 @inject AppSettings AppSettings
 @inject IAuthenticationHttpClientService Http
 

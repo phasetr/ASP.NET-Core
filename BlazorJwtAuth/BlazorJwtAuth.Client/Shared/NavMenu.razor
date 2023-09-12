@@ -10,27 +10,27 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
   <nav class="flex-column">
     <div class="nav-item px-3">
-      <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+      <NavLink class="nav-link" href="@ClientPath.Index" Match="NavLinkMatch.All">
         <span class="oi oi-home" aria-hidden="true"></span> Home
       </NavLink>
     </div>
     <div class="nav-item px-3">
-      <NavLink class="nav-link" href="counter">
+      <NavLink class="nav-link" href="@ClientPath.Counter">
         <span class="oi oi-plus" aria-hidden="true"></span> Counter
       </NavLink>
     </div>
     <div class="nav-item px-3">
-      <NavLink class="nav-link" href="fetchdata">
+      <NavLink class="nav-link" href="@ClientPath.FetchData">
         <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
       </NavLink>
     </div>
     <div class="nav-item px-3">
-      <NavLink class="nav-link" href="gettoken">
+      <NavLink class="nav-link" href="@ClientPath.GetToken">
         <span class="oi oi-list-rich" aria-hidden="true"></span> Get Token
       </NavLink>
     </div>
     <div class="nav-item px-3">
-      <NavLink class="nav-link" href="taxed-price">
+      <NavLink class="nav-link" href="@ClientPath.TaxedPrice">
         <span class="oi oi-list-rich" aria-hidden="true"></span> Taxed Price
       </NavLink>
     </div>
@@ -38,17 +38,17 @@
       <Authorized>
         <hr/>
         <div class="nav-item px-3">
-          <NavLink class="nav-link" href="auth/index">
+          <NavLink class="nav-link" href="@ClientPath.AuthIndex">
             <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Index
           </NavLink>
         </div>
         <div class="nav-item px-3">
-          <NavLink class="nav-link" href="auth/dashboard">
+          <NavLink class="nav-link" href="@ClientPath.AuthDashboard">
             <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Dashboard
           </NavLink>
         </div>
         <div class="nav-item px-3">
-          <NavLink class="nav-link" href="auth/fetchdata">
+          <NavLink class="nav-link" href="@ClientPath.AuthFetchData">
             <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Fetch Data
           </NavLink>
         </div>

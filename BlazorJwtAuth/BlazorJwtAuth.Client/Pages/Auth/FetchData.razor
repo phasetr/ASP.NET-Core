@@ -1,7 +1,7 @@
-@page "/auth/fetchdata"
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
+@attribute [Route(ClientPath.AuthFetchData)]
 @attribute [Authorize]
 @inject AppSettings AppSettings
 @inject HttpClient HttpClient

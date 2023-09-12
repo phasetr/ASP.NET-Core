@@ -1,8 +1,7 @@
-@page "/gettoken"
-@using BlazorJwtAuth.Common.Constants
-@using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
+@using BlazorJwtAuth.Common.Dto
+@attribute [Route(ClientPath.GetToken)]
 @inject AppSettings AppSettings
 @inject HttpClient HttpClient
 @inject ITokenHttpClientService TokenService

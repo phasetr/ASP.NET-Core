@@ -1,6 +1,6 @@
-﻿@page "/"
-@using BlazorJwtAuth.Client.Service.Helpers
+﻿@using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
+@attribute [Route(ClientPath.Index)]
 @inject AppSettings AppSettings
 @inject HttpClient HttpClient
 @inject IHomeHttpClientService Service
