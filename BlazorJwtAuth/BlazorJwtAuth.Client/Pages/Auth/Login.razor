@@ -1,11 +1,10 @@
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Classes
-@using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @attribute [Route(ClientPath.AuthLogin)]
-@inject IAuthenticationHttpClientService Http
+@inject IAuthenticationHttpClientService Service
+@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
-@inject AppSettings AppSettings
 
 <PageTitle>Login</PageTitle>
 
@@ -45,10 +44,10 @@
   private async Task HandleValidSubmit()
   {
     _loggingIn = true;
-    var result = await Http.LoginUser(_userLoginDto, AppSettings);
+    var result = await Service.LoginUser(HttpClient, _userLoginDto);
     if (result.Succeeded)
     {
-      NavigationManager.NavigateTo("/auth/dashboard");
+      NavigationManager.NavigateTo(ClientPath.AuthDashboard);
     }
     else
     {

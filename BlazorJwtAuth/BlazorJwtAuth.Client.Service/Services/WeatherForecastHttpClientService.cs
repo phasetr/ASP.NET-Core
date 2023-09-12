@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Services.Interfaces;
 
@@ -20,22 +20,22 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
         _tokenService = tokenService;
     }
 
-    public async Task<WeatherForecastDto[]?> GetForecastAsync(AppSettings appSettings, HttpClient httpClient)
+    public async Task<WeatherForecastResponseDto[]?> GetForecastAsync(HttpClient httpClient)
     {
         try
         {
             var token = await _tokenService.GetTokenAsync();
             if (token.Expiration > _ptDateTime.UtcNow)
                 httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", $"{token.Token}");
+                    new AuthenticationHeaderValue("Bearer", token.Token);
             var response = await httpClient
-                .GetAsync($"{appSettings.ApiBaseAddress}/WeatherForecast");
-            var result = await response.Content.ReadFromJsonAsync<WeatherForecastDto[]>();
-            return result ?? Array.Empty<WeatherForecastDto>();
+                .GetAsync(ApiPath.V1WeatherForecast);
+            var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto[]>();
+            return result ?? Array.Empty<WeatherForecastResponseDto>();
         }
         catch
         {
-            return Array.Empty<WeatherForecastDto>();
+            return Array.Empty<WeatherForecastResponseDto>();
         }
     }
 }

@@ -1,10 +1,11 @@
 using System.Net;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
-[Route("api/v1/")]
+[Route(ApiPath.V1Home)]
 [ApiController]
 public class HomeController : ControllerBase
 {

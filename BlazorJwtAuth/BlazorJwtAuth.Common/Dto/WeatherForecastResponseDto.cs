@@ -1,6 +1,6 @@
 namespace BlazorJwtAuth.Common.Dto;
 
-public class WeatherForecastDto
+public class WeatherForecastResponseDto
 {
     public DateTime Date { get; set; }
     public int TemperatureC { get; set; }

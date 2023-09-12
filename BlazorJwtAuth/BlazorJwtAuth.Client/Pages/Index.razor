@@ -31,7 +31,7 @@ Welcome to your new app.
 
   private async Task GetMessages()
   {
-    var response = await Service.GetIndexAsync(AppSettings, HttpClient);
+    var response = await Service.GetIndexAsync(HttpClient);
     GetMessage = response.Message;
   }
 

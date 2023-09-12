@@ -2,6 +2,7 @@ using System.Net;
 using BlazorJwtAuth.Client.Pages;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
 using RichardSzalay.MockHttp;
@@ -24,7 +25,7 @@ public class IndexTests : TestContext
     {
         Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When("/")
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Home}")
             .RespondJson(new ResponseBaseDto
             {
                 Detail = "",

@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
-[Route("api/v1/[controller]")]
+[Route(ApiPath.V1User)]
 [ApiController]
 public class UserController : ControllerBase
 {
@@ -41,21 +42,21 @@ public class UserController : ControllerBase
         return Ok("This is the user controller!");
     }
 
-    [HttpPost("token")]
+    [HttpPost(ApiPath.V1UserGetToken)]
     public async Task<IActionResult> GetTokenAsync(GetTokenResponseDto model)
     {
         var result = await _userService.GetTokenAsync(model);
         return Ok(result);
     }
 
-    [HttpPost("refresh-token")]
+    [HttpPost(ApiPath.V1UserRefreshToken)]
     public async Task<IActionResult> RefreshTokenAsync(RefreshTokenDto model)
     {
         var response = await _userService.RefreshTokenAsync(model.RefreshToken);
         return Ok(response);
     }
 
-    [HttpPost("revoke-token")]
+    [HttpPost(ApiPath.V1UserRevokeToken)]
     public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenDto model)
     {
         // accept token from request body or cookie
@@ -73,7 +74,7 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("tokens/{id}")]
+    [HttpPost(ApiPath.V1UserRefreshTokens + "/{id}")]
     public async Task<IActionResult> GetRefreshTokensAsync(string id)
     {
         var user = await _userService.GetByIdAsync(id);
@@ -81,21 +82,21 @@ public class UserController : ControllerBase
         return Ok(user.RefreshTokens);
     }
 
-    [HttpPost("register")]
+    [HttpPost(ApiPath.V1UserRegister)]
     public async Task<ActionResult> RegisterAsync(RegisterDto dto)
     {
         var result = await _userService.RegisterAsync(dto);
         return Ok(result);
     }
 
-    [HttpPost("add-role")]
+    [HttpPost(ApiPath.V1UserAddRole)]
     public async Task<IActionResult> AddRoleAsync(AddRoleDto dto)
     {
         var result = await _userService.AddRoleAsync(dto);
         return Ok(result);
     }
 
-    [HttpPost("login")]
+    [HttpPost(ApiPath.V1UserLogin)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login(UserLoginDto userLoginDto)

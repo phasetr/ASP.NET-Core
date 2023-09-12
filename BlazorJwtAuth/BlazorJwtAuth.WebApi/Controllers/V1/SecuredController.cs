@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
 [Authorize]
-[Route("api/v1/[controller]")]
+[Route(ApiPath.V1Secured)]
 [ApiController]
 public class SecuredController : ControllerBase
 {

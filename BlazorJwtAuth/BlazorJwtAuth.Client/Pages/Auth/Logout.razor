@@ -1,6 +1,6 @@
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @attribute [Route(ClientPath.AuthLogout)]
-@inject IAuthenticationHttpClientService Http
+@inject IAuthenticationHttpClientService Service
 @inject NavigationManager NavigationManager
 
 <h1>Logout</h1>
@@ -11,7 +11,7 @@
 
   protected override async Task OnInitializedAsync()
   {
-    await Http.LogoutUser();
+    await Service.LogoutUser();
     NavigationManager.NavigateTo(ClientPath.AuthLogin);
   }
 

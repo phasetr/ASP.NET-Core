@@ -1,6 +1,7 @@
 ﻿@using BlazorJwtAuth.Common.Dto
 @attribute [Route(ClientPath.FetchData)]
-@inject HttpClient Http
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -40,11 +41,12 @@ else
 }
 
 @code {
-  private WeatherForecastDto[]? _forecasts;
+  private WeatherForecastResponseDto[]? _forecasts;
 
   protected override async Task OnInitializedAsync()
   {
-    _forecasts = await Http.GetFromJsonAsync<WeatherForecastDto[]>("sample-data/weather.json");
+    var host = NavigationManager.BaseUri;
+    _forecasts = await HttpClient.GetFromJsonAsync<WeatherForecastResponseDto[]>(host + "sample-data/weather.json");
   }
 
 }

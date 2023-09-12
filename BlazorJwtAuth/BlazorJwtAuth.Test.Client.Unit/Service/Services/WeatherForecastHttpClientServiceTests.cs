@@ -1,7 +1,9 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Services;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
@@ -19,11 +21,12 @@ public class WeatherForecastHttpClientServiceTests
     public async Task GetForecastAsync_EmptyResponse()
     {
         var now = _ptDateTime.UtcNow;
-        var weatherForecasts = System.Array.Empty<WeatherForecastDto>();
+        var weatherForecasts = Array.Empty<WeatherForecastResponseDto>();
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/WeatherForecast")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecast}")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         var mockTokenService = Substitute.For<ITokenService>();
         mockTokenService.GetTokenAsync().Returns(new TokenDto
@@ -33,7 +36,7 @@ public class WeatherForecastHttpClientServiceTests
         });
 
         _sut = new WeatherForecastHttpClientService(_ptDateTime, mockTokenService);
-        var result = await _sut.GetForecastAsync(Constants.AppSettings, mockHttpClient);
+        var result = await _sut.GetForecastAsync(mockHttpClient);
 
         Assert.NotNull(result);
         Assert.Empty(result);
@@ -45,7 +48,7 @@ public class WeatherForecastHttpClientServiceTests
         var now = _ptDateTime.UtcNow;
         var weatherForecasts = new[]
         {
-            new WeatherForecastDto
+            new WeatherForecastResponseDto
             {
                 Date = now,
                 Summary = "Summary",
@@ -53,9 +56,10 @@ public class WeatherForecastHttpClientServiceTests
             }
         };
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/WeatherForecast")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecast}")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         var mockTokenService = Substitute.For<ITokenService>();
         mockTokenService.GetTokenAsync().Returns(new TokenDto
@@ -65,7 +69,7 @@ public class WeatherForecastHttpClientServiceTests
         });
 
         _sut = new WeatherForecastHttpClientService(_ptDateTime, mockTokenService);
-        var result = await _sut.GetForecastAsync(Constants.AppSettings, mockHttpClient);
+        var result = await _sut.GetForecastAsync(mockHttpClient);
 
         Assert.NotNull(result);
         Assert.Single(result);

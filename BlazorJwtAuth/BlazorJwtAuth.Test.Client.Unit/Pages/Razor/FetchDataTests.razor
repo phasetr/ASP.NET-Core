@@ -10,7 +10,7 @@
   public void SampleTest()
   {
     var mock = Services.AddMockHttpClient();
-    mock.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastDto>
+    mock.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastResponseDto>
     {
       new()
       {

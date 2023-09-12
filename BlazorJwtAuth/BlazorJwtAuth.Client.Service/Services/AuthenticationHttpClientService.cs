@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Classes;
 using BlazorJwtAuth.Client.Service.Helpers;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 
 namespace BlazorJwtAuth.Client.Service.Services;
@@ -28,7 +29,8 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         try
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/register", userRegisterDto);
+            var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/{ApiPath.V1UserRegisterFull}",
+                userRegisterDto);
             var result = await response.Content.ReadFromJsonAsync<UserRegisterResponseDto>();
             if (result is null)
                 return new UserRegisterResponseDto
@@ -58,12 +60,11 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         }
     }
 
-    public async Task<UserLoginResponseDto> LoginUser(UserLoginDto userLoginDto, AppSettings appSettings)
+    public async Task<UserLoginResponseDto> LoginUser(HttpClient httpClient, UserLoginDto userLoginDto)
     {
         try
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.PostAsJsonAsync($"{appSettings.ApiBaseAddress}/User/login", userLoginDto);
+            var response = await httpClient.PostAsJsonAsync(ApiPath.V1UserLoginFull, userLoginDto);
             var result = await response.Content.ReadFromJsonAsync<UserLoginResponseDto>();
             if (result is null)
                 return new UserLoginResponseDto

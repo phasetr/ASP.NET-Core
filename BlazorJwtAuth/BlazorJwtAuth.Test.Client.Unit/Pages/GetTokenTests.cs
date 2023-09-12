@@ -4,6 +4,7 @@ using System.Net;
 using BlazorJwtAuth.Client.Pages;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
 using RichardSzalay.MockHttp;
@@ -18,7 +19,7 @@ public class GetTokenTests : TestContext
         Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
         var dateTime = new DateTime(2023, 1, 1, 0, 0, 0);
-        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/User/token").RespondJson(
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserGetTokenFull}").RespondJson(
             new AuthenticationResponseDto
             {
                 IsAuthenticated = true,
@@ -32,12 +33,13 @@ public class GetTokenTests : TestContext
                 Token = "token",
                 UserName = "user"
             });
-        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResponseDto
-        {
-            Detail = "detail",
-            Message = "message",
-            Status = HttpStatusCode.OK.ToString()
-        });
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
+            new SecuredDataResponseDto
+            {
+                Detail = "detail",
+                Message = "message",
+                Status = HttpStatusCode.OK.ToString()
+            });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
@@ -75,12 +77,13 @@ public class GetTokenTests : TestContext
     {
         Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResponseDto
-        {
-            Detail = "detail",
-            Message = "message",
-            Status = HttpStatusCode.OK.ToString()
-        });
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
+            new SecuredDataResponseDto
+            {
+                Detail = "detail",
+                Message = "message",
+                Status = HttpStatusCode.OK.ToString()
+            });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 
@@ -100,12 +103,13 @@ public class GetTokenTests : TestContext
     {
         Services.AddSingleton(Constants.AppSettings);
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/Secured").RespondJson(new SecuredDataResponseDto
-        {
-            Detail = "",
-            Message = "message",
-            Status = HttpStatusCode.OK.ToString()
-        });
+        mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
+            new SecuredDataResponseDto
+            {
+                Detail = "",
+                Message = "message",
+                Status = HttpStatusCode.OK.ToString()
+            });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
 

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.Services;
 using BlazorJwtAuth.Test.Client.Unit.Helpers;
@@ -20,7 +22,7 @@ public class TokenHttpClientServiceTests
     {
         var dateTime = _ptDateTime.UtcNow;
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/token")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserGetTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
                 Detail = "detail",
@@ -35,9 +37,10 @@ public class TokenHttpClientServiceTests
                 UserName = "user"
             }));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenResponseDto
+        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -62,12 +65,13 @@ public class TokenHttpClientServiceTests
     {
         var mockHttp = new MockHttpMessageHandler();
         AuthenticationResponseDto? authenticationResponse = null;
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/token")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserGetTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(Constants.AppSettings, mockHttpClient, new GetTokenResponseDto
+        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenResponseDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -85,7 +89,7 @@ public class TokenHttpClientServiceTests
     {
         var dateTime = _ptDateTime.UtcNow;
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/refresh-token")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserRefreshTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
                 Detail = "detail",
@@ -100,10 +104,10 @@ public class TokenHttpClientServiceTests
                 UserName = "user"
             }));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
         var result = await _sut.RefreshTokenAsync(
-            Constants.AppSettings,
             mockHttpClient,
             new RefreshTokenDto
             {
@@ -129,13 +133,13 @@ public class TokenHttpClientServiceTests
     {
         var mockHttp = new MockHttpMessageHandler();
         AuthenticationResponseDto? authenticationResponse = null;
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/User/refresh-token")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserRefreshTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(authenticationResponse));
         var mockHttpClient = mockHttp.ToHttpClient();
+        mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
         var result = await _sut.RefreshTokenAsync(
-            Constants.AppSettings,
             mockHttpClient,
             new RefreshTokenDto
             {

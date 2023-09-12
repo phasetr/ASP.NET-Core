@@ -1,9 +1,7 @@
 @using BlazorJwtAuth.Common.Dto
-@using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @attribute [Route(ClientPath.AuthFetchData)]
 @attribute [Authorize]
-@inject AppSettings AppSettings
 @inject HttpClient HttpClient
 @inject IWeatherForecastHttpClientService Service
 
@@ -43,11 +41,11 @@ else
 }
 
 @code {
-  private WeatherForecastDto[]? _forecasts;
+  private WeatherForecastResponseDto[]? _forecasts;
 
   protected override async Task OnInitializedAsync()
   {
-    _forecasts = await Service.GetForecastAsync(AppSettings, HttpClient);
+    _forecasts = await Service.GetForecastAsync(HttpClient);
   }
 
 }
