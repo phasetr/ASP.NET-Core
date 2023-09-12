@@ -56,7 +56,7 @@ public class UserControllerTests
         var resultObject = Assert.IsType<OkObjectResult>(result);
         var okValue = Assert.IsAssignableFrom<AuthenticationResponseDto>(resultObject.Value);
         Assert.False(okValue.IsAuthenticated);
-        Assert.Equal($"No Accounts Registered with nouser@secureapi.com.", okValue.Message);
+        Assert.Equal("No Accounts Registered with nouser@secureapi.com.", okValue.Message);
     }
 
     /// パスワードが間違っているため認証失敗
@@ -103,7 +103,7 @@ public class UserControllerTests
         var resultObject = Assert.IsType<OkObjectResult>(result);
         var okValue = Assert.IsAssignableFrom<AuthenticationResponseDto>(resultObject.Value);
         Assert.False(okValue.IsAuthenticated);
-        Assert.Equal($"Incorrect Credentials for user user@secureapi.com.", okValue.Message);
+        Assert.Equal("Incorrect Credentials for user user@secureapi.com.", okValue.Message);
     }
 
     /// ユーザーが存在してパスワードが正しい場合
