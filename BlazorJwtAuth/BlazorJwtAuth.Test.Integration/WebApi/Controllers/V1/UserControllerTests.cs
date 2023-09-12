@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -21,7 +22,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var client = _factory.CreateClient();
 
         // APIで結果を取得
-        var response = await client.GetAsync("/api/v1/User");
+        var response = await client.GetAsync(ApiPath.V1User);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var result = await response.Content.ReadAsStringAsync();
@@ -38,7 +39,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var client = _factory.CreateClient();
 
         // APIで結果を取得
-        var response = await client.GetAsync($"/api/v1/User/user@secureapi.com");
+        var response = await client.GetAsync(ApiPath.V1User + "/user@secureapi.com");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var result = await response.Content.ReadFromJsonAsync<UserGetByEmailResponseDto>();
@@ -58,7 +59,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var client = _factory.CreateClient();
 
         // APIで結果を取得
-        var response = await client.GetAsync($"/api/v1/User/nouser@secureapi.com");
+        var response = await client.GetAsync("/api/v1/User/nouser@secureapi.com");
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
