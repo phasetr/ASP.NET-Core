@@ -13,17 +13,20 @@ public class ApplicationRoleConfiguration : IEntityTypeConfiguration<Application
             new ApplicationRole
             {
                 Id = $"{Authorization.Roles.Administrator.ToString()}Id",
-                Name = Authorization.Roles.Administrator.ToString()
+                Name = Authorization.Roles.Administrator.ToString(),
+                NormalizedName = Authorization.Roles.Administrator.ToString().ToUpper()
             },
             new ApplicationRole
             {
                 Id = $"{Authorization.Roles.Moderator.ToString()}Id",
-                Name = Authorization.Roles.Moderator.ToString()
+                Name = Authorization.Roles.Moderator.ToString(),
+                NormalizedName = Authorization.Roles.Moderator.ToString().ToUpper()
             },
             new ApplicationRole
             {
                 Id = $"{Authorization.Roles.User.ToString()}Id",
-                Name = Authorization.Roles.User.ToString()
+                Name = Authorization.Roles.User.ToString(),
+                NormalizedName = Authorization.Roles.User.ToString().ToUpper()
             });
     }
 }

@@ -57,6 +57,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // User Manager Service
+builder.Services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
 builder.Services.AddScoped<IClaimsService, ClaimsService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPtDateTime, PtDateTime>();
@@ -107,6 +108,7 @@ app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 app.Run();
 
 // 統合テストのために追加
+// ReSharper disable once ClassNeverInstantiated.Global
 public partial class Program
 {
 }

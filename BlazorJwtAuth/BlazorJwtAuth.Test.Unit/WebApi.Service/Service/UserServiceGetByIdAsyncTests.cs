@@ -17,7 +17,9 @@ public partial class UserServiceTests
         var userStore = new UserStore<ApplicationUser>(context);
         var userManager = new UserManager<ApplicationUser>(userStore, null, null, null, null, null, null, null, null);
         var mockLogger = Substitute.For<ILogger<UserService>>();
-        _sut = new UserService(userManager, _jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        _sut = new UserService(userManager, _jwt, mockLogger, context, applicationRoleService);
 
         var result = await _sut.GetByIdAsync("userId");
 

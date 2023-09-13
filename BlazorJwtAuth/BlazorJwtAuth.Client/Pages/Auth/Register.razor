@@ -1,10 +1,9 @@
 @using BlazorJwtAuth.Common.Dto
 @using BlazorJwtAuth.Client.Service.Classes
-@using BlazorJwtAuth.Client.Service.Helpers
 @using BlazorJwtAuth.Client.Service.Services.Interfaces
 @attribute [Route(ClientPath.AuthRegister)]
-@inject AppSettings AppSettings
-@inject IAuthenticationHttpClientService Http
+@inject HttpClient HttpClient
+@inject IAuthenticationHttpClientService Service
 
 <PageTitle>Register</PageTitle>
 
@@ -22,11 +21,11 @@
     </div>
 
     <div class="mb-3">
-      <InputText class="form-control" id="Password" @bind-Value="_userRegisterDto.Password" placeholder="Password"/>
+      <InputText class="form-control" type="password" id="Password" @bind-Value="_userRegisterDto.Password" placeholder="Password"/>
     </div>
 
     <div class="mb-3">
-      <InputText class="form-control" id="ConfirmPassword" @bind-Value="_userRegisterDto.ConfirmPassword" placeholder="Confirm password"/>
+      <InputText class="form-control" type="password" id="ConfirmPassword" @bind-Value="_userRegisterDto.ConfirmPassword" placeholder="Confirm password"/>
     </div>
 
     @if (!_registering)
@@ -58,12 +57,9 @@ else
   {
     _registering = true;
 
-    var result = await Http.RegisterUser(_userRegisterDto, AppSettings);
-
-    if (result.Succeeded)
-    {
-      _succeeded = true;
-    }
+    _userRegisterDto.Username = _userRegisterDto.Email;
+    var result = await Service.RegisterUser(HttpClient, _userRegisterDto);
+    if (result.Succeeded) _succeeded = true;
 
     _customValidation?.ClearErrors();
     var errors = new Dictionary<string, List<string>> {{"", result.Errors.ToList()}};

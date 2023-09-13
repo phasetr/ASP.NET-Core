@@ -5,7 +5,7 @@ namespace BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<string> RegisterAsync(RegisterDto dto);
+    Task<UserRegisterResponseDto> RegisterAsync(UserRegisterDto dto);
     Task<AuthenticationResponseDto> GetTokenAsync(GetTokenResponseDto model);
     Task<string> AddRoleAsync(AddRoleDto dto);
     Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken);

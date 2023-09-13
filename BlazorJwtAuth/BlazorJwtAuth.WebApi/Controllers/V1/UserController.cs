@@ -26,10 +26,10 @@ public class UserController : ControllerBase
         IUserService userService,
         UserManager<ApplicationUser> userManager)
     {
-        _userService = userService;
-        _userManager = userManager;
         _claimsService = claimsService;
         _jwtTokenService = jwtTokenService;
+        _userService = userService;
+        _userManager = userManager;
     }
 
     /// <summary>
@@ -43,9 +43,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost(ApiPath.V1UserGetToken)]
-    public async Task<IActionResult> GetTokenAsync(GetTokenResponseDto model)
+    public async Task<IActionResult> GetTokenAsync(GetTokenResponseDto dto)
     {
-        var result = await _userService.GetTokenAsync(model);
+        var result = await _userService.GetTokenAsync(dto);
         return Ok(result);
     }
 
@@ -57,11 +57,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost(ApiPath.V1UserRevokeToken)]
-    public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenDto model)
+    public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenDto dto)
     {
-        // accept token from request body or cookie
-        // var token = model.Token ?? Request.Cookies["refreshToken"];
-        var token = model.Token;
+        var token = dto.Token;
 
         if (string.IsNullOrEmpty(token))
             return BadRequest(new {message = "Token is required"});
@@ -83,7 +81,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost(ApiPath.V1UserRegister)]
-    public async Task<ActionResult> RegisterAsync(RegisterDto dto)
+    public async Task<ActionResult> RegisterAsync(UserRegisterDto dto)
     {
         var result = await _userService.RegisterAsync(dto);
         return Ok(result);

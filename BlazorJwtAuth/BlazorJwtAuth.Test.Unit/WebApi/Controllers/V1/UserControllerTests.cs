@@ -44,7 +44,10 @@ public class UserControllerTests
             Issuer = "Issuer",
             Audience = "Audience"
         });
-        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context,
+            applicationRoleService);
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
@@ -90,7 +93,9 @@ public class UserControllerTests
         });
         var mockLogger = Substitute.For<ILogger<UserService>>();
         mockLogger.LogInformation("");
-        var userService = new UserService(userManager, jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        var userService = new UserService(userManager, jwt, mockLogger, context, applicationRoleService);
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
@@ -133,7 +138,10 @@ public class UserControllerTests
             Issuer = "Issuer",
             Audience = "Audience"
         });
-        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context,
+            applicationRoleService);
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
@@ -175,7 +183,10 @@ public class UserControllerTests
             Issuer = "Issuer",
             Audience = "Audience"
         });
-        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context,
+            applicationRoleService);
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
@@ -215,7 +226,10 @@ public class UserControllerTests
             Issuer = "Issuer",
             Audience = "Audience"
         });
-        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        var userService = new UserService(userManager, jwt, Substitute.For<ILogger<UserService>>(), context,
+            applicationRoleService);
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);

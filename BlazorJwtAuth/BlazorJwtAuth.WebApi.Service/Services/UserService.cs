@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
@@ -12,11 +12,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Authorization = BlazorJwtAuth.Common.Constants.Authorization;
 
 namespace BlazorJwtAuth.WebApi.Service.Services;
 
 public class UserService : IUserService
 {
+    private readonly IApplicationRoleService _applicationRoleService;
     private readonly ApplicationDbContext _context;
     private readonly Jwt _jwt;
     private readonly ILogger<UserService> _logger;
@@ -25,32 +27,82 @@ public class UserService : IUserService
     public UserService(UserManager<ApplicationUser> userManager,
         IOptions<Jwt> jwt,
         ILogger<UserService> logger,
-        ApplicationDbContext context)
+        ApplicationDbContext context,
+        IApplicationRoleService applicationRoleService)
     {
         _context = context;
         _logger = logger;
         _userManager = userManager;
         _jwt = jwt.Value;
+        _applicationRoleService = applicationRoleService;
     }
 
-    public async Task<string> RegisterAsync(RegisterDto dto)
+    public async Task<UserRegisterResponseDto> RegisterAsync(UserRegisterDto dto)
     {
-        var user = new ApplicationUser
+        try
         {
-            UserName = dto.Username,
-            Email = dto.Email,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            SecurityStamp = Guid.NewGuid().ToString()
-        };
-        var userWithSameEmail = await _userManager.FindByEmailAsync(dto.Email);
+            var user = new ApplicationUser
+            {
+                UserName = dto.Username ?? "",
+                Email = dto.Email,
+                FirstName = dto.FirstName ?? "",
+                LastName = dto.LastName ?? "",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            var userWithSameEmail = await _userManager.FindByEmailAsync(dto.Email);
 
-        if (userWithSameEmail != null) return $"Email {user.Email} is already registered.";
+            if (userWithSameEmail != null)
+                return new UserRegisterResponseDto
+                {
+                    Message = $"Email {user.Email} is already registered.",
+                    Succeeded = false,
+                    Errors = new List<string>
+                    {
+                        $"Email {user.Email} is already registered."
+                    }
+                };
 
-        var result = await _userManager.CreateAsync(user, dto.Password);
-        if (result.Succeeded) await _userManager.AddToRoleAsync(user, Authorization.DefaultRole.ToString());
-
-        return $"User Registered with username {user.UserName}";
+            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (!result.Succeeded)
+                return new UserRegisterResponseDto
+                {
+                    Message = "User Registration Failed.",
+                    Succeeded = false,
+                    Errors = result.Errors.Select(x => x.ToString() ?? ""),
+                    Status = HttpStatusCode.BadRequest.ToString()
+                };
+            var roleResult =
+                await _applicationRoleService.AddRoleToUserAsync(user, Authorization.DefaultRole.ToString());
+            if (!roleResult.Succeeded)
+                return new UserRegisterResponseDto
+                {
+                    Message = "User Registration Failed.",
+                    Succeeded = false,
+                    Errors = new List<string> {roleResult.Message},
+                    Status = HttpStatusCode.BadRequest.ToString()
+                };
+            return new UserRegisterResponseDto
+            {
+                Message = $"User Registered with username {user.UserName}",
+                Succeeded = true,
+                Errors = new List<string>(),
+                Detail = "",
+                Status = HttpStatusCode.OK.ToString()
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            return new UserRegisterResponseDto
+            {
+                Detail = e.Message,
+                Errors = new List<string> {"Some error occurs in the server."},
+                Message = "Some error occurs in the server.",
+                Status = HttpStatusCode.BadRequest.ToString(),
+                Succeeded = false
+            };
+        }
     }
 
     public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenResponseDto model)

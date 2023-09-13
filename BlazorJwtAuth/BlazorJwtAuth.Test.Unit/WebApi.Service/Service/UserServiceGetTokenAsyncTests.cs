@@ -33,7 +33,9 @@ public partial class UserServiceTests : SqliteMemoryBase
         var userStore = new UserStore<ApplicationUser>(context);
         var userManager = new UserManager<ApplicationUser>(userStore, null, null, null, null, null, null, null, null);
         var mockLogger = Substitute.For<ILogger<UserService>>();
-        _sut = new UserService(userManager, _jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        _sut = new UserService(userManager, _jwt, mockLogger, context, applicationRoleService);
 
         var tokenRequestModel = new GetTokenResponseDto
         {
@@ -65,7 +67,9 @@ public partial class UserServiceTests : SqliteMemoryBase
         });
         mockUserManager.CheckPasswordAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(false);
         var mockLogger = Substitute.For<ILogger<UserService>>();
-        _sut = new UserService(mockUserManager, _jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        _sut = new UserService(mockUserManager, _jwt, mockLogger, context, applicationRoleService);
 
         var token = await _sut.GetTokenAsync(tokenRequestModel);
 
@@ -100,7 +104,9 @@ public partial class UserServiceTests : SqliteMemoryBase
         mockUserManager.GetRolesAsync(Arg.Any<ApplicationUser>())
             .Returns(new List<string> {"User"});
         var mockLogger = Substitute.For<ILogger<UserService>>();
-        _sut = new UserService(mockUserManager, _jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        _sut = new UserService(mockUserManager, _jwt, mockLogger, context, applicationRoleService);
 
         var authenticationModel = await _sut.GetTokenAsync(tokenRequestModel);
         Assert.True(authenticationModel.IsAuthenticated);
@@ -119,7 +125,9 @@ public partial class UserServiceTests : SqliteMemoryBase
         var userStore = new UserStore<ApplicationUser>(context);
         var userManager = new UserManager<ApplicationUser>(userStore, null, null, null, null, null, null, null, null);
         var mockLogger = Substitute.For<ILogger<UserService>>();
-        _sut = new UserService(userManager, _jwt, mockLogger, context);
+        var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
+        var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
+        _sut = new UserService(userManager, _jwt, mockLogger, context, applicationRoleService);
 
         var user = await _sut.GetByIdAsync($"{Authorization.DefaultUsername}Id");
         Assert.NotNull(user);
