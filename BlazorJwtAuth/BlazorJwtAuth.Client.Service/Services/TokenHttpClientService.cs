@@ -37,8 +37,10 @@ public class TokenHttpClientService : ITokenHttpClientService
         {
             return new AuthenticationResponseDto
             {
+                Errors = new List<string> {ex.Message},
                 IsAuthenticated = false,
-                Message = "Sorry, some problem occurred while authenticating you. Please try again."
+                Message = "Sorry, some problem occurred while authenticating you. Please try again.",
+                Succeeded = false
             };
         }
     }
@@ -54,8 +56,10 @@ public class TokenHttpClientService : ITokenHttpClientService
             if (result is null)
                 return new AuthenticationResponseDto
                 {
+                    Errors = new List<string> {"A server response is null."},
                     IsAuthenticated = false,
-                    Message = "Sorry, we were unable to authenticate you at this time. Please try again shortly."
+                    Message = "Sorry, we were unable to authenticate you at this time. Please try again shortly.",
+                    Succeeded = false
                 };
 
             return new AuthenticationResponseDto
@@ -74,8 +78,10 @@ public class TokenHttpClientService : ITokenHttpClientService
         {
             return new AuthenticationResponseDto
             {
+                Errors = new List<string> {ex.Message},
                 IsAuthenticated = false,
-                Message = "Sorry, some problem occurred while authenticating you. Please try again."
+                Message = "Sorry, some problem occurred while authenticating you. Please try again.",
+                Succeeded = false
             };
         }
     }

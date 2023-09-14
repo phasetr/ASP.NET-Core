@@ -28,6 +28,8 @@ public class HomeHttpClientService : IHomeHttpClientService
         {
             return new ResponseBaseDto
             {
+                Errors = new List<string> {ex.Message},
+                Succeeded = false,
                 Message = "Sorry, some problem occurred. Please try again."
             };
         }
