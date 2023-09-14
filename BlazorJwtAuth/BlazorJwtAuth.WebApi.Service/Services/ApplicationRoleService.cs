@@ -1,4 +1,3 @@
-using System.Net;
 using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
@@ -26,7 +25,7 @@ public class ApplicationRoleService : IApplicationRoleService
             var role = _context.ApplicationRoles.FirstOrDefault(x => x.Name == roleName);
             if (role == null)
                 return new ResponseBaseDto
-                    {Message = "Role not found.", Status = HttpStatusCode.BadRequest.ToString(), Succeeded = false};
+                    {Message = "Role not found.", Succeeded = false};
             _context.ApplicationUserRoles.Add(new ApplicationUserRole
             {
                 UserId = user.Id,
@@ -34,7 +33,7 @@ public class ApplicationRoleService : IApplicationRoleService
             });
             await _context.SaveChangesAsync();
             return new ResponseBaseDto
-                {Message = "Role added.", Status = HttpStatusCode.OK.ToString(), Succeeded = true};
+                {Message = "Role added.", Succeeded = true};
         }
         catch (Exception e)
         {
@@ -43,7 +42,6 @@ public class ApplicationRoleService : IApplicationRoleService
             return new ResponseBaseDto
             {
                 Message = e.Message,
-                Status = HttpStatusCode.InternalServerError.ToString(),
                 Succeeded = false
             };
         }

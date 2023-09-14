@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using BlazorJwtAuth.Client.Pages;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
@@ -23,22 +22,18 @@ public class GetTokenTests : TestContext
             new AuthenticationResponseDto
             {
                 IsAuthenticated = true,
-                Detail = "detail",
                 Email = "user@secureapi.com",
                 Message = "message",
                 RefreshToken = "refreshToken",
                 RefreshTokenExpiration = dateTime.AddDays(1),
                 Roles = new List<string> {"Moderator"},
-                Status = HttpStatusCode.OK.ToString(),
                 Token = "token",
                 UserName = "user"
             });
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
             new SecuredDataResponseDto
             {
-                Detail = "detail",
-                Message = "message",
-                Status = HttpStatusCode.OK.ToString()
+                Message = "message"
             });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
@@ -80,9 +75,7 @@ public class GetTokenTests : TestContext
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
             new SecuredDataResponseDto
             {
-                Detail = "detail",
-                Message = "message",
-                Status = HttpStatusCode.OK.ToString()
+                Message = "message"
             });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();
@@ -106,9 +99,7 @@ public class GetTokenTests : TestContext
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Secured}").RespondJson(
             new SecuredDataResponseDto
             {
-                Detail = "",
-                Message = "message",
-                Status = HttpStatusCode.OK.ToString()
+                Message = "message"
             });
         Services.AddScoped<ISecuredHttpClientService, SecuredHttpClientService>();
         Services.AddScoped<ITokenHttpClientService, TokenHttpClientService>();

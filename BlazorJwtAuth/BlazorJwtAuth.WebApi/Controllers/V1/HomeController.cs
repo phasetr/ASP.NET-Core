@@ -1,4 +1,3 @@
-using System.Net;
 using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +13,7 @@ public class HomeController : ControllerBase
     {
         return Ok(new ResponseBaseDto
         {
-            Detail = "",
-            Message = "This is get, api/v1",
-            Status = HttpStatusCode.OK.ToString()
+            Message = "This is get, api/v1"
         });
     }
 
@@ -25,9 +22,7 @@ public class HomeController : ControllerBase
     {
         return Ok(new ResponseBaseDto
         {
-            Detail = "",
-            Message = "This is post, api/v1",
-            Status = HttpStatusCode.OK.ToString()
+            Message = "This is post, api/v1"
         });
     }
 }

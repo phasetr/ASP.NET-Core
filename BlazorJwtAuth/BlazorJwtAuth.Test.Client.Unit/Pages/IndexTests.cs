@@ -1,4 +1,3 @@
-using System.Net;
 using BlazorJwtAuth.Client.Pages;
 using BlazorJwtAuth.Client.Service.Services;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
@@ -28,9 +27,7 @@ public class IndexTests : TestContext
         mockHttpClient.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1Home}")
             .RespondJson(new ResponseBaseDto
             {
-                Detail = "",
-                Message = "message",
-                Status = HttpStatusCode.OK.ToString()
+                Message = "message"
             });
         Services.AddScoped<IHomeHttpClientService, HomeHttpClientService>();
 

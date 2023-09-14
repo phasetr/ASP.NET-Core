@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Authorization = BlazorJwtAuth.Common.Constants.Authorization;
 
 namespace BlazorJwtAuth.WebApi.Service.Services;
 
@@ -68,8 +67,7 @@ public class UserService : IUserService
                 {
                     Message = "User Registration Failed.",
                     Succeeded = false,
-                    Errors = result.Errors.Select(x => x.ToString() ?? ""),
-                    Status = HttpStatusCode.BadRequest.ToString()
+                    Errors = result.Errors.Select(x => x.ToString() ?? "")
                 };
             var roleResult =
                 await _applicationRoleService.AddRoleToUserAsync(user, Authorization.DefaultRole.ToString());
@@ -78,16 +76,13 @@ public class UserService : IUserService
                 {
                     Message = "User Registration Failed.",
                     Succeeded = false,
-                    Errors = new List<string> {roleResult.Message},
-                    Status = HttpStatusCode.BadRequest.ToString()
+                    Errors = new List<string> {roleResult.Message}
                 };
             return new UserRegisterResponseDto
             {
                 Message = $"User Registered with username {user.UserName}",
                 Succeeded = true,
-                Errors = new List<string>(),
-                Detail = "",
-                Status = HttpStatusCode.OK.ToString()
+                Errors = new List<string>()
             };
         }
         catch (Exception e)
@@ -96,10 +91,8 @@ public class UserService : IUserService
             _logger.LogError("{E}", e.StackTrace);
             return new UserRegisterResponseDto
             {
-                Detail = e.Message,
                 Errors = new List<string> {"Some error occurs in the server."},
                 Message = "Some error occurs in the server.",
-                Status = HttpStatusCode.BadRequest.ToString(),
                 Succeeded = false
             };
         }

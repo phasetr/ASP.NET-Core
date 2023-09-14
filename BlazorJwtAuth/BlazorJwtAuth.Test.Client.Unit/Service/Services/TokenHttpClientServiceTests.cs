@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Client.Service.Services;
@@ -25,14 +24,12 @@ public class TokenHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserGetTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
-                Detail = "detail",
                 Email = "user@secureapi.com",
                 IsAuthenticated = true,
                 Message = "message",
                 RefreshToken = "refresh-token",
                 RefreshTokenExpiration = dateTime.AddDays(1),
                 Roles = new List<string> {"role1", "role2"},
-                Status = HttpStatusCode.OK.ToString(),
                 Token = "token",
                 UserName = "user"
             }));
@@ -47,7 +44,6 @@ public class TokenHttpClientServiceTests
         });
 
         Assert.NotNull(result);
-        Assert.Equal("detail", result.Detail);
         Assert.Equal("user@secureapi.com", result.Email);
         Assert.True(result.IsAuthenticated);
         Assert.Equal("message", result.Message);
@@ -55,7 +51,6 @@ public class TokenHttpClientServiceTests
         Assert.True(result.RefreshTokenExpiration > dateTime);
         Assert.Equal("role1", result.Roles[0]);
         Assert.Equal("role2", result.Roles[1]);
-        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
         Assert.Equal("token", result.Token);
         Assert.Equal("user", result.UserName);
     }
@@ -78,7 +73,6 @@ public class TokenHttpClientServiceTests
         });
 
         Assert.NotNull(result);
-        Assert.Equal("Unable to deserialize response from server.", result.Detail);
         Assert.False(result.IsAuthenticated);
         Assert.Equal("Sorry, we were unable to authenticate you at this time. Please try again shortly.",
             result.Message);
@@ -92,14 +86,12 @@ public class TokenHttpClientServiceTests
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1UserRefreshTokenFull}")
             .Respond("application/json", JsonSerializer.Serialize(new AuthenticationResponseDto
             {
-                Detail = "detail",
                 Email = "user@secureapi.com",
                 IsAuthenticated = true,
                 Message = "message",
                 RefreshToken = "refresh-token",
                 RefreshTokenExpiration = dateTime.AddDays(1),
                 Roles = new List<string> {"role1", "role2"},
-                Status = HttpStatusCode.OK.ToString(),
                 Token = "token",
                 UserName = "user"
             }));
@@ -115,7 +107,6 @@ public class TokenHttpClientServiceTests
             });
 
         Assert.NotNull(result);
-        Assert.Equal("detail", result.Detail);
         Assert.Equal("user@secureapi.com", result.Email);
         Assert.True(result.IsAuthenticated);
         Assert.Equal("message", result.Message);
@@ -123,7 +114,6 @@ public class TokenHttpClientServiceTests
         Assert.True(result.RefreshTokenExpiration > dateTime);
         Assert.Equal("role1", result.Roles[0]);
         Assert.Equal("role2", result.Roles[1]);
-        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
         Assert.Equal("token", result.Token);
         Assert.Equal("user", result.UserName);
     }
@@ -147,7 +137,6 @@ public class TokenHttpClientServiceTests
             });
 
         Assert.NotNull(result);
-        Assert.Equal("Unable to deserialize response from server.", result.Detail);
         Assert.False(result.IsAuthenticated);
         Assert.Equal("Sorry, we were unable to refresh a token. Please try again shortly.", result.Message);
     }

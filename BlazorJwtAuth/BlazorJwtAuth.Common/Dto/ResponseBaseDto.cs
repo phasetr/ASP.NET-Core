@@ -3,21 +3,10 @@ namespace BlazorJwtAuth.Common.Dto;
 public class ResponseBaseDto
 {
     /// <summary>
-    ///     本番利用では不要か？
-    /// </summary>
-    public string Detail { get; set; } = default!;
-
-    /// <summary>
     ///     画面表示用のメッセージ。
-    ///     エラーの場合はエラーメッセージ(`ex.Message`)を格納する。
+    ///     エラーの場合は`Errors`に格納する。
     /// </summary>
     public string Message { get; set; } = default!;
-
-    /// <summary>
-    ///     HTTPステータスコード。
-    ///     本番利用では不要か？
-    /// </summary>
-    public string Status { get; set; } = default!;
 
     /// <summary>
     ///     成功・失敗を格納する。

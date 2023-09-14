@@ -22,8 +22,7 @@ public class SecuredHttpClientServiceTests
                 "application/json",
                 JsonSerializer.Serialize(new SecuredDataResponseDto
                 {
-                    Message = "Unauthorized: Please check your token.",
-                    Status = HttpStatusCode.Unauthorized.ToString()
+                    Message = "Unauthorized: Please check your token."
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
@@ -33,7 +32,6 @@ public class SecuredHttpClientServiceTests
 
         Assert.NotNull(result);
         Assert.Equal("Unauthorized: Please check your token.", result.Message);
-        Assert.Equal(HttpStatusCode.Unauthorized.ToString(), result.Status);
     }
 
     [Fact]
@@ -46,8 +44,7 @@ public class SecuredHttpClientServiceTests
                 "application/json",
                 JsonSerializer.Serialize(new SecuredDataResponseDto
                 {
-                    Message = "message",
-                    Status = HttpStatusCode.OK.ToString()
+                    Message = "message"
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
@@ -57,7 +54,6 @@ public class SecuredHttpClientServiceTests
 
         Assert.NotNull(result);
         Assert.Equal("message", result.Message);
-        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
     }
 
     [Fact]
@@ -70,8 +66,7 @@ public class SecuredHttpClientServiceTests
                 "application/json",
                 JsonSerializer.Serialize(new SecuredDataResponseDto
                 {
-                    Message = "\"Ambiguous data\"",
-                    Status = HttpStatusCode.Ambiguous.ToString()
+                    Message = "\"Ambiguous data\""
                 }));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
@@ -81,6 +76,5 @@ public class SecuredHttpClientServiceTests
 
         Assert.NotNull(result);
         Assert.Equal("Oops! Something went wrong.", result.Message);
-        Assert.Equal(HttpStatusCode.Ambiguous.ToString(), result.Status);
     }
 }

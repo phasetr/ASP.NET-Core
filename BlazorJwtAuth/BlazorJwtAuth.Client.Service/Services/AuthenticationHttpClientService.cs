@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Classes;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
@@ -30,13 +29,11 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
             if (result is null)
                 return new UserRegisterResponseDto
                 {
-                    Detail = "Unable to deserialize response from server.",
                     Errors = new List<string>
                     {
                         "Sorry, we were unable to register you at this time. Please try again shortly."
                     },
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
-                    Status = HttpStatusCode.BadRequest.ToString(),
                     Succeeded = false
                 };
             return result;
@@ -65,9 +62,7 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
             if (result is null)
                 return new UserLoginResponseDto
                 {
-                    Detail = "Unable to deserialize response from server.",
                     Message = "Sorry, we were unable to register you at this time. Please try again shortly.",
-                    Status = HttpStatusCode.BadRequest.ToString(),
                     Succeeded = false
                 };
             await _tokenService.SetTokenAsync(result.Token);
@@ -78,7 +73,6 @@ public class AuthenticationHttpClientService : IAuthenticationHttpClientService
         {
             return new UserLoginResponseDto
             {
-                Detail = "Some error occurs.",
                 Message = ex.Message,
                 Succeeded = false
             };

@@ -23,16 +23,14 @@ public class SecuredHttpClientService : ISecuredHttpClientService
                     HttpStatusCode.Unauthorized => "Unauthorized: Please check your token.",
                     HttpStatusCode.OK => result!.Message,
                     _ => "Oops! Something went wrong."
-                },
-                Status = response.StatusCode.ToString()
+                }
             };
         }
         catch (Exception ex)
         {
             return new SecuredDataResponseDto
             {
-                Message = ex.Message,
-                Status = HttpStatusCode.InternalServerError.ToString()
+                Message = ex.Message
             };
         }
     }

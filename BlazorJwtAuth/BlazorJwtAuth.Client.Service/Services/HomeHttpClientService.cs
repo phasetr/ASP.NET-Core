@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Json;
 using BlazorJwtAuth.Client.Service.Services.Interfaces;
 using BlazorJwtAuth.Common.Constants;
@@ -17,25 +16,19 @@ public class HomeHttpClientService : IHomeHttpClientService
             if (result is null)
                 return new ResponseBaseDto
                 {
-                    Detail = "",
-                    Message = "Response is null",
-                    Status = HttpStatusCode.InternalServerError.ToString()
+                    Message = "Response is null"
                 };
 
             return new ResponseBaseDto
             {
-                Detail = result.Detail,
-                Message = result.Message,
-                Status = result.Status
+                Message = result.Message
             };
         }
         catch (Exception ex)
         {
             return new ResponseBaseDto
             {
-                Detail = ex.Message,
-                Message = "Sorry, some problem occurred. Please try again.",
-                Status = HttpStatusCode.InternalServerError.ToString()
+                Message = "Sorry, some problem occurred. Please try again."
             };
         }
     }

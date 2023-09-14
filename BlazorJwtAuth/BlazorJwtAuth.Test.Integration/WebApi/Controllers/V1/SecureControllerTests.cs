@@ -43,9 +43,7 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
 
         // レスポンスを確認
         Assert.NotNull(result);
-        Assert.Null(result.Detail);
         Assert.Equal("This Secured Data is available only for Authenticated Users.", result.Message);
-        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
     }
 
     [Fact]
@@ -74,8 +72,6 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
 
         // レスポンスを確認
         Assert.NotNull(result);
-        Assert.Null(result.Detail);
         Assert.Equal("This Secured Data is available only for Administrators.", result.Message);
-        Assert.Equal(HttpStatusCode.OK.ToString(), result.Status);
     }
 }
