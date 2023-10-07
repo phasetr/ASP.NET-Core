@@ -1,5 +1,7 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.DataContext.Data;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.Common.Services;
@@ -76,7 +78,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 // Cookie：特にJWT認証・CSRF用
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
-    options.CheckConsentNeeded = context => true;
+    options.CheckConsentNeeded = _ => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
     options.HttpOnly = HttpOnlyPolicy.Always;
 });
@@ -88,9 +90,16 @@ builder.Services.AddAuthentication(options =>
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     })
+    // JWTトークンをクッキーに書き込むための設定
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = Authorization.JwtAccessTokenName;
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    })
     .AddJwtBearer(o =>
     {
-        o.RequireHttpsMetadata = false;
+        o.RequireHttpsMetadata = true;
         o.SaveToken = false;
         o.TokenValidationParameters = new TokenValidationParameters
         {
@@ -103,6 +112,16 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+        // Cookieからトークンを取得するための設定
+        o.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.ContainsKey(Authorization.JwtAccessTokenName))
+                    context.Token = context.Request.Cookies[Authorization.JwtAccessTokenName];
+                return Task.CompletedTask;
+            }
         };
     });
 

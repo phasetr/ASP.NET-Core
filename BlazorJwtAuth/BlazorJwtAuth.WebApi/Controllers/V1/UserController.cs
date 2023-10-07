@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using BlazorJwtAuth.Common.EntityModels.Entities;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -108,12 +111,15 @@ public class UserController : ControllerBase
                 Message = "The email and password combination was invalid."
             });
         var userClaims = await _claimsService.GetUserClaimsAsync(user);
+        var identity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
+        // Generate JWT token
         var token = _jwtTokenService.GetJwtToken(userClaims);
-
         // クッキーを設定
         Response.Cookies.Append(
-            "accessToken",
+            Authorization.JwtAccessTokenName,
             new JwtSecurityTokenHandler().WriteToken(token),
             new CookieOptions
             {

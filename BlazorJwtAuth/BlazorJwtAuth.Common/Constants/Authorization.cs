@@ -13,4 +13,6 @@ public class Authorization
     public const string DefaultEmail = "user@secureapi.com";
     public const string DefaultPassword = "Pa$$w0rd.";
     public const Roles DefaultRole = Roles.User;
+
+    public const string JwtAccessTokenName = "accessToken";
 }
