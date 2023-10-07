@@ -12,7 +12,7 @@ public class ResponseBaseDto
     ///     成功・失敗を格納する。
     ///     システム内部でも実行結果判定に応用する。
     /// </summary>
-    public bool Succeeded { get; set; }
+    public bool Succeeded { get; set; } = true;
 
     /// <summary>
     ///     画面でのエラー表示以外に情報伝播にも応用する。
