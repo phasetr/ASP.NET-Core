@@ -10,6 +10,8 @@ using BlazorJwtAuth.WebApi.Service.Services;
 using BlazorJwtAuth.WebApi.Service.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +23,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Configuration from AppSettings
 builder.Services.Configure<Jwt>(builder.Configuration.GetSection("Jwt"));
 
+// Database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("BlazorJwtAuth.WebApi")));
 
+// Identity
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -41,6 +45,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<ApplicationRole>()
     .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(corsPolicyBuilder =>
@@ -52,8 +58,11 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Controllers
 builder.Services.AddControllers();
+// TODO：これは何のための設定?
 builder.Services.AddEndpointsApiExplorer();
+// Swagger
 builder.Services.AddSwaggerGen();
 
 // User Manager Service
@@ -63,6 +72,14 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IPtDateTime, PtDateTime>();
 builder.Services.AddSingleton<Random>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Cookie：特にJWT認証・CSRF用
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+    options.HttpOnly = HttpOnlyPolicy.Always;
+});
 
 // Adding Authentication - JWT
 builder.Services.AddAuthentication(options =>
@@ -90,6 +107,8 @@ builder.Services.AddAuthentication(options =>
     });
 
 var app = builder.Build();
+
+// 開発用の設定：開発用例外ページ・SwaggerUI
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -97,6 +116,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// 全体的なエラーハンドリング：500設定
 app.UseMiddleware<CustomErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
@@ -110,6 +111,20 @@ public class UserController : ControllerBase
 
         var token = _jwtTokenService.GetJwtToken(userClaims);
 
+        // クッキーを設定
+        Response.Cookies.Append(
+            "accessToken",
+            new JwtSecurityTokenHandler().WriteToken(token),
+            new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Path = "/",
+                Expires = DateTimeOffset.UtcNow.AddMinutes(10)
+            });
+
+        // TODO：クッキーへの移行
         return Ok(new UserLoginResponseDto
         {
             Succeeded = true,

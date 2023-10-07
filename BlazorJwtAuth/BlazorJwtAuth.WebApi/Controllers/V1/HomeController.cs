@@ -13,6 +13,7 @@ public class HomeController : ControllerBase
     {
         return Ok(new ResponseBaseDto
         {
+            Succeeded = true,
             Message = "This is get, api/v1"
         });
     }
@@ -22,6 +23,7 @@ public class HomeController : ControllerBase
     {
         return Ok(new ResponseBaseDto
         {
+            Succeeded = true,
             Message = "This is post, api/v1"
         });
     }

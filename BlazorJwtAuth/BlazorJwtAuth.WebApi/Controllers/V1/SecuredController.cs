@@ -15,6 +15,7 @@ public class SecuredController : ControllerBase
     {
         return Ok(new SecuredDataResponseDto
         {
+            Succeeded = true,
             Message = "This Secured Data is available only for Authenticated Users."
         });
     }
@@ -25,6 +26,7 @@ public class SecuredController : ControllerBase
     {
         return Ok(new SecuredDataResponseDto
         {
+            Succeeded = true,
             Message = "This Secured Data is available only for Administrators."
         });
     }
