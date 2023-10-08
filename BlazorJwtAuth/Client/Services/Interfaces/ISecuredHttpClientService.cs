@@ -1,6 +1,6 @@
 using Common.Dto;
 
-namespace Client.Service.Services.Interfaces;
+namespace Client.Services.Interfaces;
 
 public interface ISecuredHttpClientService
 {

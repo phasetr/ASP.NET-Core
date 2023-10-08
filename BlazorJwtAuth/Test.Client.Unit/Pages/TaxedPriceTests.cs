@@ -1,7 +1,7 @@
 using System;
 using Client.Pages;
-using Client.Service.Services;
-using Client.Service.Services.Interfaces;
+using Client.Services;
+using Client.Services.Interfaces;
 
 namespace Test.Client.Unit.Pages;
 

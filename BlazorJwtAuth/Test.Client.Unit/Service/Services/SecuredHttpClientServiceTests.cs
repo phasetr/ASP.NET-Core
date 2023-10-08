@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Client.Service.Services;
+using Client.Services;
 using Common.Constants;
 using Common.Dto;
 using RichardSzalay.MockHttp;

@@ -1,4 +1,4 @@
-namespace Client.Service.Services.Interfaces;
+namespace Client.Services.Interfaces;
 
 public interface IConsumptionTaxCalculator
 {

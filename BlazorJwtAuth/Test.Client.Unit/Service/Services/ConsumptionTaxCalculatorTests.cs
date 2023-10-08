@@ -1,5 +1,5 @@
 using System;
-using Client.Service.Services;
+using Client.Services;
 
 namespace Test.Client.Unit.Service.Services;
 

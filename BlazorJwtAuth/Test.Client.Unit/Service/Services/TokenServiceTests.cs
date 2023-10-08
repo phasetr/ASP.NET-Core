@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Client.Service.Services;
+using Client.Services;
 using Common.Dto;
 
 namespace Test.Client.Unit.Service.Services;

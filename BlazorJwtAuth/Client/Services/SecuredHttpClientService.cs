@@ -1,11 +1,11 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Client.Service.Services.Interfaces;
+using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
 
-namespace Client.Service.Services;
+namespace Client.Services;
 
 public class SecuredHttpClientService : ISecuredHttpClientService
 {

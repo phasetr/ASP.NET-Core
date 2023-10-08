@@ -1,9 +1,9 @@
 using Blazored.LocalStorage;
 using Client;
-using Client.Service.Classes;
-using Client.Service.Helpers;
-using Client.Service.Services;
-using Client.Service.Services.Interfaces;
+using Client.Classes;
+using Client.Helpers;
+using Client.Services;
+using Client.Services.Interfaces;
 using Common.Services;
 using Common.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;

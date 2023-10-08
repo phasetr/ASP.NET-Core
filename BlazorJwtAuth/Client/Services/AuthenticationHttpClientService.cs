@@ -1,10 +1,10 @@
 using System.Net.Http.Json;
-using Client.Service.Classes;
-using Client.Service.Services.Interfaces;
+using Client.Classes;
+using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
 
-namespace Client.Service.Services;
+namespace Client.Services;
 
 public class AuthenticationHttpClientService : IAuthenticationHttpClientService
 {

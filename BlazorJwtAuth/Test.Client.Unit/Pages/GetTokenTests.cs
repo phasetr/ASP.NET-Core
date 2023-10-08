@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Client.Pages;
-using Client.Service.Services;
-using Client.Service.Services.Interfaces;
+using Client.Services;
+using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
 using RichardSzalay.MockHttp;

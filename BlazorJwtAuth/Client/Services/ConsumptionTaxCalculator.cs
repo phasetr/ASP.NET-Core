@@ -1,6 +1,6 @@
-using Client.Service.Services.Interfaces;
+using Client.Services.Interfaces;
 
-namespace Client.Service.Services;
+namespace Client.Services;
 
 public class ConsumptionTaxCalculator : IConsumptionTaxCalculator
 {

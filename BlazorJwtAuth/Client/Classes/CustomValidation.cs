@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace Client.Service.Classes;
+namespace Client.Classes;
 
 public class CustomValidation : ComponentBase
 {

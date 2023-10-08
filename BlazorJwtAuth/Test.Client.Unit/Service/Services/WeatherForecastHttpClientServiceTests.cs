@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Client.Service.Services;
-using Client.Service.Services.Interfaces;
+using Client.Services;
+using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
 using Common.Services;

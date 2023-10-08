@@ -8,10 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.4.0"/>
     <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="6.0.21"/>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.21"/>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.21"/>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.21" PrivateAssets="all"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.21"/>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0"/>
+    <PackageReference Include="Microsoft.JSInterop" Version="6.0.21"/>
+    <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+    <PackageReference Include="System.Net.Http.Json" Version="6.0.1"/>
+
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj"/>
-    <ProjectReference Include="..\Client.Service\Client.Service.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

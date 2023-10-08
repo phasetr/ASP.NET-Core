@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace Client.Service.Helpers;
+namespace Client.Helpers;
 
 public class CookieStorageAccessor
 {

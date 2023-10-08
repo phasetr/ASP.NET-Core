@@ -1,8 +1,8 @@
 using Blazored.LocalStorage;
-using Client.Service.Services.Interfaces;
+using Client.Services.Interfaces;
 using Common.Dto;
 
-namespace Client.Service.Services;
+namespace Client.Services;
 
 public class TokenService : ITokenService
 {

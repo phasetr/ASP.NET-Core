@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Service", "WebApi.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit", "Test.Unit\Test.Unit.csproj", "{8A020C63-001E-402B-B781-75CEF53988DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Service", "Client.Service\Client.Service.csproj", "{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Integration", "Test.Integration\Test.Integration.csproj", "{F2656C2F-02DB-457F-90C4-54CFFECBD47A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}"
@@ -53,10 +51,6 @@ Global
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using System.Text.Json;
-using Client.Service.Services.Interfaces;
+using Client.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Client.Service.Classes;
+namespace Client.Classes;
 
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {

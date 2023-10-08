@@ -1,11 +1,11 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using Client.Service.Services.Interfaces;
+using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
 using Common.Services.Interfaces;
 
-namespace Client.Service.Services;
+namespace Client.Services;
 
 public class WeatherForecastHttpClientService : IWeatherForecastHttpClientService
 {
