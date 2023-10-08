@@ -5,27 +5,27 @@ namespace BlazorJwtAuth.Test.Unit.FakesSqlite;
 
 public class SqliteMemoryBase : IDisposable
 {
-    protected readonly ApplicationDbContext Context;
+    private readonly ApplicationDbContext _context;
 
     protected SqliteMemoryBase()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlite("DataSource=:memory:")
             .Options;
-        Context = new ApplicationDbContext(options);
-        Context.Database.OpenConnection();
-        Context.Database.EnsureCreated();
+        _context = new ApplicationDbContext(options);
+        _context.Database.OpenConnection();
+        _context.Database.EnsureCreated();
     }
 
     public void Dispose()
     {
-        Context.Database.EnsureDeleted();
-        Context.Dispose();
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
     }
 
     public ApplicationDbContext Build()
     {
-        Context.SaveChanges();
-        return Context;
+        _context.SaveChanges();
+        return _context;
     }
 }
