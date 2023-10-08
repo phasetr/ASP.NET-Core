@@ -22,5 +22,5 @@ public static class ApiPath
     public const string V1UserRevokeToken = "revoke-token";
     public const string V1UserRevokeTokenFull = $"{V1User}/{V1UserRefreshToken}";
 
-    public const string V1WeatherForecast = "api/v1/weatherforecast";
+    public const string V1WeatherForecastFull = "api/v1/weatherforecast";
 }

@@ -3,8 +3,10 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using BlazorJwtAuth.Common.Constants;
 using BlazorJwtAuth.Common.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Authorization = BlazorJwtAuth.Common.Constants.Authorization;
 
 namespace BlazorJwtAuth.Test.Integration.WebApi.Controllers.V1;
 
@@ -31,12 +33,15 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         };
         var json = JsonSerializer.Serialize(getTokenRequest);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var tokenResponse = await client.PostAsync("/api/v1/User/token", content);
+        var tokenResponse = await client.PostAsync(ApiPath.V1UserGetTokenFull, content);
         var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
         Assert.NotNull(token);
 
         // APIにトークンを付与してリクエスト
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+        // トークンはヘッダーからクッキーに変更
+        // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
+        var cookie = new Cookie(Authorization.JwtAccessTokenName, token.Token);
+        client.DefaultRequestHeaders.Add("Cookie", cookie.ToString());
         var response = await client.GetAsync("api/v1/Secured");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var result = await response.Content.ReadFromJsonAsync<SecuredDataResponseDto>();

@@ -23,7 +23,7 @@ public class WeatherForecastHttpClientServiceTests
         var now = _ptDateTime.UtcNow;
         var weatherForecasts = Array.Empty<WeatherForecastResponseDto>();
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecast}")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecastFull}")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
@@ -56,7 +56,7 @@ public class WeatherForecastHttpClientServiceTests
             }
         };
         var mockHttp = new MockHttpMessageHandler();
-        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecast}")
+        mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecastFull}")
             .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);

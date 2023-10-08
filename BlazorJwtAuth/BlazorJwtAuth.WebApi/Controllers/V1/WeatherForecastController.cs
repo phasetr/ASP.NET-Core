@@ -9,7 +9,7 @@ namespace BlazorJwtAuth.WebApi.Controllers.V1;
 
 [Authorize]
 [ApiController]
-[Route(ApiPath.V1WeatherForecast)]
+[Route(ApiPath.V1WeatherForecastFull)]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =

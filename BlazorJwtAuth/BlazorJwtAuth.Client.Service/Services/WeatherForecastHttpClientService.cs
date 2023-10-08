@@ -29,7 +29,7 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
                 httpClient.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", token.Token);
             var response = await httpClient
-                .GetAsync(ApiPath.V1WeatherForecast);
+                .GetAsync(ApiPath.V1WeatherForecastFull);
             var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto[]>();
             return result ?? Array.Empty<WeatherForecastResponseDto>();
         }
