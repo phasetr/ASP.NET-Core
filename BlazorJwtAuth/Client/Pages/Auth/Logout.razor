@@ -1,0 +1,18 @@
+@using Client.Service.Services.Interfaces
+@attribute [Route(ClientPath.AuthLogout)]
+@inject IAuthenticationHttpClientService Service
+@inject NavigationManager NavigationManager
+
+<h1>Logout</h1>
+
+<text>Logging out...</text>
+
+@code {
+
+  protected override async Task OnInitializedAsync()
+  {
+    await Service.LogoutUser();
+    NavigationManager.NavigateTo(ClientPath.AuthLogin);
+  }
+
+}

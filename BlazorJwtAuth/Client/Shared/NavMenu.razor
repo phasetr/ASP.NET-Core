@@ -1,0 +1,69 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="">Client</a>
+    <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+  <nav class="flex-column">
+    <div class="nav-item px-3">
+      <NavLink class="nav-link" href="@ClientPath.Index" Match="NavLinkMatch.All">
+        <span class="oi oi-home" aria-hidden="true"></span> Home
+      </NavLink>
+    </div>
+    <div class="nav-item px-3">
+      <NavLink class="nav-link" href="@ClientPath.Counter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Counter
+      </NavLink>
+    </div>
+    <div class="nav-item px-3">
+      <NavLink class="nav-link" href="@ClientPath.FetchData">
+        <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+      </NavLink>
+    </div>
+    <div class="nav-item px-3">
+      <NavLink class="nav-link" href="@ClientPath.GetToken">
+        <span class="oi oi-list-rich" aria-hidden="true"></span> Get Token
+      </NavLink>
+    </div>
+    <div class="nav-item px-3">
+      <NavLink class="nav-link" href="@ClientPath.TaxedPrice">
+        <span class="oi oi-list-rich" aria-hidden="true"></span> Taxed Price
+      </NavLink>
+    </div>
+    <AuthorizeView>
+      <Authorized>
+        <hr/>
+        <div class="nav-item px-3">
+          <NavLink class="nav-link" href="@ClientPath.AuthIndex">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Index
+          </NavLink>
+        </div>
+        <div class="nav-item px-3">
+          <NavLink class="nav-link" href="@ClientPath.AuthDashboard">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Dashboard
+          </NavLink>
+        </div>
+        <div class="nav-item px-3">
+          <NavLink class="nav-link" href="@ClientPath.AuthFetchData">
+            <span class="oi oi-list-rich" aria-hidden="true"></span> Auth Fetch Data
+          </NavLink>
+        </div>
+      </Authorized>
+    </AuthorizeView>
+  </nav>
+</div>
+
+@code {
+  private bool _collapseNavMenu = true;
+  private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
+
+  private void ToggleNavMenu()
+  {
+    _collapseNavMenu = !_collapseNavMenu;
+  }
+
+}

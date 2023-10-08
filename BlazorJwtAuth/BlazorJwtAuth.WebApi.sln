@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.WebApi", "BlazorJwtAuth.WebApi\BlazorJwtAuth.WebApi.csproj", "{37953731-4F82-48D1-A9FF-78092ECC9CBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{37953731-4F82-48D1-A9FF-78092ECC9CBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Common.EntityModels", "BlazorJwtAuth.Common.EntityModels\BlazorJwtAuth.Common.EntityModels.csproj", "{4C908A37-051F-4ED9-B5CB-D6ED9098A2D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.EntityModels", "Common.EntityModels\Common.EntityModels.csproj", "{4C908A37-051F-4ED9-B5CB-D6ED9098A2D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Common", "BlazorJwtAuth.Common\BlazorJwtAuth.Common.csproj", "{01A1224E-9DD5-4870-A11D-038600D41CFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{01A1224E-9DD5-4870-A11D-038600D41CFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Common.DataContext", "BlazorJwtAuth.Common.DataContext\BlazorJwtAuth.Common.DataContext.csproj", "{33F16CFC-2084-4ED7-BBCE-6FE910516463}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataContext", "Common.DataContext\Common.DataContext.csproj", "{33F16CFC-2084-4ED7-BBCE-6FE910516463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.WebApi.Service", "BlazorJwtAuth.WebApi.Service\BlazorJwtAuth.WebApi.Service.csproj", "{00C9CE9B-6886-4575-8D4C-B142A0FB40EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Service", "WebApi.Service\WebApi.Service.csproj", "{00C9CE9B-6886-4575-8D4C-B142A0FB40EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Unit", "BlazorJwtAuth.Test.Unit\BlazorJwtAuth.Test.Unit.csproj", "{8A020C63-001E-402B-B781-75CEF53988DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit", "Test.Unit\Test.Unit.csproj", "{8A020C63-001E-402B-B781-75CEF53988DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Client", "BlazorJwtAuth.Client\BlazorJwtAuth.Client.csproj", "{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Service", "Client.Service\Client.Service.csproj", "{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Client.Unit", "BlazorJwtAuth.Test.Client.Unit\BlazorJwtAuth.Test.Client.Unit.csproj", "{100715A9-43B4-4E2A-921A-4E7704924B62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Integration", "Test.Integration\Test.Integration.csproj", "{F2656C2F-02DB-457F-90C4-54CFFECBD47A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Client.Service", "BlazorJwtAuth.Client.Service\BlazorJwtAuth.Client.Service.csproj", "{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorJwtAuth.Test.Integration", "BlazorJwtAuth.Test.Integration\BlazorJwtAuth.Test.Integration.csproj", "{F2656C2F-02DB-457F-90C4-54CFFECBD47A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Client.Unit", "Test.Client.Unit\Test.Client.Unit.csproj", "{C84AED46-6006-4C11-B07F-9A8CA4495CB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,22 +53,22 @@ Global
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A020C63-001E-402B-B781-75CEF53988DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E512C7EB-FE67-4F50-B58C-8CC08FF7371C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E84883B-473E-40AF-9EBE-9B64DA4EA08D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{100715A9-43B4-4E2A-921A-4E7704924B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{100715A9-43B4-4E2A-921A-4E7704924B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{100715A9-43B4-4E2A-921A-4E7704924B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{100715A9-43B4-4E2A-921A-4E7704924B62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2656C2F-02DB-457F-90C4-54CFFECBD47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B53A0F-E1E8-4B88-A8A9-2C576987CF2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C84AED46-6006-4C11-B07F-9A8CA4495CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84AED46-6006-4C11-B07F-9A8CA4495CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84AED46-6006-4C11-B07F-9A8CA4495CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84AED46-6006-4C11-B07F-9A8CA4495CB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,38 @@
+﻿@using Client.Service.Helpers
+@using Client.Service.Services.Interfaces
+@attribute [Route(ClientPath.Index)]
+@inject AppSettings AppSettings
+@inject HttpClient HttpClient
+@inject IHomeHttpClientService Service
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?"/>
+
+<h2>GET API RESULT</h2>
+<dl>
+  <dt>API Base URL</dt>
+  <dd id="apiBaseAddress">@AppSettings.ApiBaseAddress</dd>
+  <dt>GET Message</dt>
+  <dd id="getMessage">@GetMessage</dd>
+</dl>
+
+@code {
+  private string GetMessage { get; set; } = "Loading...";
+
+  protected override async Task OnInitializedAsync()
+  {
+    await GetMessages();
+  }
+
+  private async Task GetMessages()
+  {
+    var response = await Service.GetIndexAsync(HttpClient);
+    GetMessage = response.Message;
+  }
+
+}

@@ -1,0 +1,163 @@
+@using Client.Service.Helpers
+@using Client.Service.Services.Interfaces
+@using Common.Dto
+@attribute [Route(ClientPath.GetToken)]
+@inject AppSettings AppSettings
+@inject HttpClient HttpClient
+@inject ITokenHttpClientService TokenService
+@inject ISecuredHttpClientService SecuredService
+
+<PageTitle>Get Token</PageTitle>
+
+<h1>Get Token</h1>
+
+<h2>Account</h2>
+<div class="row">
+  <label for="apiBaseAddress" class="col-4">API Base Address</label>
+  <input id="apiBaseAddress" class="col-8" @bind="AppSettings.ApiBaseAddress"/>
+  <label for="userId" class="col-4">User Id</label>
+  <input id="userId" class="col-8" @bind="_userId"/>
+  <label for="email" class="col-4">Email</label>
+  <input id="email" class="col-8" @bind="_email"/>
+  <label for="password" class="col-4">Password</label>
+  <input id="password" class="col-8" @bind="_password"/>
+</div>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="btn-group">
+      <button id="getTokenAsync" class="btn btn-outline-primary" @onclick="GetTokenAsync">Get Token</button>
+      <button id="getSecureDataAsync" class="btn btn-outline-primary" @onclick="GetSecureDataAsync">Get Secure Data</button>
+      <button id="postRefreshTokenAsync" class="btn btn-outline-primary" @onclick="PostRefreshTokenAsync">Refresh Token</button>
+    </div>
+  </div>
+</div>
+
+<h2>API Result</h2>
+<div class="row">
+  <div class="col-4">
+    <h3>Get Token Result</h3>
+    <dl id="getTokenResult">
+      <dt>token</dt>
+      <dd>
+        <input id="token" @bind="Token"/>
+      </dd>
+      <dt>message</dt>
+      <dd>@_message</dd>
+      <dt>is authenticated</dt>
+      <dd>@_isAuthenticated</dd>
+      <dt>user name</dt>
+      <dd>@_userName</dd>
+      <dt>refresh token</dt>
+      <dd>
+        <input id="refreshToken" @bind="_refreshToken">
+      </dd>
+      <dt>refresh token expiration</dt>
+      <dd>@_refreshTokenExpiration</dd>
+    </dl>
+  </div>
+  <div class="col-4">
+    <h3>Get Secure Data</h3>
+    <dl>
+      <dt>message</dt>
+      <dd id="secureDataMessage">@_getSecureDataMessage</dd>
+    </dl>
+  </div>
+  <div class="col-4">
+    <h3>Refresh Token</h3>
+    <dl>
+      <dt>message</dt>
+      <dd>@_refreshTokenMessage</dd>
+    </dl>
+  </div>
+</div>
+
+@code {
+
+  [Parameter]
+  public string? Token { get; set; }
+
+  private string _userId = $"{Authorization.DefaultUsername}Id";
+  private string _email = Authorization.DefaultEmail;
+  private string _password = Authorization.DefaultPassword;
+  private string? _message;
+  private bool? _isAuthenticated;
+  private string? _userName;
+  private string? _refreshToken;
+  private DateTime? _refreshTokenExpiration;
+  private string? _getSecureDataMessage;
+  private string? _refreshTokenMessage;
+
+  private async Task GetTokenAsync()
+  {
+    var tokenRequestModel = new GetTokenResponseDto
+    {
+      Email = _email,
+      Password = _password
+    };
+    var res = await TokenService.GetTokenAsync(HttpClient, tokenRequestModel);
+    if (res.IsAuthenticated)
+    {
+      Token = res.Token;
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = res.UserName;
+      _refreshToken = res.RefreshToken;
+      _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+    }
+    else
+    {
+      Token = "";
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = "";
+      _refreshTokenExpiration = null;
+    }
+  }
+
+  private async Task GetSecureDataAsync()
+  {
+    if (Token is null)
+    {
+      _getSecureDataMessage = "You need to assign a token!";
+      return;
+    }
+    var res = await SecuredService.GetSecuredDataAsync(HttpClient, Token!);
+    _getSecureDataMessage = res.Message;
+  }
+
+  private async Task PostRefreshTokenAsync()
+  {
+    if (string.IsNullOrEmpty(_refreshToken))
+    {
+      _refreshTokenMessage = "Please get a refresh token first.";
+      return;
+    }
+
+    var refreshTokenRequest = new RefreshTokenDto
+    {
+      RefreshToken = _refreshToken!
+    };
+    var res = await TokenService.RefreshTokenAsync(HttpClient, refreshTokenRequest);
+    if (res.IsAuthenticated)
+    {
+      Token = res.Token;
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = res.UserName;
+      _refreshToken = res.RefreshToken;
+      _refreshTokenExpiration = res.RefreshTokenExpiration.ToLocalTime();
+      _refreshTokenMessage = "Success.";
+    }
+    else
+    {
+      Token = "";
+      _message = res.Message;
+      _isAuthenticated = res.IsAuthenticated;
+      _userName = "";
+      _refreshTokenExpiration = null;
+      _refreshTokenMessage = "Failed.";
+    }
+  }
+
+}
