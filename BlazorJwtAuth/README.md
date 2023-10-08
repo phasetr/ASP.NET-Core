@@ -9,6 +9,20 @@
 - 結合テストの参考ページ: [ASP.NET Core で Web API の結合テストをしよう](https://qiita.com/okazuki/items/cbda6c456dcba8fee503) 
 - 参考：Blazor向け認証, [The bullshit-less ASP.NET Blazor WASM JWT authentication tutorial from the ground up.](https://www.reddit.com/r/csharp/comments/u6n8nz/the_bullshitless_aspnet_blazor_wasm_jwt/)
 
+## データベース初期化
+
+- `WebApi`プロジェクト配下でコマンドを実行し、同プロジェクト配下に`app.db`が生成される
+
+```shell
+dotnet dotnet-ef migrations add Initialize
+dotnet dotnet-ef database update
+```
+
+```shell
+efm add Initialize
+efd update
+```
+
 ## Blazor
 
 ```shell

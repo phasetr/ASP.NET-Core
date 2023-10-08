@@ -143,7 +143,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{email}")]
-    public async Task<IActionResult> GetByEmailAsync(string email)
+    public async Task<IActionResult> GetByEmailAsync(string email = Authorization.DefaultEmail)
     {
         var user = await _userService.GetByEmailAsync(email);
         if (user is null) return NotFound();

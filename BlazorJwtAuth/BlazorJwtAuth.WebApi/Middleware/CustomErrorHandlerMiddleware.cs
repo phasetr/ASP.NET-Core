@@ -28,7 +28,7 @@ public class CustomErrorHandlerMiddleware
 
             var errorResponse = new ErrorResponse
             {
-                Message = "An unexpected error occurred."
+                Message = ex.Message
             };
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
