@@ -1,28 +1,22 @@
-using Microsoft.AspNetCore.Mvc.Testing;
+using BlazorJwtAuth.Common.Constants;
 
 namespace BlazorJwtAuth.Test.Integration.WebApi.Controllers.V1;
 
 public class HomeControllerTests
-    : IClassFixture<WebApplicationFactory<Program>>
+    : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public HomeControllerTests(WebApplicationFactory<Program> factory)
+    public HomeControllerTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
 
-    [Theory]
-    [InlineData("/api/v1")]
-    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+    [Fact]
+    public async Task Get_EndpointsReturnSuccessAndCorrectContentType()
     {
-        // Arrange
         var client = _factory.CreateClient();
-
-        // Act
-        var response = await client.GetAsync(url);
-
-        // Assert
+        var response = await client.GetAsync(ApiPath.V1Home);
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",
             response.Content.Headers.ContentType?.ToString());
@@ -32,7 +26,7 @@ public class HomeControllerTests
     public async Task Post_EndpointsReturnSuccessAndCorrectContentType()
     {
         var client = _factory.CreateClient();
-        var response = await client.PostAsync("/api/v1", null);
+        var response = await client.PostAsync(ApiPath.V1Home, null);
         response.EnsureSuccessStatusCode();
         Assert.Equal("application/json; charset=utf-8",
             response.Content.Headers.ContentType?.ToString());
