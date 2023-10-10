@@ -63,12 +63,12 @@ builder.Services.AddCors(options =>
 
 // Controllers
 builder.Services.AddControllers();
-// TODO：これは何のための設定?
+// `Minimal API`の`Swagger`ドキュメント生成用
 builder.Services.AddEndpointsApiExplorer();
 // Swagger
 builder.Services.AddSwaggerGen();
 
-// User Manager Service
+// DI設定
 builder.Services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
 builder.Services.AddScoped<IClaimsService, ClaimsService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
