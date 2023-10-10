@@ -6,7 +6,6 @@ using System.Text.Json;
 using Common.Constants;
 using Common.Dto;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WebApi;
 
 namespace Test.Integration.WebApi.Controllers.V1;
 
@@ -53,7 +52,7 @@ public class WeatherForecastControllerTests
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.GetAsync(ApiPath.V1WeatherForecastFull);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<WeatherForecast[]>();
+        var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto[]>();
 
         // レスポンスを確認
         Assert.NotNull(result);
