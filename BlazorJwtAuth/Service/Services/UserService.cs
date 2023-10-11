@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using WebApi.Service.Services.Interfaces;
+using Service.Services.Interfaces;
 
-namespace WebApi.Service.Services;
+namespace Service.Services;
 
 public class UserService : IUserService
 {

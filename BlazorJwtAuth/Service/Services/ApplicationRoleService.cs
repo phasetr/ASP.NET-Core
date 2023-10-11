@@ -2,9 +2,9 @@ using Common.DataContext.Data;
 using Common.Dto;
 using Common.EntityModels.Entities;
 using Microsoft.Extensions.Logging;
-using WebApi.Service.Services.Interfaces;
+using Service.Services.Interfaces;
 
-namespace WebApi.Service.Services;
+namespace Service.Services;
 
 public class ApplicationRoleService : IApplicationRoleService
 {

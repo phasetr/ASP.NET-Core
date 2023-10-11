@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using Service.Services;
 using Test.Unit.FakesSqlite;
 using WebApi.Controllers.V1;
-using WebApi.Service.Services;
 
 namespace Test.Unit.WebApi.Controllers.V1;
 

@@ -2,8 +2,8 @@ using Common.Constants;
 using Common.EntityModels.Entities;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Service.Services;
 using Test.Unit.FakesSqlite;
-using WebApi.Service.Services;
 
 namespace Test.Unit.WebApi.Service.Service;
 

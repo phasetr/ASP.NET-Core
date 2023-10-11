@@ -1,9 +1,9 @@
 using System.Security.Claims;
 using Common.EntityModels.Entities;
 using Microsoft.AspNetCore.Identity;
-using WebApi.Service.Services.Interfaces;
+using Service.Services.Interfaces;
 
-namespace WebApi.Service.Services;
+namespace Service.Services;
 
 public class ClaimsService : IClaimsService
 {

@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Common.EntityModels.Entities;
 
-namespace WebApi.Service.Services.Interfaces;
+namespace Service.Services.Interfaces;
 
 public interface IClaimsService
 {

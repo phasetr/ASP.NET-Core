@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common.DataContext\Common.DataContext.csproj"/>
-    <ProjectReference Include="..\WebApi.Service\WebApi.Service.csproj"/>
+    <ProjectReference Include="..\Service\Service.csproj"/>
     <ProjectReference Include="..\WebApi\WebApi.csproj"/>
   </ItemGroup>
 </Project>

@@ -17,9 +17,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Service.Services;
+using Service.Services.Interfaces;
 using WebApi.Middleware;
-using WebApi.Service.Services;
-using WebApi.Service.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 // Configuration from AppSettings

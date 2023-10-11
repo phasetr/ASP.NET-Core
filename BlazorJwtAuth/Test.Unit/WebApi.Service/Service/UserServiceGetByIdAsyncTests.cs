@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Service.Services;
 using Test.Unit.FakesSqlite;
-using WebApi.Service.Services;
 
 namespace Test.Unit.WebApi.Service.Service;
 

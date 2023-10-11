@@ -4,9 +4,9 @@ using System.Text;
 using Common.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WebApi.Service.Services.Interfaces;
+using Service.Services.Interfaces;
 
-namespace WebApi.Service.Services;
+namespace Service.Services;
 
 public class JwtTokenService : IJwtTokenService
 {

@@ -1,7 +1,7 @@
 using Common.Dto;
 using Common.EntityModels.Entities;
 
-namespace WebApi.Service.Services.Interfaces;
+namespace Service.Services.Interfaces;
 
 public interface IApplicationRoleService
 {

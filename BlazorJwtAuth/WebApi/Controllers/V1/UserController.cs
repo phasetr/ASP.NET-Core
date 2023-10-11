@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Service.Services.Interfaces;
+using Service.Services.Interfaces;
 
 namespace WebApi.Controllers.V1;
 

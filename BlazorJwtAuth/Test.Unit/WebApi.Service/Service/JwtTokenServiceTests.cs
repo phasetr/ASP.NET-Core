@@ -2,8 +2,8 @@ using System.Security.Claims;
 using Common.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
+using Service.Services;
 using Test.Unit.FakesSqlite;
-using WebApi.Service.Services;
 
 namespace Test.Unit.WebApi.Service.Service;
 
