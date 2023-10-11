@@ -237,11 +237,6 @@ public class UserService : IUserService
         return await _context.Users.FindAsync(id);
     }
 
-    public async Task<ApplicationUser?> GetByEmailAsync(string email)
-    {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-    }
-
     public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
     {
         var userClaims = await _userManager.GetClaimsAsync(user);

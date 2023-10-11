@@ -103,7 +103,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login(UserLoginDto userLoginDto)
     {
-        var user = await _userService.GetByEmailAsync(userLoginDto.Email ?? string.Empty);
+        var user = await _userManager.FindByEmailAsync(userLoginDto.Email ?? string.Empty);
         if (user == null || !await _userManager.CheckPasswordAsync(user, userLoginDto.Password))
             return Unauthorized(new UserLoginResponseDto
             {
@@ -145,7 +145,7 @@ public class UserController : ControllerBase
     [HttpGet("{email}")]
     public async Task<IActionResult> GetByEmailAsync(string email = Authorization.DefaultEmail)
     {
-        var user = await _userService.GetByEmailAsync(email);
+        var user = await _userManager.FindByEmailAsync(email);
         if (user is null) return NotFound();
         return Ok(new UserGetByEmailResponseDto
         {
