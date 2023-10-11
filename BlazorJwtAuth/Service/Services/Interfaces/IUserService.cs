@@ -10,6 +10,5 @@ public interface IUserService
     Task<string> AddRoleAsync(AddRoleDto dto);
     Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken);
     Task<bool> RevokeTokenAsync(string token);
-    Task<ApplicationUser?> GetByIdAsync(string id);
     Task<ApplicationUser?> FindByEmailAsync(string email);
 }

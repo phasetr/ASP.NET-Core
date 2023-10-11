@@ -129,7 +129,7 @@ public partial class UserServiceTests : SqliteMemoryBase
         var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
         _sut = new UserService(userManager, _jwt, mockLogger, context, applicationRoleService);
 
-        var user = await _sut.GetByIdAsync($"{Authorization.DefaultUsername}Id");
+        var user = await userManager.FindByIdAsync($"{Authorization.DefaultUsername}Id");
         Assert.NotNull(user);
         var jwtToken = await _sut.CreateJwtToken(user);
         var result = new JwtSecurityTokenHandler().WriteToken(jwtToken);

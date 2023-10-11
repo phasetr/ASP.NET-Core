@@ -232,11 +232,6 @@ public class UserService : IUserService
         return true;
     }
 
-    public async Task<ApplicationUser?> GetByIdAsync(string id)
-    {
-        return await _context.Users.FindAsync(id);
-    }
-
     public async Task<ApplicationUser?> FindByEmailAsync(string email)
     {
         // return await _userManager.FindByEmailAsync(email);
