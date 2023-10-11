@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Common.Constants;
 using Common.Dto;
+using Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,14 +26,17 @@ public class WeatherForecastController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<WeatherForecastResponseDto> Get()
+    public WeatherForecastResponseDto Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecastResponseDto
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = _random.Next(-20, 55),
-                Summary = Summaries[_random.Next(Summaries.Length)]
-            })
-            .AsEnumerable();
+        return new WeatherForecastResponseDto
+        {
+            WeatherForecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = _random.Next(-20, 55),
+                    Summary = Summaries[_random.Next(Summaries.Length)]
+                })
+                .ToArray()
+        };
     }
 }

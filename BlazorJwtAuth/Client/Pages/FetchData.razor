@@ -1,4 +1,4 @@
-﻿@using Common.Dto
+﻿@using Common.Models
 @attribute [Route(ClientPath.FetchData)]
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
@@ -41,12 +41,12 @@ else
 }
 
 @code {
-  private WeatherForecastResponseDto[]? _forecasts;
+  private WeatherForecast[]? _forecasts;
 
   protected override async Task OnInitializedAsync()
   {
     var host = NavigationManager.BaseUri;
-    _forecasts = await HttpClient.GetFromJsonAsync<WeatherForecastResponseDto[]>(host + "sample-data/weather.json");
+    _forecasts = await HttpClient.GetFromJsonAsync<WeatherForecast[]>(host + "sample-data/weather.json");
   }
 
 }

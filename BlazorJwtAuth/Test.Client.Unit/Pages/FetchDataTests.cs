@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Client.Pages;
-using Common.Dto;
+using Common.Models;
 using RichardSzalay.MockHttp;
 using Test.Client.Unit.Helpers;
 
@@ -13,7 +13,7 @@ public class FetchDataTests : TestContext
     public void Sample_Test()
     {
         var mockHttpClient = Services.AddMockHttpClient();
-        mockHttpClient.When("/sample-data/weather.json").RespondJson(new List<WeatherForecastResponseDto>
+        mockHttpClient.When("/sample-data/weather.json").RespondJson(new List<WeatherForecast>
         {
             new()
             {

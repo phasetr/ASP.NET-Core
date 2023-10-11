@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
+using Common.Models;
 using Common.Services.Interfaces;
 
 namespace Client.Services;
@@ -20,7 +21,7 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
         _tokenService = tokenService;
     }
 
-    public async Task<WeatherForecastResponseDto[]?> GetForecastAsync(HttpClient httpClient)
+    public async Task<WeatherForecast[]?> GetForecastAsync(HttpClient httpClient)
     {
         try
         {
@@ -30,12 +31,12 @@ public class WeatherForecastHttpClientService : IWeatherForecastHttpClientServic
                     new AuthenticationHeaderValue("Bearer", token.Token);
             var response = await httpClient
                 .GetAsync(ApiPath.V1WeatherForecastFull);
-            var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto[]>();
-            return result ?? Array.Empty<WeatherForecastResponseDto>();
+            var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto>();
+            return result?.WeatherForecasts ?? Array.Empty<WeatherForecast>();
         }
         catch
         {
-            return Array.Empty<WeatherForecastResponseDto>();
+            return Array.Empty<WeatherForecast>();
         }
     }
 }

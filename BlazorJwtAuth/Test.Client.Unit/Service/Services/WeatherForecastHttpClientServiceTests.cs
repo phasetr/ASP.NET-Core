@@ -5,6 +5,7 @@ using Client.Services;
 using Client.Services.Interfaces;
 using Common.Constants;
 using Common.Dto;
+using Common.Models;
 using Common.Services;
 using NSubstitute;
 using RichardSzalay.MockHttp;
@@ -48,16 +49,20 @@ public class WeatherForecastHttpClientServiceTests
         var now = _ptDateTime.UtcNow;
         var weatherForecasts = new[]
         {
-            new WeatherForecastResponseDto
+            new WeatherForecast
             {
                 Date = now,
                 Summary = "Summary",
                 TemperatureC = 0
             }
         };
+        var weatherForecastResponseDto = new WeatherForecastResponseDto
+        {
+            WeatherForecasts = weatherForecasts
+        };
         var mockHttp = new MockHttpMessageHandler();
         mockHttp.When($"{Constants.AppSettings.ApiBaseAddress}/{ApiPath.V1WeatherForecastFull}")
-            .Respond("application/json", JsonSerializer.Serialize(weatherForecasts));
+            .Respond("application/json", JsonSerializer.Serialize(weatherForecastResponseDto));
         var mockHttpClient = mockHttp.ToHttpClient();
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 

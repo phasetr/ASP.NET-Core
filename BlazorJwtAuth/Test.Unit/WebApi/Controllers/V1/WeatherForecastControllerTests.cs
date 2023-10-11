@@ -11,6 +11,6 @@ public class WeatherForecastControllerTests
         var controller = new WeatherForecastController(random);
         var result = controller.Get();
         Assert.NotNull(result);
-        Assert.Equal(5, result.Count());
+        Assert.Equal(5, result.WeatherForecasts.Count());
     }
 }

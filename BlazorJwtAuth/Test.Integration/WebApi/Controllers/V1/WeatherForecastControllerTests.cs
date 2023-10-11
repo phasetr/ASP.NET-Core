@@ -52,11 +52,13 @@ public class WeatherForecastControllerTests
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
         var response = await client.GetAsync(ApiPath.V1WeatherForecastFull);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto[]>();
+        var result = await response.Content.ReadFromJsonAsync<WeatherForecastResponseDto>();
+        var weatherForecasts = result?.WeatherForecasts.ToArray();
 
         // レスポンスを確認
         Assert.NotNull(result);
-        Assert.NotEmpty(result);
-        Assert.Equal(5, result.Length);
+        Assert.NotNull(weatherForecasts);
+        Assert.NotEmpty(weatherForecasts);
+        Assert.Equal(5, weatherForecasts.Length);
     }
 }

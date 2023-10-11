@@ -1,4 +1,4 @@
-@using Common.Dto
+@using Common.Models
 @using Client.Services.Interfaces
 @attribute [Route(ClientPath.AuthFetchData)]
 @attribute [Authorize]
@@ -41,7 +41,7 @@ else
 }
 
 @code {
-  private WeatherForecastResponseDto[]? _forecasts;
+  private WeatherForecast[]? _forecasts;
 
   protected override async Task OnInitializedAsync()
   {

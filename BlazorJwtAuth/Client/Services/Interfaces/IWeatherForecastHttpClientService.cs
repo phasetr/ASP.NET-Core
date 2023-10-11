@@ -1,8 +1,8 @@
-using Common.Dto;
+using Common.Models;
 
 namespace Client.Services.Interfaces;
 
 public interface IWeatherForecastHttpClientService
 {
-    Task<WeatherForecastResponseDto[]?> GetForecastAsync(HttpClient httpClient);
+    Task<WeatherForecast[]?> GetForecastAsync(HttpClient httpClient);
 }
