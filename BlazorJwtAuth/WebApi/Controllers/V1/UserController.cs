@@ -47,7 +47,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost(ApiPath.V1UserGetToken)]
-    public async Task<IActionResult> GetTokenAsync(GetTokenResponseDto dto)
+    public async Task<IActionResult> GetTokenAsync(GetTokenDto dto)
     {
         var result = await _userService.GetTokenAsync(dto);
         return Ok(result);

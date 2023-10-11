@@ -26,12 +26,12 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
         };
-        var json = JsonSerializer.Serialize(getTokenRequest);
+        var json = JsonSerializer.Serialize(getTokenDto);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync(ApiPath.V1UserGetTokenFull, content);
         var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
@@ -58,12 +58,12 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = "admin@secureapi.com",
             Password = "adminpass"
         };
-        var json = JsonSerializer.Serialize(getTokenRequest);
+        var json = JsonSerializer.Serialize(getTokenDto);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync("/api/v1/User/token", content);
         var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();

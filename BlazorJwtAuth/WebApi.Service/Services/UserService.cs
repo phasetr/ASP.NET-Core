@@ -98,7 +98,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenResponseDto model)
+    public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenDto model)
     {
         var authenticationModel = new AuthenticationResponseDto();
         var user = await _context.Users

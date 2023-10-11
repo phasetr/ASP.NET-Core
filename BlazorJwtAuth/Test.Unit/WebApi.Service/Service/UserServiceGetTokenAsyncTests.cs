@@ -37,21 +37,21 @@ public partial class UserServiceTests : SqliteMemoryBase
         var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
         _sut = new UserService(userManager, _jwt, mockLogger, context, applicationRoleService);
 
-        var tokenRequestModel = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = "noUser@phasetr.com",
             Password = "noUser"
         };
-        var token = await _sut.GetTokenAsync(tokenRequestModel);
+        var token = await _sut.GetTokenAsync(getTokenDto);
 
         Assert.False(token.IsAuthenticated);
-        Assert.Equal($"No Accounts Registered with {tokenRequestModel.Email}.", token.Message);
+        Assert.Equal($"No Accounts Registered with {getTokenDto.Email}.", token.Message);
     }
 
     [Fact]
     public async Task GetTokenAsync_ExistingUserWrongPassword_IncorrectCredential()
     {
-        var tokenRequestModel = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "errorPassword"
@@ -63,7 +63,7 @@ public partial class UserServiceTests : SqliteMemoryBase
             Substitute.For<UserManager<ApplicationUser>>(userStore, null, null, null, null, null, null, null, null);
         mockUserManager.FindByEmailAsync(Arg.Any<string>()).Returns(new ApplicationUser
         {
-            Email = tokenRequestModel.Email
+            Email = getTokenDto.Email
         });
         mockUserManager.CheckPasswordAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>()).Returns(false);
         var mockLogger = Substitute.For<ILogger<UserService>>();
@@ -71,16 +71,16 @@ public partial class UserServiceTests : SqliteMemoryBase
         var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
         _sut = new UserService(mockUserManager, _jwt, mockLogger, context, applicationRoleService);
 
-        var token = await _sut.GetTokenAsync(tokenRequestModel);
+        var token = await _sut.GetTokenAsync(getTokenDto);
 
         Assert.False(token.IsAuthenticated);
-        Assert.Equal($"Incorrect Credentials for user {tokenRequestModel.Email}.", token.Message);
+        Assert.Equal($"Incorrect Credentials for user {getTokenDto.Email}.", token.Message);
     }
 
     [Fact]
     public async Task GetTokenAsync_ExistingUser_ProperResult()
     {
-        var tokenRequestModel = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = Authorization.DefaultEmail,
             Password = Authorization.DefaultPassword
@@ -108,8 +108,8 @@ public partial class UserServiceTests : SqliteMemoryBase
         var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
         _sut = new UserService(mockUserManager, _jwt, mockLogger, context, applicationRoleService);
 
-        var authenticationModel = await _sut.GetTokenAsync(tokenRequestModel);
-        Assert.True(authenticationModel.IsAuthenticated);
+        var authResponseDto = await _sut.GetTokenAsync(getTokenDto);
+        Assert.True(authResponseDto.IsAuthenticated);
 
         // トークン登録確認
         var tokens = context.RefreshTokens

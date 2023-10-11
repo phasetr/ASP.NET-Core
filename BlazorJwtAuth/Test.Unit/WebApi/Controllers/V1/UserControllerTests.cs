@@ -51,7 +51,7 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenResponseDto
+        var result = await controller.GetTokenAsync(new GetTokenDto
         {
             Email = "nouser@secureapi.com",
             Password = "Pa$$w0rd."
@@ -99,7 +99,7 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenResponseDto
+        var result = await controller.GetTokenAsync(new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "WrongPassword"
@@ -145,7 +145,7 @@ public class UserControllerTests
         var jwtTokenService = new JwtTokenService(configuration, ptDateTime);
 
         var controller = new UserController(claimsService, jwtTokenService, userService, userManager);
-        var result = await controller.GetTokenAsync(new GetTokenResponseDto
+        var result = await controller.GetTokenAsync(new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."

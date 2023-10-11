@@ -37,7 +37,7 @@ public class TokenHttpClientServiceTests
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenResponseDto
+        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
@@ -66,7 +66,7 @@ public class TokenHttpClientServiceTests
         mockHttpClient.BaseAddress = new Uri(Constants.AppSettings.ApiBaseAddress);
 
         _sut = new TokenHttpClientService();
-        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenResponseDto
+        var result = await _sut.GetTokenAsync(mockHttpClient, new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."

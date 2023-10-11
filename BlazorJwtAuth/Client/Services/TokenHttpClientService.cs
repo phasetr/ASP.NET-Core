@@ -46,12 +46,12 @@ public class TokenHttpClientService : ITokenHttpClientService
     }
 
     public async Task<AuthenticationResponseDto> GetTokenAsync(HttpClient httpClient,
-        GetTokenResponseDto getTokenResponseDto)
+        GetTokenDto getTokenDto)
     {
         try
         {
             var response =
-                await httpClient.PostAsJsonAsync(ApiPath.V1UserGetTokenFull, getTokenResponseDto);
+                await httpClient.PostAsJsonAsync(ApiPath.V1UserGetTokenFull, getTokenDto);
             var result = await response.Content.ReadFromJsonAsync<AuthenticationResponseDto>();
             if (result is null)
                 return new AuthenticationResponseDto

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Common.Dto;
 
-public class GetTokenResponseDto
+public class GetTokenDto
 {
     [DefaultValue("user@secureapi.com")]
     [Required]

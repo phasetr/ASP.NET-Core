@@ -37,12 +37,12 @@ public class WeatherForecastControllerTests
         var client = _factory.CreateClient();
 
         // APIでトークンを取得
-        var getTokenRequest = new GetTokenResponseDto
+        var getTokenDto = new GetTokenDto
         {
             Email = "user@secureapi.com",
             Password = "Pa$$w0rd."
         };
-        var json = JsonSerializer.Serialize(getTokenRequest);
+        var json = JsonSerializer.Serialize(getTokenDto);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var tokenResponse = await client.PostAsync("/api/v1/user/token", content);
         var token = await tokenResponse.Content.ReadFromJsonAsync<AuthenticationResponseDto>();

@@ -90,12 +90,12 @@
 
   private async Task GetTokenAsync()
   {
-    var tokenRequestModel = new GetTokenResponseDto
+    var getTokenDto = new GetTokenDto
     {
       Email = _email,
       Password = _password
     };
-    var res = await TokenService.GetTokenAsync(HttpClient, tokenRequestModel);
+    var res = await TokenService.GetTokenAsync(HttpClient, getTokenDto);
     if (res.IsAuthenticated)
     {
       Token = res.Token;
