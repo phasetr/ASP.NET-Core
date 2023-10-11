@@ -100,33 +100,33 @@ public class UserService : IUserService
 
     public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenDto model)
     {
-        var authenticationModel = new AuthenticationResponseDto();
+        var authResponseDto = new AuthenticationResponseDto();
         var user = await _context.Users
             .Include(m => m.RefreshTokens)
             .FirstOrDefaultAsync(m => m.Email == model.Email);
         if (user == null)
         {
-            authenticationModel.IsAuthenticated = false;
-            authenticationModel.Message = $"No Accounts Registered with {model.Email}.";
+            authResponseDto.IsAuthenticated = false;
+            authResponseDto.Message = $"No Accounts Registered with {model.Email}.";
             _logger.LogInformation("No Accounts Registered with {Email}", model.Email);
-            return authenticationModel;
+            return authResponseDto;
         }
 
         if (await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            authenticationModel.IsAuthenticated = true;
+            authResponseDto.IsAuthenticated = true;
             var jwtSecurityToken = await CreateJwtToken(user);
-            authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            authenticationModel.Email = user.Email;
-            authenticationModel.UserName = user.UserName;
+            authResponseDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            authResponseDto.Email = user.Email;
+            authResponseDto.UserName = user.UserName;
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            authenticationModel.Roles = rolesList.ToList<string>();
+            authResponseDto.Roles = rolesList.ToList<string>();
 
             if (user is {RefreshTokens: not null} && user.RefreshTokens.Any(a => a.IsActive))
             {
                 var activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive);
-                authenticationModel.RefreshToken = activeRefreshToken!.Token;
-                authenticationModel.RefreshTokenExpiration = activeRefreshToken.Expires;
+                authResponseDto.RefreshToken = activeRefreshToken!.Token;
+                authResponseDto.RefreshTokenExpiration = activeRefreshToken.Expires;
             }
             else
             {
@@ -135,17 +135,17 @@ public class UserService : IUserService
                 user.RefreshTokens.Add(refreshToken);
                 _context.ApplicationUsers.Update(user);
                 await _context.SaveChangesAsync();
-                authenticationModel.RefreshToken = refreshToken.Token;
-                authenticationModel.RefreshTokenExpiration = refreshToken.Expires;
+                authResponseDto.RefreshToken = refreshToken.Token;
+                authResponseDto.RefreshTokenExpiration = refreshToken.Expires;
             }
 
-            authenticationModel.Message = "Token Created Properly.";
-            return authenticationModel;
+            authResponseDto.Message = "Token Created Properly.";
+            return authResponseDto;
         }
 
-        authenticationModel.IsAuthenticated = false;
-        authenticationModel.Message = $"Incorrect Credentials for user {user.Email}.";
-        return authenticationModel;
+        authResponseDto.IsAuthenticated = false;
+        authResponseDto.Message = $"Incorrect Credentials for user {user.Email}.";
+        return authResponseDto;
     }
 
     public async Task<string> AddRoleAsync(AddRoleDto dto)
