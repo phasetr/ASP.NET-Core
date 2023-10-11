@@ -12,7 +12,7 @@ using NSubstitute;
 using Service.Services;
 using Test.Unit.FakesSqlite;
 
-namespace Test.Unit.WebApi.Service.Service;
+namespace Test.Unit.Service;
 
 public partial class UserServiceTests : SqliteMemoryBase
 {
