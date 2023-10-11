@@ -43,7 +43,10 @@ public class UserController : ControllerBase
     [HttpGet]
     public IActionResult GetAsync()
     {
-        return Ok("This is the user controller!");
+        return Ok(new ResponseBaseDto
+        {
+            Message = "This is the user controller!"
+        });
     }
 
     [HttpPost(ApiPath.V1UserGetToken)]

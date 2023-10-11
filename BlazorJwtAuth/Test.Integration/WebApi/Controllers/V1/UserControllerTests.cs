@@ -25,11 +25,11 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.GetAsync(ApiPath.V1User);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var result = await response.Content.ReadAsStringAsync();
+        var result = await response.Content.ReadFromJsonAsync<ResponseBaseDto>();
 
         // レスポンスを確認
-        Assert.NotEmpty(result);
-        Assert.Equal("This is the user controller!", result);
+        Assert.NotNull(result);
+        Assert.Equal("This is the user controller!", result.Message);
     }
 
     [Fact]
