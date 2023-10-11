@@ -167,24 +167,24 @@ public class UserService : IUserService
 
     public async Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken)
     {
-        var authenticationModel = new AuthenticationResponseDto();
+        var authResponseDto = new AuthenticationResponseDto();
         var user = _context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
             .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == requestRefreshToken));
         if (user == null)
         {
-            authenticationModel.IsAuthenticated = false;
-            authenticationModel.Message = "Token did not match any users.";
-            return authenticationModel;
+            authResponseDto.IsAuthenticated = false;
+            authResponseDto.Message = "Token did not match any users.";
+            return authResponseDto;
         }
 
         var oldRefreshToken = user.RefreshTokens.Single(x => x.Token == requestRefreshToken);
 
         if (!oldRefreshToken.IsActive)
         {
-            authenticationModel.IsAuthenticated = false;
-            authenticationModel.Message = "Token Not Active.";
-            return authenticationModel;
+            authResponseDto.IsAuthenticated = false;
+            authResponseDto.Message = "Token Not Active.";
+            return authResponseDto;
         }
 
         // Revoke Current Refresh Token
@@ -197,17 +197,17 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
 
         // Generates new jwt
-        authenticationModel.IsAuthenticated = true;
+        authResponseDto.IsAuthenticated = true;
         var jwtSecurityToken = await CreateJwtToken(user);
-        authenticationModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        authenticationModel.Email = user.Email;
-        authenticationModel.UserName = user.UserName;
+        authResponseDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+        authResponseDto.Email = user.Email;
+        authResponseDto.UserName = user.UserName;
         var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-        authenticationModel.Roles = rolesList.ToList<string>();
-        authenticationModel.RefreshToken = newRefreshToken.Token;
-        authenticationModel.RefreshTokenExpiration = newRefreshToken.Expires;
-        authenticationModel.Message = "Token Refreshed Properly.";
-        return authenticationModel;
+        authResponseDto.Roles = rolesList.ToList<string>();
+        authResponseDto.RefreshToken = newRefreshToken.Token;
+        authResponseDto.RefreshTokenExpiration = newRefreshToken.Expires;
+        authResponseDto.Message = "Token Refreshed Properly.";
+        return authResponseDto;
     }
 
     public async Task<bool> RevokeTokenAsync(string token)
