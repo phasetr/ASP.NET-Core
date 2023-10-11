@@ -1,3 +1,4 @@
+using Common.Constants;
 using Common.DataContext.Data;
 using Common.Dto;
 using Common.EntityModels.Entities;
@@ -46,5 +47,17 @@ public partial class UserServiceTests
 
         Assert.NotNull(result);
         Assert.Equal($"User Registered with username {user.UserName}", result.Message);
+
+        // ロールの確認
+        var registeredUser = context.ApplicationUsers.FirstOrDefault(x => x.UserName == user.UserName);
+        Assert.NotNull(registeredUser);
+        var roleIds = context.ApplicationUserRoles
+            .Where(x => x.UserId == registeredUser.Id)
+            .Select(x => x.RoleId).ToList();
+        Assert.NotEmpty(roleIds);
+        Assert.Single(roleIds);
+        var role = context.ApplicationRoles.FirstOrDefault(x => x.Id == roleIds[0]);
+        Assert.NotNull(role);
+        Assert.Equal(Authorization.DefaultRole.ToString(), role.Name);
     }
 }
