@@ -82,7 +82,7 @@ public class UserController : ControllerBase
     [HttpPost(ApiPath.V1UserRefreshTokens + "/{id}")]
     public async Task<IActionResult> GetRefreshTokensAsync(string id)
     {
-        var user = await _userService.GetByIdAsync(id);
+        var user = await _userManager.FindByIdAsync(id);
         if (user is null) return NotFound();
         return Ok(user.RefreshTokens);
     }
