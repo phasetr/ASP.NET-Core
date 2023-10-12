@@ -38,7 +38,6 @@ public partial class UserServiceTests
         var dto = new AddRoleDto
         {
             Email = Authorization.DefaultEmail,
-            Password = Authorization.DefaultPassword,
             Role = Authorization.Roles.Administrator.ToString()
         };
 
@@ -60,7 +59,6 @@ public partial class UserServiceTests
         var dto = new AddRoleDto
         {
             Email = Authorization.DefaultEmail,
-            Password = Authorization.DefaultPassword,
             Role = Authorization.Roles.Administrator.ToString()
         };
 
@@ -68,7 +66,7 @@ public partial class UserServiceTests
 
         Assert.Equal($"No Accounts Registered with {dto.Email}.", result);
     }
-    
+
     [Fact]
     public async Task AddRoleAsync_Failure_NoRole()
     {
@@ -95,12 +93,11 @@ public partial class UserServiceTests
         var dto = new AddRoleDto
         {
             Email = Authorization.DefaultEmail,
-            Password = Authorization.DefaultPassword,
             Role = "NoRole"
         };
 
         var result = await _sut.AddRoleAsync(dto);
 
-        Assert.Equal($"Role NoRole not found.", result);
+        Assert.Equal("Role NoRole not found.", result);
     }
 }
