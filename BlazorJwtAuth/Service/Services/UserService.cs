@@ -138,9 +138,7 @@ public class UserService : IUserService
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null) return $"No Accounts Registered with {dto.Email}.";
-        if (!await _userManager.CheckPasswordAsync(user, dto.Password))
-            return $"Incorrect Credentials for user {user.Email}.";
-        var roleExists = Enum.GetNames(typeof(Authorization.Roles)).Any(x => x.ToLower() == dto.Role.ToLower());
+        var roleExists = Enum.GetNames(typeof(Authorization.Roles)).Any(x => x.ToLower().Equals(dto.Role.ToLower()));
 
         if (!roleExists) return $"Role {dto.Role} not found.";
         {

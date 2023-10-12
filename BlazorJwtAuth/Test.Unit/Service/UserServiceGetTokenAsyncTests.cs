@@ -31,7 +31,9 @@ public partial class UserServiceTests : SqliteMemoryBase
     {
         var context = new ApplicationDbContextFakeSqliteBuilder().Build();
         var userStore = new UserStore<ApplicationUser>(context);
-        var userManager = new UserManager<ApplicationUser>(userStore, null, null, null, null, null, null, null, null);
+        var passwordHasher = new PasswordHasher<ApplicationUser>();
+        var userManager =
+            new UserManager<ApplicationUser>(userStore, null, passwordHasher, null, null, null, null, null, null);
         var mockLogger = Substitute.For<ILogger<UserService>>();
         var mockApplicationRoleLogger = Substitute.For<ILogger<ApplicationRoleService>>();
         var applicationRoleService = new ApplicationRoleService(context, mockApplicationRoleLogger);
