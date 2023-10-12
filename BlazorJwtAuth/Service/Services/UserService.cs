@@ -45,29 +45,15 @@ public class UserService : IUserService
                 UserName = dto.Username ?? "",
                 Email = dto.Email,
                 FirstName = dto.FirstName ?? "",
-                LastName = dto.LastName ?? "",
-                SecurityStamp = Guid.NewGuid().ToString()
+                LastName = dto.LastName ?? ""
             };
-            var userWithSameEmail = await _userManager.FindByEmailAsync(dto.Email);
-
-            if (userWithSameEmail != null)
-                return new UserRegisterResponseDto
-                {
-                    Message = $"Email {user.Email} is already registered.",
-                    Succeeded = false,
-                    Errors = new List<string>
-                    {
-                        $"Email {user.Email} is already registered."
-                    }
-                };
-
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
                 return new UserRegisterResponseDto
                 {
                     Message = "User Registration Failed.",
                     Succeeded = false,
-                    Errors = result.Errors.Select(x => x.ToString() ?? "")
+                    Errors = result.Errors.Select(x => x.Description ?? "")
                 };
             var roleResult =
                 await _applicationRoleService.AddRoleToUserAsync(user, Authorization.DefaultRole.ToString());
@@ -76,7 +62,7 @@ public class UserService : IUserService
                 {
                     Message = "User Registration Failed.",
                     Succeeded = false,
-                    Errors = new List<string> {roleResult.Message}
+                    Errors = roleResult.Errors.Select(x => x.ToString())
                 };
             return new UserRegisterResponseDto
             {
@@ -91,8 +77,8 @@ public class UserService : IUserService
             _logger.LogError("{E}", e.StackTrace);
             return new UserRegisterResponseDto
             {
-                Errors = new List<string> {"Some error occurs in the server."},
-                Message = "Some error occurs in the server.",
+                Errors = new List<string> {e.Message},
+                Message = e.Message,
                 Succeeded = false
             };
         }
