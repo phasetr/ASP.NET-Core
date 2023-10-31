@@ -1,0 +1,26 @@
+﻿@page "/movies/{Id:int}"
+@using Common.Models
+<DataForm ApiPath="movie" Id="Id" TModel="MovieModel" Context="model">
+  <p>
+    <label>Name: <InputText @bind-Value="model.Name"/></label>
+  </p>
+  <p>
+    <label>Year: <InputNumber @bind-Value="model.Year"/></label>
+  </p>
+  <p>
+    <label>Description: <InputText @bind-Value="model.Description"/></label>
+  </p>
+  <p>
+    <label>Director Id: <InputNumber @bind-Value="model.DirectorId"/></label>
+  </p>
+  <p>
+    <label>Music Composer Id: <InputNumber @bind-Value="model.MusicComposerId"/></label>
+  </p>
+</DataForm>
+
+@code {
+
+  [Parameter]
+  public int Id { get; set; }
+
+}

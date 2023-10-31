@@ -1,7 +1,13 @@
 # README
 
 - [Original](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205/End%20of%20Chapter/SportsSln)
+- [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
 - ストア用と認証用でデータベースが二つある.
+- `DB`: `docker`で`PostgreSQL`利用
+- ある程度の規模があるサンプルプロジェクト
+- テストも書いてある
+- [ページネーション](https://www.mikesdotnetting.com/article/328/simple-paging-in-asp-net-core-razor-pages)
+  - `Pages/List.cshtml`, `Shared/Components/Pager.cshtml`
 
 ## サイト
 

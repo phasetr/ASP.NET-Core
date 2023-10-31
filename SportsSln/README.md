@@ -1,6 +1,8 @@
 # README
 
 - [Original](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205/End%20of%20Chapter/SportsSln)
+- [Pro ASP.NET Core 6, 2022](https://github.com/Apress/pro-asp.net-core-6/tree/main/11%20-%20SportsStore%20-%205)のサンプルコード
+    - `SportsSlnOrig`を修正していろいろテスト・確認
 - ストア用と認証用でデータベースが二つある.
 
 ## サイト
