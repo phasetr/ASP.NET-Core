@@ -1,0 +1,19 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - curl -sSL https://dot.net/v1/dotnet-install.sh > dotnet-install.sh
+        - chmod +x *.sh
+        - ./dotnet-install.sh -c 7.0 -InstallDir ./dotnet7
+        - ./dotnet7/dotnet --version
+    build:
+      commands:
+        - cd ./AmplifyBlazorSimple
+        - ../dotnet7/dotnet publish -c Release -o release
+  artifacts:
+    baseDirectory: /AmplifyBlazorSimple/release/wwwroot
+    files:
+      - '**/*'
+  cache:
+    paths: []

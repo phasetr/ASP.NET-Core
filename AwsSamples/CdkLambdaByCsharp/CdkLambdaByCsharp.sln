@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E14FAC8-5AE7-40FB-957B-51735304F83C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkLambdaByCsharp", "src\CdkLambdaByCsharp\CdkLambdaByCsharp.csproj", "{9B30C03C-19CE-4FEF-A953-EAC436810688}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda", "lambda", "{46839E3B-F6F5-415D-9D07-BE92EA376D71}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{41C96BF7-D3E5-4385-9619-00DB77B0A97D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionOne", "lambda\src\FunctionOne\FunctionOne.csproj", "{CD76B249-EF7C-417D-8F63-EFE4AA29DF15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionThree", "lambda\src\FunctionThree\FunctionThree.csproj", "{AEFB3619-894A-4558-8672-01D19FF2DC14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionTwo", "lambda\src\FunctionTwo\FunctionTwo.csproj", "{D2AA2157-4108-48A9-BE60-20DF88CDD57A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9B30C03C-19CE-4FEF-A953-EAC436810688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B30C03C-19CE-4FEF-A953-EAC436810688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B30C03C-19CE-4FEF-A953-EAC436810688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B30C03C-19CE-4FEF-A953-EAC436810688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD76B249-EF7C-417D-8F63-EFE4AA29DF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD76B249-EF7C-417D-8F63-EFE4AA29DF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD76B249-EF7C-417D-8F63-EFE4AA29DF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD76B249-EF7C-417D-8F63-EFE4AA29DF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEFB3619-894A-4558-8672-01D19FF2DC14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEFB3619-894A-4558-8672-01D19FF2DC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEFB3619-894A-4558-8672-01D19FF2DC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEFB3619-894A-4558-8672-01D19FF2DC14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2AA2157-4108-48A9-BE60-20DF88CDD57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AA2157-4108-48A9-BE60-20DF88CDD57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AA2157-4108-48A9-BE60-20DF88CDD57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AA2157-4108-48A9-BE60-20DF88CDD57A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B30C03C-19CE-4FEF-A953-EAC436810688} = {1E14FAC8-5AE7-40FB-957B-51735304F83C}
+		{41C96BF7-D3E5-4385-9619-00DB77B0A97D} = {46839E3B-F6F5-415D-9D07-BE92EA376D71}
+		{CD76B249-EF7C-417D-8F63-EFE4AA29DF15} = {41C96BF7-D3E5-4385-9619-00DB77B0A97D}
+		{AEFB3619-894A-4558-8672-01D19FF2DC14} = {41C96BF7-D3E5-4385-9619-00DB77B0A97D}
+		{D2AA2157-4108-48A9-BE60-20DF88CDD57A} = {41C96BF7-D3E5-4385-9619-00DB77B0A97D}
+	EndGlobalSection
+EndGlobal

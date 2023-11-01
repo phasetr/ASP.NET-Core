@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  web:
+    ports:
+      - "80:8000"
+    build: .
+    volumes:
+      - .:/code

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi", "ServerlessApi\ServerlessApi.csproj", "{E0FFF685-D0C5-410B-B42C-523972D4942F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor\Blazor.csproj", "{E8C549F5-6712-43E0-BF75-8BDD5AD90625}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkSamBlazorAspNetCoreDynamoDb", "Cdk\CdkSamBlazorAspNetCoreDynamoDb.csproj", "{1D244C66-130A-455C-B067-B54761DAD825}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{21E40260-4446-46F7-A6F1-349399D99F33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi.Service", "ServerlessApi.Service\ServerlessApi.Service.csproj", "{9B6FB446-3322-4DD2-898B-8D26EF36FAEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{13C481F4-3F72-4B2B-A80F-151A5AD8FF1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi.Tests.Unit", "ServerlessApi.Tests.Unit\ServerlessApi.Tests.Unit.csproj", "{7122040C-40C4-4D5A-A609-FE40BCC7866E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0FFF685-D0C5-410B-B42C-523972D4942F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0FFF685-D0C5-410B-B42C-523972D4942F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0FFF685-D0C5-410B-B42C-523972D4942F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0FFF685-D0C5-410B-B42C-523972D4942F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C549F5-6712-43E0-BF75-8BDD5AD90625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C549F5-6712-43E0-BF75-8BDD5AD90625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C549F5-6712-43E0-BF75-8BDD5AD90625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C549F5-6712-43E0-BF75-8BDD5AD90625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D244C66-130A-455C-B067-B54761DAD825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D244C66-130A-455C-B067-B54761DAD825}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D244C66-130A-455C-B067-B54761DAD825}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D244C66-130A-455C-B067-B54761DAD825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21E40260-4446-46F7-A6F1-349399D99F33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E40260-4446-46F7-A6F1-349399D99F33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E40260-4446-46F7-A6F1-349399D99F33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E40260-4446-46F7-A6F1-349399D99F33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6FB446-3322-4DD2-898B-8D26EF36FAEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6FB446-3322-4DD2-898B-8D26EF36FAEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6FB446-3322-4DD2-898B-8D26EF36FAEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6FB446-3322-4DD2-898B-8D26EF36FAEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C481F4-3F72-4B2B-A80F-151A5AD8FF1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C481F4-3F72-4B2B-A80F-151A5AD8FF1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C481F4-3F72-4B2B-A80F-151A5AD8FF1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C481F4-3F72-4B2B-A80F-151A5AD8FF1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7122040C-40C4-4D5A-A609-FE40BCC7866E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7122040C-40C4-4D5A-A609-FE40BCC7866E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7122040C-40C4-4D5A-A609-FE40BCC7866E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7122040C-40C4-4D5A-A609-FE40BCC7866E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

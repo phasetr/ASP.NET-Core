@@ -1,0 +1,54 @@
+# The manifest for the "apr-django-web" service.
+# Read the full specification for the "Request-Driven Web Service" type at:
+# https://aws.github.io/copilot-cli/ja/docs/manifest/rd-web-service/
+
+# Your service name will be used in naming your resources like log groups, App Runner services, etc.
+name: apr-django-web
+# The "architecture" of the service you're running.
+type: Request-Driven Web Service
+
+image:
+  # Docker build arguments.
+  # For additional overrides: https://aws.github.io/copilot-cli/docs/manifest/rd-web-service/#image-build
+  build: Dockerfile
+  # Port exposed through your container to route traffic to it.
+  port: 8000
+
+http:
+  healthcheck:
+    path: "/"
+    port: 8000
+    healthy_threshold: 2
+    unhealthy_threshold: 2
+    interval: 6s
+    timeout: 5s
+    grace_period: 5s
+  deregistration_delay: 5s
+
+# Number of CPU units for the task.
+cpu: 1024
+# Amount of memory in MiB used by the task.
+memory: 2048
+
+# Connect your App Runner service to your environment's VPC.
+network:
+  vpc:
+    placement: private
+
+# Enable tracing for the service.
+# observability:
+#   tracing: awsxray
+
+# Optional fields for more advanced use-cases.
+#
+# variables:                    # Pass environment variables as key value pairs.
+#   LOG_LEVEL: info
+#
+# tags:                         # Pass tags as key value pairs.
+#   project: project-name
+
+# You can override any of the values defined above by environment.
+# environments:
+#   test:
+#     variables:
+#       LOG_LEVEL: debug        # Log level for the "test" environment.

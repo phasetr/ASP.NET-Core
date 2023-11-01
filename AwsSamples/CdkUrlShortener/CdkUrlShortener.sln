@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lambda", "lambda", "{CD6C8F70-71C5-4599-BF05-2C9057780FE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Function", "lambda\Function\Function.csproj", "{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{06652A35-864F-4105-8E73-47BB2E219E97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkUrlShortener", "src\CdkUrlShortener\CdkUrlShortener.csproj", "{0101499F-4974-4F75-8112-BC36073DF2B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0101499F-4974-4F75-8112-BC36073DF2B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0101499F-4974-4F75-8112-BC36073DF2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0101499F-4974-4F75-8112-BC36073DF2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0101499F-4974-4F75-8112-BC36073DF2B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B9D1E923-BAA0-41AB-ACFA-C5CCBCCF480F} = {CD6C8F70-71C5-4599-BF05-2C9057780FE4}
+		{0101499F-4974-4F75-8112-BC36073DF2B0} = {06652A35-864F-4105-8E73-47BB2E219E97}
+	EndGlobalSection
+EndGlobal

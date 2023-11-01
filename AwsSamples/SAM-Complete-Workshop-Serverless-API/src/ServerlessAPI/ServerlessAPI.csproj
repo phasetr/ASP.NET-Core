@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+    <!-- Generate ready to run images during publishing to improvement cold starts. -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.0.0"/>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.3.7"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ServerlessAPI.Tests"/>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Remove="docker\**"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="docker\**"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="docker\**"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="docker\**"/>
+  </ItemGroup>
+
+</Project>

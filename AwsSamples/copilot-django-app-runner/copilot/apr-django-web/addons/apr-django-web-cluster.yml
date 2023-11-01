@@ -1,0 +1,147 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+  Name:
+    Type: String
+    Description: The name of the service, job, or workflow being deployed.
+  ServiceSecurityGroupId:
+    Type: String
+    Description: The security group associated with the VPC connector.
+  # Customize your Aurora Serverless cluster by setting the default value of the following parameters.
+  aprdjangowebclusterDBName:
+    Type: String
+    Description: The name of the initial database to be created in the Aurora Serverless v2 cluster.
+    Default: mydb
+    # Cannot have special characters
+    # Naming constraints: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.Constraints
+Mappings:
+  aprdjangowebclusterEnvScalingConfigurationMap:
+    test:
+      "DBMinCapacity": 0.5 # AllowedValues: from 0.5 through 128
+      "DBMaxCapacity": 8   # AllowedValues: from 0.5 through 128
+
+    All:
+      "DBMinCapacity": 0.5 # AllowedValues: from 0.5 through 128
+      "DBMaxCapacity": 8   # AllowedValues: from 0.5 through 128
+
+Resources:
+  aprdjangowebclusterDBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: Group of Copilot private subnets for Aurora Serverless v2 cluster.
+      SubnetIds:
+        !Split [',', { 'Fn::ImportValue': !Sub '${App}-${Env}-PrivateSubnets' }]
+  aprdjangowebclusterDBClusterSecurityGroup:
+    Metadata:
+      'aws:copilot:description': 'A security group for your Aurora Serverless v2 cluster aprdjangowebcluster'
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: The Security Group for the Aurora Serverless v2 cluster.
+      SecurityGroupIngress:
+        - ToPort: 5432
+          FromPort: 5432
+          IpProtocol: tcp
+          Description: !Sub 'From the Aurora Security Group of the workload ${Name}.'
+          SourceSecurityGroupId: !Ref ServiceSecurityGroupId
+        - ToPort: 5432
+          FromPort: 5432
+          IpProtocol: tcp
+          Description: 'Access to environment security group'
+          SourceSecurityGroupId: { 'Fn::ImportValue': !Sub '${App}-${Env}-EnvironmentSecurityGroup' }
+      VpcId:
+        Fn::ImportValue:
+          !Sub '${App}-${Env}-VpcId'
+      Tags:
+        - Key: Name
+          Value: !Sub 'copilot-${App}-${Env}-${Name}-Aurora'
+
+  aprdjangowebclusterAuroraSecret:
+    Metadata:
+      'aws:copilot:description': 'A Secrets Manager secret to store your DB credentials'
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: !Sub Aurora main user secret for ${AWS::StackName}
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "postgres"}'
+        GenerateStringKey: "password"
+        ExcludePunctuation: true
+        IncludeSpace: false
+        PasswordLength: 16
+
+  aprdjangowebclusterAuroraSecretAccessPolicy:
+    Metadata:
+      'aws:copilot:description': 'An IAM ManagedPolicy for your service to access the DB credentials secret'
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: !Sub
+        - Grants read access to the ${Secret} secret
+        - { Secret: !Ref aprdjangowebclusterAuroraSecret }
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: SecretActions
+            Effect: Allow
+            Action:
+              - 'secretsmanager:GetSecretValue'
+            Resource:
+              - !Ref aprdjangowebclusterAuroraSecret
+  aprdjangowebclusterDBClusterParameterGroup:
+    Metadata:
+      'aws:copilot:description': 'A DB parameter group for engine configuration values'
+    Type: 'AWS::RDS::DBClusterParameterGroup'
+    Properties:
+      Description: !Ref 'AWS::StackName'
+      Family: 'aurora-postgresql14'
+      Parameters:
+        client_encoding: 'UTF8'
+  aprdjangowebclusterDBCluster:
+    Metadata:
+      'aws:copilot:description': 'The aprdjangowebcluster Aurora Serverless v2 database cluster'
+    Type: 'AWS::RDS::DBCluster'
+    Properties:
+      MasterUsername:
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref aprdjangowebclusterAuroraSecret, ":SecretString:username}}" ]]
+      MasterUserPassword:
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref aprdjangowebclusterAuroraSecret, ":SecretString:password}}" ]]
+      DatabaseName: !Ref aprdjangowebclusterDBName
+      Engine: 'aurora-postgresql'
+      EngineVersion: '14.4'
+      DBClusterParameterGroupName: !Ref aprdjangowebclusterDBClusterParameterGroup
+      DBSubnetGroupName: !Ref aprdjangowebclusterDBSubnetGroup
+      Port: 5432
+      VpcSecurityGroupIds:
+        - !Ref aprdjangowebclusterDBClusterSecurityGroup
+      ServerlessV2ScalingConfiguration:
+        # Replace "All" below with "!Ref Env" to set different autoscaling limits per environment.
+        MinCapacity: !FindInMap [aprdjangowebclusterEnvScalingConfigurationMap, All, DBMinCapacity]
+        MaxCapacity: !FindInMap [aprdjangowebclusterEnvScalingConfigurationMap, All, DBMaxCapacity]
+  aprdjangowebclusterDBWriterInstance:
+    Metadata:
+      'aws:copilot:description': 'The aprdjangowebcluster Aurora Serverless v2 writer instance'
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBClusterIdentifier: !Ref aprdjangowebclusterDBCluster
+      DBInstanceClass: db.serverless
+      Engine: 'aurora-postgresql'
+      PromotionTier: 1
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs
+          Ref: AWS::Region
+  aprdjangowebclusterSecretAuroraClusterAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId: !Ref aprdjangowebclusterAuroraSecret
+      TargetId: !Ref aprdjangowebclusterDBCluster
+      TargetType: AWS::RDS::DBCluster
+Outputs:
+  aprdjangowebclusterAuroraSecretAccessPolicy: # Automatically augment your instance role with this managed policy.
+    Description: "Add the IAM ManagedPolicy to your instance role"
+    Value: !Ref aprdjangowebclusterAuroraSecretAccessPolicy
+  aprdjangowebclusterSecret: # Inject this secret ARN in your manifest file.
+    Description: "The secret ARN that holds the database username and password in JSON format. Fields are 'host', 'port', 'dbname', 'username', 'password', 'dbClusterIdentifier' and 'engine'"
+    Value: !Ref aprdjangowebclusterAuroraSecret
