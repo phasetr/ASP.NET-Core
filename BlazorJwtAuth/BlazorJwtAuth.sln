@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit", "Test.Unit\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{B186FA5F-6BF6-40C0-BB29-A655709B9C23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAuth0", "ClientAuth0\ClientAuth0.csproj", "{A2B15821-73BA-4432-81D3-7052FA79CD99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiAuth0", "WebApiAuth0\WebApiAuth0.csproj", "{79DA9BC4-67D2-4299-BD30-2AF440777789}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +70,13 @@ Global
 		{B186FA5F-6BF6-40C0-BB29-A655709B9C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B186FA5F-6BF6-40C0-BB29-A655709B9C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B186FA5F-6BF6-40C0-BB29-A655709B9C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2B15821-73BA-4432-81D3-7052FA79CD99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2B15821-73BA-4432-81D3-7052FA79CD99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2B15821-73BA-4432-81D3-7052FA79CD99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2B15821-73BA-4432-81D3-7052FA79CD99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

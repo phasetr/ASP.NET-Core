@@ -1,4 +1,4 @@
-namespace Client.Helpers;
+namespace Common.Helpers;
 
 public class AppSettings
 {
