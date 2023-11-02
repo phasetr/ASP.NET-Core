@@ -8,10 +8,18 @@ using ServerlessApi.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Logger
-builder.Logging
-    .ClearProviders()
-    .AddJsonConsole();
+// Logger
+builder.Logging.ClearProviders().AddJsonConsole();
+
+// CORS設定
+var clientUrl = builder.Configuration["ClientUrl"];
+builder.Services.AddCors(o => o.AddPolicy(clientUrl, corsPolicyBuilder =>
+{
+    corsPolicyBuilder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
 
 // Add services to the container.
 builder.Services
@@ -24,9 +32,8 @@ var amazonDynamoDbConfig = new AmazonDynamoDBConfig
     RegionEndpoint = RegionEndpoint.GetBySystemName(region)
 };
 // 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
-if (builder.Environment.IsDevelopment())
-    // `ServiceURL`は`compose.yml`で設定
-    amazonDynamoDbConfig.ServiceURL = "http://localhost:8000";
+// `ServiceURL`は`compose.yml`で設定
+if (builder.Environment.IsDevelopment()) amazonDynamoDbConfig.ServiceURL = "http://localhost:8000";
 // デバッグ用
 // Console.WriteLine($"DynamoDB Region: {region}");
 // Console.WriteLine($"DynamoDB ServiceURL: {amazonDynamoDbConfig.ServiceURL}");
@@ -57,6 +64,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(clientUrl);
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
