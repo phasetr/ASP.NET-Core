@@ -1,9 +1,11 @@
 using Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiAuth0.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
 public class QuizController : ControllerBase
 {

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // CORS設定
@@ -11,6 +13,18 @@ builder.Services.AddCors(o => o.AddPolicy(clientUrl, corsPolicyBuilder =>
 }));
 
 // Add services to the container.
+// Auth0 & JWT
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
+    {
+        c.Authority = builder.Configuration["Auth0:Authority"];
+        c.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidAudience = builder.Configuration["Auth0:Audience"],
+            ValidIssuer = builder.Configuration["Auth0:Issuer"]
+        };
+    });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,6 +43,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseCors(clientUrl);
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

@@ -15,6 +15,10 @@
 - 結合テストの参考ページ: [ASP.NET Core で Web API の結合テストをしよう](https://qiita.com/okazuki/items/cbda6c456dcba8fee503) 
 - 参考：Blazor向け認証, [The bullshit-less ASP.NET Blazor WASM JWT authentication tutorial from the ground up.](https://www.reddit.com/r/csharp/comments/u6n8nz/the_bullshitless_aspnet_blazor_wasm_jwt/)
 - Auth0認証実装：[Securing Blazor WebAssembly Apps](https://auth0.com/blog/securing-blazor-webassembly-apps/)
+    - `ClientAuth0`と`WebApiAuth0`で実装している
+    - クライアント側は`Auth0`で認証できている
+    - `TODO`: `Blazor`から`WebApi`にアクセスするときに正しく認証が通らない
+    - `TODO`: [公式ページ](https://auth0.com/blog/how-to-validate-jwt-dotnet/)によると`.NET7`以降だともっとシンプルに書ける模様
 
 ## データベース初期化
 

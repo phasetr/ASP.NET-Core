@@ -1,5 +1,7 @@
 @page "/QuizViewer"
 @using Common.Models
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
 @inject HttpClient Http
 
 <h2>Take your quiz!</h2>
@@ -50,7 +52,14 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _quiz = await Http.GetFromJsonAsync<List<QuizItem>>("Quiz");
+    try
+    {
+      _quiz = await Http.GetFromJsonAsync<List<QuizItem>>("Quiz");
+    }
+    catch (AccessTokenNotAvailableException ex)
+    {
+      ex.Redirect();
+    }
   }
 
   void UpdateScore(int chosenAnswerIndex, int quizIndex)
