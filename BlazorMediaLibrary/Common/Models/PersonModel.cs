@@ -9,6 +9,5 @@ public class PersonModel : IModel
     public string Biography { get; set; } = string.Empty;
     public int[] MoviesIds { get; set; } = Array.Empty<int>();
     public int Id { get; set; }
-
     [Required] public string Name { get; set; } = string.Empty;
 }
