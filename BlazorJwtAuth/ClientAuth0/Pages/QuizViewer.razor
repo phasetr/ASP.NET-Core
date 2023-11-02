@@ -1,0 +1,71 @@
+@page "/QuizViewer"
+@using Common.Models
+@inject HttpClient Http
+
+<h2>Take your quiz!</h2>
+<p>Your current score is @_currentScore</p>
+
+@if (_quiz == null)
+{
+  <p>
+    <em>Loading...</em>
+  </p>
+}
+else
+{
+  var quizIndex = 0;
+  @foreach (var quizItem in _quiz)
+  {
+    <section>
+      <h3>@quizItem.Question</h3>
+      <div class="form-check">
+        @{
+          var choiceIndex = 0;
+          _quizScores.Add(0);
+        }
+        @foreach (var choice in quizItem.Choices)
+        {
+          var currentQuizIndex = quizIndex;
+          <input class="form-check-input"
+                 type="radio"
+                 name="@quizIndex"
+                 value="@choiceIndex"
+                 @onchange="@(eventArgs => UpdateScore(Convert.ToInt32(eventArgs.Value), currentQuizIndex))"/>
+          @choice
+          <br>
+
+          choiceIndex++;
+        }
+      </div>
+    </section>
+
+    quizIndex++;
+  }
+}
+
+@code {
+  List<QuizItem>? _quiz = new();
+  readonly List<int> _quizScores = new();
+  int _currentScore;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _quiz = await Http.GetFromJsonAsync<List<QuizItem>>("Quiz");
+  }
+
+  void UpdateScore(int chosenAnswerIndex, int quizIndex)
+  {
+    var quizItem = _quiz?[quizIndex];
+
+    if (quizItem != null && chosenAnswerIndex == quizItem.AnswerIndex)
+    {
+      _quizScores[quizIndex] = quizItem.Score;
+    }
+    else
+    {
+      _quizScores[quizIndex] = 0;
+    }
+    _currentScore = _quizScores.Sum();
+  }
+
+}

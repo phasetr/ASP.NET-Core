@@ -1,4 +1,4 @@
-using Client.Helpers;
+using Common.Helpers;
 
 namespace Test.Client.Unit.Helpers;
 
