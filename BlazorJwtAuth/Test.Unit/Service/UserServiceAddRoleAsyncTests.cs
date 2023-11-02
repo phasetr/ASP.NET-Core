@@ -1,6 +1,6 @@
 using Common.Constants;
 using Common.Dto;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

@@ -1,5 +1,5 @@
 using Common.Constants;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

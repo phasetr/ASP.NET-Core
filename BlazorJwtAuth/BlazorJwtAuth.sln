@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataContext", "Common.DataContext\Common.DataContext.csproj", "{EDB7B9C1-255E-43E2-AB62-DD3417A422DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.EntityModels", "Common.EntityModels\Common.EntityModels.csproj", "{71AB2097-EE6F-481C-AFF3-481B4CD6285E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{04175080-45BE-4D6E-8ED5-A37205434527}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Client.Unit", "Test.Client.Unit\Test.Client.Unit.csproj", "{A4FAFFE8-550F-4326-8733-DA5867EBCC57}"
@@ -46,10 +44,6 @@ Global
 		{EDB7B9C1-255E-43E2-AB62-DD3417A422DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDB7B9C1-255E-43E2-AB62-DD3417A422DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDB7B9C1-255E-43E2-AB62-DD3417A422DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71AB2097-EE6F-481C-AFF3-481B4CD6285E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71AB2097-EE6F-481C-AFF3-481B4CD6285E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71AB2097-EE6F-481C-AFF3-481B4CD6285E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71AB2097-EE6F-481C-AFF3-481B4CD6285E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04175080-45BE-4D6E-8ED5-A37205434527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04175080-45BE-4D6E-8ED5-A37205434527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04175080-45BE-4D6E-8ED5-A37205434527}.Release|Any CPU.ActiveCfg = Release|Any CPU

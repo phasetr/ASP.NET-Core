@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Common.DataContext\Common.DataContext.csproj"/>
     <ProjectReference Include="..\Common\Common.csproj"/>
-    <ProjectReference Include="..\Common.EntityModels\Common.EntityModels.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Common.DataContext.Data.Configuration;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

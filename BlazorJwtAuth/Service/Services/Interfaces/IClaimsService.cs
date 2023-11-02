@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Common.EntityModels.Entities;
+using Common.Entities;
 
 namespace Service.Services.Interfaces;
 

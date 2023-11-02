@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.Constants;
 using Common.DataContext.Data;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Common.Services;
 using Common.Services.Interfaces;
 using Common.Settings;

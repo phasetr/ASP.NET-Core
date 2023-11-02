@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj"/>
-    <ProjectReference Include="..\Common.EntityModels\Common.EntityModels.csproj"/>
   </ItemGroup>
 
 </Project>

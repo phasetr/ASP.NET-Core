@@ -1,6 +1,6 @@
 using Common.DataContext.Data;
 using Common.Dto;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Microsoft.Extensions.Logging;
 using Service.Services.Interfaces;
 

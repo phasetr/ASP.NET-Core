@@ -1,5 +1,5 @@
 using Common.Dto;
-using Common.EntityModels.Entities;
+using Common.Entities;
 using Common.Services.Interfaces;
 using Common.Settings;
 using Microsoft.AspNetCore.Identity;

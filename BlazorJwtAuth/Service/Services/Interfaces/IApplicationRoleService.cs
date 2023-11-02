@@ -1,5 +1,5 @@
 using Common.Dto;
-using Common.EntityModels.Entities;
+using Common.Entities;
 
 namespace Service.Services.Interfaces;
 

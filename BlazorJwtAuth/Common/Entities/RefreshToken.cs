@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Common.EntityModels.Entities;
+namespace Common.Entities;
 
 public class RefreshToken
 {
