@@ -14,14 +14,14 @@ public class Book
     ///     to learn more visit
     ///     https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/MidLevelAPILimitations.SupportedTypes.html
     /// </summary>
-    [DynamoDBHashKey] //Partition key
+    [DynamoDBHashKey] // Partition key
     public Guid Id { get; set; }
 
     [DynamoDBProperty] public string Title { get; set; } = default!;
 
     [DynamoDBProperty] public string? Isbn { get; set; }
 
-    [DynamoDBProperty] //String Set datatype
+    [DynamoDBProperty] // String Set datatype
     public List<string>? Authors { get; set; }
 
     [DynamoDBIgnore] public string? CoverPage { get; set; }

@@ -22,7 +22,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("add/{x}/{y}")]
     public int Add(int x, int y)
     {
-        _logger.LogInformation($"{x} plus {y} is {x + y}");
+        _logger.LogInformation("{X} plus {Y} is {XY}", x, y, x + y);
         return x + y;
     }
 
@@ -35,7 +35,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("subtract/{x}/{y}")]
     public int Subtract(int x, int y)
     {
-        _logger.LogInformation($"{x} subtract {y} is {x - y}");
+        _logger.LogInformation("{X} subtract {Y} is {XY}", x, y, x - y);
         return x - y;
     }
 
@@ -48,7 +48,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("multiply/{x}/{y}")]
     public int Multiply(int x, int y)
     {
-        _logger.LogInformation($"{x} multiply {y} is {x * y}");
+        _logger.LogInformation("{X} multiply {Y} is {XY}", x, y, x * y);
         return x * y;
     }
 
@@ -61,7 +61,7 @@ public class CalculatorController : ControllerBase
     [HttpGet("divide/{x}/{y}")]
     public int Divide(int x, int y)
     {
-        _logger.LogInformation($"{x} divide {y} is {x / y}");
+        _logger.LogInformation("{X} divide {Y} is {XY}", x, y, x / y);
         return x / y;
     }
 }
