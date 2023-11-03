@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientAuth0", "ClientAuth0\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiAuth0", "WebApiAuth0\WebApiAuth0.csproj", "{79DA9BC4-67D2-4299-BD30-2AF440777789}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiMyBgList", "WebApiMyBgList\WebApiMyBgList.csproj", "{45CD5F08-972B-4916-B0F2-4E08FA864E25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79DA9BC4-67D2-4299-BD30-2AF440777789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45CD5F08-972B-4916-B0F2-4E08FA864E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45CD5F08-972B-4916-B0F2-4E08FA864E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45CD5F08-972B-4916-B0F2-4E08FA864E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45CD5F08-972B-4916-B0F2-4E08FA864E25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
