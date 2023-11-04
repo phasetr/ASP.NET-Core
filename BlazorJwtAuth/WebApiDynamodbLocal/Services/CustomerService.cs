@@ -87,7 +87,7 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            var pk = new Customer().UserNameToPk(userName);
+            var pk = new Customer().ToPk(userName);
             var request = new GetItemRequest
             {
                 TableName = AwsSettings.ECommerceTable,
@@ -117,7 +117,14 @@ public class CustomerService : ICustomerService
                     UserName = item["UserName"].S,
                     Email = item["Email"].S,
                     Name = item["Name"].S,
-                    Addresses = new Dictionary<string, Address>()
+                    Addresses = item["Addresses"].M.ToDictionary(
+                        x => x.Key,
+                        x => new Address
+                        {
+                            StreetAddress = x.Value.M["StreetAddress"].S,
+                            PostalCode = x.Value.M["PostalCode"].S,
+                            Country = x.Value.M["Country"].S
+                        })
                 },
                 Message = "Success",
                 Succeeded = true

@@ -1,7 +1,6 @@
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using WebApiDynamodbLocal.Constants;
-using WebApiDynamodbLocal.Dto;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
@@ -15,63 +14,22 @@ public class Customer : BaseEntity
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public Dictionary<string, Address> Addresses { get; set; } = default!;
 
-    /// <summary>
-    /// TODO: ToPkとToSkを作ろう
-    /// </summary>
-    /// <param name="userName"></param>
-    /// <returns></returns>
-    public string UserNameToPk(string userName)
+    public override string ToPk(string key)
     {
-        return $"{nameof(Customer).ToUpper()}#{userName}";
-        // return $"{EntityName.ToUpper()}#{userName}";
+        return $"{nameof(Customer).ToUpper()}#{key}";
     }
 
-    public override EntityKey Key()
+    public override string ToSk(string key)
     {
-        return new EntityKey
-        {
-            Pk = UserNameToPk(UserName),
-            Sk = UserNameToPk(UserName)
-        };
-    }
-
-    public override BaseEntity ToItem()
-    {
-        var key = Key();
-        return new Customer
-        {
-            Pk = key.Pk,
-            Sk = key.Sk,
-            Type = nameof(Customer),
-            UserName = UserName,
-            Email = Email,
-            Name = Name,
-            Addresses = Addresses
-        };
-    }
-
-    public Dictionary<string, AttributeValue> PostDtoToDynamoDbItem(PostCustomerDto postCustomerDto)
-    {
-        var key = UserNameToPk(postCustomerDto.UserName);
-        return new Dictionary<string, AttributeValue>
-        {
-            {"PK", new AttributeValue(key)},
-            {"SK", new AttributeValue(key)},
-            {"Type", new AttributeValue(nameof(Customer))},
-            {"UserName", new AttributeValue(postCustomerDto.UserName)},
-            {"Email", new AttributeValue(postCustomerDto.Email)},
-            {"Name", new AttributeValue(postCustomerDto.Name)},
-            {"Addresses", new AttributeValue {M = AddressesToDynamoDbItem()}}
-        };
+        return $"{nameof(Customer).ToUpper()}#{key}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
-        var key = Key();
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(key.Pk)},
-            {"SK", new AttributeValue(key.Sk)},
+            {"PK", new AttributeValue(ToPk(UserName))},
+            {"SK", new AttributeValue(ToSk(UserName))},
             {"Type", new AttributeValue(nameof(Customer))},
             {"UserName", new AttributeValue(UserName)},
             {"Email", new AttributeValue(Email)},

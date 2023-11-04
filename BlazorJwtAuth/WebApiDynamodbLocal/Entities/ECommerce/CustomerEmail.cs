@@ -12,38 +12,25 @@ public class CustomerEmail : BaseEntity
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
 
-    public override EntityKey Key()
+    public override string ToPk(string key)
     {
-        return new EntityKey
-        {
-            Pk = $"{EntityName.ToUpper()}#{Email}",
-            Sk = $"{EntityName.ToUpper()}#{Email}"
-        };
+        return $"{nameof(CustomerEmail).ToUpper()}#{key}";
     }
 
-    public override CustomerEmail ToItem()
+    public override string ToSk(string key)
     {
-        var key = Key();
-        return new CustomerEmail
-        {
-            Pk = key.Pk,
-            Sk = key.Sk,
-            Type = EntityName,
-            Email = Email,
-            UserName = UserName
-        };
+        return $"{nameof(CustomerEmail).ToUpper()}#{key}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
-        var key = Key();
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(key.Pk)},
-            {"SK", new AttributeValue(key.Sk)},
+            {"PK", new AttributeValue(ToPk(Email))},
+            {"SK", new AttributeValue(ToSk(Email))},
             {"Type", new AttributeValue(EntityName)},
             {"Email", new AttributeValue(Email)},
-            {"UserName", new AttributeValue(UserName)},
+            {"UserName", new AttributeValue(UserName)}
         };
     }
 }

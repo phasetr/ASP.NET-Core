@@ -53,6 +53,6 @@ public class CustomerController : ControllerBase
         };
         var response = await _customerService.CreateAsync(customer);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = customer.Key().Pk}, response);
+        return CreatedAtAction("Post", new {pk = customer.ToPk(customer.UserName)}, response);
     }
 }
