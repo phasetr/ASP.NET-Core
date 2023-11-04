@@ -38,6 +38,7 @@ public class CustomerService : ICustomerService
                 {
                     Put = new Put
                     {
+                        ConditionExpression = "attribute_not_exists(Id)",
                         Item = customerEmail.ToDynamoDbItem(),
                         TableName = AwsSettings.ECommerceTable
                     }
@@ -46,7 +47,8 @@ public class CustomerService : ICustomerService
                 {
                     Put = new Put
                     {
-                        Item = customerEmail.ToDynamoDbItem(),
+                        ConditionExpression = "attribute_not_exists(Id)",
+                        Item = customer.ToDynamoDbItem(),
                         TableName = AwsSettings.ECommerceTable
                     }
                 }

@@ -28,7 +28,7 @@ public class CustomerEmail : BaseEntity
         {
             Pk = key.Pk,
             Sk = key.Sk,
-            Type = Type,
+            Type = EntityName,
             Email = Email,
             UserName = UserName
         };
@@ -41,9 +41,9 @@ public class CustomerEmail : BaseEntity
         {
             {"PK", new AttributeValue(key.Pk)},
             {"SK", new AttributeValue(key.Sk)},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(EntityName)},
             {"Email", new AttributeValue(Email)},
-            {"UserName", new AttributeValue(UserName)}
+            {"UserName", new AttributeValue(UserName)},
         };
     }
 }
