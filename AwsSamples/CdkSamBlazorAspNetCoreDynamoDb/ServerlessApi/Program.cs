@@ -26,6 +26,7 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(options => { options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; });
 
+// DynamoDB
 var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.USEast2.SystemName;
 var amazonDynamoDbConfig = new AmazonDynamoDBConfig
 {
