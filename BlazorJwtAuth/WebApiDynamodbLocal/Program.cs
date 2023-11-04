@@ -20,27 +20,17 @@ builder.Services.AddCors(o => o.AddPolicy(clientUrl, corsPolicyBuilder =>
 }));
 
 // DynamoDB
-var amazonDynamoDbConfig = new AmazonDynamoDBConfig();
-// 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
-// `ServiceURL`は`compose.yml`で設定
-if (builder.Environment.IsDevelopment())
-{
-    amazonDynamoDbConfig.ServiceURL = "http://localhost:8000";
-    amazonDynamoDbConfig.RegionEndpoint = RegionEndpoint.GetBySystemName("local");
-}
-else
-{
-    var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.USEast2.SystemName;
-    amazonDynamoDbConfig = new AmazonDynamoDBConfig {RegionEndpoint = RegionEndpoint.GetBySystemName(region)};
-}
-
-// デバッグ用
 // Console.WriteLine($"DynamoDB Region: {region}");
 // Console.WriteLine($"DynamoDB ServiceURL: {amazonDynamoDbConfig.ServiceURL}");
-builder.Services
-    .AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig))
-    .AddScoped<IDynamoDBContext, DynamoDBContext>();
-builder.Services.AddScoped<AmazonDynamoDBClient>();
+var dynamoDbConfig = builder.Configuration.GetSection("DynamoDb");
+builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
+{
+    var clientConfig = new AmazonDynamoDBConfig 
+    { 
+        ServiceURL = dynamoDbConfig.GetValue<string>("LocalServiceUrl") 
+    };
+    return new AmazonDynamoDBClient(clientConfig);
+});
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 // Add services to the container.
