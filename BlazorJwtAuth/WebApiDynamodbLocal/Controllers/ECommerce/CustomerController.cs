@@ -22,9 +22,9 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> GetAsync(string userName)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new GetCustomerDto
+            return UnprocessableEntity(new GetResponseCustomerDto
             {
-                Customer = null,
+                CustomerModel = null,
                 Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
                 Message = "Validation Error",
                 Succeeded = false

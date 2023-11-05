@@ -1,7 +1,6 @@
 using System.Net;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Common.Dto;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.ECommerce.Order;
 using WebApiDynamodbLocal.Entities.ECommerce;
@@ -26,14 +25,14 @@ public class OrderService : IOrderService
         _tableName = configuration[AwsSettings.ConfigurationECommerceTable];
     }
 
-    public async Task<ResponseBaseDto> CreateAsync(PostOrderDto postOrderDto)
+    public async Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto, DateTime dateTime)
     {
-        var dateTime = DateTime.UtcNow;
+        var orderId = Order.GenerateOrderId(dateTime);
         var order = new Order
         {
             Type = nameof(Order),
             UserName = postOrderDto.UserName,
-            OrderId = Order.GenerateOrderId(dateTime),
+            OrderId = orderId,
             Address = postOrderDto.Address,
             CreatedAt = dateTime,
             Status = postOrderDto.Status,
@@ -63,7 +62,7 @@ public class OrderService : IOrderService
                         Amount = amount,
                         Description = orderItemModel.Description,
                         ItemId = orderItemModel.OrderItemId,
-                        OrderId = order.OrderId,
+                        OrderId = orderId,
                         Price = price,
                         Type = nameof(OrderItem)
                     };
@@ -80,8 +79,9 @@ public class OrderService : IOrderService
                     }));
             var request = new TransactWriteItemsRequest {TransactItems = transactItems};
             var response = await _client.TransactWriteItemsAsync(request);
-            return new ResponseBaseDto
+            return new PostResponseOrderDto
             {
+                OrderId = orderId,
                 Succeeded = true,
                 Message = response.HttpStatusCode == HttpStatusCode.OK ? "Success" : "Failed"
             };
@@ -90,7 +90,7 @@ public class OrderService : IOrderService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new ResponseBaseDto
+            return new PostResponseOrderDto
             {
                 Succeeded = false,
                 Message = e.Message
@@ -98,7 +98,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<GetOrderDto> GetByOrderIdAsync(string orderId)
+    public async Task<GetResponseOrderDto> GetByOrderIdAsync(string orderId)
     {
         try
         {
@@ -121,7 +121,7 @@ public class OrderService : IOrderService
             var response = await _client.QueryAsync(queryRequest);
             var order = response.Items.FirstOrDefault();
             if (order == null)
-                return new GetOrderDto
+                return new GetResponseOrderDto
                 {
                     Order = null,
                     OrderItems = null,
@@ -135,13 +135,12 @@ public class OrderService : IOrderService
             var orderItemModels = orderItems
                 .Select(orderItem => new OrderItemModel
                 {
-                    OrderId = orderItem["OrderId"].S,
                     Amount = orderItem["Amount"].N,
                     Description = orderItem["Description"].S,
                     OrderItemId = orderItem["ItemId"].S,
                     Price = orderItem["Price"].N
                 }).ToList();
-            return new GetOrderDto
+            return new GetResponseOrderDto
             {
                 Order = new OrderModel
                 {
@@ -167,7 +166,7 @@ public class OrderService : IOrderService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new GetOrderDto
+            return new GetResponseOrderDto
             {
                 Order = null,
                 OrderItems = null,

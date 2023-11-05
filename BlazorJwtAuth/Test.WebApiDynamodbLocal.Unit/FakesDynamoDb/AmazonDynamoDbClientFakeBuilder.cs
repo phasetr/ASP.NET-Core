@@ -1,5 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using KsuidDotNet;
 
 namespace Test.WebApiDynamodbLocal.Unit.FakesDynamoDb;
 
@@ -12,7 +13,9 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
     {
         var clientConfig = new AmazonDynamoDBConfig {ServiceURL = "http://localhost:8000"};
         _client = new AmazonDynamoDBClient(clientConfig);
-        _tableName = $"Z-{Guid.NewGuid():N}";
+        var dateTime = DateTime.UtcNow;
+        var ksuId = Ksuid.NewKsuid(dateTime);
+        _tableName = $"Z-{ksuId}";
 
         var request = new CreateTableRequest
         {
@@ -20,7 +23,9 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
             AttributeDefinitions = new List<AttributeDefinition>
             {
                 new() {AttributeName = "PK", AttributeType = ScalarAttributeType.S},
-                new() {AttributeName = "SK", AttributeType = ScalarAttributeType.S}
+                new() {AttributeName = "SK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI1PK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI1SK", AttributeType = ScalarAttributeType.S}
             },
             KeySchema = new List<KeySchemaElement>
             {
@@ -31,6 +36,24 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
             {
                 ReadCapacityUnits = 5,
                 WriteCapacityUnits = 5
+            },
+            GlobalSecondaryIndexes = new List<GlobalSecondaryIndex>
+            {
+                new()
+                {
+                    IndexName = "GSI1",
+                    KeySchema = new List<KeySchemaElement>
+                    {
+                        new() {AttributeName = "GSI1PK", KeyType = KeyType.HASH},
+                        new() {AttributeName = "GSI1SK", KeyType = KeyType.RANGE}
+                    },
+                    Projection = new Projection {ProjectionType = ProjectionType.ALL},
+                    ProvisionedThroughput = new ProvisionedThroughput
+                    {
+                        ReadCapacityUnits = 5,
+                        WriteCapacityUnits = 5
+                    }
+                }
             }
         };
         _client.CreateTableAsync(request).Wait();

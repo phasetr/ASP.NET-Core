@@ -22,7 +22,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetAsync(string orderId)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new GetOrderDto
+            return UnprocessableEntity(new GetResponseOrderDto
             {
                 Order = null,
                 Errors = ModelState.Values
@@ -46,7 +46,7 @@ public class OrderController : ControllerBase
                 Succeeded = false
             });
         var dateTime = DateTime.UtcNow;
-        var response = await _orderService.CreateAsync(postOrderDto);
+        var response = await _orderService.CreateAsync(postOrderDto, dateTime);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Order.GenerateOrderId(dateTime)}, response);
     }

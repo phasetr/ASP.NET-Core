@@ -56,7 +56,7 @@ public class CustomerServiceTests
         var getResult2 = await sut.GetByUserNameAsync(customer.UserName);
         Assert.NotNull(getResult2);
         Assert.True(getResult2.Succeeded);
-        Assert.NotNull(getResult2.Customer);
-        Assert.Equal(customer.UserName, getResult2.Customer.UserName);
+        Assert.NotNull(getResult2.CustomerModel);
+        Assert.Equal(customer.UserName, getResult2.CustomerModel.UserName);
     }
 }

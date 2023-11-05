@@ -87,7 +87,7 @@ public class CustomerService : ICustomerService
         throw new NotImplementedException();
     }
 
-    public async Task<GetCustomerDto?> GetByUserNameAsync(string userName)
+    public async Task<GetResponseCustomerDto?> GetByUserNameAsync(string userName)
     {
         try
         {
@@ -103,17 +103,17 @@ public class CustomerService : ICustomerService
             var response = await _client.GetItemAsync(request);
             // 項目が取れているか確認
             if (response.Item == null || response.Item.Count == 0)
-                return new GetCustomerDto
+                return new GetResponseCustomerDto
                 {
-                    Customer = null,
+                    CustomerModel = null,
                     Message = "Not Found",
                     Succeeded = false
                 };
 
             var item = response.Item;
-            return new GetCustomerDto
+            return new GetResponseCustomerDto
             {
-                Customer = new CustomerModel
+                CustomerModel = new CustomerModel
                 {
                     UserName = item["UserName"].S,
                     Email = item["Email"].S,
@@ -135,9 +135,9 @@ public class CustomerService : ICustomerService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new GetCustomerDto
+            return new GetResponseCustomerDto
             {
-                Customer = null,
+                CustomerModel = null,
                 Message = e.Message,
                 Succeeded = false
             };
