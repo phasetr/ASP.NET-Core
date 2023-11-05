@@ -1,6 +1,6 @@
 using Amazon.DynamoDBv2;
-using WebApiDynamodbLocal.Services;
-using WebApiDynamodbLocal.Services.Interfaces;
+using WebApiDynamodbLocal.Services.ECommerce;
+using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

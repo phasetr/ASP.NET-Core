@@ -4,7 +4,7 @@ using NSubstitute;
 using Test.WebApiDynamodbLocal.Unit.FakesDynamoDb;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Entities.ECommerce;
-using WebApiDynamodbLocal.Services;
+using WebApiDynamodbLocal.Services.ECommerce;
 
 namespace Test.WebApiDynamodbLocal.Unit.DynamoDb.Services;
 

@@ -1,8 +1,8 @@
 using Common.Dto;
-using WebApiDynamodbLocal.Dto;
+using WebApiDynamodbLocal.Dto.ECommerce;
 using WebApiDynamodbLocal.Entities.ECommerce;
 
-namespace WebApiDynamodbLocal.Services.Interfaces;
+namespace WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
 public interface ICustomerService
 {

@@ -1,7 +1,7 @@
 using Common.Dto;
 using WebApiDynamodbLocal.Entities.ECommerce;
 
-namespace WebApiDynamodbLocal.Dto;
+namespace WebApiDynamodbLocal.Dto.ECommerce;
 
 public class GetCustomerDto : ResponseBaseDto
 {

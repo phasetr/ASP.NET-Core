@@ -1,11 +1,11 @@
 using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
-using WebApiDynamodbLocal.Constants;
-using WebApiDynamodbLocal.Dto;
+using WebApiDynamodbLocal.Constants.ECommerce;
+using WebApiDynamodbLocal.Dto.ECommerce;
 using WebApiDynamodbLocal.Entities.ECommerce;
-using WebApiDynamodbLocal.Services.Interfaces;
+using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
-namespace WebApiDynamodbLocal.Controllers;
+namespace WebApiDynamodbLocal.Controllers.ECommerce;
 
 [Route(ApiPath.Customer)]
 [ApiController]

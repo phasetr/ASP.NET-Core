@@ -3,11 +3,11 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Common.Dto;
 using WebApiDynamodbLocal.Constants;
-using WebApiDynamodbLocal.Dto;
+using WebApiDynamodbLocal.Dto.ECommerce;
 using WebApiDynamodbLocal.Entities.ECommerce;
-using WebApiDynamodbLocal.Services.Interfaces;
+using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
-namespace WebApiDynamodbLocal.Services;
+namespace WebApiDynamodbLocal.Services.ECommerce;
 
 public class CustomerService : ICustomerService
 {

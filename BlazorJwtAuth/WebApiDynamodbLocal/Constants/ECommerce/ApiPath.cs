@@ -1,4 +1,4 @@
-namespace WebApiDynamodbLocal.Constants;
+namespace WebApiDynamodbLocal.Constants.ECommerce;
 
 public static class ApiPath
 {
