@@ -53,7 +53,8 @@ public class OrderService : IOrderService
                     }
                 }
             };
-            transactItems.AddRange(postOrderDto.OrderItems.Select(orderItemModel =>
+            transactItems.AddRange(postOrderDto.OrderItemModels
+                .Select(orderItemModel =>
                 {
                     int.TryParse(orderItemModel.Amount, out var amount);
                     int.TryParse(orderItemModel.Price, out var price);
@@ -123,8 +124,8 @@ public class OrderService : IOrderService
             if (order == null)
                 return new GetResponseOrderDto
                 {
-                    Order = null,
-                    OrderItems = null,
+                    OrderModel = null,
+                    OrderItemModels = null,
                     Succeeded = false,
                     Message = "Order not found"
                 };
@@ -142,7 +143,7 @@ public class OrderService : IOrderService
                 }).ToList();
             return new GetResponseOrderDto
             {
-                Order = new OrderModel
+                OrderModel = new OrderModel
                 {
                     OrderId = order["OrderId"].S,
                     Address = new Address
@@ -157,7 +158,7 @@ public class OrderService : IOrderService
                     TotalAmount = order["TotalAmount"].N,
                     UserName = order["UserName"].S
                 },
-                OrderItems = orderItemModels,
+                OrderItemModels = orderItemModels,
                 Succeeded = true,
                 Message = "Success"
             };
@@ -168,8 +169,8 @@ public class OrderService : IOrderService
             _logger.LogError("{E}", e.StackTrace);
             return new GetResponseOrderDto
             {
-                Order = null,
-                OrderItems = null,
+                OrderModel = null,
+                OrderItemModels = null,
                 Message = e.Message,
                 Succeeded = false
             };

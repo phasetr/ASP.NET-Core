@@ -72,7 +72,7 @@ sam local start-api --debug -p 3000
 
 ```shell
 sam local start-lambda && aws lambda invoke --function-name "[FUNCTION_NAME]" --endpoint-url "http://127.0.0.1:3001" --no-verify-ssl out.txt
-``` 
+```
 
 - 変更セットの実行はせず、変更内容の確認のみ。
 

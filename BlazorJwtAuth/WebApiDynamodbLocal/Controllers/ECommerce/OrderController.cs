@@ -24,7 +24,7 @@ public class OrderController : ControllerBase
         if (!ModelState.IsValid)
             return UnprocessableEntity(new GetResponseOrderDto
             {
-                Order = null,
+                OrderModel = null,
                 Errors = ModelState.Values
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage),

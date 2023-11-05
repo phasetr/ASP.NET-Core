@@ -11,5 +11,5 @@ public class PostOrderDto
     [Required] public string Status { get; set; } = string.Empty;
     [Required] public decimal TotalAmount { get; set; } = default!;
     [Required] public int NumberOfItems { get; set; } = default!;
-    [Required] public OrderItemModel[] OrderItems { get; set; } = default!;
+    [Required] public OrderItemModel[] OrderItemModels { get; set; } = default!;
 }

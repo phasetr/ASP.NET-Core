@@ -5,6 +5,6 @@ namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
 public class GetResponseOrderDto : ResponseBaseDto
 {
-    public OrderModel? Order { get; set; }
-    public IEnumerable<OrderItemModel>? OrderItems { get; set; }
+    public OrderModel? OrderModel { get; set; }
+    public IEnumerable<OrderItemModel>? OrderItemModels { get; set; }
 }

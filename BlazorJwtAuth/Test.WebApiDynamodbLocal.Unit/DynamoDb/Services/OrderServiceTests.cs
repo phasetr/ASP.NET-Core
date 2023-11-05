@@ -37,7 +37,7 @@ public class OrderServiceTests
             Status = "Pending",
             TotalAmount = 300,
             NumberOfItems = 2,
-            OrderItems = new OrderItemModel[]
+            OrderItemModels = new OrderItemModel[]
             {
                 new()
                 {
@@ -68,9 +68,9 @@ public class OrderServiceTests
         var getResult2 = await sut.GetByOrderIdAsync(orderId);
         Assert.NotNull(getResult2);
         Assert.True(getResult2.Succeeded);
-        Assert.NotNull(getResult2.Order);
-        Assert.NotNull(getResult2.OrderItems);
-        Assert.Equal(2, getResult2.OrderItems.Count());
-        Assert.Equal(orderId, getResult2.Order.OrderId);
+        Assert.NotNull(getResult2.OrderModel);
+        Assert.NotNull(getResult2.OrderItemModels);
+        Assert.Equal(2, getResult2.OrderItemModels.Count());
+        Assert.Equal(orderId, getResult2.OrderModel.OrderId);
     }
 }
