@@ -1,13 +1,11 @@
-using Amazon;
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using WebApiDynamodbLocal.Services;
 using WebApiDynamodbLocal.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Logger
-builder.Logging.ClearProviders().AddJsonConsole();
+// builder.Logging.ClearProviders().AddJsonConsole();
 
 // CORS設定
 var clientUrl = builder.Configuration["ClientUrl"];
@@ -25,9 +23,9 @@ builder.Services.AddCors(o => o.AddPolicy(clientUrl, corsPolicyBuilder =>
 var dynamoDbConfig = builder.Configuration.GetSection("DynamoDb");
 builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
 {
-    var clientConfig = new AmazonDynamoDBConfig 
-    { 
-        ServiceURL = dynamoDbConfig.GetValue<string>("LocalServiceUrl") 
+    var clientConfig = new AmazonDynamoDBConfig
+    {
+        ServiceURL = dynamoDbConfig.GetValue<string>("LocalServiceUrl")
     };
     return new AmazonDynamoDBClient(clientConfig);
 });

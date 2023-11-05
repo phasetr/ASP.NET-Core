@@ -13,13 +13,16 @@ public class CustomerService : ICustomerService
 {
     private readonly AmazonDynamoDBClient _client;
     private readonly ILogger<CustomerService> _logger;
+    private readonly string _tableName;
 
     public CustomerService(
         AmazonDynamoDBClient client,
+        IConfiguration configuration,
         ILogger<CustomerService> logger)
     {
         _client = client;
         _logger = logger;
+        _tableName = configuration[AwsSettings.ConfigurationECommerceTable];
     }
 
     public async Task<ResponseBaseDto> CreateAsync(Customer customer)
@@ -40,7 +43,7 @@ public class CustomerService : ICustomerService
                     {
                         ConditionExpression = "attribute_not_exists(PK)",
                         Item = customerEmail.ToDynamoDbItem(),
-                        TableName = AwsSettings.ECommerceTable
+                        TableName = _tableName
                     }
                 },
                 new()
@@ -49,7 +52,7 @@ public class CustomerService : ICustomerService
                     {
                         ConditionExpression = "attribute_not_exists(PK)",
                         Item = customer.ToDynamoDbItem(),
-                        TableName = AwsSettings.ECommerceTable
+                        TableName = _tableName
                     }
                 }
             };
@@ -90,7 +93,7 @@ public class CustomerService : ICustomerService
             var pk = new Customer().ToPk(userName);
             var request = new GetItemRequest
             {
-                TableName = AwsSettings.ECommerceTable,
+                TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
                     {"PK", new AttributeValue(pk)},
@@ -98,7 +101,8 @@ public class CustomerService : ICustomerService
                 }
             };
             var response = await _client.GetItemAsync(request);
-            if (response.Item == null)
+            // 項目が取れているか確認
+            if (response.Item == null || response.Item.Count == 0)
                 return new GetCustomerDto
                 {
                     Customer = null,

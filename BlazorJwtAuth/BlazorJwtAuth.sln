@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiMyBgList", "WebApiMyB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiDynamodbLocal", "WebApiDynamodbLocal\WebApiDynamodbLocal.csproj", "{3E8EF4A0-F542-46C2-BF45-2C4A4195F692}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.WebApiDynamodbLocal.Unit", "Test.WebApiDynamodbLocal.Unit\Test.WebApiDynamodbLocal.Unit.csproj", "{2E9ED18E-92AF-4B9B-A216-21E4DC505EAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,5 +86,9 @@ Global
 		{3E8EF4A0-F542-46C2-BF45-2C4A4195F692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E8EF4A0-F542-46C2-BF45-2C4A4195F692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E8EF4A0-F542-46C2-BF45-2C4A4195F692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9ED18E-92AF-4B9B-A216-21E4DC505EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9ED18E-92AF-4B9B-A216-21E4DC505EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9ED18E-92AF-4B9B-A216-21E4DC505EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9ED18E-92AF-4B9B-A216-21E4DC505EAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
