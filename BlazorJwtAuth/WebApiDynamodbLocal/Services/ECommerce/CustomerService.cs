@@ -5,6 +5,7 @@ using Common.Dto;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
+using WebApiDynamodbLocal.Models.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
 namespace WebApiDynamodbLocal.Services.ECommerce;
@@ -112,11 +113,8 @@ public class CustomerService : ICustomerService
             var item = response.Item;
             return new GetCustomerDto
             {
-                Customer = new Customer
+                Customer = new CustomerModel
                 {
-                    Pk = item["PK"].S,
-                    Sk = item["SK"].S,
-                    Type = item["Type"].S,
                     UserName = item["UserName"].S,
                     Email = item["Email"].S,
                     Name = item["Name"].S,

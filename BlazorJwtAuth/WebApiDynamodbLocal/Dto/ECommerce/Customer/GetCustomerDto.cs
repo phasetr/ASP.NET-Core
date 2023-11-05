@@ -1,11 +1,9 @@
 using Common.Dto;
+using WebApiDynamodbLocal.Models.ECommerce;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Customer;
 
 public class GetCustomerDto : ResponseBaseDto
 {
-    /// <summary>
-    ///     TODO: CustomerModelに切り替える
-    /// </summary>
-    public Entities.ECommerce.Customer? Customer { get; set; }
+    public CustomerModel? Customer { get; set; }
 }
