@@ -61,8 +61,7 @@ public class OrderItem : BaseEntity
             {"ItemId", new AttributeValue(ItemId)},
             {"Description", new AttributeValue(Description)},
             {"Price", new AttributeValue {N = Price.ToString(CultureInfo.InvariantCulture)}},
-            {"Amount", new AttributeValue {N = Amount.ToString()}},
-            {"TotalCost", new AttributeValue {N = (Price * Amount).ToString(CultureInfo.InvariantCulture)}}
+            {"Amount", new AttributeValue {N = Amount.ToString()}}
         };
     }
 }

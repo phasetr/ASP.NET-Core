@@ -5,6 +5,7 @@ using Common.Dto;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.ECommerce;
 using WebApiDynamodbLocal.Entities.ECommerce;
+using WebApiDynamodbLocal.Models.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
 namespace WebApiDynamodbLocal.Services.ECommerce;
@@ -53,14 +54,19 @@ public class OrderService : IOrderService
                     }
                 }
             };
-            transactItems.AddRange(postOrderDto.OrderItems.Select(orderItemModel => new OrderItem
+            transactItems.AddRange(postOrderDto.OrderItems.Select(orderItemModel =>
                 {
-                    Amount = orderItemModel.Amount,
-                    Description = orderItemModel.Description,
-                    ItemId = orderItemModel.OrderItemId,
-                    OrderId = order.OrderId,
-                    Price = orderItemModel.Price,
-                    Type = nameof(OrderItem)
+                    int.TryParse(orderItemModel.Amount, out var amount);
+                    int.TryParse(orderItemModel.Price, out var price);
+                    return new OrderItem
+                    {
+                        Amount = amount,
+                        Description = orderItemModel.Description,
+                        ItemId = orderItemModel.OrderItemId,
+                        OrderId = order.OrderId,
+                        Price = price,
+                        Type = nameof(OrderItem)
+                    };
                 })
                 .Select(orderItem =>
                     new TransactWriteItem
@@ -88,6 +94,85 @@ public class OrderService : IOrderService
             {
                 Succeeded = false,
                 Message = e.Message
+            };
+        }
+    }
+
+    public async Task<GetOrderDto> GetByOrderIdAsync(string orderId)
+    {
+        try
+        {
+            var gsi1Pk = Order.OrderIdToGsi1Pk(orderId);
+            var queryRequest = new QueryRequest
+            {
+                TableName = _tableName,
+                IndexName = "GSI1",
+                KeyConditionExpression = "#gsi1pk = :pk",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":pk", new AttributeValue {S = gsi1Pk}}
+                },
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    {"#gsi1pk", "GSI1PK"}
+                },
+                ScanIndexForward = false
+            };
+            var response = await _client.QueryAsync(queryRequest);
+            var order = response.Items.FirstOrDefault();
+            if (order == null)
+                return new GetOrderDto
+                {
+                    Order = null,
+                    OrderItems = null,
+                    Succeeded = false,
+                    Message = "Order not found"
+                };
+            var orderItems = response.Items
+                .Where(item =>
+                    item["Type"].S == nameof(OrderItem))
+                .ToList();
+            var orderItemModels = orderItems
+                .Select(orderItem => new OrderItemModel
+                {
+                    OrderId = orderItem["OrderId"].S,
+                    Amount = orderItem["Amount"].N,
+                    Description = orderItem["Description"].S,
+                    OrderItemId = orderItem["ItemId"].S,
+                    Price = orderItem["Price"].N
+                }).ToList();
+            return new GetOrderDto
+            {
+                Order = new OrderModel
+                {
+                    OrderId = order["OrderId"].S,
+                    Address = new Address
+                    {
+                        Country = order["Address"].M["Country"].S,
+                        PostalCode = order["Address"].M["PostalCode"].S,
+                        StreetAddress = order["Address"].M["StreetAddress"].S
+                    },
+                    CreatedAt = order["CreatedAt"].S,
+                    NumberOfItems = order["NumberOfItems"].N,
+                    Status = order["Status"].S,
+                    TotalAmount = order["TotalAmount"].N,
+                    UserName = order["UserName"].S
+                },
+                OrderItems = orderItemModels,
+                Succeeded = true,
+                Message = "Success"
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            return new GetOrderDto
+            {
+                Order = null,
+                OrderItems = null,
+                Message = e.Message,
+                Succeeded = false
             };
         }
     }
