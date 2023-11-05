@@ -46,6 +46,19 @@ aws dynamodb get-item \
   --endpoint-url http://localhost:8000
 ```
 
+## テスト用の`DynamoDB`のテーブル削除
+
+- 今あるテーブルを取得するコマンドは下記の通り
+
 ```shell
-aws dynamodb scan --table-name ECommerce --endpoint-url http://localhost:8000
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames'
+```
+
+- 今あるテーブルのうち、`Z-*`で始まるテーブルを削除するコマンドは下記の通り：`Z-`で始まるテーブルはテスト用のテーブルとしている
+
+```shell
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames' \
+  | grep "Z-*" \
+  | sed "s/,//g" \
+  | xargs -I {} aws dynamodb delete-table --endpoint-url http://localhost:8000 --table-name {} > /dev/null
 ```

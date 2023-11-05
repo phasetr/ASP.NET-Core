@@ -61,9 +61,9 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
 
     public void Dispose()
     {
-        // TODO: 一時的に作ったテーブルが消えるようにする
-        var request = new DeleteTableRequest {TableName = _tableName};
-        _client.DeleteTableAsync(request).Wait();
+        // テスト用に一時的に作ったテーブルは`README.md`に記載のコマンドで削除する
+        // var request = new DeleteTableRequest {TableName = _tableName};
+        // _client.DeleteTableAsync(request).Wait();
         _client.Dispose();
     }
 
