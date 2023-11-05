@@ -30,6 +30,7 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
     return new AmazonDynamoDBClient(clientConfig);
 });
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

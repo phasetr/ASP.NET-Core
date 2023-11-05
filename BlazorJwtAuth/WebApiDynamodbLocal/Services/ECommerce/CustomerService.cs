@@ -90,14 +90,13 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            var pk = new Customer().ToPk(userName);
             var request = new GetItemRequest
             {
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(pk)},
-                    {"SK", new AttributeValue(pk)}
+                    {"PK", new AttributeValue(Customer.ToPk(userName))},
+                    {"SK", new AttributeValue(Customer.ToSk(userName))}
                 }
             };
             var response = await _client.GetItemAsync(request);

@@ -45,7 +45,7 @@ public class CustomerController : ControllerBase
             });
         var customer = new Customer
         {
-            Type = Customer.EntityName,
+            Type = nameof(Customer),
             UserName = postCustomerDto.UserName,
             Email = postCustomerDto.Email,
             Name = postCustomerDto.Name,
@@ -53,6 +53,6 @@ public class CustomerController : ControllerBase
         };
         var response = await _customerService.CreateAsync(customer);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = customer.ToPk(customer.UserName)}, response);
+        return CreatedAtAction("Post", new {pk = Customer.ToPk(customer.UserName)}, response);
     }
 }

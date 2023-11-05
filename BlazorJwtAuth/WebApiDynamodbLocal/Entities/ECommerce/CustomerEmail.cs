@@ -7,28 +7,27 @@ namespace WebApiDynamodbLocal.Entities.ECommerce;
 [DynamoDBTable(AwsSettings.ECommerceTable)]
 public class CustomerEmail : BaseEntity
 {
-    public new const string EntityName = "CustomerEmail";
     [DynamoDBProperty] public string Type { get; set; } = default!;
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
 
-    public override string ToPk(string key)
+    public override string ToPk()
     {
-        return $"{nameof(CustomerEmail).ToUpper()}#{key}";
+        return $"{nameof(CustomerEmail).ToUpper()}#{Email}";
     }
 
-    public override string ToSk(string key)
+    public override string ToSk()
     {
-        return $"{nameof(CustomerEmail).ToUpper()}#{key}";
+        return $"{nameof(CustomerEmail).ToUpper()}#{Email}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk(Email))},
-            {"SK", new AttributeValue(ToSk(Email))},
-            {"Type", new AttributeValue(EntityName)},
+            {"PK", new AttributeValue(ToPk())},
+            {"SK", new AttributeValue(ToSk())},
+            {"Type", new AttributeValue(nameof(CustomerEmail))},
             {"Email", new AttributeValue(Email)},
             {"UserName", new AttributeValue(UserName)}
         };

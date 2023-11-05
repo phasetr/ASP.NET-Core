@@ -5,15 +5,13 @@ namespace WebApiDynamodbLocal.Entities;
 
 public abstract class BaseEntity
 {
-    public const string EntityName = "BaseEntity";
-
     [DynamoDBHashKey(AttributeName = "PK")]
     public string Pk { get; set; } = default!;
 
     [DynamoDBRangeKey(AttributeName = "SK")]
     public string Sk { get; set; } = default!;
 
-    public abstract string ToPk(string key);
-    public abstract string ToSk(string key);
+    public abstract string ToPk();
+    public abstract string ToSk();
     public abstract Dictionary<string, AttributeValue> ToDynamoDbItem();
 }

@@ -7,29 +7,38 @@ namespace WebApiDynamodbLocal.Entities.ECommerce;
 [DynamoDBTable(AwsSettings.ECommerceTable)]
 public class Customer : BaseEntity
 {
-    public new const string EntityName = "Customer";
     [DynamoDBProperty] public string Type { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public Dictionary<string, Address> Addresses { get; set; } = default!;
 
-    public override string ToPk(string key)
+    public static string ToPk(string key)
     {
         return $"{nameof(Customer).ToUpper()}#{key}";
     }
 
-    public override string ToSk(string key)
+    public static string ToSk(string key)
     {
         return $"{nameof(Customer).ToUpper()}#{key}";
+    }
+
+    public override string ToPk()
+    {
+        return $"{nameof(Customer).ToUpper()}#{UserName}";
+    }
+
+    public override string ToSk()
+    {
+        return $"{nameof(Customer).ToUpper()}#{UserName}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk(UserName))},
-            {"SK", new AttributeValue(ToSk(UserName))},
+            {"PK", new AttributeValue(ToPk())},
+            {"SK", new AttributeValue(ToSk())},
             {"Type", new AttributeValue(nameof(Customer))},
             {"UserName", new AttributeValue(UserName)},
             {"Email", new AttributeValue(Email)},
