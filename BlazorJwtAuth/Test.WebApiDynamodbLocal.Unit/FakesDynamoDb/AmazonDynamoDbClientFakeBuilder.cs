@@ -12,7 +12,7 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
     {
         var clientConfig = new AmazonDynamoDBConfig {ServiceURL = "http://localhost:8000"};
         _client = new AmazonDynamoDBClient(clientConfig);
-        _tableName = Guid.NewGuid().ToString();
+        _tableName = $"Z-{Guid.NewGuid():N}";
 
         var request = new CreateTableRequest
         {

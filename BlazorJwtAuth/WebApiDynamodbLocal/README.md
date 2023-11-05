@@ -20,6 +20,17 @@ aws dynamodb create-table --table-name ECommerce \
   --endpoint-url=http://localhost:8000
 ```
 
+- `GSI`を追加
+
+```shell
+aws dynamodb update-table \
+  --table-name ECommerce \
+  --attribute-definitions AttributeName=GSI1PK,AttributeType=S AttributeName=GSI1SK,AttributeType=S \
+  --global-secondary-index-updates \
+    '[{"Create":{"IndexName": "GSI1","KeySchema":[{"AttributeName":"GSI1PK","KeyType":"HASH"},{"AttributeName":"GSI1SK","KeyType":"RANGE"}], "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5 }, "Projection":{"ProjectionType":"ALL"}}}]' \
+  --endpoint-url=http://localhost:8000
+```
+
 - テーブルの確認
 
 ```shell
