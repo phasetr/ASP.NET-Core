@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Common.Dto;
 using WebApiDynamodbLocal.Constants;
-using WebApiDynamodbLocal.Dto.ECommerce;
+using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 

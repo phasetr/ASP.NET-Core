@@ -1,7 +1,7 @@
 using Common.Dto;
 using WebApiDynamodbLocal.Models.ECommerce;
 
-namespace WebApiDynamodbLocal.Dto.ECommerce;
+namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
 public class GetOrderDto : ResponseBaseDto
 {

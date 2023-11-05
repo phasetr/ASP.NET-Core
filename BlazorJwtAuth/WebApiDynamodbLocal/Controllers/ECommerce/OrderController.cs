@@ -1,7 +1,7 @@
 using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using WebApiDynamodbLocal.Constants.ECommerce;
-using WebApiDynamodbLocal.Dto.ECommerce;
+using WebApiDynamodbLocal.Dto.ECommerce.Order;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 

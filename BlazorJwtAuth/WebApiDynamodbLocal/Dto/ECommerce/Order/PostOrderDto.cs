@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Models.ECommerce;
 
-namespace WebApiDynamodbLocal.Dto.ECommerce;
+namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
 public class PostOrderDto
 {

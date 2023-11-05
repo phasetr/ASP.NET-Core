@@ -1,6 +1,6 @@
 using WebApiDynamodbLocal.Entities.ECommerce;
 
-namespace WebApiDynamodbLocal.Dto.ECommerce;
+namespace WebApiDynamodbLocal.Dto.ECommerce.Customer;
 
 public class PostCustomerDto
 {

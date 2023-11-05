@@ -1,5 +1,5 @@
 using Common.Dto;
-using WebApiDynamodbLocal.Dto.ECommerce;
+using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
 
 namespace WebApiDynamodbLocal.Services.ECommerce.Interfaces;

@@ -31,7 +31,7 @@ public class Order : BaseEntity
     {
         return Ksuid.NewKsuid(createdAt);
     }
-    
+
     public static string OrderIdToGsi1Pk(string orderId)
     {
         return $"ORDER#{orderId}";
