@@ -7,7 +7,7 @@ using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce;
 
-namespace Test.WebApiDynamodbLocal.Unit.DynamoDb.Services;
+namespace Test.WebApiDynamodbLocal.Unit.DynamoDb.Services.ECommerce;
 
 public class CustomerServiceTests
 {

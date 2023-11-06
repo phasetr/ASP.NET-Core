@@ -12,6 +12,44 @@
 ## `DynamoDB`
 
 - [ASP.NET Core Web API + DynamoDB Locally](https://www.codeproject.com/Articles/5273030/ASP-NET-Core-Web-API-plus-DynamoDB-Locally)
+
+### `SessionStore`
+
+- テーブル作成
+
+```shell
+aws dynamodb create-table \
+    --table-name SessionStore \
+    --endpoint-url=http://localhost:8000 \
+    --attribute-definitions \
+        AttributeName=PK,AttributeType=S \
+        AttributeName=SK,AttributeType=S \
+    --key-schema \
+        AttributeName=PK,KeyType=HASH \
+        AttributeName=SK,KeyType=RANGE \
+    --provisioned-throughput \
+        ReadCapacityUnits=10,WriteCapacityUnits=5 \
+    --global-secondary-indexes \
+        '[
+            {
+                "IndexName": "GSI1",
+                "KeySchema": [
+                    { "AttributeName": "PK", "KeyType": "HASH" },
+                    { "AttributeName": "SK", "KeyType": "RANGE" }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 5,
+                    "WriteCapacityUnits": 5
+                }
+            }
+        ]'
+```
+
+### `ECommerce`
+
 - テーブル作成(未検証)
 
 ```shell
@@ -48,7 +86,7 @@ aws dynamodb get-item \
   --endpoint-url http://localhost:8000
 ```
 
-## テスト用の`DynamoDB`のテーブル削除
+### テスト用の`DynamoDB`のテーブル削除
 
 - 今あるテーブルを取得するコマンドは下記の通り
 

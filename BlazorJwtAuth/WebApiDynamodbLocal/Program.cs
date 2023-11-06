@@ -1,6 +1,8 @@
 using Amazon.DynamoDBv2;
 using WebApiDynamodbLocal.Services.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
+using WebApiDynamodbLocal.Services.SessionStore;
+using WebApiDynamodbLocal.Services.SessionStore.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,7 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
     };
     return new AmazonDynamoDBClient(clientConfig);
 });
+builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
