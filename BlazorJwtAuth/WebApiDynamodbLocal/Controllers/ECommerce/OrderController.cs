@@ -46,7 +46,7 @@ public class OrderController : ControllerBase
                 Succeeded = false
             });
         var dateTime = DateTime.UtcNow;
-        var response = await _orderService.CreateAsync(postOrderDto, dateTime);
+        var response = await _orderService.CreateAsync(postOrderDto);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Order.GenerateOrderId(dateTime)}, response);
     }

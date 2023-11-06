@@ -25,8 +25,9 @@ public class OrderService : IOrderService
         _tableName = configuration[AwsSettings.ConfigurationECommerceTable];
     }
 
-    public async Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto, DateTime dateTime)
+    public async Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto)
     {
+        var dateTime = DateTime.UtcNow;
         var orderId = Order.GenerateOrderId(dateTime);
         var order = new Order
         {

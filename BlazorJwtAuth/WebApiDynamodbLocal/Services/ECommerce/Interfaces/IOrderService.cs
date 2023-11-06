@@ -4,6 +4,6 @@ namespace WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 
 public interface IOrderService
 {
-    Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto, DateTime dateTime);
+    Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto);
     Task<GetResponseOrderDto> GetByOrderIdAsync(string orderId);
 }

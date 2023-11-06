@@ -24,7 +24,6 @@ public class OrderServiceTests
         mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
         var sut = new OrderService(client, mockConfiguration, mockLogger);
 
-        var dataTime = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         var postOrderDto = new PostOrderDto
         {
             UserName = "user",
@@ -57,7 +56,7 @@ public class OrderServiceTests
         };
 
         // 注文を作成
-        var createResult = await sut.CreateAsync(postOrderDto, dataTime);
+        var createResult = await sut.CreateAsync(postOrderDto);
         var orderId = createResult.OrderId;
         Assert.NotNull(createResult);
         Assert.NotNull(orderId);
