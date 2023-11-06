@@ -69,14 +69,14 @@ public class CustomerService : ICustomerService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            var message = string.Empty;
             if (e.ErrorCode != "TransactionCanceledException")
                 return new ResponseBaseDto
                 {
                     Succeeded = false,
-                    Message = message
+                    Message = e.Message
                 };
             // 詳細なメッセージ指定
+            var message = string.Empty;
             if (e.CancellationReasons[0].Code == "ConditionalCheckFailed")
                 message = "Customer with this username already exists";
             else if (e.CancellationReasons[1].Code == "ConditionalCheckFailed")

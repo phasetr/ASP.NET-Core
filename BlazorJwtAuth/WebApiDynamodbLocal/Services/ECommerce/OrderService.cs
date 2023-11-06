@@ -163,15 +163,26 @@ public class OrderService : IOrderService
                 Message = "Success"
             };
         }
-        catch (Exception e)
+        catch (TransactionCanceledException e)
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
+            if (e.ErrorCode != "TransactionCanceledException")
+                return new GetResponseOrderDto
+                {
+                    OrderModel = null,
+                    OrderItemModels = null,
+                    Message = e.Message,
+                    Succeeded = false
+                };
+            var message = e.Message;
+            if (e.CancellationReasons[0].Code == "ConditionalCheckFailed")
+                message = "OrderId already exists for this customer";
             return new GetResponseOrderDto
             {
                 OrderModel = null,
                 OrderItemModels = null,
-                Message = e.Message,
+                Message = message,
                 Succeeded = false
             };
         }
