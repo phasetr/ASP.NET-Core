@@ -37,6 +37,16 @@ public class Order : BaseEntity
         return $"ORDER#{orderId}";
     }
 
+    public static string UserNameToPk(string userName)
+    {
+        return $"CUSTOMER#{userName}";
+    }
+
+    public static string OrderIdToSk(string orderId)
+    {
+        return $"#ORDER#{orderId}";
+    }
+
     public override string ToPk()
     {
         return $"CUSTOMER#{UserName}";

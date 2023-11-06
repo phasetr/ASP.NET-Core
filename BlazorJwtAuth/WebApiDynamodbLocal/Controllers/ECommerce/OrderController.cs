@@ -66,4 +66,18 @@ public class OrderController : ControllerBase
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Order.GenerateOrderId(dateTime)}, response);
     }
+
+    [HttpPut(ApiPath.OrderStatus)]
+    public async Task<IActionResult> PutStatusAsync(string userName, string orderId, string status)
+    {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(new ResponseBaseDto
+            {
+                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
+                Message = "Validation Error",
+                Succeeded = false
+            });
+        var response = await _orderService.PutStatusAsync(userName, orderId, status);
+        return Ok(response);
+    }
 }

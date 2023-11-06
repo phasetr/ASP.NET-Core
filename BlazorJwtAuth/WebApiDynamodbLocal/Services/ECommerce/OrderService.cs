@@ -1,6 +1,7 @@
 using System.Net;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Common.Dto;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Constants.ECommerce;
 using WebApiDynamodbLocal.Dto.ECommerce.Order;
@@ -248,6 +249,54 @@ public class OrderService : IOrderService
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
             return new GetResponseOrdersDto
+            {
+                Message = e.Message,
+                Succeeded = false
+            };
+        }
+    }
+
+    public async Task<ResponseBaseDto> PutStatusAsync(string userName, string orderId, string status)
+    {
+        try
+        {
+            var updateRequest = new UpdateItemRequest
+            {
+                TableName = _tableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    {"PK", new AttributeValue {S = Order.UserNameToPk(userName)}},
+                    {"SK", new AttributeValue {S = Order.OrderIdToSk(orderId)}}
+                },
+                ConditionExpression = "attribute_exists(PK) AND attribute_exists(SK)",
+                UpdateExpression = "SET #status = :status",
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    {"#status", "Status"}
+                },
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":status", new AttributeValue {S = status}}
+                }
+            };
+            var response = await _client.UpdateItemAsync(updateRequest);
+            return new ResponseBaseDto
+            {
+                Succeeded = response.HttpStatusCode == HttpStatusCode.OK,
+                Message = response.HttpStatusCode == HttpStatusCode.OK ? "Success" : "Failed"
+            };
+        }
+        catch (ConditionalCheckFailedException e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            if (e.ErrorCode == "ConditionalCheckFailedException")
+                return new ResponseBaseDto
+                {
+                    Message = "Order does not exist",
+                    Succeeded = false
+                };
+            return new ResponseBaseDto
             {
                 Message = e.Message,
                 Succeeded = false

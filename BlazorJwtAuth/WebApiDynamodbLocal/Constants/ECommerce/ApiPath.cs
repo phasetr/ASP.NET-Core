@@ -6,4 +6,5 @@ public static class ApiPath
     public const string CustomerAddress = "address";
     public const string Order = "api/ecommerce/order";
     public const string OrderCustomer = "customer";
+    public const string OrderStatus = "status";
 }
