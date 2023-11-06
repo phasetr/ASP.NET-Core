@@ -6,4 +6,5 @@ public interface IOrderService
 {
     Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto);
     Task<GetResponseOrderDto> GetByOrderIdAsync(string orderId);
+    Task<GetResponseOrdersDto> GetByUserNameAsync(string userName);
 }

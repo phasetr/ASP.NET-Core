@@ -35,6 +35,22 @@ public class OrderController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet(ApiPath.OrderCustomer)]
+    public async Task<IActionResult> GetOrdersAsync(string userName)
+    {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(new GetResponseOrdersDto
+            {
+                Errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage),
+                Message = "Validation Error",
+                Succeeded = false
+            });
+        var response = await _orderService.GetByUserNameAsync(userName);
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<IActionResult> PostAsync(PostOrderDto postOrderDto)
     {

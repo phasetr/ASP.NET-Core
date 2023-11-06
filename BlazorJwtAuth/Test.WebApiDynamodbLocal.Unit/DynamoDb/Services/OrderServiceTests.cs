@@ -69,4 +69,136 @@ public class OrderServiceTests
         Assert.Equal(2, getResult2.OrderItemModels.Count());
         Assert.Equal(orderId, getResult2.OrderModel.OrderId);
     }
+
+    [Fact]
+    public async Task GetByUserNameAsync_Succeeded()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<OrderService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new OrderService(client, mockConfiguration, mockLogger);
+
+        var dto1 = new PostOrderDto
+        {
+            UserName = "user",
+            Address = new Address
+            {
+                StreetAddress = "123 Main St",
+                PostalCode = "12345",
+                Country = "USA"
+            },
+            TotalAmount = 300,
+            NumberOfItems = 2,
+            OrderItemModels = new OrderItemModel[]
+            {
+                new()
+                {
+                    Description = "description1",
+                    Price = "100",
+                    Amount = "1"
+                },
+                new()
+                {
+                    Description = "description2",
+                    Price = "200",
+                    Amount = "2"
+                }
+            }
+        };
+        var dto2 = new PostOrderDto
+        {
+            UserName = "user",
+            Address = new Address
+            {
+                StreetAddress = "123 Main St",
+                PostalCode = "12345",
+                Country = "USA"
+            },
+            TotalAmount = 700,
+            NumberOfItems = 7,
+            OrderItemModels = new OrderItemModel[]
+            {
+                new()
+                {
+                    Description = "description3",
+                    Price = "300",
+                    Amount = "3"
+                },
+                new()
+                {
+                    Description = "description4",
+                    Price = "400",
+                    Amount = "4"
+                }
+            }
+        };
+
+        // 注文を作成
+        await sut.CreateAsync(dto1);
+        await sut.CreateAsync(dto2);
+
+        // ユーザー名で注文を取得
+        var getResult = await sut.GetByUserNameAsync(dto1.UserName);
+        Assert.NotNull(getResult);
+        Assert.Equal("user", getResult.UserName);
+        Assert.True(getResult.Succeeded);
+        Assert.NotNull(getResult.OrderModels);
+        Assert.Equal(2, getResult.OrderModels.Count);
+        Assert.Equal("700", getResult.OrderModels[0].TotalAmount);
+        Assert.Equal("300", getResult.OrderModels[1].TotalAmount);
+    }
+
+    [Fact]
+    public async Task GetByUserNameAsync_CustomerNotExist()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<OrderService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new OrderService(client, mockConfiguration, mockLogger);
+
+        var dto1 = new PostOrderDto
+        {
+            UserName = "user",
+            Address = new Address
+            {
+                StreetAddress = "123 Main St",
+                PostalCode = "12345",
+                Country = "USA"
+            },
+            TotalAmount = 300,
+            NumberOfItems = 2,
+            OrderItemModels = new OrderItemModel[]
+            {
+                new()
+                {
+                    Description = "description1",
+                    Price = "100",
+                    Amount = "1"
+                },
+                new()
+                {
+                    Description = "description2",
+                    Price = "200",
+                    Amount = "2"
+                }
+            }
+        };
+
+        // 注文を作成
+        await sut.CreateAsync(dto1);
+
+        var getResult = await sut.GetByUserNameAsync("noUser");
+        Assert.NotNull(getResult);
+        Assert.False(getResult.Succeeded);
+        Assert.Null(getResult.OrderModels);
+        Assert.Equal("Customer does not exist", getResult.Message);
+    }
 }

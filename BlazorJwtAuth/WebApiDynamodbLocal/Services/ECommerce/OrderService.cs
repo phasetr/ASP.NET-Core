@@ -188,4 +188,70 @@ public class OrderService : IOrderService
             };
         }
     }
+
+    public async Task<GetResponseOrdersDto> GetByUserNameAsync(string userName)
+    {
+        try
+        {
+            var queryRequest = new QueryRequest
+            {
+                TableName = _tableName,
+                KeyConditionExpression = "#pk = :pk",
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    {"#pk", "PK"}
+                },
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":pk", new AttributeValue {S = Customer.ToPk(userName)}}
+                },
+                ScanIndexForward = false
+            };
+            var response = await _client.QueryAsync(queryRequest);
+            // 該当顧客が存在しない
+            if (response.Items.Count == 0)
+                return new GetResponseOrdersDto
+                {
+                    Message = "Customer does not exist",
+                    Succeeded = false
+                };
+            var orders = response.Items
+                .Where(item =>
+                    item["Type"].S == nameof(Order))
+                .ToList();
+            var orderModels = orders
+                .Select(order => new OrderModel
+                {
+                    OrderId = order["OrderId"].S,
+                    Address = new Address
+                    {
+                        Country = order["Address"].M["Country"].S,
+                        PostalCode = order["Address"].M["PostalCode"].S,
+                        StreetAddress = order["Address"].M["StreetAddress"].S
+                    },
+                    CreatedAt = order["CreatedAt"].S,
+                    NumberOfItems = order["NumberOfItems"].N,
+                    Status = order["Status"].S,
+                    TotalAmount = order["TotalAmount"].N,
+                    UserName = order["UserName"].S
+                }).ToList();
+            return new GetResponseOrdersDto
+            {
+                UserName = userName,
+                OrderModels = orderModels,
+                Succeeded = true,
+                Message = "Success"
+            };
+        }
+        catch (TransactionCanceledException e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            return new GetResponseOrdersDto
+            {
+                Message = e.Message,
+                Succeeded = false
+            };
+        }
+    }
 }
