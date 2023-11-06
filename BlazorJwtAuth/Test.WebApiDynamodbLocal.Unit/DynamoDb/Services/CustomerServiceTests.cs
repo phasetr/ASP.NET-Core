@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Test.WebApiDynamodbLocal.Unit.FakesDynamoDb;
 using WebApiDynamodbLocal.Constants;
+using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce;
 
@@ -146,5 +147,94 @@ public class CustomerServiceTests
         var keys = getResult.CustomerModel.Addresses.Keys.ToArray();
         Assert.Equal("Work", keys[0]);
         Assert.Equal("Other", keys[1]);
+    }
+
+    [Fact]
+    public async Task DeleteAddressAsync_CustomerNotExist()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<CustomerService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new CustomerService(client, mockConfiguration, mockLogger);
+
+        // ユーザーを削除
+        var deleteResult = await sut.DeleteAddressAsync(_customer.UserName, "Home");
+        Assert.NotNull(deleteResult);
+        Assert.False(deleteResult.Succeeded);
+        Assert.Equal("Customer does not exist", deleteResult.Message);
+    }
+
+    [Fact]
+    public async Task PutAddressAsync_Succeeded()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<CustomerService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new CustomerService(client, mockConfiguration, mockLogger);
+
+        // ユーザーを登録
+        _ = await sut.CreateAsync(_customer);
+
+        // ユーザーの住所を更新
+        var putResult = await sut.PutAddressAsync(new PutAddressDto
+        {
+            UserName = _customer.UserName,
+            AddressName = "Home",
+            Address = new Address
+            {
+                StreetAddress = "converted 123 Main St",
+                PostalCode = "converted 12345",
+                Country = "converted USA"
+            }
+        });
+        Assert.NotNull(putResult);
+        Assert.True(putResult.Succeeded);
+        Assert.Equal("Success", putResult.Message);
+
+        // ユーザーの住所を更新したことを確認
+        var getResult = await sut.GetByUserNameAsync(_customer.UserName);
+        Assert.NotNull(getResult);
+        Assert.True(getResult.Succeeded);
+        Assert.NotNull(getResult.CustomerModel);
+        Assert.Equal("converted 123 Main St", getResult.CustomerModel.Addresses["Home"].StreetAddress);
+        Assert.Equal("converted 12345", getResult.CustomerModel.Addresses["Home"].PostalCode);
+        Assert.Equal("converted USA", getResult.CustomerModel.Addresses["Home"].Country);
+    }
+
+    [Fact]
+    public async Task PutAddressAsync_CustomerNotExist()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<CustomerService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new CustomerService(client, mockConfiguration, mockLogger);
+
+        // ユーザーの住所を更新
+        var putResult = await sut.PutAddressAsync(new PutAddressDto
+        {
+            UserName = _customer.UserName,
+            AddressName = "Home",
+            Address = new Address
+            {
+                StreetAddress = "converted 123 Main St",
+                PostalCode = "converted 12345",
+                Country = "converted USA"
+            }
+        });
+        Assert.NotNull(putResult);
+        Assert.False(putResult.Succeeded);
+        Assert.Equal("Customer does not exist", putResult.Message);
     }
 }

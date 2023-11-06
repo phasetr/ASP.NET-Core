@@ -101,6 +101,7 @@ public class CustomerService : ICustomerService
                     {"PK", new AttributeValue(Customer.ToPk(userName))},
                     {"SK", new AttributeValue(Customer.ToSk(userName))}
                 },
+                ConditionExpression = "attribute_exists(PK)",
                 UpdateExpression = "REMOVE #prop.#name",
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
@@ -189,6 +190,62 @@ public class CustomerService : ICustomerService
             return new GetResponseCustomerDto
             {
                 CustomerModel = null,
+                Message = e.Message,
+                Succeeded = false
+            };
+        }
+    }
+
+    public async Task<ResponseBaseDto> PutAddressAsync(PutAddressDto putAddressDto)
+    {
+        try
+        {
+            var response = await _client.UpdateItemAsync(new UpdateItemRequest
+            {
+                TableName = _tableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    {"PK", new AttributeValue(Customer.ToPk(putAddressDto.UserName))},
+                    {"SK", new AttributeValue(Customer.ToSk(putAddressDto.UserName))}
+                },
+                ConditionExpression = "attribute_exists(PK)",
+                UpdateExpression = "SET #prop.#name = :address",
+                ExpressionAttributeNames = new Dictionary<string, string>
+                {
+                    {"#prop", "Addresses"},
+                    {"#name", putAddressDto.AddressName}
+                },
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":address", new AttributeValue {M = putAddressDto.Address.ToDynamoDbItem()}}
+                }
+            });
+            if (response.HttpStatusCode != HttpStatusCode.OK)
+                return new ResponseBaseDto
+                {
+                    Message = "Failed",
+                    Succeeded = false
+                };
+            return new ResponseBaseDto
+            {
+                Message = "Success",
+                Succeeded = true
+            };
+        }
+        catch (AmazonDynamoDBException e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+
+            if (e.ErrorCode == "ConditionalCheckFailedException")
+                return new ResponseBaseDto
+                {
+                    Message = "Customer does not exist",
+                    Succeeded = false
+                };
+
+            return new ResponseBaseDto
+            {
                 Message = e.Message,
                 Succeeded = false
             };

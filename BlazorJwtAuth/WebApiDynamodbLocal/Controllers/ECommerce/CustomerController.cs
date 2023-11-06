@@ -72,4 +72,19 @@ public class CustomerController : ControllerBase
         if (!response.Succeeded) return UnprocessableEntity(response);
         return Ok(response);
     }
+
+    [HttpPut(ApiPath.CustomerAddress)]
+    public async Task<IActionResult> PutAddressAsync(PutAddressDto dto)
+    {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(new ResponseBaseDto
+            {
+                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
+                Message = "Validation Error",
+                Succeeded = false
+            });
+        var response = await _customerService.PutAddressAsync(dto);
+        if (!response.Succeeded) return UnprocessableEntity(response);
+        return Ok(response);
+    }
 }
