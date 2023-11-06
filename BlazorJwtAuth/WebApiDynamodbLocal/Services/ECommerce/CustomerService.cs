@@ -101,9 +101,10 @@ public class CustomerService : ICustomerService
                     {"PK", new AttributeValue(Customer.ToPk(userName))},
                     {"SK", new AttributeValue(Customer.ToSk(userName))}
                 },
-                UpdateExpression = "REMOVE Addresses.#name",
-                ExpressionAttributeNames = new Dictionary<string, string>()
+                UpdateExpression = "REMOVE #prop.#name",
+                ExpressionAttributeNames = new Dictionary<string, string>
                 {
+                    {"#prop", "Addresses"},
                     {"#name", addressName}
                 }
             });

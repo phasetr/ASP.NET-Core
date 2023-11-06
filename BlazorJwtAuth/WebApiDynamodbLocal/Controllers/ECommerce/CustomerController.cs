@@ -55,4 +55,21 @@ public class CustomerController : ControllerBase
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Customer.ToPk(customer.UserName)}, response);
     }
+
+    [HttpDelete("address")]
+    public async Task<IActionResult> DeleteAddressAsync(string userName, string addressName)
+    {
+        if (!ModelState.IsValid)
+            return UnprocessableEntity(new DeleteAddressDto
+            {
+                UserName = userName,
+                AddressName = addressName,
+                Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
+                Message = "Validation Error",
+                Succeeded = false
+            });
+        var response = await _customerService.DeleteAddressAsync(userName, addressName);
+        if (!response.Succeeded) return UnprocessableEntity(response);
+        return Ok(response);
+    }
 }
