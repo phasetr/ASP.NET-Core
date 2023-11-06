@@ -1,0 +1,23 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<p>Welcome to your new app.</p>
+
+<p>Base address: @_memo</p>
+<p>Message: @_message</p>
+
+@code{
+  private string? _memo = string.Empty;
+  private string? _message = string.Empty;
+
+  protected override async Task OnInitializedAsync()
+  {
+    _memo = Http.BaseAddress?.ToString();
+    _message = await Http.GetStringAsync("rest/Movie/list");
+  }
+
+}
