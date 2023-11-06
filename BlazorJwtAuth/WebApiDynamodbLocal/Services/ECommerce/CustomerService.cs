@@ -43,7 +43,7 @@ public class CustomerService : ICustomerService
                     Put = new Put
                     {
                         ConditionExpression = "attribute_not_exists(PK)",
-                        Item = customerEmail.ToDynamoDbItem(),
+                        Item = customer.ToDynamoDbItem(),
                         TableName = _tableName
                     }
                 },
@@ -52,7 +52,7 @@ public class CustomerService : ICustomerService
                     Put = new Put
                     {
                         ConditionExpression = "attribute_not_exists(PK)",
-                        Item = customer.ToDynamoDbItem(),
+                        Item = customerEmail.ToDynamoDbItem(),
                         TableName = _tableName
                     }
                 }
@@ -65,14 +65,26 @@ public class CustomerService : ICustomerService
                 Message = response.HttpStatusCode == HttpStatusCode.OK ? "Success" : "Failed"
             };
         }
-        catch (AmazonDynamoDBException e)
+        catch (TransactionCanceledException e)
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
+            var message = string.Empty;
+            if (e.ErrorCode != "TransactionCanceledException")
+                return new ResponseBaseDto
+                {
+                    Succeeded = false,
+                    Message = message
+                };
+            // 詳細なメッセージ指定
+            if (e.CancellationReasons[0].Code == "ConditionalCheckFailed")
+                message = "Customer with this username already exists";
+            else if (e.CancellationReasons[1].Code == "ConditionalCheckFailed")
+                message = "Customer with this email already exists";
             return new ResponseBaseDto
             {
                 Succeeded = false,
-                Message = e.Message
+                Message = message
             };
         }
     }
