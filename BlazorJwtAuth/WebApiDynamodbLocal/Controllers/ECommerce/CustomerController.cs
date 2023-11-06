@@ -56,7 +56,7 @@ public class CustomerController : ControllerBase
         return CreatedAtAction("Post", new {pk = Customer.ToPk(customer.UserName)}, response);
     }
 
-    [HttpDelete("address")]
+    [HttpDelete(ApiPath.CustomerAddress)]
     public async Task<IActionResult> DeleteAddressAsync(string userName, string addressName)
     {
         if (!ModelState.IsValid)
