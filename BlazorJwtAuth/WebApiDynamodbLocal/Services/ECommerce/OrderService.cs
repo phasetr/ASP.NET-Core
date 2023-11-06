@@ -111,13 +111,13 @@ public class OrderService : IOrderService
                 TableName = _tableName,
                 IndexName = "GSI1",
                 KeyConditionExpression = "#gsi1pk = :pk",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                {
-                    {":pk", new AttributeValue {S = gsi1Pk}}
-                },
                 ExpressionAttributeNames = new Dictionary<string, string>
                 {
                     {"#gsi1pk", "GSI1PK"}
+                },
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":pk", new AttributeValue {S = gsi1Pk}}
                 },
                 ScanIndexForward = false
             };

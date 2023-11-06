@@ -18,14 +18,9 @@ public class CustomerServiceTests
         Name = "user",
         Addresses = new Dictionary<string, Address>
         {
-            {
-                "Home", new Address
-                {
-                    StreetAddress = "123 Main St",
-                    PostalCode = "12345",
-                    Country = "USA"
-                }
-            }
+            {"Home", new Address {StreetAddress = "123 Main St", PostalCode = "12345", Country = "USA"}},
+            {"Work", new Address {StreetAddress = "456 Main St", PostalCode = "23456", Country = "USA"}},
+            {"Other", new Address {StreetAddress = "789 Main St", PostalCode = "34567", Country = "USA"}}
         }
     };
 
@@ -118,5 +113,38 @@ public class CustomerServiceTests
         Assert.NotNull(createResult2);
         Assert.False(createResult2.Succeeded);
         Assert.Equal("Customer with this email already exists", createResult2.Message);
+    }
+
+    [Fact]
+    public async Task DeleteAddressAsync_Succeeded()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<CustomerService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationECommerceTable].Returns(tableName);
+        var sut = new CustomerService(client, mockConfiguration, mockLogger);
+
+        // ユーザーを登録
+        _ = await sut.CreateAsync(_customer);
+
+        // ユーザーの住所を削除
+        var deleteResult = await sut.DeleteAddressAsync(_customer.UserName, "Home");
+        Assert.NotNull(deleteResult);
+        Assert.True(deleteResult.Succeeded);
+        Assert.Equal("Success", deleteResult.Message);
+
+        // ユーザーの住所を削除したことを確認
+        var getResult = await sut.GetByUserNameAsync(_customer.UserName);
+        Assert.NotNull(getResult);
+        Assert.True(getResult.Succeeded);
+        Assert.NotNull(getResult.CustomerModel);
+        Assert.False(getResult.CustomerModel.Addresses.ContainsKey("Home"));
+        Assert.Equal(2, getResult.CustomerModel.Addresses.Count);
+        var keys = getResult.CustomerModel.Addresses.Keys.ToArray();
+        Assert.Equal("Work", keys[0]);
+        Assert.Equal("Other", keys[1]);
     }
 }

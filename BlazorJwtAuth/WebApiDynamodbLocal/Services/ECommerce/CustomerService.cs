@@ -89,14 +89,52 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task<bool> DeleteAsync(Customer customer)
+    public async Task<ResponseBaseDto> DeleteAddressAsync(string userName, string addressName)
     {
-        throw new NotImplementedException();
-    }
-
-    public async Task<IList<Customer>> GetCustomersAsync(int limit = 10)
-    {
-        throw new NotImplementedException();
+        try
+        {
+            var response = await _client.UpdateItemAsync(new UpdateItemRequest
+            {
+                TableName = _tableName,
+                Key = new Dictionary<string, AttributeValue>
+                {
+                    {"PK", new AttributeValue(Customer.ToPk(userName))},
+                    {"SK", new AttributeValue(Customer.ToSk(userName))}
+                },
+                UpdateExpression = "REMOVE Addresses.#name",
+                ExpressionAttributeNames = new Dictionary<string, string>()
+                {
+                    {"#name", addressName}
+                }
+            });
+            if (response.HttpStatusCode != HttpStatusCode.OK)
+                return new ResponseBaseDto
+                {
+                    Message = "Failed",
+                    Succeeded = false
+                };
+            return new ResponseBaseDto
+            {
+                Message = "Success",
+                Succeeded = true
+            };
+        }
+        catch (AmazonDynamoDBException e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            if (e.ErrorCode == "ConditionalCheckFailedException")
+                return new ResponseBaseDto
+                {
+                    Message = "Customer does not exist",
+                    Succeeded = false
+                };
+            return new ResponseBaseDto
+            {
+                Message = e.Message,
+                Succeeded = false
+            };
+        }
     }
 
     public async Task<GetResponseCustomerDto?> GetByUserNameAsync(string userName)
@@ -154,10 +192,5 @@ public class CustomerService : ICustomerService
                 Succeeded = false
             };
         }
-    }
-
-    public async Task<bool> UpdateAsync(Customer customer)
-    {
-        throw new NotImplementedException();
     }
 }

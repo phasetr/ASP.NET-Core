@@ -1,5 +1,7 @@
 # README
 
+- [参考: DynamoDB Book](https://www.dynamodbbook.com/)
+
 ## `DynamoDBContext`
 
 - [`DynamoDBContext`クラス](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/DotNetDynamoDBContext.html)
