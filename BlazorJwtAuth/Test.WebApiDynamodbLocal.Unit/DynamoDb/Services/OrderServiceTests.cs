@@ -33,21 +33,18 @@ public class OrderServiceTests
                 PostalCode = "12345",
                 Country = "USA"
             },
-            Status = "Pending",
             TotalAmount = 300,
             NumberOfItems = 2,
             OrderItemModels = new OrderItemModel[]
             {
                 new()
                 {
-                    OrderItemId = "1",
                     Description = "description1",
                     Price = "100",
                     Amount = "1"
                 },
                 new()
                 {
-                    OrderItemId = "2",
                     Description = "description2",
                     Price = "200",
                     Amount = "2"

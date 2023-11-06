@@ -18,15 +18,11 @@ public class OrderItem : BaseEntity
     public string GsI1Sk { get; set; } = default!;
 
     [DynamoDBProperty] public string Type { get; set; } = "OrderItem";
-
     [Required] [DynamoDBProperty] public string OrderId { get; set; } = default!;
-
-    [Required] [DynamoDBProperty] public string ItemId { get; set; } = default!;
-
+    [Required] [DynamoDBProperty] public int ItemId { get; set; }
     [DynamoDBProperty] public string Description { get; set; } = default!;
-    [DynamoDBProperty] public decimal Price { get; set; } = default!;
-
-    [DynamoDBProperty] public int Amount { get; set; } = default!;
+    [DynamoDBProperty] public decimal Price { get; set; }
+    [DynamoDBProperty] public int Amount { get; set; }
 
     public string ToGsi1Pk()
     {
@@ -58,7 +54,7 @@ public class OrderItem : BaseEntity
             {"GSI1SK", new AttributeValue(ToGsi1Sk())},
             {"Type", new AttributeValue(nameof(OrderItem))},
             {"OrderId", new AttributeValue(OrderId)},
-            {"ItemId", new AttributeValue(ItemId)},
+            {"ItemId", new AttributeValue {N = ItemId.ToString()}},
             {"Description", new AttributeValue(Description)},
             {"Price", new AttributeValue {N = Price.ToString(CultureInfo.InvariantCulture)}},
             {"Amount", new AttributeValue {N = Amount.ToString()}}

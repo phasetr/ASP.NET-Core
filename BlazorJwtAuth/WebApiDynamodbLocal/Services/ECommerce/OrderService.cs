@@ -2,6 +2,7 @@ using System.Net;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using WebApiDynamodbLocal.Constants;
+using WebApiDynamodbLocal.Constants.ECommerce;
 using WebApiDynamodbLocal.Dto.ECommerce.Order;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Models.ECommerce;
@@ -36,7 +37,7 @@ public class OrderService : IOrderService
             OrderId = orderId,
             Address = postOrderDto.Address,
             CreatedAt = dateTime,
-            Status = postOrderDto.Status,
+            Status = nameof(OrderStatus.Placed),
             TotalAmount = postOrderDto.TotalAmount,
             NumberOfItems = postOrderDto.NumberOfItems
         };
@@ -55,7 +56,7 @@ public class OrderService : IOrderService
                 }
             };
             transactItems.AddRange(postOrderDto.OrderItemModels
-                .Select(orderItemModel =>
+                .Select((orderItemModel, i) =>
                 {
                     int.TryParse(orderItemModel.Amount, out var amount);
                     int.TryParse(orderItemModel.Price, out var price);
@@ -63,7 +64,7 @@ public class OrderService : IOrderService
                     {
                         Amount = amount,
                         Description = orderItemModel.Description,
-                        ItemId = orderItemModel.OrderItemId,
+                        ItemId = i + 1,
                         OrderId = orderId,
                         Price = price,
                         Type = nameof(OrderItem)
@@ -139,7 +140,6 @@ public class OrderService : IOrderService
                 {
                     Amount = orderItem["Amount"].N,
                     Description = orderItem["Description"].S,
-                    OrderItemId = orderItem["ItemId"].S,
                     Price = orderItem["Price"].N
                 }).ToList();
             return new GetResponseOrderDto
