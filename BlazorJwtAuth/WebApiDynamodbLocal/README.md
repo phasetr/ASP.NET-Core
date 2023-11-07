@@ -22,20 +22,22 @@ aws dynamodb create-table \
     --table-name SessionStore \
     --endpoint-url=http://localhost:8000 \
     --attribute-definitions \
-        AttributeName=PK,AttributeType=S \
-        AttributeName=SK,AttributeType=S \
+      AttributeName=PK,AttributeType=S \
+      AttributeName=SK,AttributeType=S \
+      AttributeName=GSI1PK,AttributeType=S \
+      AttributeName=GSI1SK,AttributeType=S \
     --key-schema \
         AttributeName=PK,KeyType=HASH \
         AttributeName=SK,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=10,WriteCapacityUnits=5 \
+        ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --global-secondary-indexes \
         '[
             {
                 "IndexName": "GSI1",
                 "KeySchema": [
-                    { "AttributeName": "PK", "KeyType": "HASH" },
-                    { "AttributeName": "SK", "KeyType": "RANGE" }
+                    { "AttributeName": "GSI1PK", "KeyType": "HASH" },
+                    { "AttributeName": "GSI1SK", "KeyType": "RANGE" }
                 ],
                 "Projection": {
                     "ProjectionType": "ALL"
@@ -65,7 +67,9 @@ aws dynamodb create-table --table-name ECommerce \
 ```shell
 aws dynamodb update-table \
   --table-name ECommerce \
-  --attribute-definitions AttributeName=GSI1PK,AttributeType=S AttributeName=GSI1SK,AttributeType=S \
+  --attribute-definitions \
+    AttributeName=GSI1PK,AttributeType=S \
+    AttributeName=GSI1SK,AttributeType=S \
   --global-secondary-index-updates \
     '[{"Create":{"IndexName": "GSI1","KeySchema":[{"AttributeName":"GSI1PK","KeyType":"HASH"},{"AttributeName":"GSI1SK","KeyType":"RANGE"}], "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5 }, "Projection":{"ProjectionType":"ALL"}}}]' \
   --endpoint-url=http://localhost:8000
