@@ -22,6 +22,16 @@ public class User : BaseEntity
         return $"USER#{UserName.ToLower()}";
     }
 
+    public static string UserNameToPk(string userName)
+    {
+        return $"USER#{userName.ToLower()}";
+    }
+
+    public static string UserNameToSk(string userName)
+    {
+        return $"USER#{userName.ToLower()}";
+    }
+
     public string ToUserIndex()
     {
         return $"USER#{UserName.ToLower()}";
