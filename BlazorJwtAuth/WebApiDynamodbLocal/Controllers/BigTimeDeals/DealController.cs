@@ -1,41 +1,41 @@
 using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using WebApiDynamodbLocal.Constants.BigTimeDeals;
-using WebApiDynamodbLocal.Dto.BigTimeDeals.Brand;
+using WebApiDynamodbLocal.Dto.BigTimeDeals.Deal;
 using WebApiDynamodbLocal.Entities.BigTimeDeals;
 using WebApiDynamodbLocal.Models.BigTimeDeals;
 using WebApiDynamodbLocal.Services.BigTimeDeals.Interfaces;
 
 namespace WebApiDynamodbLocal.Controllers.BigTimeDeals;
 
-[Route(ApiPath.Brand)]
+[Route(ApiPath.Deal)]
 [ApiController]
-public class BrandController : ControllerBase
+public class DealController : ControllerBase
 {
-    private readonly IBrandService _brandService;
+    private readonly IDealService _dealService;
 
-    public BrandController(IBrandService brandService)
+    public DealController(IDealService dealService)
     {
-        _brandService = brandService;
+        _dealService = dealService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAsync(string name)
+    public async Task<IActionResult> GetAsync(string dealId)
     {
         if (!ModelState.IsValid)
             return UnprocessableEntity(new GetResponseDto
             {
-                BrandModel = null,
+                DealModel = null,
                 Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _brandService.GetAsync(name);
+        var response = await _dealService.GetAsync(dealId);
         return Ok(response);
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(BrandModel brandModel)
+    public async Task<IActionResult> PostAsync(DealModel model)
     {
         if (!ModelState.IsValid)
             return UnprocessableEntity(new ResponseBaseDto
@@ -46,16 +46,17 @@ public class BrandController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var brand = new Brand
+        var deal = new Deal
         {
-            Type = nameof(Brand),
-            Name = brandModel.Name,
-            LogoUrl = brandModel.LogoUrl,
-            LikeCount = brandModel.LikeCount,
-            WatchCount = brandModel.WatchCount
+            Type = nameof(Deal),
+            Title = model.Title,
+            Link = model.Link,
+            Price = model.Price,
+            Category = model.Category,
+            Brand = model.Brand
         };
-        var response = await _brandService.CreateAsync(brand);
+        var response = await _dealService.CreateAsync(deal);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Brand.NameToPk(brandModel.Name)}, response);
+        return CreatedAtAction("Post", new {pk = response.DealId}, response);
     }
 }

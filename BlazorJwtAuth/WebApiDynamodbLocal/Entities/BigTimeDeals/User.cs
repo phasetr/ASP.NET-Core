@@ -37,7 +37,7 @@ public class User : BaseEntity
             {"Type", new AttributeValue(Type)},
             {"UserName", new AttributeValue(UserName)},
             {"Name", new AttributeValue(Name)},
-            {"CreatedAt", new AttributeValue {S = CreatedAt.ToString("yyyy-MM-dd#HH:mm:ss")}}
+            {"CreatedAt", new AttributeValue {S = CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}}
         };
     }
 }

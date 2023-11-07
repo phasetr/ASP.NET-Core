@@ -33,10 +33,14 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
     };
     return new AmazonDynamoDBClient(clientConfig);
 });
+// SessionStore
 builder.Services.AddScoped<ISessionService, SessionService>();
+// ECommerce
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+// BigTimeDeals
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IDealService, DealService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

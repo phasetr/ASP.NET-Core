@@ -1,5 +1,7 @@
+using System.Globalization;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using KsuidDotNet;
 using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
@@ -11,10 +13,10 @@ public class Deal : BaseEntity
     [DynamoDBProperty] public string DealId { get; set; } = default!;
     [DynamoDBProperty] public string Title { get; set; } = default!;
     [DynamoDBProperty] public string Link { get; set; } = default!;
-    [DynamoDBProperty] public string Price { get; set; } = default!;
+    [DynamoDBProperty] public decimal Price { get; set; }
     [DynamoDBProperty] public string Category { get; set; } = default!;
     [DynamoDBProperty] public string Brand { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; } = default!;
+    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
 
     public override string ToPk()
     {
@@ -26,9 +28,24 @@ public class Deal : BaseEntity
         return $"DEAL#{DealId}";
     }
 
+    public static string GenerateDealId(DateTime createdAt)
+    {
+        return Ksuid.NewKsuid(createdAt);
+    }
+
+    public static string DealIdToPk(string dealId)
+    {
+        return $"DEAL#{dealId}";
+    }
+
+    public static string DealIdToSk(string dealId)
+    {
+        return $"DEAL#{dealId}";
+    }
+
     public string ToGsi1Pk()
     {
-        return $"DEALS#{CreatedAt:yyyy-MM-dd#HH:mm:ss}";
+        return $"DEALS#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
     }
 
     public string ToGsi1Sk()
@@ -38,7 +55,7 @@ public class Deal : BaseEntity
 
     public string ToGsi2Pk()
     {
-        return $"DEALS#{CreatedAt:yyyy-MM-dd#HH:mm:ss}";
+        return $"DEALS#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
     }
 
     public string ToGsi2Sk()
@@ -48,7 +65,7 @@ public class Deal : BaseEntity
 
     public string ToGsi3Pk()
     {
-        return $"CATEGORY#{Category.ToUpper()}#{CreatedAt:yyyy-MM-dd#HH:mm:ss}";
+        return $"CATEGORY#{Category.ToUpper()}#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
     }
 
     public string ToGsi3Sk()
@@ -66,10 +83,10 @@ public class Deal : BaseEntity
             {"DealId", new AttributeValue(DealId)},
             {"Title", new AttributeValue(Title)},
             {"Link", new AttributeValue(Link)},
-            {"Price", new AttributeValue(Price)},
+            {"Price", new AttributeValue {N = Price.ToString(CultureInfo.InvariantCulture)}},
             {"Category", new AttributeValue(Category)},
             {"Brand", new AttributeValue(Brand)},
-            {"CreatedAt", new AttributeValue(CreatedAt.ToString("yyyy-MM-dd#HH:mm:ss"))}
+            {"CreatedAt", new AttributeValue(CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"))}
         };
     }
 }

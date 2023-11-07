@@ -84,7 +84,7 @@ public class BrandService : IBrandService
             if (e.ErrorCode == "ConditionalCheckFailedException")
                 return new ResponseBaseDto
                 {
-                    Message = "Brand with this name does not exist",
+                    Message = "Brand with this name already exist",
                     Succeeded = false
                 };
             return new ResponseBaseDto
@@ -118,7 +118,7 @@ public class BrandService : IBrandService
                 };
             return new GetResponseDto
             {
-                Message = "Success",
+                Message = "Brand found",
                 Succeeded = true,
                 BrandModel = new BrandModel
                 {

@@ -35,12 +35,12 @@ public class Brand : BaseEntity
 
     public string ToGsi2Pk(DateTime dateTime)
     {
-        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd#HH:mm:ss}";
+        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd HH:mm:ss}";
     }
 
     public string ToGsi2Sk(DateTime dateTime)
     {
-        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd#HH:mm:ss}";
+        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd HH:mm:ss}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()

@@ -54,7 +54,7 @@ public class Message : BaseEntity
             {"Subject", new AttributeValue(Subject)},
             {"Content", new AttributeValue(Content)},
             {"DealId", new AttributeValue(DealId)},
-            {"SentAt", new AttributeValue {S = SentAt.ToString("yyyy-MM-dd#HH:mm:ss")}},
+            {"SentAt", new AttributeValue {S = SentAt.ToString("yyyy-MM-dd HH:mm:ss")}},
             {"UnRead", new AttributeValue {BOOL = UnRead}}
         };
         if (!UnRead) return dynamodbItem;
