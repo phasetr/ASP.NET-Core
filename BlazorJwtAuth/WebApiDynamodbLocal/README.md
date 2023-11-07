@@ -13,6 +13,23 @@
 
 - [ASP.NET Core Web API + DynamoDB Locally](https://www.codeproject.com/Articles/5273030/ASP-NET-Core-Web-API-plus-DynamoDB-Locally)
 
+### テスト用の`DynamoDB`のテーブル削除
+
+- 今あるテーブルを取得するコマンドは下記の通り
+
+```shell
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames'
+```
+
+- 今あるテーブルのうち、`Z-*`で始まるテーブルを削除するコマンドは下記の通り：`Z-`で始まるテーブルはテスト用のテーブルとしている
+
+```shell
+aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames' \
+  | grep "Z-*" \
+  | sed "s/,//g" \
+  | xargs -I {} aws dynamodb delete-table --endpoint-url http://localhost:8000 --table-name {} > /dev/null
+```
+
 ### `SessionStore`
 
 - テーブル作成
@@ -52,6 +69,20 @@ aws dynamodb create-table \
 
 ### `ECommerce`
 
+#### テーブル構造
+
+- **Primary key:** `PK` & `SK`
+- **GSI1 secondary index:** `GSI1PK` & `GSI1SK`
+
+| **Entity**    | **PK**                          | **SK**                          | **GSI1PK**        | **GSI1SK**        |
+|---------------|---------------------------------|---------------------------------|-------------------|-------------------|
+| Customer      | `CUSTOMER#<Username>`           | `CUSTOMER#<Username>`           |                   |                   |
+| CustomerEmail | `CUSTOMEREMAIL#<Email>`         | `CUSTOMEREMAIL#<Email>`         |                   |                   |
+| Order         | `CUSTOMER#<Username>`           | `#ORDER#<OrderId>`              | `ORDER#<OrderId>` | `ORDER#<OrderId>` |
+| OrderItem     | `ORDER#<OrderId>#ITEM#<ItemId>` | `ORDER#<OrderId>#ITEM#<ItemId>` | `ORDER#<OrderId>` | `Item#<ItemId>`   |
+
+#### テーブル作成コマンド
+
 - テーブル作成(未検証)
 
 ```shell
@@ -88,21 +119,4 @@ aws dynamodb get-item \
   --table-name ECommerce \
   --key '{ "PK": { "S": "CUSTOMER#user1" }, "SK": { "S": "CUSTOMER#user1" } }' \
   --endpoint-url http://localhost:8000
-```
-
-### テスト用の`DynamoDB`のテーブル削除
-
-- 今あるテーブルを取得するコマンドは下記の通り
-
-```shell
-aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames'
-```
-
-- 今あるテーブルのうち、`Z-*`で始まるテーブルを削除するコマンドは下記の通り：`Z-`で始まるテーブルはテスト用のテーブルとしている
-
-```shell
-aws dynamodb list-tables --endpoint-url http://localhost:8000 --query 'TableNames' \
-  | grep "Z-*" \
-  | sed "s/,//g" \
-  | xargs -I {} aws dynamodb delete-table --endpoint-url http://localhost:8000 --table-name {} > /dev/null
 ```
