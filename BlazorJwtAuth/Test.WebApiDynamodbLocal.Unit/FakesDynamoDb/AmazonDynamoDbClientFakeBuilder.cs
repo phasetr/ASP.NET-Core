@@ -25,7 +25,11 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
                 new() {AttributeName = "PK", AttributeType = ScalarAttributeType.S},
                 new() {AttributeName = "SK", AttributeType = ScalarAttributeType.S},
                 new() {AttributeName = "GSI1PK", AttributeType = ScalarAttributeType.S},
-                new() {AttributeName = "GSI1SK", AttributeType = ScalarAttributeType.S}
+                new() {AttributeName = "GSI1SK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI2PK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI2SK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI3PK", AttributeType = ScalarAttributeType.S},
+                new() {AttributeName = "GSI3SK", AttributeType = ScalarAttributeType.S}
             },
             KeySchema = new List<KeySchemaElement>
             {
@@ -46,6 +50,36 @@ public class AmazonDynamoDbClientFakeBuilder : IDisposable
                     {
                         new() {AttributeName = "GSI1PK", KeyType = KeyType.HASH},
                         new() {AttributeName = "GSI1SK", KeyType = KeyType.RANGE}
+                    },
+                    Projection = new Projection {ProjectionType = ProjectionType.ALL},
+                    ProvisionedThroughput = new ProvisionedThroughput
+                    {
+                        ReadCapacityUnits = 5,
+                        WriteCapacityUnits = 5
+                    }
+                },
+                new()
+                {
+                    IndexName = "GSI2",
+                    KeySchema = new List<KeySchemaElement>
+                    {
+                        new() {AttributeName = "GSI2PK", KeyType = KeyType.HASH},
+                        new() {AttributeName = "GSI2SK", KeyType = KeyType.RANGE}
+                    },
+                    Projection = new Projection {ProjectionType = ProjectionType.ALL},
+                    ProvisionedThroughput = new ProvisionedThroughput
+                    {
+                        ReadCapacityUnits = 5,
+                        WriteCapacityUnits = 5
+                    }
+                },
+                new()
+                {
+                    IndexName = "GSI3",
+                    KeySchema = new List<KeySchemaElement>
+                    {
+                        new() {AttributeName = "GSI3PK", KeyType = KeyType.HASH},
+                        new() {AttributeName = "GSI3SK", KeyType = KeyType.RANGE}
                     },
                     Projection = new Projection {ProjectionType = ProjectionType.ALL},
                     ProvisionedThroughput = new ProvisionedThroughput

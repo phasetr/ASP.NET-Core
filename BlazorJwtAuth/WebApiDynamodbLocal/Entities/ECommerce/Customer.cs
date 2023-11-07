@@ -7,7 +7,7 @@ namespace WebApiDynamodbLocal.Entities.ECommerce;
 [DynamoDBTable(AwsSettings.ECommerceTable)]
 public class Customer : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = default!;
+    [DynamoDBProperty] public string Type { get; set; } = nameof(Customer);
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string Name { get; set; } = default!;

@@ -1,4 +1,6 @@
 using Amazon.DynamoDBv2;
+using WebApiDynamodbLocal.Services.BigTimeDeals;
+using WebApiDynamodbLocal.Services.BigTimeDeals.Interfaces;
 using WebApiDynamodbLocal.Services.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
 using WebApiDynamodbLocal.Services.SessionStore;
@@ -34,6 +36,7 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(_ =>
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Add services to the container.
 builder.Services.AddControllers();

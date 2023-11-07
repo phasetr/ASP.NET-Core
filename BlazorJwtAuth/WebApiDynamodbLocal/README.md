@@ -120,3 +120,97 @@ aws dynamodb get-item \
   --key '{ "PK": { "S": "CUSTOMER#user1" }, "SK": { "S": "CUSTOMER#user1" } }' \
   --endpoint-url http://localhost:8000
 ```
+
+### `BigTimeDeals`
+
+#### テーブル構造
+
+- **Primary key:** `PK` & `SK`
+- **GSI1 secondary index:** `GSI1PK` & `GSI1SK`
+- **GSI2 secondary index:** `GSI2PK` & `GSI2SK`
+- **GSI3 secondary index:** `GSI3PK` & `GSI3SK`
+- **UserIndex secondary index:** `UserIndex`
+
+| **Entity**        | **PK**                                   | **SK**                                   | **GSI1PK**                                   | **GSI1SK**                                    | **GSI2PK**                               | **GSI2SK**      | **GSI3PK**                                     | **GSI3SK**      | **UserIndex**     |
+|-------------------|------------------------------------------|------------------------------------------|----------------------------------------------|-----------------------------------------------|------------------------------------------|-----------------|------------------------------------------------|-----------------|-------------------|
+| Deal              | `DEAL#<DealId>`                          | `DEAL#<DealId>`                          | `DEALS#<TruncatedTimestamp>`                 | `DEAL#<DealId>`                               | `BRAND#<BrandName>#<TruncatedTimestamp>` | `DEAL#<DealId>` | `CATEGORY#<CategoryName>#<TruncatedTimestamp>` | `DEAL#<DealId>` |                   |
+| Brand             | `BRAND#<BrandName>`                      | `BRAND#<BrandName>`                      |                                              |                                               |                                          |                 |                                                |                 |                   |
+| BrandsContainer   | `BRANDS`                                 | `BRANDS`                                 |                                              |                                               |                                          |                 |                                                |                 |                   |
+| Category          | `CATEGORY#<CategoryName>`                | `CATEGORY#<CategoryName>`                |                                              |                                               |                                          |                 |                                                |                 |                   |
+| FrontPage         | `FRONTPAGE`                              | `FRONTPAGE`                              |                                              |                                               |                                          |                 |                                                |                 |                   |
+| EditorsChoicePage | `EDITORPAGE`                             | `EDITORPAGE`                             |                                              |                                               |                                          |                 |                                                |                 |                   |
+| User              | `USER#<Username>`                        | `USER#<Username>`                        |                                              |                                               |                                          |                 |                                                |                 | `USER#<Username>` |
+| Message           | `MESSAGES#<Username>`                    | `MESSAGES#<MessageId>`                   | `MESSAGES#<Username>` (if Message is unread) | `MESSAGES#<MessageId>` (if Message is Unread) |                                          |                 |                                                |                 |                   |
+| BrandLike         | `BRANDLIKE#<BrandName>#<Username>`       | `BRANDLIKE#<BrandName>#<Username>`       |                                              |                                               |                                          |                 |                                                |                 |                   |
+| BrandWatch        | `BRANDWATCH#<BrandName>`                 | `USER#<Username>`                        |                                              |                                               |                                          |                 |                                                |                 |                   |
+| CategoryLike      | `CATEGORYLIKE#<CategoryName>#<Username>` | `CATEGORYLIKE#<CategoryName>#<Username>` |                                              |                                               |                                          |                 |                                                |                 |                   |
+| CategoryWatch     | `CATEGORYWATCH#<CategoryName>`           | `USER#<Username>`                        |                                              |                                               |                                          |                 |                                                |                 |                   |
+
+#### テーブル作成コマンド
+
+- テーブル作成
+
+```shell
+aws dynamodb create-table \
+    --table-name BigTimeDeals \
+    --endpoint-url=http://localhost:8000 \
+    --attribute-definitions \
+      AttributeName=PK,AttributeType=S \
+      AttributeName=SK,AttributeType=S \
+      AttributeName=GSI1PK,AttributeType=S \
+      AttributeName=GSI1SK,AttributeType=S \
+      AttributeName=GSI2PK,AttributeType=S \
+      AttributeName=GSI2SK,AttributeType=S \
+      AttributeName=GSI3PK,AttributeType=S \
+      AttributeName=GSI3SK,AttributeType=S \
+    --key-schema \
+        AttributeName=PK,KeyType=HASH \
+        AttributeName=SK,KeyType=RANGE \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5 \
+    --global-secondary-indexes \
+        '[
+            {
+                "IndexName": "GSI1",
+                "KeySchema": [
+                    { "AttributeName": "GSI1PK", "KeyType": "HASH" },
+                    { "AttributeName": "GSI1SK", "KeyType": "RANGE" }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 5,
+                    "WriteCapacityUnits": 5
+                }
+            },
+            {
+                "IndexName": "GSI2",
+                "KeySchema": [
+                    { "AttributeName": "GSI2PK", "KeyType": "HASH" },
+                    { "AttributeName": "GSI2SK", "KeyType": "RANGE" }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 5,
+                    "WriteCapacityUnits": 5
+                }
+            },
+            {
+                "IndexName": "GSI3",
+                "KeySchema": [
+                    { "AttributeName": "GSI3PK", "KeyType": "HASH" },
+                    { "AttributeName": "GSI3SK", "KeyType": "RANGE" }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 5,
+                    "WriteCapacityUnits": 5
+                }
+            }
+        ]'
+```
