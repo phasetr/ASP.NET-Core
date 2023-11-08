@@ -33,6 +33,11 @@ public class Category : BaseEntity
         return $"CATEGORY#{name.ToUpper()}";
     }
 
+    public static string ToGsi3Pk(string name, DateTime dateTime)
+    {
+        return $"CATEGORY#{name.ToUpper()}#{dateTime:yyyy-MM-dd}";
+    }
+
     public string ToGsi3Pk(DateTime dateTime)
     {
         return $"CATEGORY#{Name.ToUpper()}#{dateTime:yyyy-MM-dd}";
