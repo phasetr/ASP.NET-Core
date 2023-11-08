@@ -13,16 +13,6 @@ public class Category : BaseEntity
     [DynamoDBProperty] public int LikeCount { get; set; }
     [DynamoDBProperty] public int WatchCount { get; set; }
 
-    public override string ToPk()
-    {
-        return $"CATEGORY#{Name.ToUpper()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"CATEGORY#{Name.ToUpper()}";
-    }
-
     public static string ToPk(string name)
     {
         return $"CATEGORY#{name.ToUpper()}";

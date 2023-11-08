@@ -11,16 +11,6 @@ public class Interaction : BaseEntity
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string Name { get; set; } = default!;
 
-    public override string ToPk()
-    {
-        return $"{Type.ToUpper()}#{Name.ToLower()}#{UserName.ToLower()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"{Type.ToUpper()}#{Name.ToLower()}#{UserName.ToLower()}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
@@ -42,16 +32,6 @@ public class Like : Interaction
 public class Watch : Interaction
 {
     [DynamoDBProperty] public new string Type { get; set; } = nameof(Watch);
-
-    public override string ToPk()
-    {
-        return $"{Type.ToUpper()}#{Name.ToLower()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"USER#{UserName.ToLower()}";
-    }
 }
 
 public class BrandLike : Like

@@ -11,16 +11,6 @@ public class CustomerEmail : BaseEntity
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
 
-    public override string ToPk()
-    {
-        return $"{nameof(CustomerEmail).ToUpper()}#{Email}";
-    }
-
-    public override string ToSk()
-    {
-        return $"{nameof(CustomerEmail).ToUpper()}#{Email}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

@@ -111,4 +111,29 @@ public static class Key
     {
         return MessageSk(messageId);
     }
+
+    public static string PagePk()
+    {
+        return "PAGE";
+    }
+
+    public static string PageSk()
+    {
+        return "PAGE";
+    }
+    
+    public static string UserPk(string userName)
+    {
+        return $"USER#{userName.ToLower()}";
+    }
+    
+    public static string UserSk(string userName)
+    {
+        return $"USER#{userName.ToLower()}";
+    }
+    
+    public static string UserUserIndex(string userName)
+    {
+        return $"USER#{userName.ToLower()}";
+    }
 }

@@ -13,16 +13,6 @@ public class Brand : BaseEntity
     [DynamoDBProperty] public int LikeCount { get; set; }
     [DynamoDBProperty] public int WatchCount { get; set; }
 
-    public override string ToPk()
-    {
-        return $"BRAND#{Name.ToUpper()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"BRAND#{Name.ToUpper()}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

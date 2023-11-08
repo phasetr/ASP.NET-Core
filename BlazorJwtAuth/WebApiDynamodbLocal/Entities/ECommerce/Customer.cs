@@ -13,16 +13,6 @@ public class Customer : BaseEntity
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public Dictionary<string, Address> Addresses { get; set; } = default!;
 
-    public override string ToPk()
-    {
-        return $"{nameof(Customer).ToUpper()}#{UserName}";
-    }
-
-    public override string ToSk()
-    {
-        return $"{nameof(Customer).ToUpper()}#{UserName}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

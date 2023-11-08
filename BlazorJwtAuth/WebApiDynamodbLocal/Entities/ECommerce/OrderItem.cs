@@ -24,16 +24,6 @@ public class OrderItem : BaseEntity
     [DynamoDBProperty] public decimal Price { get; set; }
     [DynamoDBProperty] public int Amount { get; set; }
 
-    public override string ToPk()
-    {
-        return $"ORDER#{OrderId}#ITEM#{ItemId}";
-    }
-
-    public override string ToSk()
-    {
-        return $"ORDER#{OrderId}#ITEM#{ItemId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

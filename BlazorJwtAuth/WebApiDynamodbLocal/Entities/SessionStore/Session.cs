@@ -21,16 +21,6 @@ public class Session : BaseEntity
     [DynamoDBProperty] public DateTime ExpiredAt { get; set; }
     [DynamoDBProperty] public int Ttl { get; set; }
 
-    public override string ToPk()
-    {
-        return $"{nameof(Session).ToUpper()}#{SessionId}";
-    }
-
-    public override string ToSk()
-    {
-        return $"{nameof(Session).ToUpper()}#{SessionId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

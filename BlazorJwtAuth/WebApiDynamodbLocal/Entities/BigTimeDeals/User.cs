@@ -12,38 +12,13 @@ public class User : BaseEntity
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public DateTime CreatedAt { get; set; }
 
-    public override string ToPk()
-    {
-        return $"USER#{UserName.ToLower()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"USER#{UserName.ToLower()}";
-    }
-
-    public static string ToPk(string userName)
-    {
-        return $"USER#{userName.ToLower()}";
-    }
-
-    public static string ToSk(string userName)
-    {
-        return $"USER#{userName.ToLower()}";
-    }
-
-    public string ToUserIndex()
-    {
-        return $"USER#{UserName.ToLower()}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"UserIndex", new AttributeValue(ToUserIndex())},
+            {"PK", new AttributeValue(Key.UserPk(UserName))},
+            {"SK", new AttributeValue(Key.UserSk(UserName))},
+            {"UserIndex", new AttributeValue(Key.UserUserIndex(UserName))},
             {"Type", new AttributeValue(Type)},
             {"UserName", new AttributeValue(UserName)},
             {"Name", new AttributeValue(Name)},

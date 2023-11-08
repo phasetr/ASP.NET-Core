@@ -47,8 +47,8 @@ public class BrandService : IBrandService
                     {
                         Key = new Dictionary<string, AttributeValue>
                         {
-                            {"PK", new AttributeValue(brandContainer.ToPk())},
-                            {"SK", new AttributeValue(brandContainer.ToSk())}
+                            {"PK", new AttributeValue(Key.BrandContainerPk())},
+                            {"SK", new AttributeValue(Key.BrandContainerSk())}
                         },
                         TableName = _tableName,
                         UpdateExpression = "ADD #brands :brand",

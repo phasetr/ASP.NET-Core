@@ -36,16 +36,6 @@ public class Deal : BaseEntity
     [DynamoDBProperty] public string Brand { get; set; } = default!;
     [DynamoDBProperty] public DateTime CreatedAt { get; set; }
 
-    public override string ToPk()
-    {
-        return $"DEAL#{DealId}";
-    }
-
-    public override string ToSk()
-    {
-        return $"DEAL#{DealId}";
-    }
-
     public static string GenerateDealId(DateTime createdAt)
     {
         return Ksuid.NewKsuid(createdAt);

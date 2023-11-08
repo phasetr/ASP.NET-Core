@@ -47,16 +47,6 @@ public class Order : BaseEntity
         return $"#ORDER#{orderId}";
     }
 
-    public override string ToPk()
-    {
-        return $"CUSTOMER#{UserName}";
-    }
-
-    public override string ToSk()
-    {
-        return $"#ORDER#{OrderId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

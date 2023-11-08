@@ -22,16 +22,6 @@ public class Message : BaseEntity
     [DynamoDBProperty] public DateTime SentAt { get; set; } = default!;
     [DynamoDBProperty] public bool UnRead { get; set; } = default!;
 
-    public override string ToPk()
-    {
-        return $"MESSAGES#{UserName.ToLower()}";
-    }
-
-    public override string ToSk()
-    {
-        return $"MESSAGES#{MessageId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         var dynamodbItem = new Dictionary<string, AttributeValue>

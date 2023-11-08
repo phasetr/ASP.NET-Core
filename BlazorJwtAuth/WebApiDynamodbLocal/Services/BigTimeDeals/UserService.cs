@@ -68,8 +68,8 @@ public class UserService : IUserService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(User.ToPk(userName))},
-                    {"SK", new AttributeValue(User.ToPk(userName))}
+                    {"PK", new AttributeValue(Key.UserPk(userName))},
+                    {"SK", new AttributeValue(Key.UserPk(userName))}
                 }
             });
             if (response.Item == null || response.Item.Count == 0)
