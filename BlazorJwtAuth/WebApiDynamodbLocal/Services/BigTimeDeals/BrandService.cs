@@ -104,8 +104,8 @@ public class BrandService : IBrandService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Brand.ToPk(name))},
-                    {"SK", new AttributeValue(Brand.ToSk(name))}
+                    {"PK", new AttributeValue(Key.BrandPk(name))},
+                    {"SK", new AttributeValue(Key.BrandSk(name))}
                 }
             };
             var response = await _client.GetItemAsync(request);

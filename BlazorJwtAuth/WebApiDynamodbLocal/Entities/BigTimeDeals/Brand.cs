@@ -10,8 +10,8 @@ public class Brand : BaseEntity
     [DynamoDBProperty] public string Type { get; set; } = nameof(Brand);
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public string LogoUrl { get; set; } = default!;
-    [DynamoDBProperty] public int LikeCount { get; set; } = default!;
-    [DynamoDBProperty] public int WatchCount { get; set; } = default!;
+    [DynamoDBProperty] public int LikeCount { get; set; }
+    [DynamoDBProperty] public int WatchCount { get; set; }
 
     public override string ToPk()
     {
@@ -23,22 +23,12 @@ public class Brand : BaseEntity
         return $"BRAND#{Name.ToUpper()}";
     }
 
-    public static string ToPk(string name)
-    {
-        return $"BRAND#{name.ToUpper()}";
-    }
-
-    public static string ToSk(string name)
-    {
-        return $"BRAND#{name.ToUpper()}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
+            {"PK", new AttributeValue(Key.BrandPk(Name))},
+            {"SK", new AttributeValue(Key.BrandSk(Name))},
             {"Type", new AttributeValue(Type)},
             {"Name", new AttributeValue(Name)},
             {"LogoUrl", new AttributeValue(LogoUrl)},
