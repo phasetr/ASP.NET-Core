@@ -54,6 +54,6 @@ public class UserController : ControllerBase
         };
         var response = await _userService.CreateAsync(user);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Entities.BigTimeDeals.User.UserNameToPk(model.UserName)}, response);
+        return CreatedAtAction("Post", new {pk = Entities.BigTimeDeals.User.ToPk(model.UserName)}, response);
     }
 }

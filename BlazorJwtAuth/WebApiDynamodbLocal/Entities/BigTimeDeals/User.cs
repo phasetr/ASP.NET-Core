@@ -22,12 +22,12 @@ public class User : BaseEntity
         return $"USER#{UserName.ToLower()}";
     }
 
-    public static string UserNameToPk(string userName)
+    public static string ToPk(string userName)
     {
         return $"USER#{userName.ToLower()}";
     }
 
-    public static string UserNameToSk(string userName)
+    public static string ToSk(string userName)
     {
         return $"USER#{userName.ToLower()}";
     }

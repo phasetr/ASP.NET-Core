@@ -51,12 +51,12 @@ public class Deal : BaseEntity
         return Ksuid.NewKsuid(createdAt);
     }
 
-    public static string DealIdToPk(string dealId)
+    public static string ToPk(string dealId)
     {
         return $"DEAL#{dealId}";
     }
 
-    public static string DealIdToSk(string dealId)
+    public static string ToSk(string dealId)
     {
         return $"DEAL#{dealId}";
     }

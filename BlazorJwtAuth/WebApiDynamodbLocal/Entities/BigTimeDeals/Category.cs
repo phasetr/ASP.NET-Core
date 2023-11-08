@@ -23,12 +23,12 @@ public class Category : BaseEntity
         return $"CATEGORY#{Name.ToUpper()}";
     }
 
-    public static string NameToPk(string name)
+    public static string ToPk(string name)
     {
         return $"CATEGORY#{name.ToUpper()}";
     }
 
-    public static string NameToSk(string name)
+    public static string ToSk(string name)
     {
         return $"CATEGORY#{name.ToUpper()}";
     }

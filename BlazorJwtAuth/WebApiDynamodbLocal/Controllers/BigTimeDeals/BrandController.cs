@@ -56,6 +56,6 @@ public class BrandController : ControllerBase
         };
         var response = await _brandService.CreateAsync(brand);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Brand.NameToPk(brandModel.Name)}, response);
+        return CreatedAtAction("Post", new {pk = Brand.ToPk(brandModel.Name)}, response);
     }
 }
