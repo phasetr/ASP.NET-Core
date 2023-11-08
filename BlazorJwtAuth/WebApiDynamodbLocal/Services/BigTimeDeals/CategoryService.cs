@@ -172,8 +172,8 @@ public class CategoryService : ICategoryService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Category.ToPk(name))},
-                    {"SK", new AttributeValue(Category.ToSk(name))}
+                    {"PK", new AttributeValue(Key.CategoryPk(name))},
+                    {"SK", new AttributeValue(Key.CategorySk(name))}
                 }
             });
             if (response.Item == null)

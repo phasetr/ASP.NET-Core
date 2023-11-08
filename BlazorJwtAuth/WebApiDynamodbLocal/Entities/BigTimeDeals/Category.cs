@@ -38,17 +38,12 @@ public class Category : BaseEntity
         return $"CATEGORY#{name.ToUpper()}#{dateTime:yyyy-MM-dd}";
     }
 
-    public string ToGsi3Pk(DateTime dateTime)
-    {
-        return $"CATEGORY#{Name.ToUpper()}#{dateTime:yyyy-MM-dd}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
+            {"PK", new AttributeValue(Key.CategoryPk(Name))},
+            {"SK", new AttributeValue(Key.CategorySk(Name))},
             {"Type", new AttributeValue(Type)},
             {"Name", new AttributeValue(Name)},
             {"FeaturedDeals", new AttributeValue(FeaturedDeals)},

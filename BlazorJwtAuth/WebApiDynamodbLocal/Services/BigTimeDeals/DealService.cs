@@ -1,7 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Common.Dto;
-using KsuidDotNet;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.BigTimeDeals.Deal;
 using WebApiDynamodbLocal.Entities.BigTimeDeals;
@@ -108,8 +107,8 @@ public class DealService : IDealService
         }
     }
 
-    public async Task<GetLatestDealsResponseDto> GetLatestDealsAsync(string brandName, DateOnly dateOnly,
-        int limit = 25, int count = 0)
+    public async Task<GetLatestDealsResponseDto> GetLatestDealsAsync(string brandName,
+        DateTime dateTime, int limit = 25, int count = 0)
     {
         try
         {
@@ -121,7 +120,7 @@ public class DealService : IDealService
                 ExpressionAttributeNames = new Dictionary<string, string>
                     {{"#gsi2pk", "GSI2PK"}},
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                    {{":gsi2pk", new AttributeValue(Deal.ToGsi2Pk(brandName, dateOnly))}},
+                    {{":gsi2pk", new AttributeValue(Key.DealGsi2Pk(brandName, dateTime))}},
                 ScanIndexForward = false,
                 Limit = limit
             };
@@ -157,7 +156,7 @@ public class DealService : IDealService
                     Message = "Deals found",
                     Succeeded = true
                 };
-            var createdAt = dateOnly.AddDays(-1);
+            var createdAt = dateTime.AddDays(-1);
             limit -= deals.Count;
             count++;
             var latestDeals = await GetLatestDealsAsync(brandName, createdAt, limit, count);

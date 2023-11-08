@@ -24,8 +24,8 @@ public class BrandContainer : BaseEntity
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
+            {"PK", new AttributeValue(Key.BrandContainerPk())},
+            {"SK", new AttributeValue(Key.BrandContainerSk())},
             {"Type", new AttributeValue(Type)},
             {"Brands", new AttributeValue {SS = Brands}}
         };

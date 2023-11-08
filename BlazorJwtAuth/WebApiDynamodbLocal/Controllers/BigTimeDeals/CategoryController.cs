@@ -54,6 +54,6 @@ public class CategoryController : ControllerBase
         };
         var response = await _categoryService.CreateAsync(category);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Category.ToPk(dto.Name)}, response);
+        return CreatedAtAction("Post", new {pk = Key.CategoryPk(dto.Name)}, response);
     }
 }

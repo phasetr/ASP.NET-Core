@@ -32,22 +32,12 @@ public class Message : BaseEntity
         return $"MESSAGES#{MessageId}";
     }
 
-    public string ToGsi1Pk()
-    {
-        return ToPk();
-    }
-
-    public string ToGsi1Sk()
-    {
-        return $"MESSAGES#{MessageId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         var dynamodbItem = new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
+            {"PK", new AttributeValue(Key.MessagePk(UserName))},
+            {"SK", new AttributeValue(Key.MessageSk(MessageId))},
             {"Type", new AttributeValue(Type)},
             {"UserName", new AttributeValue(UserName)},
             {"MessageId", new AttributeValue(MessageId)},
@@ -58,8 +48,8 @@ public class Message : BaseEntity
             {"UnRead", new AttributeValue {BOOL = UnRead}}
         };
         if (!UnRead) return dynamodbItem;
-        dynamodbItem.Add("GSI1PK", new AttributeValue(ToGsi1Pk()));
-        dynamodbItem.Add("GSI1SK", new AttributeValue(ToGsi1Sk()));
+        dynamodbItem.Add("GSI1PK", new AttributeValue(Key.MessageGsi1Pk(UserName)));
+        dynamodbItem.Add("GSI1SK", new AttributeValue(Key.MessageGsi1Sk(MessageId)));
         return dynamodbItem;
     }
 }

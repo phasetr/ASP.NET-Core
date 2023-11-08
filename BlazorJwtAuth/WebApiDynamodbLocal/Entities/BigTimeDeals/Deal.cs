@@ -60,59 +60,24 @@ public class Deal : BaseEntity
     {
         return $"DEAL#{dealId}";
     }
-    
+
     public static string ToGsi2Pk(string brandName, DateOnly dateOnly)
     {
         return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
-    }
-
-    public static string ToGsi2Sk(string brandName, DateOnly dateOnly)
-    {
-        return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
-    }
-
-    public string ToGsi1Pk()
-    {
-        return $"DEALS#{CreatedAt:yyyy-MM-dd}";
-    }
-
-    public string ToGsi1Sk()
-    {
-        return $"DEAL#{DealId}";
-    }
-
-    public string ToGsi2Pk()
-    {
-        return $"BRAND#{Brand.ToUpper()}#{CreatedAt:yyyy-MM-dd}";
-    }
-
-    public string ToGsi2Sk()
-    {
-        return $"DEAL#{DealId}";
-    }
-
-    public string ToGsi3Pk()
-    {
-        return $"CATEGORY#{Category.ToUpper()}#{CreatedAt:yyyy-MM-dd}";
-    }
-
-    public string ToGsi3Sk()
-    {
-        return $"DEAL${DealId}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"GSI1PK", new AttributeValue(ToGsi1Pk())},
-            {"GSI1SK", new AttributeValue(ToGsi1Sk())},
-            {"GSI2PK", new AttributeValue(ToGsi2Pk())},
-            {"GSI2SK", new AttributeValue(ToGsi2Sk())},
-            {"GSI3PK", new AttributeValue(ToGsi3Pk())},
-            {"GSI3SK", new AttributeValue(ToGsi3Sk())},
+            {"PK", new AttributeValue(Key.DealPk(DealId))},
+            {"SK", new AttributeValue(Key.DealSk(DealId))},
+            {"GSI1PK", new AttributeValue(Key.DealGsi1Pk(CreatedAt))},
+            {"GSI1SK", new AttributeValue(Key.DealGsi1Sk(DealId))},
+            {"GSI2PK", new AttributeValue(Key.DealGsi2Pk(Brand, CreatedAt))},
+            {"GSI2SK", new AttributeValue(Key.DealGsi2Sk(DealId))},
+            {"GSI3PK", new AttributeValue(Key.DealGsi3Pk(Category, CreatedAt))},
+            {"GSI3SK", new AttributeValue(Key.DealGsi3Sk(DealId))},
             {"Type", new AttributeValue(Type)},
             {"DealId", new AttributeValue(DealId)},
             {"Title", new AttributeValue(Title)},

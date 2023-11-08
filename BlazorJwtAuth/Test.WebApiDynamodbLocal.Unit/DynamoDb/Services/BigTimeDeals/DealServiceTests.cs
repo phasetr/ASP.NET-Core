@@ -75,7 +75,7 @@ public class DealServiceTests
         });
 
         // 最新ディールを取得
-        var getResult = await sut.GetLatestDealsAsync("brand", DateOnly.FromDateTime(_deal.CreatedAt), 2);
+        var getResult = await sut.GetLatestDealsAsync("brand", _deal.CreatedAt, 2);
         Assert.NotNull(getResult);
         Assert.True(getResult.Succeeded);
         Assert.NotNull(getResult.DealModels);

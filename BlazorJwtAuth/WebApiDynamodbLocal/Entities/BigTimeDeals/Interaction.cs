@@ -25,8 +25,8 @@ public class Interaction : BaseEntity
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
+            {"PK", new AttributeValue(Key.InteractionPk(Type, Name, UserName))},
+            {"SK", new AttributeValue(Key.InteractionSk(Type, Name, UserName))},
             {"Type", new AttributeValue(Type)},
             {"UserName", new AttributeValue(UserName)},
             {"Name", new AttributeValue(Name)}
