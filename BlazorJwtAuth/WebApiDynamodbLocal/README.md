@@ -163,11 +163,12 @@ aws dynamodb create-table \
       AttributeName=GSI2SK,AttributeType=S \
       AttributeName=GSI3PK,AttributeType=S \
       AttributeName=GSI3SK,AttributeType=S \
+      AttributeName=UserIndex,AttributeType=S \
     --key-schema \
-        AttributeName=PK,KeyType=HASH \
-        AttributeName=SK,KeyType=RANGE \
+      AttributeName=PK,KeyType=HASH \
+      AttributeName=SK,KeyType=RANGE \
     --provisioned-throughput \
-        ReadCapacityUnits=5,WriteCapacityUnits=5 \
+      ReadCapacityUnits=5,WriteCapacityUnits=5 \
     --global-secondary-indexes \
         '[
             {
@@ -203,6 +204,19 @@ aws dynamodb create-table \
                 "KeySchema": [
                     { "AttributeName": "GSI3PK", "KeyType": "HASH" },
                     { "AttributeName": "GSI3SK", "KeyType": "RANGE" }
+                ],
+                "Projection": {
+                    "ProjectionType": "ALL"
+                },
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": 5,
+                    "WriteCapacityUnits": 5
+                }
+            },
+            {
+                "IndexName": "UserIndex",
+                "KeySchema": [
+                    { "AttributeName": "UserIndex", "KeyType": "HASH" }
                 ],
                 "Projection": {
                     "ProjectionType": "ALL"
