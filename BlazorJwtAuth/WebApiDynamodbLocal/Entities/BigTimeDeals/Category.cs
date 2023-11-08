@@ -9,11 +9,6 @@ public class Category : IEntity
     public int LikeCount { get; set; }
     public int WatchCount { get; set; }
 
-    public static string ToGsi3Pk(string name, DateTime dateTime)
-    {
-        return $"CATEGORY#{name.ToUpper()}#{dateTime:yyyy-MM-dd}";
-    }
-
     public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

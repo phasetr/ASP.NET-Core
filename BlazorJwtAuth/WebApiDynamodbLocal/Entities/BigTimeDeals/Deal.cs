@@ -29,11 +29,6 @@ public class Deal : IEntity
         return $"DEAL#{dealId}";
     }
 
-    public static string ToGsi2Pk(string brandName, DateOnly dateOnly)
-    {
-        return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
-    }
-
     public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

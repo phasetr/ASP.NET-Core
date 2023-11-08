@@ -78,7 +78,7 @@ public class CategoryService : ICategoryService
                 ExpressionAttributeNames = new Dictionary<string, string>
                     {{"#gsi3pk", "GSI3PK"}},
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                    {{":gsi3pk", new AttributeValue(Category.ToGsi3Pk(name, createdAt))}},
+                    {{":gsi3pk", new AttributeValue(Key.DealGsi3Pk(name, createdAt))}},
                 Limit = limit,
                 ScanIndexForward = false
             };
