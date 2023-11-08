@@ -30,8 +30,7 @@ public class DealService : IDealService
     {
         try
         {
-            var dealId = Ksuid.NewKsuid(deal.CreatedAt);
-            deal.DealId = dealId;
+            deal.DealId = Deal.GenerateDealId(deal.CreatedAt);
             await _client.PutItemAsync(new PutItemRequest
             {
                 TableName = _tableName,
@@ -40,7 +39,7 @@ public class DealService : IDealService
             });
             return new ResponseBaseDto
             {
-                Key = dealId,
+                Key = deal.DealId,
                 Message = "Deal created successfully",
                 Succeeded = true
             };
@@ -122,7 +121,7 @@ public class DealService : IDealService
                 ExpressionAttributeNames = new Dictionary<string, string>
                     {{"#gsi2pk", "GSI2PK"}},
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                    {{":gsi2pk", new AttributeValue(Brand.ToGsi2Pk(brandName, dateOnly))}},
+                    {{":gsi2pk", new AttributeValue(Deal.ToGsi2Pk(brandName, dateOnly))}},
                 ScanIndexForward = false,
                 Limit = limit
             };
