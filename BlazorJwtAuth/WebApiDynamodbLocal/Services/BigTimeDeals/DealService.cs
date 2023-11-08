@@ -25,7 +25,7 @@ public class DealService : IDealService
         _tableName = configuration[AwsSettings.ConfigurationBigTimeDealsTable];
     }
 
-    public async Task<ResponseBaseDto> CreateAsync(Deal deal)
+    public async Task<ResponseBaseWithKeyDto> CreateAsync(Deal deal)
     {
         try
         {
@@ -36,7 +36,7 @@ public class DealService : IDealService
                 ConditionExpression = "attribute_not_exists(PK)",
                 Item = deal.ToDynamoDbItem()
             });
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Key = deal.DealId,
                 Message = "Deal created successfully",
@@ -48,12 +48,12 @@ public class DealService : IDealService
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
             if (e.ErrorCode == "ConditionalCheckFailedException")
-                return new ResponseBaseDto
+                return new ResponseBaseWithKeyDto
                 {
                     Message = "Deal with this ID already exists",
                     Succeeded = false
                 };
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Message = e.Message,
                 Succeeded = false

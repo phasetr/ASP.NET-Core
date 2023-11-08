@@ -1,6 +1,6 @@
-using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using WebApiDynamodbLocal.Constants.SessionStore;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.SessionStore;
 using WebApiDynamodbLocal.Services.SessionStore.interfaces;
 

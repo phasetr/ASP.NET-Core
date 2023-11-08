@@ -1,5 +1,3 @@
-using Common.Dto;
-
 namespace WebApiDynamodbLocal.Dto.SessionStore;
 
 public class PostResponseDto : ResponseBaseDto

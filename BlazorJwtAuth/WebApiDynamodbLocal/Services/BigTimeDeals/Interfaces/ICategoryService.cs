@@ -1,4 +1,4 @@
-using Common.Dto;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.BigTimeDeals.Category;
 using WebApiDynamodbLocal.Entities.BigTimeDeals;
 

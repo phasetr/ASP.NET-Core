@@ -1,4 +1,3 @@
-using Common.Dto;
 using WebApiDynamodbLocal.Models.BigTimeDeals;
 
 namespace WebApiDynamodbLocal.Dto.BigTimeDeals.User;

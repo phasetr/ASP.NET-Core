@@ -1,5 +1,3 @@
-using Common.Dto;
-
 namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
 public class PostOrderResponseDto : ResponseBaseDto

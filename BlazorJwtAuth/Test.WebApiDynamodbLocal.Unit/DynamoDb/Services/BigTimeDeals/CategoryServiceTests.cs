@@ -100,7 +100,7 @@ public class CategoryServiceTests
         });
 
         // カテゴリの最新ディールを取得
-        var getLatestDealsResult = await sut.GetLatestDealsAsync(_category.Name, createdAt1, 2, 0);
+        var getLatestDealsResult = await sut.GetLatestDealsAsync(_category.Name, createdAt1, 2);
         Assert.NotNull(getLatestDealsResult);
         Assert.True(getLatestDealsResult.Succeeded);
         Assert.NotNull(getLatestDealsResult.LatestDeals);

@@ -5,6 +5,7 @@ using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.SessionStore;
 using WebApiDynamodbLocal.Entities.SessionStore;
 using WebApiDynamodbLocal.Services.SessionStore.interfaces;
+using ResponseBaseDto = WebApiDynamodbLocal.Dto.ResponseBaseDto;
 
 namespace WebApiDynamodbLocal.Services.SessionStore;
 
@@ -24,7 +25,7 @@ public class SessionService : ISessionService
         _tableName = configuration[AwsSettings.ConfigurationSessionStoreTable];
     }
 
-    public async Task<ResponseBaseDto> CreateAsync(PostDto dto)
+    public async Task<ResponseBaseWithKeyDto> CreateAsync(PostDto dto)
     {
         try
         {
@@ -45,7 +46,7 @@ public class SessionService : ISessionService
                     Ttl = ttl
                 }.ToDynamoDbItem()
             });
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Key = sessionId,
                 Message = "Session created successfully",
@@ -56,7 +57,7 @@ public class SessionService : ISessionService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Message = e.Message,
                 Succeeded = false

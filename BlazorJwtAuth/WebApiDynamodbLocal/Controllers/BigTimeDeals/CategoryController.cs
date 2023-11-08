@@ -1,6 +1,6 @@
-using Common.Dto;
 using Microsoft.AspNetCore.Mvc;
 using WebApiDynamodbLocal.Constants.BigTimeDeals;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.BigTimeDeals.Category;
 using WebApiDynamodbLocal.Entities.BigTimeDeals;
 using WebApiDynamodbLocal.Services.BigTimeDeals.Interfaces;

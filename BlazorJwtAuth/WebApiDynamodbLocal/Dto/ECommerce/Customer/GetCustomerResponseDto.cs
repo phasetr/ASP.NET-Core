@@ -1,4 +1,3 @@
-using Common.Dto;
 using WebApiDynamodbLocal.Models.ECommerce;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Customer;

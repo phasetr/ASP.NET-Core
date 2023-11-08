@@ -1,7 +1,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Common.Dto;
 using WebApiDynamodbLocal.Constants;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.BigTimeDeals.Category;
 using WebApiDynamodbLocal.Entities.BigTimeDeals;
 using WebApiDynamodbLocal.Models.BigTimeDeals;

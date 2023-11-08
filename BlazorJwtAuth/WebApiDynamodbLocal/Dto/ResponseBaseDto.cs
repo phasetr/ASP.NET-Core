@@ -1,4 +1,4 @@
-namespace Common.Dto;
+namespace WebApiDynamodbLocal.Dto;
 
 public class ResponseBaseDto
 {

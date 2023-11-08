@@ -8,6 +8,7 @@ using WebApiDynamodbLocal.Dto.ECommerce.Order;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Models.ECommerce;
 using WebApiDynamodbLocal.Services.ECommerce.Interfaces;
+using ResponseBaseDto = WebApiDynamodbLocal.Dto.ResponseBaseDto;
 
 namespace WebApiDynamodbLocal.Services.ECommerce;
 
@@ -27,7 +28,7 @@ public class OrderService : IOrderService
         _tableName = configuration[AwsSettings.ConfigurationECommerceTable];
     }
 
-    public async Task<ResponseBaseDto> CreateAsync(PostOrderDto postOrderDto)
+    public async Task<ResponseBaseWithKeyDto> CreateAsync(PostOrderDto postOrderDto)
     {
         var dateTime = DateTime.UtcNow;
         var orderId = Key.GenerateKsuId(dateTime);
@@ -81,7 +82,7 @@ public class OrderService : IOrderService
                     }));
             var request = new TransactWriteItemsRequest {TransactItems = transactItems};
             var response = await _client.TransactWriteItemsAsync(request);
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Key = orderId,
                 Succeeded = true,
@@ -92,7 +93,7 @@ public class OrderService : IOrderService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new ResponseBaseDto
+            return new ResponseBaseWithKeyDto
             {
                 Succeeded = false,
                 Message = e.Message

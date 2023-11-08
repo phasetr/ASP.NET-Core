@@ -1,8 +1,8 @@
 using System.Net;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Common.Dto;
 using WebApiDynamodbLocal.Constants;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.ECommerce.Customer;
 using WebApiDynamodbLocal.Entities.ECommerce;
 using WebApiDynamodbLocal.Models.ECommerce;
