@@ -17,9 +17,9 @@ public class Session : BaseEntity
     [DynamoDBProperty] public string Type { get; set; } = "Session";
     [DynamoDBProperty] public string SessionId { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; } = default!;
-    [DynamoDBProperty] public DateTime ExpiredAt { get; set; } = default!;
-    [DynamoDBProperty] public int Ttl { get; set; } = default!;
+    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
+    [DynamoDBProperty] public DateTime ExpiredAt { get; set; }
+    [DynamoDBProperty] public int Ttl { get; set; }
 
     public override string ToPk()
     {
@@ -31,44 +31,14 @@ public class Session : BaseEntity
         return $"{nameof(Session).ToUpper()}#{SessionId}";
     }
 
-    public static string UserNameToPk(string userName)
-    {
-        return $"{nameof(Session).ToUpper()}#{userName}";
-    }
-
-    public static string UserNameToSk(string userName)
-    {
-        return $"{nameof(Session).ToUpper()}#{userName}";
-    }
-
-    public static string SessionIdToPk(string sessionId)
-    {
-        return $"{nameof(Session).ToUpper()}#{sessionId}";
-    }
-
-    public static string SessionIdToSk(string sessionId)
-    {
-        return $"{nameof(Session).ToUpper()}#{sessionId}";
-    }
-
-    public static string UserNameToGsi1Pk(string userName)
-    {
-        return $"{nameof(Session).ToUpper()}#{userName}";
-    }
-
-    public static string UserNameToGsi1Sk(string userName)
-    {
-        return $"{nameof(Session).ToUpper()}#{userName}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"GSI1PK", new AttributeValue(UserNameToGsi1Pk(UserName))},
-            {"GSI1SK", new AttributeValue(UserNameToGsi1Sk(UserName))},
+            {"PK", new AttributeValue(Key.SessionPk(SessionId))},
+            {"SK", new AttributeValue(Key.SessionSk(SessionId))},
+            {"GSI1PK", new AttributeValue(Key.SessionGsi1Pk(UserName))},
+            {"GSI1SK", new AttributeValue(Key.SessionGsi1Sk(UserName))},
             {"Type", new AttributeValue(nameof(Session))},
             {"SessionId", new AttributeValue(SessionId)},
             {"UserName", new AttributeValue(UserName)},

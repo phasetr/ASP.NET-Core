@@ -74,8 +74,8 @@ public class SessionService : ISessionService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Session.SessionIdToPk(sessionId))},
-                    {"SK", new AttributeValue(Session.SessionIdToSk(sessionId))}
+                    {"PK", new AttributeValue(Key.SessionPk(sessionId))},
+                    {"SK", new AttributeValue(Key.SessionSk(sessionId))}
                 }
             });
             if (response.Item == null || response.Item.Count == 0)
@@ -108,7 +108,7 @@ public class SessionService : ISessionService
     {
         try
         {
-            var gsi1Pk = Session.UserNameToGsi1Pk(userName);
+            var gsi1Pk = Key.SessionGsi1Pk(userName);
             var response = await _client.QueryAsync(new QueryRequest
             {
                 TableName = _tableName,
