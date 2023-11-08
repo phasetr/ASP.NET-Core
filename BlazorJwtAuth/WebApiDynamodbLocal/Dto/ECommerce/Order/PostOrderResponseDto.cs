@@ -2,7 +2,7 @@ using Common.Dto;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
-public class PostResponseOrderDto : ResponseBaseDto
+public class PostOrderResponseDto : ResponseBaseDto
 {
     public string? OrderId { get; set; }
 }

@@ -55,7 +55,7 @@ public class OrderServiceTests
 
         // 注文を作成
         var createResult = await sut.CreateAsync(postOrderDto);
-        var orderId = createResult.OrderId;
+        var orderId = createResult.Key;
         Assert.NotNull(createResult);
         Assert.NotNull(orderId);
         Assert.True(createResult.Succeeded);
@@ -246,7 +246,7 @@ public class OrderServiceTests
 
         // 注文を作成
         var createResult = await sut.CreateAsync(dto1);
-        var orderId = createResult.OrderId;
+        var orderId = createResult.Key;
         Assert.NotNull(orderId);
 
         // 注文ステータスを更新
@@ -305,7 +305,7 @@ public class OrderServiceTests
 
         // 注文を作成
         var response = await sut.CreateAsync(dto1);
-        var orderId = response.OrderId;
+        var orderId = response.Key;
         Assert.NotNull(orderId);
 
         // 注文ステータスを更新

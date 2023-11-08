@@ -45,9 +45,10 @@ public class SessionServiceTests
         Assert.NotNull(createResult);
         Assert.True(createResult.Succeeded);
         Assert.Equal("Session created successfully", createResult.Message);
+        Assert.NotNull(createResult.Key);
 
         // ユーザー作成を確認
-        var getResult2 = await sut.GetAsync(createResult.SessionId);
+        var getResult2 = await sut.GetAsync(createResult.Key);
         Assert.NotNull(getResult2);
         Assert.True(getResult2.Succeeded);
         Assert.NotNull(getResult2.UserName);
@@ -77,9 +78,10 @@ public class SessionServiceTests
         Assert.NotNull(createResult);
         Assert.True(createResult.Succeeded);
         Assert.Equal("Session created successfully", createResult.Message);
+        Assert.NotNull(createResult.Key);
 
         // ユーザー作成を確認
-        var getResult2 = await sut.GetAsync(createResult.SessionId);
+        var getResult2 = await sut.GetAsync(createResult.Key);
         Assert.NotNull(getResult2);
         Assert.True(getResult2.Succeeded);
         Assert.NotNull(getResult2.UserName);
@@ -92,7 +94,7 @@ public class SessionServiceTests
         Assert.Equal("Session deleted successfully", deleteResult.Message);
 
         // セッションを削除したことを確認
-        var getResult3 = await sut.GetAsync(createResult.SessionId);
+        var getResult3 = await sut.GetAsync(createResult.Key);
         Assert.NotNull(getResult3);
         Assert.False(getResult3.Succeeded);
     }

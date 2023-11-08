@@ -3,7 +3,7 @@ using WebApiDynamodbLocal.Models.ECommerce;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Order;
 
-public class GetResponseOrdersDto : ResponseBaseDto
+public class GetOrdersResponseDto : ResponseBaseDto
 {
     public string? UserName { get; set; }
     public List<OrderModel> OrderModels { get; set; } = default!;

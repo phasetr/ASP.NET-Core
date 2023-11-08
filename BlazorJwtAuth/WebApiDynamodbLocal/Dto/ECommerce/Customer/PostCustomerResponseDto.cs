@@ -2,7 +2,7 @@ using WebApiDynamodbLocal.Entities.ECommerce;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Customer;
 
-public class PostCustomerDto
+public class PostCustomerResponseDto
 {
     public string UserName { get; set; } = default!;
     public string Email { get; set; } = default!;

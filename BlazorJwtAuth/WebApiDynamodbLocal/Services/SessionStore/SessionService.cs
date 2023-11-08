@@ -24,7 +24,7 @@ public class SessionService : ISessionService
         _tableName = configuration[AwsSettings.ConfigurationSessionStoreTable];
     }
 
-    public async Task<PostResponseDto> CreateAsync(PostDto dto)
+    public async Task<ResponseBaseDto> CreateAsync(PostDto dto)
     {
         try
         {
@@ -46,18 +46,18 @@ public class SessionService : ISessionService
                     Ttl = ttl
                 }.ToDynamoDbItem()
             });
-            return new PostResponseDto
+            return new ResponseBaseDto
             {
+                Key = sessionId,
                 Message = "Session created successfully",
-                Succeeded = true,
-                SessionId = sessionId
+                Succeeded = true
             };
         }
         catch (AmazonDynamoDBException e)
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new PostResponseDto
+            return new ResponseBaseDto
             {
                 Message = e.Message,
                 Succeeded = false

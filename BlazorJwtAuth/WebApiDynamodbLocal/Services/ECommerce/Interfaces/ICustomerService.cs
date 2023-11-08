@@ -8,6 +8,6 @@ public interface ICustomerService
 {
     Task<ResponseBaseDto> CreateAsync(Customer customer);
     Task<ResponseBaseDto> DeleteAddressAsync(string userName, string addressName);
-    Task<GetResponseCustomerDto?> GetByUserNameAsync(string userName);
+    Task<GetCustomerResponseDto?> GetByUserNameAsync(string userName);
     Task<ResponseBaseDto> PutAddressAsync(PutAddressDto putAddressDto);
 }

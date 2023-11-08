@@ -27,7 +27,7 @@ public class OrderService : IOrderService
         _tableName = configuration[AwsSettings.ConfigurationECommerceTable];
     }
 
-    public async Task<PostResponseOrderDto> CreateAsync(PostOrderDto postOrderDto)
+    public async Task<ResponseBaseDto> CreateAsync(PostOrderDto postOrderDto)
     {
         var dateTime = DateTime.UtcNow;
         var orderId = Order.GenerateOrderId(dateTime);
@@ -83,9 +83,9 @@ public class OrderService : IOrderService
                     }));
             var request = new TransactWriteItemsRequest {TransactItems = transactItems};
             var response = await _client.TransactWriteItemsAsync(request);
-            return new PostResponseOrderDto
+            return new ResponseBaseDto
             {
-                OrderId = orderId,
+                Key = orderId,
                 Succeeded = true,
                 Message = response.HttpStatusCode == HttpStatusCode.OK ? "Success" : "Failed"
             };
@@ -94,7 +94,7 @@ public class OrderService : IOrderService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new PostResponseOrderDto
+            return new ResponseBaseDto
             {
                 Succeeded = false,
                 Message = e.Message
@@ -102,7 +102,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<GetResponseOrderDto> GetByOrderIdAsync(string orderId)
+    public async Task<GetOrderResponseDto> GetByOrderIdAsync(string orderId)
     {
         try
         {
@@ -121,7 +121,7 @@ public class OrderService : IOrderService
             var response = await _client.QueryAsync(queryRequest);
             var order = response.Items.FirstOrDefault();
             if (order == null)
-                return new GetResponseOrderDto
+                return new GetOrderResponseDto
                 {
                     OrderModel = null,
                     OrderItemModels = null,
@@ -139,7 +139,7 @@ public class OrderService : IOrderService
                     Description = orderItem["Description"].S,
                     Price = orderItem["Price"].N
                 }).ToList();
-            return new GetResponseOrderDto
+            return new GetOrderResponseDto
             {
                 OrderModel = new OrderModel
                 {
@@ -166,7 +166,7 @@ public class OrderService : IOrderService
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
             if (e.ErrorCode != "TransactionCanceledException")
-                return new GetResponseOrderDto
+                return new GetOrderResponseDto
                 {
                     OrderModel = null,
                     OrderItemModels = null,
@@ -176,7 +176,7 @@ public class OrderService : IOrderService
             var message = e.Message;
             if (e.CancellationReasons[0].Code == "ConditionalCheckFailed")
                 message = "OrderId already exists for this customer";
-            return new GetResponseOrderDto
+            return new GetOrderResponseDto
             {
                 OrderModel = null,
                 OrderItemModels = null,
@@ -186,7 +186,7 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<GetResponseOrdersDto> GetByUserNameAsync(string userName)
+    public async Task<GetOrdersResponseDto> GetByUserNameAsync(string userName)
     {
         try
         {
@@ -207,7 +207,7 @@ public class OrderService : IOrderService
             var response = await _client.QueryAsync(queryRequest);
             // 該当顧客が存在しない
             if (response.Items.Count == 0)
-                return new GetResponseOrdersDto
+                return new GetOrdersResponseDto
                 {
                     Message = "Customer does not exist",
                     Succeeded = false
@@ -232,7 +232,7 @@ public class OrderService : IOrderService
                     TotalAmount = order["TotalAmount"].N,
                     UserName = order["UserName"].S
                 }).ToList();
-            return new GetResponseOrdersDto
+            return new GetOrdersResponseDto
             {
                 UserName = userName,
                 OrderModels = orderModels,
@@ -244,7 +244,7 @@ public class OrderService : IOrderService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new GetResponseOrdersDto
+            return new GetOrdersResponseDto
             {
                 Message = e.Message,
                 Succeeded = false

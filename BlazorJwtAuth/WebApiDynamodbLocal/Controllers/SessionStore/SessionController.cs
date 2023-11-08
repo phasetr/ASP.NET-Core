@@ -44,7 +44,7 @@ public class SessionController : ControllerBase
             });
         var response = await _sessionService.CreateAsync(dto);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = response.SessionId}, response);
+        return CreatedAtAction("Post", new {pk = response.Key}, response);
     }
 
     [HttpDelete(ApiPath.SessionUser)]

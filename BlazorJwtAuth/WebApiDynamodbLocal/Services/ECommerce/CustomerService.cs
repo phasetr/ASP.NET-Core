@@ -139,7 +139,7 @@ public class CustomerService : ICustomerService
         }
     }
 
-    public async Task<GetResponseCustomerDto?> GetByUserNameAsync(string userName)
+    public async Task<GetCustomerResponseDto?> GetByUserNameAsync(string userName)
     {
         try
         {
@@ -155,7 +155,7 @@ public class CustomerService : ICustomerService
             var response = await _client.GetItemAsync(request);
             // 項目が取れているか確認
             if (response.Item == null || response.Item.Count == 0)
-                return new GetResponseCustomerDto
+                return new GetCustomerResponseDto
                 {
                     CustomerModel = null,
                     Message = "Not Found",
@@ -163,7 +163,7 @@ public class CustomerService : ICustomerService
                 };
 
             var item = response.Item;
-            return new GetResponseCustomerDto
+            return new GetCustomerResponseDto
             {
                 CustomerModel = new CustomerModel
                 {
@@ -187,7 +187,7 @@ public class CustomerService : ICustomerService
         {
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
-            return new GetResponseCustomerDto
+            return new GetCustomerResponseDto
             {
                 CustomerModel = null,
                 Message = e.Message,

@@ -22,7 +22,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetAsync(string orderId)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new GetResponseOrderDto
+            return UnprocessableEntity(new GetOrderResponseDto
             {
                 OrderModel = null,
                 Errors = ModelState.Values
@@ -39,7 +39,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetOrdersAsync(string userName)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new GetResponseOrdersDto
+            return UnprocessableEntity(new GetOrdersResponseDto
             {
                 Errors = ModelState.Values
                     .SelectMany(v => v.Errors)

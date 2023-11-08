@@ -22,7 +22,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> GetAsync(string userName)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new GetResponseCustomerDto
+            return UnprocessableEntity(new GetCustomerResponseDto
             {
                 CustomerModel = null,
                 Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage),
@@ -34,7 +34,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(PostCustomerDto postCustomerDto)
+    public async Task<IActionResult> PostAsync(PostCustomerResponseDto postCustomerResponseDto)
     {
         if (!ModelState.IsValid)
             return UnprocessableEntity(new ResponseBaseDto
@@ -46,10 +46,10 @@ public class CustomerController : ControllerBase
         var customer = new Customer
         {
             Type = nameof(Customer),
-            UserName = postCustomerDto.UserName,
-            Email = postCustomerDto.Email,
-            Name = postCustomerDto.Name,
-            Addresses = postCustomerDto.Addresses
+            UserName = postCustomerResponseDto.UserName,
+            Email = postCustomerResponseDto.Email,
+            Name = postCustomerResponseDto.Name,
+            Addresses = postCustomerResponseDto.Addresses
         };
         var response = await _customerService.CreateAsync(customer);
         if (!response.Succeeded) return UnprocessableEntity(response);
@@ -60,7 +60,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> DeleteAddressAsync(string userName, string addressName)
     {
         if (!ModelState.IsValid)
-            return UnprocessableEntity(new DeleteAddressDto
+            return UnprocessableEntity(new DeleteAddressResponseDto
             {
                 UserName = userName,
                 AddressName = addressName,

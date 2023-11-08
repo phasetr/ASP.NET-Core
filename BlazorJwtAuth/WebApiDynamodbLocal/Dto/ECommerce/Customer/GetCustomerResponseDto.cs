@@ -3,7 +3,7 @@ using WebApiDynamodbLocal.Models.ECommerce;
 
 namespace WebApiDynamodbLocal.Dto.ECommerce.Customer;
 
-public class GetResponseCustomerDto : ResponseBaseDto
+public class GetCustomerResponseDto : ResponseBaseDto
 {
     public CustomerModel? CustomerModel { get; set; }
 }
