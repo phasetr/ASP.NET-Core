@@ -12,7 +12,6 @@ public class DealServiceTests
 {
     private readonly Deal _deal = new()
     {
-        Type = nameof(Deal),
         Brand = "brand",
         Category = "category",
         CreatedAt = new DateTime(2023, 1, 1, 1, 0, 0, DateTimeKind.Utc),
@@ -65,7 +64,6 @@ public class DealServiceTests
         await sut.CreateAsync(_deal);
         await sut.CreateAsync(new Deal
         {
-            Type = nameof(Deal),
             Brand = "brand",
             Category = "category2",
             CreatedAt = _deal.CreatedAt,

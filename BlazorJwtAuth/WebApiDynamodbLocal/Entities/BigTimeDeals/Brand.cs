@@ -7,7 +7,6 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Brand : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = nameof(Brand);
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public string LogoUrl { get; set; } = default!;
     [DynamoDBProperty] public int LikeCount { get; set; }
@@ -19,7 +18,7 @@ public class Brand : BaseEntity
         {
             {"PK", new AttributeValue(Key.BrandPk(Name))},
             {"SK", new AttributeValue(Key.BrandSk(Name))},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(Brand))},
             {"Name", new AttributeValue(Name)},
             {"LogoUrl", new AttributeValue(LogoUrl)},
             {"LikeCount", new AttributeValue {N = LikeCount.ToString()}},

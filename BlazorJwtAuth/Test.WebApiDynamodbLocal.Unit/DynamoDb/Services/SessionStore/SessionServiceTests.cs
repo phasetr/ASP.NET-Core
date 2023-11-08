@@ -18,7 +18,6 @@ public class SessionServiceTests
         SessionId = Guid.NewGuid().ToString(),
         Ttl = (int) (new DateTime(2023, 1, 8, 1, 0, 0, DateTimeKind.Utc) -
                      new DateTime(2023, 1, 1, 1, 0, 0, DateTimeKind.Utc)).TotalSeconds,
-        Type = nameof(Session),
         UserName = "user"
     };
 

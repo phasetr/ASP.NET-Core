@@ -18,7 +18,6 @@ public class Order : BaseEntity
     [DynamoDBProperty(AttributeName = "GSI1SK")]
     public string GsI1Sk { get; set; } = default!;
 
-    [DynamoDBProperty] public string Type { get; set; } = "Order";
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string OrderId { get; set; } = default!;
     [DynamoDBProperty] public Address Address { get; set; } = default!;

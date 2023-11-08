@@ -33,7 +33,6 @@ public class OrderService : IOrderService
         var orderId = Order.GenerateOrderId(dateTime);
         var order = new Order
         {
-            Type = nameof(Order),
             UserName = postOrderDto.UserName,
             OrderId = orderId,
             Address = postOrderDto.Address,
@@ -67,8 +66,7 @@ public class OrderService : IOrderService
                         Description = orderItemModel.Description,
                         ItemId = i + 1,
                         OrderId = orderId,
-                        Price = price,
-                        Type = nameof(OrderItem)
+                        Price = price
                     };
                 })
                 .Select(orderItem =>

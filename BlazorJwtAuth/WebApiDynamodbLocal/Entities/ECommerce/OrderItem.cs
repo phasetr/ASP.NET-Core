@@ -17,7 +17,6 @@ public class OrderItem : BaseEntity
     [DynamoDBProperty(AttributeName = "GSI1SK")]
     public string GsI1Sk { get; set; } = default!;
 
-    [DynamoDBProperty] public string Type { get; set; } = "OrderItem";
     [Required] [DynamoDBProperty] public string OrderId { get; set; } = default!;
     [Required] [DynamoDBProperty] public int ItemId { get; set; }
     [DynamoDBProperty] public string Description { get; set; } = default!;

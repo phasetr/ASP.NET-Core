@@ -7,7 +7,6 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Message : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = nameof(Message);
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string MessageId { get; set; } = default!;
     [DynamoDBProperty] public string Subject { get; set; } = default!;
@@ -28,7 +27,7 @@ public class Message : BaseEntity
         {
             {"PK", new AttributeValue(Key.MessagePk(UserName))},
             {"SK", new AttributeValue(Key.MessageSk(MessageId))},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(Message))},
             {"UserName", new AttributeValue(UserName)},
             {"MessageId", new AttributeValue(MessageId)},
             {"Subject", new AttributeValue(Subject)},

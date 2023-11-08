@@ -47,7 +47,6 @@ public class UserController : ControllerBase
             });
         var user = new User
         {
-            Type = nameof(Entities.BigTimeDeals.User),
             UserName = model.UserName,
             Name = model.Name,
             CreatedAt = DateTime.UtcNow

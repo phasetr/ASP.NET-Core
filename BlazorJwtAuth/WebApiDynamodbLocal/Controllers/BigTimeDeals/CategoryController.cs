@@ -46,7 +46,6 @@ public class CategoryController : ControllerBase
             });
         var category = new Category
         {
-            Type = nameof(Category),
             Name = dto.Name,
             FeaturedDeals = dto.FeaturedDeals,
             LikeCount = 0,

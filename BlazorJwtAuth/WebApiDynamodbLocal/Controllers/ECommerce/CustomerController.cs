@@ -45,7 +45,6 @@ public class CustomerController : ControllerBase
             });
         var customer = new Customer
         {
-            Type = nameof(Customer),
             UserName = postCustomerResponseDto.UserName,
             Email = postCustomerResponseDto.Email,
             Name = postCustomerResponseDto.Name,

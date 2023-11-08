@@ -7,7 +7,6 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class User : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = nameof(User);
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public DateTime CreatedAt { get; set; }
@@ -19,7 +18,7 @@ public class User : BaseEntity
             {"PK", new AttributeValue(Key.UserPk(UserName))},
             {"SK", new AttributeValue(Key.UserSk(UserName))},
             {"UserIndex", new AttributeValue(Key.UserUserIndex(UserName))},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(User))},
             {"UserName", new AttributeValue(UserName)},
             {"Name", new AttributeValue(Name)},
             {"CreatedAt", new AttributeValue {S = CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}}

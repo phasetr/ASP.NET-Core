@@ -7,7 +7,6 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Page : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = nameof(Page);
     [DynamoDBProperty] public string FeaturedDeals { get; set; } = default!;
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
@@ -16,7 +15,7 @@ public class Page : BaseEntity
         {
             {"PK", new AttributeValue(Key.PagePk())},
             {"SK", new AttributeValue(Key.PageSk())},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(Page))},
             {"FeaturedDeals", new AttributeValue(FeaturedDeals)}
         };
     }

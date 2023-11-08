@@ -7,7 +7,6 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Category : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = nameof(Category);
     [DynamoDBProperty] public string Name { get; set; } = default!;
     [DynamoDBProperty] public string FeaturedDeals { get; set; } = default!;
     [DynamoDBProperty] public int LikeCount { get; set; }
@@ -34,7 +33,7 @@ public class Category : BaseEntity
         {
             {"PK", new AttributeValue(Key.CategoryPk(Name))},
             {"SK", new AttributeValue(Key.CategorySk(Name))},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(Category))},
             {"Name", new AttributeValue(Name)},
             {"FeaturedDeals", new AttributeValue(FeaturedDeals)},
             {"LikeCount", new AttributeValue {N = LikeCount.ToString()}},

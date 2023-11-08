@@ -38,7 +38,6 @@ public class SessionService : ISessionService
                 ConditionExpression = "attribute_not_exists(PK)",
                 Item = new Session
                 {
-                    Type = nameof(Session),
                     SessionId = sessionId,
                     UserName = dto.UserName,
                     CreatedAt = createdAt,

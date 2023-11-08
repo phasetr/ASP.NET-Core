@@ -48,7 +48,6 @@ public class BrandController : ControllerBase
             });
         var brand = new Brand
         {
-            Type = nameof(Brand),
             Name = brandModel.Name,
             LogoUrl = brandModel.LogoUrl,
             LikeCount = brandModel.LikeCount,

@@ -12,7 +12,6 @@ public class BrandServiceTests
 {
     private readonly Brand _brand = new()
     {
-        Type = nameof(Brand),
         Name = "brand",
         LogoUrl = "https://example.com/logo.png",
         LikeCount = 1,

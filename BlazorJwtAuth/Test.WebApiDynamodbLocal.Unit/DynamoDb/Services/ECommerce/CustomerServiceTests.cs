@@ -13,7 +13,6 @@ public class CustomerServiceTests
 {
     private readonly Customer _customer = new()
     {
-        Type = nameof(Customer),
         UserName = "user",
         Email = "user@phasetr.com",
         Name = "user",
@@ -74,7 +73,6 @@ public class CustomerServiceTests
             Addresses = _customer.Addresses,
             Email = "converted@phasetr.com",
             Name = _customer.Name,
-            Type = _customer.Type,
             UserName = _customer.UserName
         };
 
@@ -104,7 +102,6 @@ public class CustomerServiceTests
             Addresses = _customer.Addresses,
             Email = _customer.Email,
             Name = "converted",
-            Type = _customer.Type,
             UserName = "converted"
         };
 

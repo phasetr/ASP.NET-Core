@@ -27,7 +27,6 @@ public class Deal : BaseEntity
     [DynamoDBProperty(AttributeName = "GSI3SK")]
     public string Gsi3Sk = default!;
 
-    [DynamoDBProperty] public string Type { get; set; } = nameof(Deal);
     [DynamoDBProperty] public string DealId { get; set; } = default!;
     [DynamoDBProperty] public string Title { get; set; } = default!;
     [DynamoDBProperty] public string Link { get; set; } = default!;
@@ -68,7 +67,7 @@ public class Deal : BaseEntity
             {"GSI2SK", new AttributeValue(Key.DealGsi2Sk(DealId))},
             {"GSI3PK", new AttributeValue(Key.DealGsi3Pk(Category, CreatedAt))},
             {"GSI3SK", new AttributeValue(Key.DealGsi3Sk(DealId))},
-            {"Type", new AttributeValue(Type)},
+            {"Type", new AttributeValue(nameof(Deal))},
             {"DealId", new AttributeValue(DealId)},
             {"Title", new AttributeValue(Title)},
             {"Link", new AttributeValue(Link)},

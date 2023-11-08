@@ -14,7 +14,6 @@ public class Session : BaseEntity
     [DynamoDBProperty(AttributeName = "GSI1SK")]
     public string GsI1Sk { get; set; } = default!;
 
-    [DynamoDBProperty] public string Type { get; set; } = "Session";
     [DynamoDBProperty] public string SessionId { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public DateTime CreatedAt { get; set; }

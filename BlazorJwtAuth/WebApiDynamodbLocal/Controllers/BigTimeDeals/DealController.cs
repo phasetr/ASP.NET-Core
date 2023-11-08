@@ -48,7 +48,6 @@ public class DealController : ControllerBase
             });
         var deal = new Deal
         {
-            Type = nameof(Deal),
             Title = model.Title,
             Link = model.Link,
             Price = model.Price,

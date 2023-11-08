@@ -12,7 +12,6 @@ public class CategoryServiceTests
 {
     private readonly Category _category = new()
     {
-        Type = nameof(Category),
         Name = "category name",
         FeaturedDeals = "featured deals",
         LikeCount = 1,
@@ -80,7 +79,6 @@ public class CategoryServiceTests
         var createdAt1 = new DateTime(2023, 1, 1, 1, 0, 0, DateTimeKind.Utc);
         await dealService.CreateAsync(new Deal
         {
-            Type = nameof(Deal),
             DealId = Deal.GenerateDealId(createdAt1),
             Title = "title",
             Link = "link1",
@@ -92,7 +90,6 @@ public class CategoryServiceTests
         var createdAt2 = new DateTime(2023, 1, 1, 2, 0, 0, DateTimeKind.Utc);
         await dealService.CreateAsync(new Deal
         {
-            Type = nameof(Deal),
             DealId = Deal.GenerateDealId(createdAt2),
             Title = "title",
             Link = "link1",
