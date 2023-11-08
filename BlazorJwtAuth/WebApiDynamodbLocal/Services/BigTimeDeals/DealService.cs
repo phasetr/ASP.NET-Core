@@ -29,7 +29,7 @@ public class DealService : IDealService
     {
         try
         {
-            deal.DealId = Deal.GenerateDealId(deal.CreatedAt);
+            deal.DealId = Key.GenerateKsuId(deal.CreatedAt);
             await _client.PutItemAsync(new PutItemRequest
             {
                 TableName = _tableName,

@@ -1,6 +1,5 @@
 using System.Globalization;
 using Amazon.DynamoDBv2.Model;
-using KsuidDotNet;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
@@ -13,11 +12,6 @@ public class Deal : IEntity
     public string Category { get; set; } = default!;
     public string Brand { get; set; } = default!;
     public DateTime CreatedAt { get; set; }
-
-    public static string GenerateDealId(DateTime createdAt)
-    {
-        return Ksuid.NewKsuid(createdAt);
-    }
 
     public static string ToPk(string dealId)
     {

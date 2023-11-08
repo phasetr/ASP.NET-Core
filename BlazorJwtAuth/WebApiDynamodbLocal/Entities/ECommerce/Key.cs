@@ -1,7 +1,14 @@
+using KsuidDotNet;
+
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
 public static class Key
 {
+    public static string GenerateKsuId(DateTime createdAt)
+    {
+        return Ksuid.NewKsuid(createdAt);
+    }
+
     public static string CustomerPk(string userName)
     {
         return $"CUSTOMER#{userName}";

@@ -30,7 +30,7 @@ public class OrderService : IOrderService
     public async Task<ResponseBaseDto> CreateAsync(PostOrderDto postOrderDto)
     {
         var dateTime = DateTime.UtcNow;
-        var orderId = Order.GenerateOrderId(dateTime);
+        var orderId = Key.GenerateKsuId(dateTime);
         var order = new Order
         {
             UserName = postOrderDto.UserName,

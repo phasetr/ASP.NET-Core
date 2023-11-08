@@ -1,7 +1,14 @@
+using KsuidDotNet;
+
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
 public static class Key
 {
+    public static string GenerateKsuId(DateTime createdAt)
+    {
+        return Ksuid.NewKsuid(createdAt);
+    }
+
     public static string BrandPk(string name)
     {
         return $"BRAND#{name.ToUpper()}";

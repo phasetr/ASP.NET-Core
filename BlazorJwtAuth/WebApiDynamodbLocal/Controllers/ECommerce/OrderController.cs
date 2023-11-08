@@ -64,7 +64,7 @@ public class OrderController : ControllerBase
         var dateTime = DateTime.UtcNow;
         var response = await _orderService.CreateAsync(postOrderDto);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Order.GenerateOrderId(dateTime)}, response);
+        return CreatedAtAction("Post", new {pk = Key.GenerateKsuId(dateTime)}, response);
     }
 
     [HttpPut(ApiPath.OrderStatus)]

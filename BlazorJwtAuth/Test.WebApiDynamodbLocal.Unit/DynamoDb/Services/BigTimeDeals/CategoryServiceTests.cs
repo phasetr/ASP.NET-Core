@@ -79,7 +79,7 @@ public class CategoryServiceTests
         var createdAt1 = new DateTime(2023, 1, 1, 1, 0, 0, DateTimeKind.Utc);
         await dealService.CreateAsync(new Deal
         {
-            DealId = Deal.GenerateDealId(createdAt1),
+            DealId = Key.GenerateKsuId(createdAt1),
             Title = "title",
             Link = "link1",
             Price = 100,
@@ -90,7 +90,7 @@ public class CategoryServiceTests
         var createdAt2 = new DateTime(2023, 1, 1, 2, 0, 0, DateTimeKind.Utc);
         await dealService.CreateAsync(new Deal
         {
-            DealId = Deal.GenerateDealId(createdAt2),
+            DealId = Key.GenerateKsuId(createdAt2),
             Title = "title",
             Link = "link1",
             Price = 100,

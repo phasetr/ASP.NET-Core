@@ -1,6 +1,5 @@
 using System.Globalization;
 using Amazon.DynamoDBv2.Model;
-using KsuidDotNet;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
@@ -13,11 +12,6 @@ public class Order : IEntity
     public string Status { get; set; } = default!;
     public decimal TotalAmount { get; set; }
     public int NumberOfItems { get; set; }
-
-    public static string GenerateOrderId(DateTime createdAt)
-    {
-        return Ksuid.NewKsuid(createdAt);
-    }
 
     public static string OrderIdToGsi1Pk(string orderId)
     {
