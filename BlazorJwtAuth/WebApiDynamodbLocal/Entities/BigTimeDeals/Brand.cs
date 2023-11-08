@@ -2,14 +2,14 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Brand : BaseEntity
+public class Brand : IEntity
 {
     public string Name { get; set; } = default!;
     public string LogoUrl { get; set; } = default!;
     public int LikeCount { get; set; }
     public int WatchCount { get; set; }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

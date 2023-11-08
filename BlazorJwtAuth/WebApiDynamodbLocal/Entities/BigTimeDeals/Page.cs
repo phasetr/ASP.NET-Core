@@ -2,11 +2,11 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Page : BaseEntity
+public class Page : IEntity
 {
     public string FeaturedDeals { get; set; } = default!;
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

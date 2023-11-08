@@ -4,7 +4,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-public class OrderItem : BaseEntity
+public class OrderItem : IEntity
 {
     [Required] public string OrderId { get; set; } = default!;
     [Required] public int ItemId { get; set; }
@@ -12,7 +12,7 @@ public class OrderItem : BaseEntity
     public decimal Price { get; set; }
     public int Amount { get; set; }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

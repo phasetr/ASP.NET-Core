@@ -2,11 +2,11 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class BrandContainer : BaseEntity
+public class BrandContainer : IEntity
 {
     public List<string> Brands { get; set; } = default!;
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

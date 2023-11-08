@@ -2,14 +2,14 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-public class Customer : BaseEntity
+public class Customer : IEntity
 {
     public string UserName { get; set; } = default!;
     public string Email { get; set; } = default!;
     public string Name { get; set; } = default!;
     public Dictionary<string, Address> Addresses { get; set; } = default!;
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

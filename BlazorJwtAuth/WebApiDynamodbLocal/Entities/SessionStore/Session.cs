@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.SessionStore;
 
-public class Session : BaseEntity
+public class Session : IEntity
 {
     public string SessionId { get; set; } = default!;
     public string UserName { get; set; } = default!;
@@ -10,7 +10,7 @@ public class Session : BaseEntity
     public DateTime ExpiredAt { get; set; }
     public int Ttl { get; set; }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

@@ -2,13 +2,13 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Interaction : BaseEntity
+public class Interaction : IEntity
 {
     public string Type { get; set; } = nameof(Interaction);
     public string UserName { get; set; } = default!;
     public string Name { get; set; } = default!;
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

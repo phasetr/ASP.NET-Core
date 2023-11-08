@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Category : BaseEntity
+public class Category : IEntity
 {
     public string Name { get; set; } = default!;
     public string FeaturedDeals { get; set; } = default!;
@@ -14,7 +14,7 @@ public class Category : BaseEntity
         return $"CATEGORY#{name.ToUpper()}#{dateTime:yyyy-MM-dd}";
     }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

@@ -4,7 +4,7 @@ using KsuidDotNet;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-public class Order : BaseEntity
+public class Order : IEntity
 {
     public string UserName { get; set; } = default!;
     public string OrderId { get; set; } = default!;
@@ -34,7 +34,7 @@ public class Order : BaseEntity
         return $"#ORDER#{orderId}";
     }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {

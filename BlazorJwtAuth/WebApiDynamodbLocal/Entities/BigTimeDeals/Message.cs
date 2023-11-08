@@ -2,7 +2,7 @@ using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Message : BaseEntity
+public class Message : IEntity
 {
     public string UserName { get; set; } = default!;
     public string MessageId { get; set; } = default!;
@@ -17,7 +17,7 @@ public class Message : BaseEntity
     public DateTime SentAt { get; set; } = default!;
     public bool UnRead { get; set; } = default!;
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         var dynamodbItem = new Dictionary<string, AttributeValue>
         {

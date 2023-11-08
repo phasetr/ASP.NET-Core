@@ -4,7 +4,7 @@ using KsuidDotNet;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-public class Deal : BaseEntity
+public class Deal : IEntity
 {
     public string DealId { get; set; } = default!;
     public string Title { get; set; } = default!;
@@ -34,7 +34,7 @@ public class Deal : BaseEntity
         return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
     }
 
-    public override Dictionary<string, AttributeValue> ToDynamoDbItem()
+    public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
