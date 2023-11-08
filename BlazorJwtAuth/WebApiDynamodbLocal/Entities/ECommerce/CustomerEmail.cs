@@ -7,7 +7,7 @@ namespace WebApiDynamodbLocal.Entities.ECommerce;
 [DynamoDBTable(AwsSettings.ECommerceTable)]
 public class CustomerEmail : BaseEntity
 {
-    [DynamoDBProperty] public string Type { get; set; } = default!;
+    [DynamoDBProperty] public string Type { get; set; } = nameof(CustomerEmail);
     [DynamoDBProperty] public string Email { get; set; } = default!;
     [DynamoDBProperty] public string UserName { get; set; } = default!;
 
@@ -25,9 +25,9 @@ public class CustomerEmail : BaseEntity
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"Type", new AttributeValue(nameof(CustomerEmail))},
+            {"PK", new AttributeValue(Key.CustomerEmailPk(Email))},
+            {"SK", new AttributeValue(Key.CustomerEmailSk(Email))},
+            {"Type", new AttributeValue(Type)},
             {"Email", new AttributeValue(Email)},
             {"UserName", new AttributeValue(UserName)}
         };

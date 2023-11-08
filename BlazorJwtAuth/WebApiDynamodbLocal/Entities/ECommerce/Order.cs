@@ -57,24 +57,14 @@ public class Order : BaseEntity
         return $"#ORDER#{OrderId}";
     }
 
-    public string ToGsi1Pk()
-    {
-        return $"ORDER#{OrderId}";
-    }
-
-    public string ToGsi1Sk()
-    {
-        return $"ORDER#{OrderId}";
-    }
-
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"GSI1PK", new AttributeValue(ToGsi1Pk())},
-            {"GSI1SK", new AttributeValue(ToGsi1Sk())},
+            {"PK", new AttributeValue(Key.OrderPk(UserName))},
+            {"SK", new AttributeValue(Key.OrderSk(OrderId))},
+            {"GSI1PK", new AttributeValue(Key.OrderGsi1Pk(OrderId))},
+            {"GSI1SK", new AttributeValue(Key.OrderGsi1Sk(OrderId))},
             {"Type", new AttributeValue(nameof(Order))},
             {"UserName", new AttributeValue(UserName)},
             {"OrderId", new AttributeValue(OrderId)},

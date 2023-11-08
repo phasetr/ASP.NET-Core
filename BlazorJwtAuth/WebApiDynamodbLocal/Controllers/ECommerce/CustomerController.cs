@@ -53,7 +53,7 @@ public class CustomerController : ControllerBase
         };
         var response = await _customerService.CreateAsync(customer);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = Customer.ToPk(customer.UserName)}, response);
+        return CreatedAtAction("Post", new {pk = Key.CustomerPk(customer.UserName)}, response);
     }
 
     [HttpDelete(ApiPath.CustomerAddress)]

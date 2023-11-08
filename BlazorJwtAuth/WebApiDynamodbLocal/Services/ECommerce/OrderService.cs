@@ -200,7 +200,7 @@ public class OrderService : IOrderService
                 },
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
-                    {":pk", new AttributeValue {S = Customer.ToPk(userName)}}
+                    {":pk", new AttributeValue {S = Key.CustomerPk(userName)}}
                 },
                 ScanIndexForward = false
             };

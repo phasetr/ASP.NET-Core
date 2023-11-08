@@ -98,8 +98,8 @@ public class CustomerService : ICustomerService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Customer.ToPk(userName))},
-                    {"SK", new AttributeValue(Customer.ToSk(userName))}
+                    {"PK", new AttributeValue(Key.CustomerPk(userName))},
+                    {"SK", new AttributeValue(Key.CustomerSk(userName))}
                 },
                 ConditionExpression = "attribute_exists(PK)",
                 UpdateExpression = "REMOVE #prop.#name",
@@ -148,8 +148,8 @@ public class CustomerService : ICustomerService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Customer.ToPk(userName))},
-                    {"SK", new AttributeValue(Customer.ToSk(userName))}
+                    {"PK", new AttributeValue(Key.CustomerPk(userName))},
+                    {"SK", new AttributeValue(Key.CustomerSk(userName))}
                 }
             };
             var response = await _client.GetItemAsync(request);
@@ -205,8 +205,8 @@ public class CustomerService : ICustomerService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Customer.ToPk(putAddressDto.UserName))},
-                    {"SK", new AttributeValue(Customer.ToSk(putAddressDto.UserName))}
+                    {"PK", new AttributeValue(Key.CustomerPk(putAddressDto.UserName))},
+                    {"SK", new AttributeValue(Key.CustomerSk(putAddressDto.UserName))}
                 },
                 ConditionExpression = "attribute_exists(PK)",
                 UpdateExpression = "SET #prop.#name = :address",

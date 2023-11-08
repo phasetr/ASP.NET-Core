@@ -109,7 +109,7 @@ public class CustomerServiceTests
         };
 
         // ユーザーを登録
-        _ = await sut.CreateAsync(_customer);
+        await sut.CreateAsync(_customer);
         var createResult2 = await sut.CreateAsync(customer);
         Assert.NotNull(createResult2);
         Assert.False(createResult2.Succeeded);

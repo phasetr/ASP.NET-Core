@@ -24,16 +24,6 @@ public class OrderItem : BaseEntity
     [DynamoDBProperty] public decimal Price { get; set; }
     [DynamoDBProperty] public int Amount { get; set; }
 
-    public string ToGsi1Pk()
-    {
-        return $"ORDER#{OrderId}";
-    }
-
-    public string ToGsi1Sk()
-    {
-        return $"ITEM#{ItemId}";
-    }
-
     public override string ToPk()
     {
         return $"ORDER#{OrderId}#ITEM#{ItemId}";
@@ -48,10 +38,10 @@ public class OrderItem : BaseEntity
     {
         return new Dictionary<string, AttributeValue>
         {
-            {"PK", new AttributeValue(ToPk())},
-            {"SK", new AttributeValue(ToSk())},
-            {"GSI1PK", new AttributeValue(ToGsi1Pk())},
-            {"GSI1SK", new AttributeValue(ToGsi1Sk())},
+            {"PK", new AttributeValue(Key.OrderItemPk(OrderId, ItemId.ToString()))},
+            {"SK", new AttributeValue(Key.OrderItemSk(OrderId, ItemId.ToString()))},
+            {"GSI1PK", new AttributeValue(Key.OrderItemGsi1Pk(OrderId))},
+            {"GSI1SK", new AttributeValue(Key.OrderItemGsi1Sk(ItemId.ToString()))},
             {"Type", new AttributeValue(nameof(OrderItem))},
             {"OrderId", new AttributeValue(OrderId)},
             {"ItemId", new AttributeValue {N = ItemId.ToString()}},
