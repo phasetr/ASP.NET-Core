@@ -1,24 +1,14 @@
-using System.ComponentModel.DataAnnotations;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 
 namespace WebApiDynamodbLocal.Entities.SessionStore;
 
 public class Session : BaseEntity
 {
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1PK")]
-    public string Gsi1Pk { get; set; } = default!;
-
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1SK")]
-    public string GsI1Sk { get; set; } = default!;
-
-    [DynamoDBProperty] public string SessionId { get; set; } = default!;
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
-    [DynamoDBProperty] public DateTime ExpiredAt { get; set; }
-    [DynamoDBProperty] public int Ttl { get; set; }
+    public string SessionId { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public DateTime CreatedAt { get; set; }
+    public DateTime ExpiredAt { get; set; }
+    public int Ttl { get; set; }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

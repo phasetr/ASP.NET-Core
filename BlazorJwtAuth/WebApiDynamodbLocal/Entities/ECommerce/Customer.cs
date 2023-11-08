@@ -1,16 +1,13 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-[DynamoDBTable(AwsSettings.ECommerceTable)]
 public class Customer : BaseEntity
 {
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public string Email { get; set; } = default!;
-    [DynamoDBProperty] public string Name { get; set; } = default!;
-    [DynamoDBProperty] public Dictionary<string, Address> Addresses { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public Dictionary<string, Address> Addresses { get; set; } = default!;
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
@@ -37,9 +34,9 @@ public class Customer : BaseEntity
 
 public class Address
 {
-    [DynamoDBProperty] public string StreetAddress { get; set; } = default!;
-    [DynamoDBProperty] public string PostalCode { get; set; } = default!;
-    [DynamoDBProperty] public string Country { get; set; } = default!;
+    public string StreetAddress { get; set; } = default!;
+    public string PostalCode { get; set; } = default!;
+    public string Country { get; set; } = default!;
 
     public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

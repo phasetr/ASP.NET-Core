@@ -121,17 +121,17 @@ public static class Key
     {
         return "PAGE";
     }
-    
+
     public static string UserPk(string userName)
     {
         return $"USER#{userName.ToLower()}";
     }
-    
+
     public static string UserSk(string userName)
     {
         return $"USER#{userName.ToLower()}";
     }
-    
+
     public static string UserUserIndex(string userName)
     {
         return $"USER#{userName.ToLower()}";

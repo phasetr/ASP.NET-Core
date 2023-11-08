@@ -1,14 +1,11 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-[DynamoDBTable(AwsSettings.ECommerceTable)]
 public class CustomerEmail : BaseEntity
 {
-    [DynamoDBProperty] public string Email { get; set; } = default!;
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public string UserName { get; set; } = default!;
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

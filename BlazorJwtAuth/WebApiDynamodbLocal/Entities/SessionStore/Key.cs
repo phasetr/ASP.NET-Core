@@ -6,7 +6,7 @@ public static class Key
     {
         return $"{nameof(Session).ToUpper()}#{sessionId}";
     }
-    
+
     public static string SessionSk(string sessionId)
     {
         return $"{nameof(Session).ToUpper()}#{sessionId}";
@@ -16,7 +16,7 @@ public static class Key
     {
         return $"{nameof(Session).ToUpper()}#{userName}";
     }
-    
+
     public static string SessionGsi1Sk(string userName)
     {
         return $"{nameof(Session).ToUpper()}#{userName}";

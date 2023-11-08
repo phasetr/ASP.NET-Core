@@ -1,30 +1,18 @@
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using KsuidDotNet;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-[DynamoDBTable(AwsSettings.ECommerceTable)]
 public class Order : BaseEntity
 {
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1PK")]
-    public string Gsi1Pk { get; set; } = default!;
-
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1SK")]
-    public string GsI1Sk { get; set; } = default!;
-
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public string OrderId { get; set; } = default!;
-    [DynamoDBProperty] public Address Address { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; } = default!;
-    [DynamoDBProperty] public string Status { get; set; } = default!;
-    [DynamoDBProperty] public decimal TotalAmount { get; set; } = default!;
-    [DynamoDBProperty] public int NumberOfItems { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public string OrderId { get; set; } = default!;
+    public Address Address { get; set; } = default!;
+    public DateTime CreatedAt { get; set; }
+    public string Status { get; set; } = default!;
+    public decimal TotalAmount { get; set; }
+    public int NumberOfItems { get; set; }
 
     public static string GenerateOrderId(DateTime createdAt)
     {

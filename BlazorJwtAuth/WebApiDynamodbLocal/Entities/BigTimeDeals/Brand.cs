@@ -1,16 +1,13 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Brand : BaseEntity
 {
-    [DynamoDBProperty] public string Name { get; set; } = default!;
-    [DynamoDBProperty] public string LogoUrl { get; set; } = default!;
-    [DynamoDBProperty] public int LikeCount { get; set; }
-    [DynamoDBProperty] public int WatchCount { get; set; }
+    public string Name { get; set; } = default!;
+    public string LogoUrl { get; set; } = default!;
+    public int LikeCount { get; set; }
+    public int WatchCount { get; set; }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

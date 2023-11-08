@@ -1,39 +1,18 @@
 using System.Globalization;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using KsuidDotNet;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Deal : BaseEntity
 {
-    [DynamoDBProperty(AttributeName = "GSI1PK")]
-    public string Gsi1Pk = default!;
-
-    [DynamoDBProperty(AttributeName = "GSI1SK")]
-    public string Gsi1Sk = default!;
-
-    [DynamoDBProperty(AttributeName = "GSI2PK")]
-    public string Gsi2Pk = default!;
-
-    [DynamoDBProperty(AttributeName = "GSI2SK")]
-    public string Gsi2Sk = default!;
-
-    [DynamoDBProperty(AttributeName = "GSI3PK")]
-    public string Gsi3Pk = default!;
-
-    [DynamoDBProperty(AttributeName = "GSI3SK")]
-    public string Gsi3Sk = default!;
-
-    [DynamoDBProperty] public string DealId { get; set; } = default!;
-    [DynamoDBProperty] public string Title { get; set; } = default!;
-    [DynamoDBProperty] public string Link { get; set; } = default!;
-    [DynamoDBProperty] public decimal Price { get; set; }
-    [DynamoDBProperty] public string Category { get; set; } = default!;
-    [DynamoDBProperty] public string Brand { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
+    public string DealId { get; set; } = default!;
+    public string Title { get; set; } = default!;
+    public string Link { get; set; } = default!;
+    public decimal Price { get; set; }
+    public string Category { get; set; } = default!;
+    public string Brand { get; set; } = default!;
+    public DateTime CreatedAt { get; set; }
 
     public static string GenerateDealId(DateTime createdAt)
     {

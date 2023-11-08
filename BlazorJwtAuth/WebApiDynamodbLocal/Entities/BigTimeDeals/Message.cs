@@ -1,25 +1,21 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Message : BaseEntity
 {
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public string MessageId { get; set; } = default!;
-    [DynamoDBProperty] public string Subject { get; set; } = default!;
+    public string UserName { get; set; } = default!;
+    public string MessageId { get; set; } = default!;
+    public string Subject { get; set; } = default!;
 
     /// <summary>
     ///     Messageはクラス名と一致してエラーになるため変更。
     /// </summary>
-    [DynamoDBProperty]
     public string Content { get; set; } = default!;
 
-    [DynamoDBProperty] public string DealId { get; set; } = default!;
-    [DynamoDBProperty] public DateTime SentAt { get; set; } = default!;
-    [DynamoDBProperty] public bool UnRead { get; set; } = default!;
+    public string DealId { get; set; } = default!;
+    public DateTime SentAt { get; set; } = default!;
+    public bool UnRead { get; set; } = default!;
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

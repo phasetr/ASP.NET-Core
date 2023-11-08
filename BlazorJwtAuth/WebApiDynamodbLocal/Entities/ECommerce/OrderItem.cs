@@ -1,27 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.ECommerce;
 
-[DynamoDBTable(AwsSettings.ECommerceTable)]
 public class OrderItem : BaseEntity
 {
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1PK")]
-    public string Gsi1Pk { get; set; } = default!;
-
-    [Required]
-    [DynamoDBProperty(AttributeName = "GSI1SK")]
-    public string GsI1Sk { get; set; } = default!;
-
-    [Required] [DynamoDBProperty] public string OrderId { get; set; } = default!;
-    [Required] [DynamoDBProperty] public int ItemId { get; set; }
-    [DynamoDBProperty] public string Description { get; set; } = default!;
-    [DynamoDBProperty] public decimal Price { get; set; }
-    [DynamoDBProperty] public int Amount { get; set; }
+    [Required] public string OrderId { get; set; } = default!;
+    [Required] public int ItemId { get; set; }
+    public string Description { get; set; } = default!;
+    public decimal Price { get; set; }
+    public int Amount { get; set; }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

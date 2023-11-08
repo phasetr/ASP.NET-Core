@@ -1,13 +1,10 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Page : BaseEntity
 {
-    [DynamoDBProperty] public string FeaturedDeals { get; set; } = default!;
+    public string FeaturedDeals { get; set; } = default!;
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {

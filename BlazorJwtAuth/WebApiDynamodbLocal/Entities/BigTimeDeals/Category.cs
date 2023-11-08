@@ -1,26 +1,13 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Category : BaseEntity
 {
-    [DynamoDBProperty] public string Name { get; set; } = default!;
-    [DynamoDBProperty] public string FeaturedDeals { get; set; } = default!;
-    [DynamoDBProperty] public int LikeCount { get; set; }
-    [DynamoDBProperty] public int WatchCount { get; set; }
-
-    public static string ToPk(string name)
-    {
-        return $"CATEGORY#{name.ToUpper()}";
-    }
-
-    public static string ToSk(string name)
-    {
-        return $"CATEGORY#{name.ToUpper()}";
-    }
+    public string Name { get; set; } = default!;
+    public string FeaturedDeals { get; set; } = default!;
+    public int LikeCount { get; set; }
+    public int WatchCount { get; set; }
 
     public static string ToGsi3Pk(string name, DateTime dateTime)
     {

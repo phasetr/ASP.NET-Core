@@ -1,15 +1,12 @@
-using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
-using WebApiDynamodbLocal.Constants;
 
 namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 
-[DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class User : BaseEntity
 {
-    [DynamoDBProperty] public string UserName { get; set; } = default!;
-    [DynamoDBProperty] public string Name { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
+    public string UserName { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public DateTime CreatedAt { get; set; }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
