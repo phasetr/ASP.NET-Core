@@ -38,7 +38,7 @@ public class DealServiceTests
         Assert.NotNull(createResult);
         Assert.True(createResult.Succeeded);
         Assert.Equal("Deal created successfully", createResult.Message);
-        var dealId = createResult.DealId;
+        var dealId = createResult.Key;
         Assert.NotNull(dealId);
 
         // ディール作成を確認

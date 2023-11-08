@@ -1,5 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Common.Dto;
 using KsuidDotNet;
 using WebApiDynamodbLocal.Constants;
 using WebApiDynamodbLocal.Dto.BigTimeDeals.Deal;
@@ -25,7 +26,7 @@ public class DealService : IDealService
         _tableName = configuration[AwsSettings.ConfigurationBigTimeDealsTable];
     }
 
-    public async Task<PostResponseDto> CreateAsync(Deal deal)
+    public async Task<ResponseBaseDto> CreateAsync(Deal deal)
     {
         try
         {
@@ -37,9 +38,9 @@ public class DealService : IDealService
                 ConditionExpression = "attribute_not_exists(PK)",
                 Item = deal.ToDynamoDbItem()
             });
-            return new PostResponseDto
+            return new ResponseBaseDto
             {
-                DealId = dealId,
+                Key = dealId,
                 Message = "Deal created successfully",
                 Succeeded = true
             };
@@ -49,12 +50,12 @@ public class DealService : IDealService
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
             if (e.ErrorCode == "ConditionalCheckFailedException")
-                return new PostResponseDto
+                return new ResponseBaseDto
                 {
                     Message = "Deal with this ID already exists",
                     Succeeded = false
                 };
-            return new PostResponseDto
+            return new ResponseBaseDto
             {
                 Message = e.Message,
                 Succeeded = false

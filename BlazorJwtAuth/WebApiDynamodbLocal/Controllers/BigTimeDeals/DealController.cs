@@ -58,6 +58,6 @@ public class DealController : ControllerBase
         };
         var response = await _dealService.CreateAsync(deal);
         if (!response.Succeeded) return UnprocessableEntity(response);
-        return CreatedAtAction("Post", new {pk = response.DealId}, response);
+        return CreatedAtAction("Post", new {pk = response.Key}, response);
     }
 }
