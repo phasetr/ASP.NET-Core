@@ -113,13 +113,9 @@ public class OrderService : IOrderService
                 IndexName = "GSI1",
                 KeyConditionExpression = "#gsi1pk = :pk",
                 ExpressionAttributeNames = new Dictionary<string, string>
-                {
-                    {"#gsi1pk", "GSI1PK"}
-                },
+                    {{"#gsi1pk", "GSI1PK"}},
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                {
-                    {":pk", new AttributeValue {S = gsi1Pk}}
-                },
+                    {{":pk", new AttributeValue {S = gsi1Pk}}},
                 ScanIndexForward = false
             };
             var response = await _client.QueryAsync(queryRequest);

@@ -53,7 +53,8 @@ public class DealController : ControllerBase
             Link = model.Link,
             Price = model.Price,
             Category = model.Category,
-            Brand = model.Brand
+            Brand = model.Brand,
+            CreatedAt = DateTime.UtcNow
         };
         var response = await _dealService.CreateAsync(deal);
         if (!response.Succeeded) return UnprocessableEntity(response);

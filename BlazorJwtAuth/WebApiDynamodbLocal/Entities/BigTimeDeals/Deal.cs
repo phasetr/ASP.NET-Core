@@ -9,6 +9,24 @@ namespace WebApiDynamodbLocal.Entities.BigTimeDeals;
 [DynamoDBTable(AwsSettings.ConfigurationBigTimeDealsTable)]
 public class Deal : BaseEntity
 {
+    [DynamoDBProperty(AttributeName = "GSI1PK")]
+    public string Gsi1Pk = default!;
+
+    [DynamoDBProperty(AttributeName = "GSI1SK")]
+    public string Gsi1Sk = default!;
+
+    [DynamoDBProperty(AttributeName = "GSI2PK")]
+    public string Gsi2Pk = default!;
+
+    [DynamoDBProperty(AttributeName = "GSI2SK")]
+    public string Gsi2Sk = default!;
+
+    [DynamoDBProperty(AttributeName = "GSI3PK")]
+    public string Gsi3Pk = default!;
+
+    [DynamoDBProperty(AttributeName = "GSI3SK")]
+    public string Gsi3Sk = default!;
+
     [DynamoDBProperty] public string Type { get; set; } = nameof(Deal);
     [DynamoDBProperty] public string DealId { get; set; } = default!;
     [DynamoDBProperty] public string Title { get; set; } = default!;
@@ -45,7 +63,7 @@ public class Deal : BaseEntity
 
     public string ToGsi1Pk()
     {
-        return $"DEALS#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
+        return $"DEALS#{CreatedAt:yyyy-MM-dd}";
     }
 
     public string ToGsi1Sk()
@@ -55,7 +73,7 @@ public class Deal : BaseEntity
 
     public string ToGsi2Pk()
     {
-        return $"DEALS#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
+        return $"BRAND#{Brand.ToUpper()}#{CreatedAt:yyyy-MM-dd}";
     }
 
     public string ToGsi2Sk()
@@ -65,7 +83,7 @@ public class Deal : BaseEntity
 
     public string ToGsi3Pk()
     {
-        return $"CATEGORY#{Category.ToUpper()}#{CreatedAt:yyyy-MM-dd HH:mm:ss}";
+        return $"CATEGORY#{Category.ToUpper()}#{CreatedAt:yyyy-MM-dd}";
     }
 
     public string ToGsi3Sk()
@@ -79,6 +97,12 @@ public class Deal : BaseEntity
         {
             {"PK", new AttributeValue(ToPk())},
             {"SK", new AttributeValue(ToSk())},
+            {"GSI1PK", new AttributeValue(ToGsi1Pk())},
+            {"GSI1SK", new AttributeValue(ToGsi1Sk())},
+            {"GSI2PK", new AttributeValue(ToGsi2Pk())},
+            {"GSI2SK", new AttributeValue(ToGsi2Sk())},
+            {"GSI3PK", new AttributeValue(ToGsi3Pk())},
+            {"GSI3SK", new AttributeValue(ToGsi3Sk())},
             {"Type", new AttributeValue(Type)},
             {"DealId", new AttributeValue(DealId)},
             {"Title", new AttributeValue(Title)},

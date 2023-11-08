@@ -10,7 +10,7 @@ public class User : BaseEntity
     [DynamoDBProperty] public string Type { get; set; } = nameof(User);
     [DynamoDBProperty] public string UserName { get; set; } = default!;
     [DynamoDBProperty] public string Name { get; set; } = default!;
-    [DynamoDBProperty] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    [DynamoDBProperty] public DateTime CreatedAt { get; set; }
 
     public override string ToPk()
     {

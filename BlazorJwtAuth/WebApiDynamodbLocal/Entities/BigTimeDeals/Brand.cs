@@ -33,14 +33,14 @@ public class Brand : BaseEntity
         return $"BRAND#{name.ToUpper()}";
     }
 
-    public string ToGsi2Pk(DateTime dateTime)
+    public static string ToGsi2Pk(string brandName, DateOnly dateOnly)
     {
-        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd HH:mm:ss}";
+        return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
     }
 
-    public string ToGsi2Sk(DateTime dateTime)
+    public static string ToGsi2Sk(string brandName, DateOnly dateOnly)
     {
-        return $"BRAND#{Name.ToUpper()}#{dateTime:yyyy-MM-dd HH:mm:ss}";
+        return $"BRAND#{brandName.ToUpper()}#{dateOnly.ToString("yyyy-MM-dd")}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()

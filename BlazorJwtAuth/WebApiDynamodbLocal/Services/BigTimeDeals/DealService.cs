@@ -29,9 +29,7 @@ public class DealService : IDealService
     {
         try
         {
-            var createdAt = DateTime.UtcNow;
-            var dealId = Ksuid.NewKsuid(createdAt);
-            deal.CreatedAt = createdAt;
+            var dealId = Ksuid.NewKsuid(deal.CreatedAt);
             deal.DealId = dealId;
             await _client.PutItemAsync(new PutItemRequest
             {
@@ -104,6 +102,90 @@ public class DealService : IDealService
             _logger.LogError("{E}", e.Message);
             _logger.LogError("{E}", e.StackTrace);
             return new GetResponseDto
+            {
+                Message = e.Message,
+                Succeeded = false
+            };
+        }
+    }
+
+    public async Task<GetLatestDealsResponseDto> GetLatestDealsAsync(string brandName, DateOnly dateOnly,
+        int limit = 25, int count = 0)
+    {
+        try
+        {
+            var request = new QueryRequest
+            {
+                TableName = _tableName,
+                IndexName = "GSI2",
+                KeyConditionExpression = "#gsi2pk = :gsi2pk",
+                ExpressionAttributeNames = new Dictionary<string, string>
+                    {{"#gsi2pk", "GSI2PK"}},
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                    {{":gsi2pk", new AttributeValue(Brand.ToGsi2Pk(brandName, dateOnly))}},
+                ScanIndexForward = false,
+                Limit = limit
+            };
+            var response = await _client.QueryAsync(request);
+            if (response.Items == null || response.Items.Count == 0)
+                return new GetLatestDealsResponseDto
+                {
+                    Message = "Deals not found",
+                    Succeeded = false
+                };
+            var deals = response.Items.Select(item => new DealModel
+                {
+                    Brand = item["Brand"].S,
+                    Category = item["Category"].S,
+                    CreatedAt = DateTime.Parse(item["CreatedAt"].S),
+                    DealId = item["DealId"].S,
+                    Link = item["Link"].S,
+                    Price = decimal.Parse(item["Price"].N),
+                    Title = item["Title"].S
+                })
+                .ToList();
+            if (deals.Count >= limit || count >= 5)
+                return new GetLatestDealsResponseDto
+                {
+                    DealModels = response.Items.Select(item => new DealModel
+                    {
+                        Brand = item["Brand"].S,
+                        Category = item["Category"].S,
+                        CreatedAt = DateTime.Parse(item["CreatedAt"].S),
+                        DealId = item["DealId"].S,
+                        Link = item["Link"].S,
+                        Price = decimal.Parse(item["Price"].N),
+                        Title = item["Title"].S
+                    }).ToList(),
+                    Message = "Deals found",
+                    Succeeded = true
+                };
+            var createdAt = dateOnly.AddDays(-1);
+            limit -= deals.Count;
+            count++;
+            var latestDeals = await GetLatestDealsAsync(brandName, createdAt, limit, count);
+            deals.AddRange(latestDeals.DealModels);
+            return new GetLatestDealsResponseDto
+            {
+                DealModels = response.Items.Select(item => new DealModel
+                {
+                    Brand = item["Brand"].S,
+                    Category = item["Category"].S,
+                    CreatedAt = DateTime.Parse(item["CreatedAt"].S),
+                    DealId = item["DealId"].S,
+                    Link = item["Link"].S,
+                    Price = decimal.Parse(item["Price"].N),
+                    Title = item["Title"].S
+                }).ToList(),
+                Message = "Deals found",
+                Succeeded = true
+            };
+        }
+        catch (AmazonDynamoDBException e)
+        {
+            _logger.LogError("{E}", e.Message);
+            _logger.LogError("{E}", e.StackTrace);
+            return new GetLatestDealsResponseDto
             {
                 Message = e.Message,
                 Succeeded = false

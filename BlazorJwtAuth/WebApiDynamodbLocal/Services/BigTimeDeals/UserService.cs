@@ -29,8 +29,6 @@ public class UserService : IUserService
     {
         try
         {
-            var createdAt = DateTime.UtcNow;
-            user.CreatedAt = createdAt;
             await _client.PutItemAsync(new PutItemRequest
             {
                 TableName = _tableName,

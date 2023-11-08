@@ -3,6 +3,11 @@ namespace Common.Dto;
 public class ResponseBaseDto
 {
     /// <summary>
+    ///     Postで生成されたデータのキーを返したい場合に使用する。
+    /// </summary>
+    public string? Key { get; set; } = default!;
+
+    /// <summary>
     ///     画面表示用のメッセージ。
     ///     エラーの場合は`Errors`に格納する。
     /// </summary>

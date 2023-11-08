@@ -25,7 +25,7 @@ public class Category : BaseEntity
 
     public string ToGsi3Pk(DateTime dateTime)
     {
-        return $"CATEGORY#{CategoryName.ToUpper()}#{dateTime:yyyy-MM-dd HH:mm:ss}";
+        return $"CATEGORY#{CategoryName.ToUpper()}#{dateTime:yyyy-MM-dd}";
     }
 
     public override Dictionary<string, AttributeValue> ToDynamoDbItem()

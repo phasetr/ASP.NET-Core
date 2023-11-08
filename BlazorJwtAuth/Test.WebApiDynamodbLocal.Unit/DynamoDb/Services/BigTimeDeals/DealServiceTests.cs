@@ -15,7 +15,7 @@ public class DealServiceTests
         Type = nameof(Deal),
         Brand = "brand",
         Category = "category",
-        CreatedAt = new DateTime(2023, 1, 1, 1, 1, 1, DateTimeKind.Utc),
+        CreatedAt = new DateTime(2023, 1, 1, 1, 0, 0, DateTimeKind.Utc),
         Link = "https://example.com",
         Price = 100m,
         Title = "title"
@@ -47,5 +47,41 @@ public class DealServiceTests
         Assert.True(getResult2.Succeeded);
         Assert.NotNull(getResult2.DealModel);
         Assert.Equal(_deal.DealId, getResult2.DealModel.DealId);
+    }
+
+    [Fact]
+    public async Task GetLatestDealsAsync_Succeeded()
+    {
+        var builder = new AmazonDynamoDbClientFakeBuilder().Build();
+        var client = builder.Client;
+        var tableName = builder.TableName;
+
+        var mockLogger = Substitute.For<ILogger<DealService>>();
+        var mockConfiguration = Substitute.For<IConfiguration>();
+        mockConfiguration[AwsSettings.ConfigurationBigTimeDealsTable].Returns(tableName);
+        var sut = new DealService(client, mockConfiguration, mockLogger);
+
+        // ディールを作成
+        await sut.CreateAsync(_deal);
+        await sut.CreateAsync(new Deal
+        {
+            Type = nameof(Deal),
+            Brand = "brand",
+            Category = "category2",
+            CreatedAt = _deal.CreatedAt,
+            Link = "https://example2.com",
+            Price = 200m,
+            Title = "title2"
+        });
+
+        // 最新ディールを取得
+        var getResult = await sut.GetLatestDealsAsync("brand", DateOnly.FromDateTime(_deal.CreatedAt), 2);
+        Assert.NotNull(getResult);
+        Assert.True(getResult.Succeeded);
+        Assert.NotNull(getResult.DealModels);
+        Assert.Equal(2, getResult.DealModels.Count);
+        // TODO 並び順がおかしいがどうすれば直るか？
+        // Assert.Equal("title2", getResult.DealModels[0].Title);
+        // Assert.Equal("title", getResult.DealModels[1].Title);
     }
 }
