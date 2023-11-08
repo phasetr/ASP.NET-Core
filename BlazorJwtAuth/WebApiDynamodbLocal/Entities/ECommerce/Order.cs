@@ -13,21 +13,6 @@ public class Order : IEntity
     public decimal TotalAmount { get; set; }
     public int NumberOfItems { get; set; }
 
-    public static string OrderIdToGsi1Pk(string orderId)
-    {
-        return $"ORDER#{orderId}";
-    }
-
-    public static string UserNameToPk(string userName)
-    {
-        return $"CUSTOMER#{userName}";
-    }
-
-    public static string OrderIdToSk(string orderId)
-    {
-        return $"#ORDER#{orderId}";
-    }
-
     public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>

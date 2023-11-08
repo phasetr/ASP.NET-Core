@@ -104,7 +104,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var gsi1Pk = Order.OrderIdToGsi1Pk(orderId);
+            var gsi1Pk = Key.OrderGsi1Pk(orderId);
             var queryRequest = new QueryRequest
             {
                 TableName = _tableName,
@@ -259,8 +259,8 @@ public class OrderService : IOrderService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue {S = Order.UserNameToPk(userName)}},
-                    {"SK", new AttributeValue {S = Order.OrderIdToSk(orderId)}}
+                    {"PK", new AttributeValue {S = Key.OrderPk(userName)}},
+                    {"SK", new AttributeValue {S = Key.OrderSk(orderId)}}
                 },
                 ConditionExpression = "attribute_exists(PK) AND attribute_exists(SK)",
                 UpdateExpression = "SET #status = :status",

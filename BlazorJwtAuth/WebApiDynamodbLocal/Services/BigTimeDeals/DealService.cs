@@ -70,8 +70,8 @@ public class DealService : IDealService
                 TableName = _tableName,
                 Key = new Dictionary<string, AttributeValue>
                 {
-                    {"PK", new AttributeValue(Deal.ToPk(dealId))},
-                    {"SK", new AttributeValue(Deal.ToSk(dealId))}
+                    {"PK", new AttributeValue(Key.DealPk(dealId))},
+                    {"SK", new AttributeValue(Key.DealSk(dealId))}
                 }
             });
             if (response.Item == null || response.Item.Count == 0)

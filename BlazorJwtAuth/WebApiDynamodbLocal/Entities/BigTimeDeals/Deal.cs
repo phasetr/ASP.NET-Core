@@ -13,16 +13,6 @@ public class Deal : IEntity
     public string Brand { get; set; } = default!;
     public DateTime CreatedAt { get; set; }
 
-    public static string ToPk(string dealId)
-    {
-        return $"DEAL#{dealId}";
-    }
-
-    public static string ToSk(string dealId)
-    {
-        return $"DEAL#{dealId}";
-    }
-
     public Dictionary<string, AttributeValue> ToDynamoDbItem()
     {
         return new Dictionary<string, AttributeValue>
