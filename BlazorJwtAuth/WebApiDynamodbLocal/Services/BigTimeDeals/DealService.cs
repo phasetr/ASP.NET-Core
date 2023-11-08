@@ -88,7 +88,6 @@ public class DealService : IDealService
                 {
                     Brand = response.Item["Brand"].S,
                     Category = response.Item["Category"].S,
-                    CreatedAt = DateTime.Parse(response.Item["CreatedAt"].S),
                     DealId = response.Item["DealId"].S,
                     Link = response.Item["Link"].S,
                     Price = decimal.Parse(response.Item["Price"].N),
@@ -138,7 +137,6 @@ public class DealService : IDealService
                 {
                     Brand = item["Brand"].S,
                     Category = item["Category"].S,
-                    CreatedAt = DateTime.Parse(item["CreatedAt"].S),
                     DealId = item["DealId"].S,
                     Link = item["Link"].S,
                     Price = decimal.Parse(item["Price"].N),
@@ -152,7 +150,6 @@ public class DealService : IDealService
                     {
                         Brand = item["Brand"].S,
                         Category = item["Category"].S,
-                        CreatedAt = DateTime.Parse(item["CreatedAt"].S),
                         DealId = item["DealId"].S,
                         Link = item["Link"].S,
                         Price = decimal.Parse(item["Price"].N),
@@ -172,7 +169,6 @@ public class DealService : IDealService
                 {
                     Brand = item["Brand"].S,
                     Category = item["Category"].S,
-                    CreatedAt = DateTime.Parse(item["CreatedAt"].S),
                     DealId = item["DealId"].S,
                     Link = item["Link"].S,
                     Price = decimal.Parse(item["Price"].N),

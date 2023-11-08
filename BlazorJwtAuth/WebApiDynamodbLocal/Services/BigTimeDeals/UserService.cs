@@ -83,8 +83,7 @@ public class UserService : IUserService
                 UserModel = new UserModel
                 {
                     UserName = response.Item["UserName"].S,
-                    Name = response.Item["Name"].S,
-                    CreatedAt = DateTime.Parse(response.Item["CreatedAt"].S)
+                    Name = response.Item["Name"].S
                 },
                 Message = "User found successfully",
                 Succeeded = true

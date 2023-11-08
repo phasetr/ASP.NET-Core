@@ -8,5 +8,4 @@ public class DealModel
     public decimal Price { get; set; }
     public string Category { get; set; } = default!;
     public string Brand { get; set; } = default!;
-    public DateTime CreatedAt { get; set; }
 }
