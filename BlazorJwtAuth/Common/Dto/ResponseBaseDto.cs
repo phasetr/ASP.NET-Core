@@ -1,9 +1,12 @@
 namespace Common.Dto;
 
+/// <summary>
+///     TODO: キーの有無でクラスを分ける
+/// </summary>
 public class ResponseBaseDto
 {
     /// <summary>
-    ///     Postで生成されたデータのキーを返したい場合に使用する。
+    ///     特にDynamoDBのときPostで生成されたデータのキーを返したい場合に使用する。
     /// </summary>
     public string? Key { get; set; } = default!;
 

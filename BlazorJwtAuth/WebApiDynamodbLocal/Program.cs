@@ -40,6 +40,7 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 // BigTimeDeals
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDealService, DealService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
