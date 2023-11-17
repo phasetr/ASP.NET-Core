@@ -222,8 +222,8 @@ aws cognito-idp list-users-in-group \
   --group-name "read-update-add"
 ```
 
-5. `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。
-   次のコマンドで`CognitoHostedUIUrl`が確認できる。 
+5. 次のコマンドで`CognitoHostedUIUrl`が確認して、
+   `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。 
    Access the Cognito app client hosted UI - It's the `CognitoHostedUIUrl` from earlier.
 
 ```shell
@@ -262,24 +262,15 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${Acc
 ```
 
 9. Confirm that you are returned an 200 Success response
-
 10. Now invoke the same request with the POST verb and the same `access_token`.
-
 11. Confirm that you are returned an HTTP 403 Unauthorized response.
-
 12. Log into the Hosted UI as the second user you created following the steps previously described.
-
 13. Make a GET request to the API Gateway HTTP Endpoint as you did previously, 
     this time using the second user's `access_token` for the bearer token.
-
 14. Confirm that you are returned a 200 Success response
-
 15. Make a POST request to the API HTTP Endpoint
-
 16. Confirm you are returned an HTTP 201 Created response
-
 17. Try making a GET or POST request to the endpoint with invalid token
-
 18. Observe that you're returned an HTTP 401 Unauthorized response
 
 ## Cleanup
@@ -300,18 +291,11 @@ aws cloudformation list-stacks --query "StackSummaries[?contains(StackName,'ApiG
 
 ## Related resources
 
-[Verifying a JSON web token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html)
-
-[API GW Resource Policies](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-resource-policies.html)
-
-[Control access for invoking an API](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html)
-
-[API GW Policy statement resource expression format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html#api-gateway-iam-policy-resource-format-for-executing-api)
-
-[Lambda authorizer request format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html)
-
-[Lambda authorizer response format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html)
-
-[Amazon Cognito hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html)
-
-[API Gateway Lambda authorizers](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
+- [Verifying a JSON web token](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html)
+- [API GW Resource Policies](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-resource-policies.html)
+- [Control access for invoking an API](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html)
+- [API GW Policy statement resource expression format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html#api-gateway-iam-policy-resource-format-for-executing-api)
+- [Lambda authorizer request format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html)
+- [Lambda authorizer response format](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html)
+- [Amazon Cognito hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html)
+- [API Gateway Lambda authorizers](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)

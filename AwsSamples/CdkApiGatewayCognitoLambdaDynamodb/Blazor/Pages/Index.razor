@@ -1,0 +1,62 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+<p>Welcome to your new app.</p>
+
+<div class="row">
+  <div class="col-4">
+    <p>API Address: @_apiAddress</p>
+    <p>
+      <a href="https://sign-in-7uoakqm53gj4cguuj52qhlpiot.auth.ap-northeast-1.amazoncognito.com/login?response_type=token&client_id=7uoakqm53gj4cguuj52qhlpiot&redirect_uri=https://localhost:5500">Login by Cognito</a>
+    </p>
+    <dl id="getApiResult">
+      <dt>API Address</dt>
+      <dd>
+        <input class="w-100" id="apiAddress" @bind="_apiAddress">
+      </dd>
+      <dt>Access Token</dt>
+      <dd>
+        <input class="w-100" id="accessToken" @bind="@AccessToken">
+      </dd>
+    </dl>
+    <button id="getTokenAsync" class="btn btn-outline-primary" @onclick="GetResultAsync">Get Result</button>
+  </div>
+  <div class="col-4">
+    <dl>
+      <dt>GET Result</dt>
+      <dd>@_getResult</dd>
+    </dl>
+  </div>
+</div>
+
+@code{
+  private string _apiAddress = "https://jwctxphzp4.execute-api.ap-northeast-1.amazonaws.com/Dev/";
+  private string _getResult = "Now loading...";
+
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "access_token")]
+  public string? AccessToken { get; set; }
+
+  protected override void OnInitialized()
+  {
+    var uri = new Uri(NavigationManager.Uri);
+    Console.WriteLine(uri);
+    Console.WriteLine(uri.Query);
+    Console.WriteLine(AccessToken);
+  }
+
+  private async Task GetResultAsync()
+  {
+    using var client = new HttpClient();
+    var response = await client.GetAsync(_apiAddress);
+    if (response.IsSuccessStatusCode)
+    {
+      var responseData = await response.Content.ReadAsStringAsync();
+      _getResult = responseData;
+    }
+  }
+
+}

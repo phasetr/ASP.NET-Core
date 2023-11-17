@@ -24,19 +24,37 @@ public class Function
             {
                 StatusCode = (int) HttpStatusCode.OK,
                 Body = "Hello",
-                Headers = new Dictionary<string, string> {{"Content-Type", "text/plain"}}
+                Headers = new Dictionary<string, string>
+                {
+                    {"Content-Type", "text/plain"},
+                    {"Access-Control-Allow-Origin", "https://localhost:5500"},
+                    {"Access-Control-Allow-Headers", "Content-Type"},
+                    {"Access-Control-Allow-Methods", "OPTIONS,POST,GET"}
+                }
             },
             "POST" => new APIGatewayProxyResponse
             {
                 StatusCode = (int) HttpStatusCode.Created,
                 Body = "Created",
-                Headers = new Dictionary<string, string> {{"Content-Type", "text/plain"}}
+                Headers = new Dictionary<string, string>
+                {
+                    {"Content-Type", "text/plain"},
+                    {"Access-Control-Allow-Origin", "https://localhost:5500"},
+                    {"Access-Control-Allow-Headers", "Content-Type"},
+                    {"Access-Control-Allow-Methods", "OPTIONS,POST,GET"}
+                }
             },
             _ => new APIGatewayProxyResponse
             {
                 StatusCode = (int) HttpStatusCode.BadRequest,
                 Body = "Invalid HttpMethod",
-                Headers = new Dictionary<string, string> {{"Content-Type", "text/plain"}}
+                Headers = new Dictionary<string, string>
+                {
+                    {"Content-Type", "text/plain"},
+                    {"Access-Control-Allow-Origin", "https://localhost:5500"},
+                    {"Access-Control-Allow-Headers", "Content-Type"},
+                    {"Access-Control-Allow-Methods", "OPTIONS,POST,GET"}
+                }
             }
         };
     }

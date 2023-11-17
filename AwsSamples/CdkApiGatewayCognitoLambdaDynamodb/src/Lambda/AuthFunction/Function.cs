@@ -115,10 +115,7 @@ public class Function
         if (string.IsNullOrEmpty(authorizationHeader)) return string.Empty;
         var authHeaders = authorizationHeader.Split(" ");
         LambdaLogger.Log("authHearers.Length: " + authHeaders.Length);
-        if (authHeaders.Length == 2 && authHeaders[0] == "Bearer")
-        {
-            return authHeaders[1];
-        }
+        if (authHeaders.Length == 2 && authHeaders[0] == "Bearer") return authHeaders[1];
         return string.Empty;
     }
 
