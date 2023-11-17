@@ -27,15 +27,12 @@ public sealed class CdkStack : Stack
         var userPool = new UserPool(this, "CognitoUserPool", new UserPoolProps
         {
             UserPoolName = "CognitoUserPool",
-            RemovalPolicy = RemovalPolicy.DESTROY, //Delete Cognito User pool on CDK destroy
-            SignInAliases = new SignInAliases
-            {
-                Email = true
-            },
+            RemovalPolicy = RemovalPolicy.DESTROY,
+            SignInAliases = new SignInAliases {Email = true},
             SelfSignUpEnabled = false
         });
 
-        //Create Cognito user group
+        // Create Cognito user group
         var unused = new CfnUserPoolGroup(this, "UserPoolGroupReadOnly", new CfnUserPoolGroupProps
         {
             UserPoolId = userPool.UserPoolId,
@@ -43,7 +40,7 @@ public sealed class CdkStack : Stack
             GroupName = "read-only"
         });
 
-        //Create Cognito user group
+        // Create Cognito user group
         var unused1 = new CfnUserPoolGroup(this, "UserPoolGroupReadUpdateAdd",
             new CfnUserPoolGroupProps
             {
@@ -74,7 +71,7 @@ public sealed class CdkStack : Stack
             }
         });
 
-        //Create Domain name for Cognito Hosted UI
+        // Create Domain name for Cognito Hosted UI
         var cognitoDomainName = new UserPoolDomain(this, "CognitoDomainName", new UserPoolDomainProps
         {
             UserPool = userPool,
@@ -90,7 +87,7 @@ public sealed class CdkStack : Stack
         var userPoolGroupApiPolicyTable = new Table(this, "UserPoolGroupApiPolicy", new TableProps
         {
             TableName = "UserGroupApiGwAccessPolicy",
-            RemovalPolicy = RemovalPolicy.DESTROY, //Delete DynamoDB table on CDK destroy
+            RemovalPolicy = RemovalPolicy.DESTROY,
             PartitionKey = new Attribute {Name = "UserPoolGroup", Type = AttributeType.STRING}
         });
 
@@ -177,9 +174,7 @@ public sealed class CdkStack : Stack
                 $"{cognitoDomainName.BaseUrl()}/login?response_type=token&client_id={cognitoAppClient.UserPoolClientId}&redirect_uri={HttpUtility.UrlEncode(callbackUrl)}"
         });
         var unused5 = new CfnOutput(this, "ApiGwEndpoint", new CfnOutputProps
-        {
-            Value = apiGateway.Url
-        });
+            {Value = apiGateway.Url});
 
         #endregion
     }
