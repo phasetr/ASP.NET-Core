@@ -1,5 +1,7 @@
 # AWS samples
 
+- GitHub, [aws-samples / aws-cdk-examples](https://github.com/aws-samples/aws-cdk-examples/)
+
 ## Database access from copilot job
 
 - See [copilot-django-app-runner](copilot-django-app-runner) and [copilot-django-load-balanced](copilot-django-load-balanced).
