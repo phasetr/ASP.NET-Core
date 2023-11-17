@@ -112,11 +112,14 @@ public class Function
     /// <returns>string</returns>
     private static string GetTokenFromRequest(string authorizationHeader)
     {
-        var authToken = string.Empty;
-        if (string.IsNullOrEmpty(authorizationHeader)) return authToken;
+        if (string.IsNullOrEmpty(authorizationHeader)) return string.Empty;
         var authHeaders = authorizationHeader.Split(" ");
         LambdaLogger.Log("authHearers.Length: " + authHeaders.Length);
-        return authHeaders is ["Bearer", _] ? authHeaders[1] : authToken;
+        if (authHeaders.Length == 2 && authHeaders[0] == "Bearer")
+        {
+            return authHeaders[1];
+        }
+        return string.Empty;
     }
 
     /// <summary>

@@ -103,7 +103,7 @@ public sealed class CdkStack : Stack
         var authLambdaFun = new Function(this, "AuthLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "AuthFunction::Lambda.AuthFunction.Function::FunctionHandler",
+            Handler = "AuthFunction::AuthFunction.Function::FunctionHandler",
             Code = Code.FromAsset("./dist/AuthFunction"),
             Environment = authLambdaEnvVariables,
             Timeout = Duration.Minutes(1),
@@ -119,7 +119,7 @@ public sealed class CdkStack : Stack
         var backendLambdaFun = new Function(this, "BackendLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "BackendFunction::Lambda.BackendFunction.Function::FunctionHandler",
+            Handler = "BackendFunction::BackendFunction.Function::FunctionHandler",
             Code = Code.FromAsset("./dist/BackendFunction")
         });
 

@@ -96,6 +96,21 @@ As populated in DynamoDB as part of deployment steps, this configuration creates
 and `read-update-add`. `read-only` may only call GET on the backend, while `read-update-add` may make GET and POST
 operations against the backend.
 
+## Deploy
+
+```shell
+dotnet build
+dotnet publish src/Lambda/BackendFunction/BackendFunction.csproj -c Release -o dist/BackendFunction
+dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/AuthFunction
+cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
+```
+
+- `DynamoDB`に初期値を登録
+`
+```shell
+aws dynamodb batch-write-item --request-items file://src/DynamoDBData.json
+```
+
 ## Testing
 
 1. AWSコンソールでCognitoにアクセスする（コンソールでの操作は面倒なため`AWS CLI`での実行法を追記している）。 
@@ -108,7 +123,7 @@ operations against the backend.
 
 ```shell
 aws cognito-idp list-user-pools --max-results 20 | jq ".UserPools[] | {Id, Name}"
-aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Id' --output text
+aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[]' --output text
 export CognitoId=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Id' --output text)
 export CognitoUserPoolName=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Name' --output text)
 ```
@@ -224,7 +239,7 @@ aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Sta
    Get the `access_token` (not id_token) from the localhost url
 
 ```shell
-export AccessToken="eyJraWQiOiJ2RDVGb2Q5eWs4cGVLeEV3Q3N1UmZCQ3dwV2NIbXVQSEpOMzRuVmxUWEVvPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJlMWU4MzMyYS02ZDc5LTQwZTktYmM3YS1iMWU1YjEzNTI1YzIiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkLW9ubHkiXSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX1djNFlQeGxnMyIsInZlcnNpb24iOjIsImNsaWVudF9pZCI6IjF2ZnVnajU2dmNvODNxa285dWtrcXJiOTQiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTcwMDIwNzg5MCwiZXhwIjoxNzAwMjA5MDkwLCJpYXQiOjE3MDAyMDc4OTAsImp0aSI6ImVmMzQzYWIxLTkwN2YtNDM5My05ZjkyLTFmNGU1Zjg3ZTkyNCIsInVzZXJuYW1lIjoiZTFlODMzMmEtNmQ3OS00MGU5LWJjN2EtYjFlNWIxMzUyNWMyIn0.Dw5woz3s-HQNi1BBPmw6jGKBuPFaJODcPRULMSfAPpv-dipQieOfdSCk5BE8o10Cv5WIBtpxje2sXpSaEXqsS5ka0td0I9-6l9xsWcs4Xg64o7XDeChSZh_udoMTRyJr0rbv9N0VK1PnrmOeLMpBrCYSCUpQtUmC6itKEjXXCwPhvG4VT1SmlluXK5X8od5nDgKJNqVdzvnNvQz_kr4olbc8iKINi2mHS2NnLcrYRa_eaDslfJwgMIb59Qqn_W4DW-uXvdsvvmEoNwmsj22esMgwXEJTlVshZa6cQQ_opYxLYknJwlvEDsdgsocUbtZVPkXNIsVFgcoCrd7buGPSlQ"
+export AccessToken="eyJraWQiOiJUNWtNeTJEelhzK0JNamMrUCtWZnJnbUVlYVJCZWRmZ3NRQVJlZVBKNHBVPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI2NmIzNjEzNS1kODFmLTQ4N2MtYTZhZC0wODg0NTkyODJiZTkiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkLW9ubHkiXSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX0hlN0xpaGxueCIsInZlcnNpb24iOjIsImNsaWVudF9pZCI6Ijd1b2FrcW01M2dqNGNndXVqNTJxaGxwaW90IiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJvcGVuaWQgZW1haWwiLCJhdXRoX3RpbWUiOjE3MDAyMjE5NzksImV4cCI6MTcwMDIyMzE3OSwiaWF0IjoxNzAwMjIxOTc5LCJqdGkiOiJhMzY5ODA0ZS0yNDRhLTQxZDctYjA0Zi05NGFkODg2MWY5YjciLCJ1c2VybmFtZSI6IjY2YjM2MTM1LWQ4MWYtNDg3Yy1hNmFkLTA4ODQ1OTI4MmJlOSJ9.AMdbzCmBGbRItCSimBqT_jTlPDPQDXamX1GNANKFDPXx86BjjwpwdBNKguhYSNfT55SSvXYYnl0DVwonKdt23pT2J0AtMEU9_1mMohLaf5Or0uswtsUtBWl5yD96BvSGEh24-GfOsVRJnJnz21g85CNqej3A01SUmFDMiVFmVxHiYVXbU_YFaLB_L-pFGJ-G11SQYnCW_FpddFN-9CvNHLDJY2NxYdnOBY3YPiip_98asPVtimP71931WMspYAY82aXN8HE7CZkyuke_hxZ7vjXCzIhr7JPcnQG1Xj7YIQUm8rLdDBCJq_hTpumupcam-yL_pC_4ZFKD3O2ZKKiwoA"
 ```
 
 8. `ApiGwEndpoint`の`URL`を取得し、`Authorization`ヘッダーに`access_token`を設定して`GET`リクエストを送信する。
@@ -240,10 +255,6 @@ echo ${ApiGwEndpoint}
 
 ```shell
 curl -H "Authorization: Bearer ${AccessToken}" -i ${ApiGwEndpoint}
-```
-
-```shell
-curl -H "Authorization: Bearer <取得した値を埋める>" -i ${ApiGwEndpoint}
 ```
 
 ```shell
