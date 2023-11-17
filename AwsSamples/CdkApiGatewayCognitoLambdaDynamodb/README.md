@@ -1,8 +1,6 @@
 # Fine-grained access control for API Gateway using Lambda Authorizer
 
--
-
-Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
+- Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
 
 ## <!--BEGIN STABILITY BANNER-->
 
@@ -100,29 +98,157 @@ operations against the backend.
 
 ## Testing
 
-1. Login to the AWS console and navigate to Cognito service
+1. AWSコンソールでCognitoにアクセスする（コンソールでの操作は面倒なため`AWS CLI`での実行法を追記している）。 
+   Login to the AWS console and navigate to Cognito service
 
-2. Select User pool - `CognitoUserPool` and create a user. Remember the users email id and password -- you'll need it
+2. `CognitoUserPool`でユーザーを作る。メールアドレスとパスワードは覚えておこう。
+   Select User pool - `CognitoUserPool` and create a user. Remember the users email id and password -- you'll need it
    for testing
    ![CreateUser](CognitoUserCreate.png)
 
-3. Add the newly created user to user group - "read-only"
+```shell
+aws cognito-idp list-user-pools --max-results 20 | jq ".UserPools[] | {Id, Name}"
+aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Id' --output text
+export CognitoId=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Id' --output text)
+export CognitoUserPoolName=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Name' --output text)
+```
+
+- ユーザー作成
+
+```shell
+export UserName="phasetr@gmail.com"
+aws cognito-idp admin-create-user \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --user-attributes Name=email,Value="${UserName}" Name=email_verified,Value=true \
+  --message-action SUPPRESS
+```
+
+- パスワード設定
+
+```shell
+aws cognito-idp admin-set-user-password \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --password 'P@ssw0rd' \
+  --permanent
+```
+
+- ユーザの情報確認
+
+```shell
+aws cognito-idp admin-get-user \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName}
+```
+
+3. `read-only`のユーザーグループに新規ユーザーを追加する。
+   Add the newly created user to user group - "read-only"
    ![AssignUserToUserGroup](AssignUserToGroup.png)
+
+```shell
+aws cognito-idp admin-add-user-to-group \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --group-name "read-only"
+```
+
+- グループ確認
+
+```shell
+aws cognito-idp list-users-in-group \
+  --user-pool-id ${CognitoId} \
+  --group-name "read-only"
+```
 
 4. Create another user and add it to user group `read-update-add`. Again, remember these credentials for testing.
 
-5. Access the Cognito app client hosted UI - It's the `CognitoHostedUIUrl` from earlier.
+- ユーザー作成
 
-6. Login to the Hosted UI with first user which is assigned to "read-only" user group. You may be asked to enter new
+```shell
+export UserName="phasetr+admin@gmail.com"
+aws cognito-idp admin-create-user \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --user-attributes Name=email,Value="${UserName}" Name=email_verified,Value=true \
+  --message-action SUPPRESS
+```
+
+- パスワード設定
+
+```shell
+aws cognito-idp admin-set-user-password \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --password 'P@ssw0rd' \
+  --permanent
+```
+
+- ユーザの情報確認
+
+```shell
+aws cognito-idp admin-get-user \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName}
+```
+
+```shell
+aws cognito-idp admin-add-user-to-group \
+  --user-pool-id ${CognitoId} \
+  --username ${UserName} \
+  --group-name "read-update-add"
+```
+
+- グループ確認
+
+```shell
+aws cognito-idp list-users-in-group \
+  --user-pool-id ${CognitoId} \
+  --group-name "read-update-add"
+```
+
+5. `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。
+   次のコマンドで`CognitoHostedUIUrl`が確認できる。 
+   Access the Cognito app client hosted UI - It's the `CognitoHostedUIUrl` from earlier.
+
+```shell
+aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`CognitoHostedUIUrl`].OutputValue' --output text
+```
+
+6. `read-only`ユーザーグループに割り当てたユーザーでログインする。
+   Login to the Hosted UI with first user which is assigned to "read-only" user group. You may be asked to enter new
    password if this is the first login attempt. After a successful login, the UI will navigate user to a localhost URL
    with `access_token` in the url
 
-7. Get the `access_token` (not id_token) from the localhost url
+7. 上記手順で遷移した`URL`から`access_token`を取得する。以下のコマンドはコールバック`URL`から取得した`access_token`を貼り付けている。
+   Get the `access_token` (not id_token) from the localhost url
 
-8. Use Postman or `curl` or REST client like `Yet Another Rest Client` chrome extension to invoke the GET endpoint in
+```shell
+export AccessToken="eyJraWQiOiJ2RDVGb2Q5eWs4cGVLeEV3Q3N1UmZCQ3dwV2NIbXVQSEpOMzRuVmxUWEVvPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJlMWU4MzMyYS02ZDc5LTQwZTktYmM3YS1iMWU1YjEzNTI1YzIiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkLW9ubHkiXSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX1djNFlQeGxnMyIsInZlcnNpb24iOjIsImNsaWVudF9pZCI6IjF2ZnVnajU2dmNvODNxa285dWtrcXJiOTQiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6Im9wZW5pZCBlbWFpbCIsImF1dGhfdGltZSI6MTcwMDIwNzg5MCwiZXhwIjoxNzAwMjA5MDkwLCJpYXQiOjE3MDAyMDc4OTAsImp0aSI6ImVmMzQzYWIxLTkwN2YtNDM5My05ZjkyLTFmNGU1Zjg3ZTkyNCIsInVzZXJuYW1lIjoiZTFlODMzMmEtNmQ3OS00MGU5LWJjN2EtYjFlNWIxMzUyNWMyIn0.Dw5woz3s-HQNi1BBPmw6jGKBuPFaJODcPRULMSfAPpv-dipQieOfdSCk5BE8o10Cv5WIBtpxje2sXpSaEXqsS5ka0td0I9-6l9xsWcs4Xg64o7XDeChSZh_udoMTRyJr0rbv9N0VK1PnrmOeLMpBrCYSCUpQtUmC6itKEjXXCwPhvG4VT1SmlluXK5X8od5nDgKJNqVdzvnNvQz_kr4olbc8iKINi2mHS2NnLcrYRa_eaDslfJwgMIb59Qqn_W4DW-uXvdsvvmEoNwmsj22esMgwXEJTlVshZa6cQQ_opYxLYknJwlvEDsdgsocUbtZVPkXNIsVFgcoCrd7buGPSlQ"
+```
+
+8. `ApiGwEndpoint`の`URL`を取得し、`Authorization`ヘッダーに`access_token`を設定して`GET`リクエストを送信する。
+   Use Postman or `curl` or REST client like `Yet Another Rest Client` chrome extension to invoke the GET endpoint in
    your API Gateway API (the `APIGWEndpoint` URL from CloudFormation), making sure to pass the value from access_token
    as the `Authorization` header. Make sure to include "Bearer " at the start of the token.
    ![PostmanCall](PostmanCall.png)
+
+```shell
+export ApiGwEndpoint=$(aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`ApiGwEndpoint`].OutputValue' --output text)
+echo ${ApiGwEndpoint}
+```
+
+```shell
+curl -H "Authorization: Bearer ${AccessToken}" -i ${ApiGwEndpoint}
+```
+
+```shell
+curl -H "Authorization: Bearer <取得した値を埋める>" -i ${ApiGwEndpoint}
+```
+
+```shell
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${AccessToken}" -i ${ApiGwEndpoint}
+```
 
 9. Confirm that you are returned an 200 Success response
 
@@ -150,13 +276,16 @@ operations against the backend.
 Run the following commands at eventbridge-firehose-s3-cdk folder level
 
 1. Delete the stack
-   ```bash
-   cdk destroy ApiGatewayAuthStack ---app 'dotnet run --project src/CDK/cdk.csproj'
-   ```
-1. Confirm the stack has been deleted
-   ```bash
-   aws cloudformation list-stacks --query "StackSummaries[?contains(StackName,'ApiGatewayAuthStack')].StackStatus"
-   ```
+
+```bash
+cdk destroy ApiGatewayAuthStack ---app 'dotnet run --project src/CDK/cdk.csproj'
+```
+
+2. Confirm the stack has been deleted
+
+```bash
+aws cloudformation list-stacks --query "StackSummaries[?contains(StackName,'ApiGatewayAuthStack')].StackStatus"
+```
 
 ## Related resources
 
