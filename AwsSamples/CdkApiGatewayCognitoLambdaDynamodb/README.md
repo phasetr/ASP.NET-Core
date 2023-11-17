@@ -239,7 +239,7 @@ aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Sta
    Get the `access_token` (not id_token) from the localhost url
 
 ```shell
-export AccessToken="eyJraWQiOiJUNWtNeTJEelhzK0JNamMrUCtWZnJnbUVlYVJCZWRmZ3NRQVJlZVBKNHBVPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI2NmIzNjEzNS1kODFmLTQ4N2MtYTZhZC0wODg0NTkyODJiZTkiLCJjb2duaXRvOmdyb3VwcyI6WyJyZWFkLW9ubHkiXSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb21cL2FwLW5vcnRoZWFzdC0xX0hlN0xpaGxueCIsInZlcnNpb24iOjIsImNsaWVudF9pZCI6Ijd1b2FrcW01M2dqNGNndXVqNTJxaGxwaW90IiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJvcGVuaWQgZW1haWwiLCJhdXRoX3RpbWUiOjE3MDAyMjE5NzksImV4cCI6MTcwMDIyMzE3OSwiaWF0IjoxNzAwMjIxOTc5LCJqdGkiOiJhMzY5ODA0ZS0yNDRhLTQxZDctYjA0Zi05NGFkODg2MWY5YjciLCJ1c2VybmFtZSI6IjY2YjM2MTM1LWQ4MWYtNDg3Yy1hNmFkLTA4ODQ1OTI4MmJlOSJ9.AMdbzCmBGbRItCSimBqT_jTlPDPQDXamX1GNANKFDPXx86BjjwpwdBNKguhYSNfT55SSvXYYnl0DVwonKdt23pT2J0AtMEU9_1mMohLaf5Or0uswtsUtBWl5yD96BvSGEh24-GfOsVRJnJnz21g85CNqej3A01SUmFDMiVFmVxHiYVXbU_YFaLB_L-pFGJ-G11SQYnCW_FpddFN-9CvNHLDJY2NxYdnOBY3YPiip_98asPVtimP71931WMspYAY82aXN8HE7CZkyuke_hxZ7vjXCzIhr7JPcnQG1Xj7YIQUm8rLdDBCJq_hTpumupcam-yL_pC_4ZFKD3O2ZKKiwoA"
+export AccessToken="<ログイン後URLから取得>"
 ```
 
 8. `ApiGwEndpoint`の`URL`を取得し、`Authorization`ヘッダーに`access_token`を設定して`GET`リクエストを送信する。
@@ -269,8 +269,8 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${Acc
 
 12. Log into the Hosted UI as the second user you created following the steps previously described.
 
-13. Make a GET request to the API Gateway HTTP Endpoint as you did previously, this time using the second
-    user's `access_token` for the bearer token.
+13. Make a GET request to the API Gateway HTTP Endpoint as you did previously, 
+    this time using the second user's `access_token` for the bearer token.
 
 14. Confirm that you are returned a 200 Success response
 
