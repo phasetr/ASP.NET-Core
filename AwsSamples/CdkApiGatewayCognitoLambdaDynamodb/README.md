@@ -1,6 +1,7 @@
 # Fine-grained access control for API Gateway using Lambda Authorizer
 
 - Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
+- `TODO`：ローカルで立ち上げた`Blazor`のフロントエンドからサーバー上のAPIへのアクセスで`CORS`を通す
 
 ## <!--BEGIN STABILITY BANNER-->
 
