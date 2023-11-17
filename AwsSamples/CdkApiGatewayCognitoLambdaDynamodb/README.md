@@ -278,7 +278,7 @@ Run the following commands at eventbridge-firehose-s3-cdk folder level
 1. Delete the stack
 
 ```bash
-cdk destroy ApiGatewayAuthStack ---app 'dotnet run --project src/CDK/cdk.csproj'
+cdk destroy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 
 2. Confirm the stack has been deleted
