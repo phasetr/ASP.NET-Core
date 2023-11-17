@@ -107,7 +107,7 @@ cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 
 - `DynamoDB`に初期値を登録
-`
+
 ```shell
 aws dynamodb batch-write-item --request-items file://src/DynamoDBData.json
 ```
