@@ -1,6 +1,8 @@
 # Fine-grained access control for API Gateway using Lambda Authorizer
 
-- Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
+-
+
+Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
 
 ## <!--BEGIN STABILITY BANNER-->
 

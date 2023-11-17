@@ -1,10 +1,10 @@
 using Amazon.DynamoDBv2.DataModel;
-using System;
+
+namespace AuthFunction;
 
 [DynamoDBTable("UserGroupApiGwAccessPolicy")]
 public class DynamoDbTableModel
 {
-  [DynamoDBHashKey]
-  public string UserPoolGroup { get; set; } = String.Empty;
-  public string ApiGwAccessPolicy { get; set; } = String.Empty;
+    [DynamoDBHashKey] public string UserPoolGroup { get; set; } = string.Empty;
+    public string ApiGwAccessPolicy { get; set; } = string.Empty;
 }
