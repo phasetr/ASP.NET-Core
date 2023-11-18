@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using System.Web
+@using System.Net.Http.Headers
 @inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
@@ -10,7 +12,7 @@
   <div class="col-4">
     <p>API Address: @_apiAddress</p>
     <p>
-      <a href="https://sign-in-7uoakqm53gj4cguuj52qhlpiot.auth.ap-northeast-1.amazoncognito.com/login?response_type=token&client_id=7uoakqm53gj4cguuj52qhlpiot&redirect_uri=https://localhost:5500">Login by Cognito</a>
+      <a href="https://sign-in-7a1m2i5i291o6asbe0p6k99e1c.auth.ap-northeast-1.amazoncognito.com/login?response_type=token&client_id=7a1m2i5i291o6asbe0p6k99e1c&redirect_uri=https%3a%2f%2flocalhost%3a6500">Login by Cognito</a>
     </p>
     <dl id="getApiResult">
       <dt>API Address</dt>
@@ -33,24 +35,28 @@
 </div>
 
 @code{
-  private string _apiAddress = "https://jwctxphzp4.execute-api.ap-northeast-1.amazonaws.com/Dev/";
+  private string _apiAddress = "https://jjy7kgrsia.execute-api.ap-northeast-1.amazonaws.com/Dev/";
   private string _getResult = "Now loading...";
 
   [Parameter]
-  [SupplyParameterFromQuery(Name = "access_token")]
   public string? AccessToken { get; set; }
 
   protected override void OnInitialized()
   {
+  // URIは`http://hostname/#idtoken=hoge&access_token=hoge`の形式で来るため、無理やり分割してパラメータを取得する
     var uri = new Uri(NavigationManager.Uri);
-    Console.WriteLine(uri);
-    Console.WriteLine(uri.Query);
-    Console.WriteLine(AccessToken);
+    var queryParameters = uri.ToString().Split("#");
+    if (queryParameters.Length == 1) return;
+    var query = uri.ToString().Split("#")[1];
+    var parameters = HttpUtility.ParseQueryString(query);
+    AccessToken = parameters["access_token"];
   }
 
   private async Task GetResultAsync()
   {
+    if (AccessToken == string.Empty) return;
     using var client = new HttpClient();
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
     var response = await client.GetAsync(_apiAddress);
     if (response.IsSuccessStatusCode)
     {

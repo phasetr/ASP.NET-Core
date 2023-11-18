@@ -50,7 +50,7 @@ public sealed class CdkStack : Stack
             });
 
         // Create Cognito App Client
-        const string callbackUrl = "https://localhost:5500";
+        const string callbackUrl = "https://localhost:6500";
         var cognitoAppClient = new UserPoolClient(this, "CognitoAppClient", new UserPoolClientProps
         {
             UserPoolClientName = "CognitoAppClient",
@@ -150,7 +150,7 @@ public sealed class CdkStack : Stack
             },
             DefaultCorsPreflightOptions = new CorsOptions
             {
-                AllowOrigins = new[] {"https://localhost:5500"},
+                AllowOrigins = new[] {callbackUrl},
                 AllowMethods = Cors.ALL_METHODS
             }
         });

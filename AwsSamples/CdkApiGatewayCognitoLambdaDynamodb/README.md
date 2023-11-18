@@ -2,41 +2,11 @@
 
 - Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
 - `TODO`：ローカルで立ち上げた`Blazor`のフロントエンドからサーバー上のAPIへのアクセスで`CORS`を通す
+- `APIGateway`の`URL`取得
 
-## <!--BEGIN STABILITY BANNER-->
-
-![Stability: Stable](https://img.shields.io/badge/stability-Stable-success.svg?style=for-the-badge)
-
-> **This is a stable example. It should successfully build out of the box**
->
-> This examples is built on Construct Libraries marked "Stable" and does not have any infrastructure
-> prerequisites to build.
-
----
-
-<!--END STABILITY BANNER-->
-
-This C# CDK example creates an Amazon Cognito user pool, Amazon API Gateway API, AWS Lambda function for authentication,
-Amazon DynamoDB table, and AWS Lambda function to act as a backend. The authentication function verifies a JWT token
-received in the request headers, then (if the token is valid) returns the access policy associated with the token's user
-group. Based on this access policy, API Gateway will to forward the request to the backend Lambda function or return a
-401/403 http status.
-
-![Architecture](ArchitectureDiagram.png)
-
-Important: this application uses various AWS services and there are costs associated with these services after the Free
-Tier usage - please see the [AWS Pricing page](https://aws.amazon.com/pricing/) for details. You are responsible for any
-AWS costs incurred.
-
-## Requirements
-
-- [Create an AWS account](https://portal.aws.amazon.com/gp/aws/developer/registration/index.html) if you do not already
-  have one and log in. The IAM user that you use must have sufficient permissions to make necessary AWS service calls
-  and manage AWS resources.
-- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) installed and configured
-- [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/cli.html) installed and configured
-- [Git Installed](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- [.Net 6.0 SDK](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks) installed
+```shell
+aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`ApiGwEndpoint`].OutputValue' --output text
+```
 
 ## Deployment Instructions
 
@@ -123,10 +93,10 @@ aws dynamodb batch-write-item --request-items file://src/DynamoDBData.json
    ![CreateUser](CognitoUserCreate.png)
 
 ```shell
-aws cognito-idp list-user-pools --max-results 20 | jq ".UserPools[] | {Id, Name}"
-aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[]' --output text
-export CognitoId=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Id' --output text)
-export CognitoUserPoolName=$(aws cognito-idp list-user-pools --max-results 20 --query 'UserPools[].Name' --output text)
+aws cognito-idp list-user-pools --max-results 1 | jq ".UserPools[] | {Id, Name}"
+aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[]' --output text
+export CognitoId=$(aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[].Id' --output text)
+export CognitoUserPoolName=$(aws cognito-idp list-user-pools --max-results 1 --query 'UserPools[].Name' --output text)
 ```
 
 - ユーザー作成
@@ -223,7 +193,7 @@ aws cognito-idp list-users-in-group \
   --group-name "read-update-add"
 ```
 
-5. 次のコマンドで`CognitoHostedUIUrl`が確認して、
+5. 次のコマンドで`CognitoHostedUIUrl`を確認して、
    `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。 
    Access the Cognito app client hosted UI - It's the `CognitoHostedUIUrl` from earlier.
 
