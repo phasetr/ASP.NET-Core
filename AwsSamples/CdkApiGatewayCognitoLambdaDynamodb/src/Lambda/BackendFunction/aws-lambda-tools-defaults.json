@@ -11,5 +11,5 @@
   "function-runtime": "dotnet6",
   "function-memory-size": 256,
   "function-timeout": 30,
-  "function-handler": "BackendFunction::Lambda.BackendFunction.Function::FunctionHandler"
+  "function-handler": "BackendFunction::BackendFunction.Function::FunctionHandler"
 }
