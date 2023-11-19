@@ -75,15 +75,15 @@ public class Function
         var token = GetTokenFromRequest(request.AuthorizationToken);
 
         // Step 1: Confirm the structure of the JWT
-        if (!IsValidJwtStructure(token)) throw new Exception("Unauthorized");
+        if (!IsValidJwtStructure(token)) throw new Exception("Unauthorized: invalid token structure");
 
         // Step 2: Validate the JWT signature
         var jwtSecurityToken = ValidateJwtSignature(token);
-        if (jwtSecurityToken == null) throw new Exception("Unauthorized");
+        if (jwtSecurityToken == null) throw new Exception("Unauthorized: invalid token signature");
 
         // Step 3: Verify the claims
         var userGroup = VerifyClaims(jwtSecurityToken);
-        if (string.IsNullOrEmpty(userGroup)) throw new Exception("Unauthorized");
+        if (string.IsNullOrEmpty(userGroup)) throw new Exception("Unauthorized: invalid token claims");
 
         // Get policy document based on user group
         var policyDocument = GetApiGwAccessPolicy(userGroup);

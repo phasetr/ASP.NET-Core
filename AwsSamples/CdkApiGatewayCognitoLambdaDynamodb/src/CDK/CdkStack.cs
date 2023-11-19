@@ -38,7 +38,7 @@ public sealed class CdkStack : Stack
         {
             UserPoolId = userPool.UserPoolId,
             Description = "Read Only Access",
-            GroupName = "read-only"
+            GroupName = "USERPOOLGROUP#read-only"
         });
 
         // Create Cognito user group
@@ -47,7 +47,7 @@ public sealed class CdkStack : Stack
             {
                 UserPoolId = userPool.UserPoolId,
                 Description = "Full Access",
-                GroupName = "read-update-add"
+                GroupName = "USERPOOLGROUP#read-update-add"
             });
 
         // Create Cognito App Client
@@ -89,7 +89,7 @@ public sealed class CdkStack : Stack
         {
             TableName = "UserGroupApiGwAccessPolicy",
             RemovalPolicy = RemovalPolicy.DESTROY,
-            PartitionKey = new Attribute {Name = "UserPoolGroup", Type = AttributeType.STRING}
+            PartitionKey = new Attribute {Name = "PK", Type = AttributeType.STRING}
         });
 
         // Auth Lambda function

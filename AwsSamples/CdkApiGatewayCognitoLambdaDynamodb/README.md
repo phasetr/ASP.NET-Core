@@ -93,7 +93,7 @@ aws cognito-idp admin-get-user \
 aws cognito-idp admin-add-user-to-group \
   --user-pool-id ${CognitoId} \
   --username ${UserName} \
-  --group-name "read-only"
+  --group-name "USERPOOLGROUP#read-only"
 ```
 
 - グループ確認
@@ -101,7 +101,7 @@ aws cognito-idp admin-add-user-to-group \
 ```shell
 aws cognito-idp list-users-in-group \
   --user-pool-id ${CognitoId} \
-  --group-name "read-only"
+  --group-name "USERPOOLGROUP#read-only"
 ```
 
 4. ユーザーを追加し、ユーザーグループ`read-update-add`を追加する。
@@ -139,7 +139,7 @@ aws cognito-idp admin-get-user \
 aws cognito-idp admin-add-user-to-group \
   --user-pool-id ${CognitoId} \
   --username ${UserName} \
-  --group-name "read-update-add"
+  --group-name "USERPOOLGROUP#read-update-add"
 ```
 
 - グループ確認
@@ -147,7 +147,7 @@ aws cognito-idp admin-add-user-to-group \
 ```shell
 aws cognito-idp list-users-in-group \
   --user-pool-id ${CognitoId} \
-  --group-name "read-update-add"
+  --group-name "USERPOOLGROUP#read-update-add"
 ```
 
 5. 次のコマンドで`CognitoHostedUIUrl`を確認して、
