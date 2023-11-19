@@ -5,6 +5,7 @@ using Amazon.CDK.AWS.Cognito;
 using Amazon.CDK.AWS.DynamoDB;
 using Amazon.CDK.AWS.Lambda;
 using Constructs;
+using AssetOptions = Amazon.CDK.AWS.S3.Assets.AssetOptions;
 using Attribute = Amazon.CDK.AWS.DynamoDB.Attribute;
 
 namespace ApiGatewayCognitoLambdaDynamodb;
@@ -91,21 +92,35 @@ public sealed class CdkStack : Stack
             PartitionKey = new Attribute {Name = "UserPoolGroup", Type = AttributeType.STRING}
         });
 
-        var authLambdaEnvVariables = new Dictionary<string, string>
-        {
-            {"REGION", Region},
-            {"COGNITO_USER_POOL_ID", userPool.UserPoolId},
-            {"CLIENT_ID", cognitoAppClient.UserPoolClientId},
-            {"TABLE_NAME", userPoolGroupApiPolicyTable.TableName}
-        };
-
         // Auth Lambda function
         var authLambdaFun = new Function(this, "AuthLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "AuthFunction::AuthFunction.Function::FunctionHandler",
-            Code = Code.FromAsset("./dist/AuthFunction"),
-            Environment = authLambdaEnvVariables,
+            Handler = "AuthFunction",
+            Code = Code.FromAsset(".", new AssetOptions
+            {
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_6.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command = new[]
+                    {
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --project-location src/Lambda/AuthFunction --output-package /asset-output/function.zip"
+                    }
+                }
+            }),
+            Environment = new Dictionary<string, string>
+            {
+                {"REGION", Region},
+                {"COGNITO_USER_POOL_ID", userPool.UserPoolId},
+                {"CLIENT_ID", cognitoAppClient.UserPoolClientId},
+                {"TABLE_NAME", userPoolGroupApiPolicyTable.TableName}
+            },
             Timeout = Duration.Minutes(1),
             MemorySize = 256
         });
@@ -119,15 +134,24 @@ public sealed class CdkStack : Stack
         var backendLambdaFun = new Function(this, "BackendLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "BackendFunction::BackendFunction.Function::FunctionHandler",
-            Code = Code.FromAsset("./dist/BackendFunction")
-        });
-
-        var tokenAuthorizer = new TokenAuthorizer(this, "LambdaTokenAuthorizer", new TokenAuthorizerProps
-        {
-            Handler = authLambdaFun,
-            IdentitySource = "method.request.header.authorization",
-            ResultsCacheTtl = Duration.Seconds(0)
+            Handler = "BackendFunction",
+            Code = Code.FromAsset(".", new AssetOptions
+            {
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_6.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command = new[]
+                    {
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --project-location src/Lambda/BackendFunction --output-package /asset-output/function.zip"
+                    }
+                }
+            })
         });
 
         // APIGateway 
@@ -145,7 +169,12 @@ public sealed class CdkStack : Stack
             },
             DefaultMethodOptions = new MethodOptions
             {
-                Authorizer = tokenAuthorizer,
+                Authorizer = new TokenAuthorizer(this, "LambdaTokenAuthorizer", new TokenAuthorizerProps
+                {
+                    Handler = authLambdaFun,
+                    IdentitySource = "method.request.header.authorization",
+                    ResultsCacheTtl = Duration.Seconds(0)
+                }),
                 AuthorizationType = AuthorizationType.CUSTOM
             },
             DefaultCorsPreflightOptions = new CorsOptions
