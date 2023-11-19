@@ -26,7 +26,8 @@ public class Function
         var envRegion = Environment.GetEnvironmentVariable("REGION");
         var envCognitoUserPoolId = Environment.GetEnvironmentVariable("COGNITO_USER_POOL_ID");
         var envClientId = Environment.GetEnvironmentVariable("CLIENT_ID");
-        if (string.IsNullOrEmpty(envRegion) || string.IsNullOrEmpty(envCognitoUserPoolId) ||
+        if (string.IsNullOrEmpty(envRegion) ||
+            string.IsNullOrEmpty(envCognitoUserPoolId) ||
             string.IsNullOrEmpty(envClientId))
             throw new ArgumentNullException("REGION or COGNITO_USER_POOL_ID or CLIENT_ID");
 
@@ -177,7 +178,7 @@ public class Function
                 ValidateIssuer = false,
                 ValidateLifetime = true,
                 ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero //set expiration time same as JWT expiration time
+                ClockSkew = TimeSpan.Zero // set expiration time same as JWT expiration time
             }, out var validatedToken);
 
             var jwtToken = (JwtSecurityToken) validatedToken;

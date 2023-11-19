@@ -8,41 +8,6 @@
 aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`ApiGwEndpoint`].OutputValue' --output text
 ```
 
-## Deployment Instructions
-
-1. Create a new directory, navigate to that directory in a terminal and clone the GitHub repository:
-   ```
-   git clone https://github.com/aws-samples/aws-cdk-examples.git
-   ```
-2. Change directory to this example's directory:
-   ```
-   cd csharp/apigateway-cognito-lambda-dynamodb
-   ```
-3. Build the application:
-   ```
-   dotnet build src
-   ```
-4. Create the necessary files for the backend function using `dotnet publish`:
-   ```
-   dotnet publish src/Lambda/BackendFunction/BackendFunction.csproj -c Release -o dist/BackendFunction
-   ```
-5. Repeat for the authentication function:
-   ```
-   dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/AuthFunction
-   ```
-6. Deploy the application using the AWS CDK:
-   ```
-   cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
-   ```
-7. Note down the `CognitoHostedUIUrl` and `APIGWEndpoint` outputs from CloudFormation. You'll use them to test your
-   function.
-
-8. Populate the DynamoDB table used for authenticating requests. From the `apigateway-cognito-lambda-dynamodb`
-   directory, run
-   ```
-   aws dynamodb batch-write-item --request-items file://src/DynamoDBData.json
-   ```
-
 ## How it works
 
 Users must present a JWT token from Cognito in the request to API Gateway. The AWS Cognito hosted UI, set up via the
@@ -70,9 +35,6 @@ operations against the backend.
 ## Deploy
 
 ```shell
-dotnet build
-dotnet publish src/Lambda/BackendFunction/BackendFunction.csproj -c Release -o dist/BackendFunction
-dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/AuthFunction
 cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 
@@ -84,12 +46,8 @@ aws dynamodb batch-write-item --request-items file://src/DynamoDBData.json
 
 ## Testing
 
-1. AWSコンソールでCognitoにアクセスする（コンソールでの操作は面倒なため`AWS CLI`での実行法を追記している）。 
-   Login to the AWS console and navigate to Cognito service
-
+1. AWSコンソールでCognitoにアクセスする（コンソールでの操作は面倒なため`AWS CLI`での実行法を追記している）。
 2. `CognitoUserPool`でユーザーを作る。メールアドレスとパスワードは覚えておこう。
-   Select User pool - `CognitoUserPool` and create a user. Remember the users email id and password -- you'll need it
-   for testing
    ![CreateUser](CognitoUserCreate.png)
 
 ```shell
@@ -129,7 +87,6 @@ aws cognito-idp admin-get-user \
 ```
 
 3. `read-only`のユーザーグループに新規ユーザーを追加する。
-   Add the newly created user to user group - "read-only"
    ![AssignUserToUserGroup](AssignUserToGroup.png)
 
 ```shell
@@ -147,7 +104,7 @@ aws cognito-idp list-users-in-group \
   --group-name "read-only"
 ```
 
-4. Create another user and add it to user group `read-update-add`. Again, remember these credentials for testing.
+4. ユーザーを追加し、ユーザーグループ`read-update-add`を追加する。
 
 - ユーザー作成
 
@@ -195,28 +152,19 @@ aws cognito-idp list-users-in-group \
 
 5. 次のコマンドで`CognitoHostedUIUrl`を確認して、
    `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。 
-   Access the Cognito app client hosted UI - It's the `CognitoHostedUIUrl` from earlier.
 
 ```shell
 aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`CognitoHostedUIUrl`].OutputValue' --output text
 ```
 
 6. `read-only`ユーザーグループに割り当てたユーザーでログインする。
-   Login to the Hosted UI with first user which is assigned to "read-only" user group. You may be asked to enter new
-   password if this is the first login attempt. After a successful login, the UI will navigate user to a localhost URL
-   with `access_token` in the url
-
 7. 上記手順で遷移した`URL`から`access_token`を取得する。以下のコマンドはコールバック`URL`から取得した`access_token`を貼り付けている。
-   Get the `access_token` (not id_token) from the localhost url
 
 ```shell
 export AccessToken="<ログイン後URLから取得>"
 ```
 
 8. `ApiGwEndpoint`の`URL`を取得し、`Authorization`ヘッダーに`access_token`を設定して`GET`リクエストを送信する。
-   Use Postman or `curl` or REST client like `Yet Another Rest Client` chrome extension to invoke the GET endpoint in
-   your API Gateway API (the `APIGWEndpoint` URL from CloudFormation), making sure to pass the value from access_token
-   as the `Authorization` header. Make sure to include "Bearer " at the start of the token.
    ![PostmanCall](PostmanCall.png)
 
 ```shell

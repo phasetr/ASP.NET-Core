@@ -96,7 +96,7 @@ public sealed class CdkStack : Stack
         var authLambdaFun = new Function(this, "AuthLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "AuthFunction",
+            Handler = "AuthFunction::AuthFunction.Function::FunctionHandler",
             Code = Code.FromAsset(".", new AssetOptions
             {
                 Bundling = new BundlingOptions
@@ -134,7 +134,7 @@ public sealed class CdkStack : Stack
         var backendLambdaFun = new Function(this, "BackendLambdaFunc", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
-            Handler = "BackendFunction",
+            Handler = "BackendFunction::BackendFunction.Function::FunctionHandler",
             Code = Code.FromAsset(".", new AssetOptions
             {
                 Bundling = new BundlingOptions
