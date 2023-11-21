@@ -2,6 +2,7 @@
 
 - Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
 - Blazor GitHub: [Sample Blazor Webassembly project Using Cognito Hosted UI Authentication](https://github.com/sravimohan/blazor-webassembly-cognito-hosted-ui-sample)
+- [Blazor: Json Web Token (JWT) Authentication Example - Simple](https://www.prowaretech.com/articles/current/blazor/wasm/jwt-authentication-simple#!)
 - `TODO`：ローカルで立ち上げた`Blazor`のフロントエンドからサーバー上のAPIへのアクセスで`CORS`を通す
 - `APIGateway`の`URL`取得
 
