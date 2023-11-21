@@ -12,27 +12,36 @@ aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Sta
 
 ## How it works
 
-Users must present a JWT token from Cognito in the request to API Gateway. The AWS Cognito hosted UI, set up via the
-CDK, is the simplest way to interact with Cognito. If the header is not present in the request, API Gateway will return
-an HTTP401 Unauthorized status code. If a token is present in the request header then the request is passed on to the
-authentication lambda function for validation.
+ユーザーは、`API Gateway`へのリクエストで`Cognito`からの`JWT`トークンを提供する必要があります。
+`CDK`を介して設定された`AWS Cognito`のホストされた`UI`は、`Cognito`とのやり取りの最も簡単な方法です。
+リクエストにヘッダーが存在しない場合、
+`API Gateway`は`HTTP401 Unauthorized`ステータスコードを返します。
+リクエストヘッダーにトークンが存在する場合、リクエストは検証のために認証ラムダ関数に渡されます。
 
-The token signature gets verified by the Auth lambda using JSON Web Keys (JWKs) provided by a Cognito User pool.
+トークンの署名は、`Cognito`ユーザープールから提供される`JSON Web`キー（`JWK`）を使用して、
+`Auth`ラムダによって検証されます。
 
-Once the token signature is verified (both in structure and expiry), code verifies the token's claims and retrieves the
-user group associated with the token. Based on that user group, the Lambda function reads the API Gateway access policy
-document from the DynamoDB table. If user group not present in DynamoDB table then the function returns a deny policy
-which will make API Gateway return an HTTP 403 Forbidden response to user. If user group is present in the DynamoDB
-table, the associated policy document will be return to API Gateway.
+トークンの署名が検証されたら（構造と有効期限の両方で）、
+コードはトークンのクレームを検証し、
+トークンに関連付けられたユーザーグループを取得します。
+そのユーザーグループに基づいて、
+`Lambda`関数は`DynamoDB`テーブルから`API Gateway`のアクセスポリシードキュメントを読み取ります。
+ユーザーグループが`DynamoDB`テーブルに存在しない場合、
+関数は`API Gateway`に`HTTP 403 Forbidden`応答を返す拒否ポリシーを返します。
+ユーザーグループが`DynamoDB`テーブルに存在する場合、
+関連するポリシードキュメントが`API Gateway`に返されます。
 
-Based on the policy returned by Auth Lambda function, API Gateway decides either to forward the request to backend
-Lambda or return an HTTP 403 Forbidden response. If JWT token is invalid, in terms of JWT structure or signature, the
-authentication function raises an "Unauthorized" exception which in turns into 401 Unauthorized response back to the
-user.
+`Auth Lambda`関数によって返されたポリシーに基づいて、
+`API Gateway`はリクエストをバックエンド`Lambda`に転送するか、
+`HTTP 403 Forbidden`応答を返すかを決定します。
+`JWT`トークンが`JWT`の構造または署名の観点で無効である場合、
+認証関数は「`Unauthorized`」例外を発生させ、
+これがユーザーに対して`401 Unauthorized`応答に変換されます。
 
-As populated in DynamoDB as part of deployment steps, this configuration creates two user groups: `read-only`
-and `read-update-add`. `read-only` may only call GET on the backend, while `read-update-add` may make GET and POST
-operations against the backend.
+デプロイ手順の一環として`DynamoDB`に登録された値に基づいて、
+この構成は2つのユーザーグループを作成します：`read-only`と`read-update-add`。
+`read-only`はバックエンドで`GET`のみを呼び出すことができ、
+一方で`read-update-add`はバックエンドで`GET`および`POST`操作を実行できます。
 
 ## Deploy
 
@@ -44,6 +53,9 @@ dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/Au
 cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 
+- 上記実行の後、`Blazor/wwwroor/appsettings.json`に値を設定する
+  - 実行してうまくいかない場合は`Lambda`のログを確認しよう 
+  - `Blazor`からうまく実行できない場合は以下の手順に沿って`curl`で`Lambda`を実行してみよう
 - `DynamoDB`に初期値を登録
 
 ```shell
@@ -168,6 +180,10 @@ aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Sta
 
 ```shell
 export AccessToken="<ログイン後URLから取得>"
+```
+
+```shell
+export AccessToken=""
 ```
 
 8. `ApiGwEndpoint`の`URL`を取得し、`Authorization`ヘッダーに`access_token`を設定して`GET`リクエストを送信する。

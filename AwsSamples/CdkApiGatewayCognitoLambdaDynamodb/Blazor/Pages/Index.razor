@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using System.Web
 @using System.Net.Http.Headers
+@using Blazor.Helpers
+@inject AppSettings AppSettings
 @inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
@@ -10,14 +12,14 @@
 
 <div class="row">
   <div class="col-4">
-    <p>API Address: @_apiAddress</p>
+    <p>API Address: @AppSettings.ApiBaseAddress</p>
     <p>
-      <a href="https://sign-in-7a1m2i5i291o6asbe0p6k99e1c.auth.ap-northeast-1.amazoncognito.com/login?response_type=token&client_id=7a1m2i5i291o6asbe0p6k99e1c&redirect_uri=https%3a%2f%2flocalhost%3a6500">Login by Cognito</a>
+      <a href="@AppSettings.CognitoHostedUiUrl">Login by Cognito</a>
     </p>
     <dl id="getApiResult">
       <dt>API Address</dt>
       <dd>
-        <input class="w-100" id="apiAddress" @bind="_apiAddress">
+        <input class="w-100" id="apiAddress" @bind="AppSettings.ApiBaseAddress">
       </dd>
       <dt>Access Token</dt>
       <dd>
@@ -35,7 +37,6 @@
 </div>
 
 @code{
-  private string _apiAddress = "https://jjy7kgrsia.execute-api.ap-northeast-1.amazonaws.com/Dev/";
   private string _getResult = "Now loading...";
 
   [Parameter]
@@ -55,14 +56,26 @@
   private async Task GetResultAsync()
   {
     if (AccessToken == string.Empty) return;
-    using var client = new HttpClient();
-    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-    var response = await client.GetAsync(_apiAddress);
-    if (response.IsSuccessStatusCode)
+    try
     {
-      var responseData = await response.Content.ReadAsStringAsync();
-      _getResult = responseData;
+      using var client = new HttpClient();
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+      var response = await client.GetAsync(AppSettings.ApiBaseAddress);
+      if (response.IsSuccessStatusCode)
+      {
+        var responseData = await response.Content.ReadAsStringAsync();
+        _getResult = responseData;
+      }
+      else
+      {
+        _getResult = $"Error: {response.StatusCode}";
+      }
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      _getResult = $"Error: {e.Message}";
+      _getResult = _getResult + Environment.NewLine + e.StackTrace;
     }
   }
-
 }
