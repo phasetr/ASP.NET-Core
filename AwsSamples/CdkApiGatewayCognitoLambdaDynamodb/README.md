@@ -1,6 +1,7 @@
 # Fine-grained access control for API Gateway using Lambda Authorizer
 
 - Original: [Fine-grained access control for API Gateway using Lambda Authorizer](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
+- Blazor GitHub: [Sample Blazor Webassembly project Using Cognito Hosted UI Authentication](https://github.com/sravimohan/blazor-webassembly-cognito-hosted-ui-sample)
 - `TODO`：ローカルで立ち上げた`Blazor`のフロントエンドからサーバー上のAPIへのアクセスで`CORS`を通す
 - `APIGateway`の`URL`取得
 
@@ -35,6 +36,10 @@ operations against the backend.
 ## Deploy
 
 ```shell
+rm -rf dist
+dotnet build
+dotnet publish src/Lambda/BackendFunction/BackendFunction.csproj -c Release -o dist/BackendFunction
+dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/AuthFunction
 cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 

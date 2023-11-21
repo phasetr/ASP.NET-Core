@@ -5,7 +5,6 @@ using Amazon.CDK.AWS.Cognito;
 using Amazon.CDK.AWS.DynamoDB;
 using Amazon.CDK.AWS.Lambda;
 using Constructs;
-using AssetOptions = Amazon.CDK.AWS.S3.Assets.AssetOptions;
 using Attribute = Amazon.CDK.AWS.DynamoDB.Attribute;
 
 namespace ApiGatewayCognitoLambdaDynamodb;
@@ -68,7 +67,8 @@ public sealed class CdkStack : Stack
             {
                 CallbackUrls = new[] {callbackUrl},
                 Flows = new OAuthFlows {ImplicitCodeGrant = true},
-                Scopes = new[] {OAuthScope.EMAIL, OAuthScope.OPENID}
+                Scopes = new[] {OAuthScope.EMAIL, OAuthScope.OPENID},
+                LogoutUrls = new[] {$"{callbackUrl}/authentication/logout-callback"}
             }
         });
 
@@ -97,23 +97,7 @@ public sealed class CdkStack : Stack
         {
             Runtime = Runtime.DOTNET_6,
             Handler = "AuthFunction::AuthFunction.Function::FunctionHandler",
-            Code = Code.FromAsset(".", new AssetOptions
-            {
-                Bundling = new BundlingOptions
-                {
-                    Image = Runtime.DOTNET_6.BundlingImage,
-                    User = "root",
-                    OutputType = BundlingOutput.ARCHIVED,
-                    Command = new[]
-                    {
-                        "/bin/sh",
-                        "-c",
-                        " dotnet tool install -g Amazon.Lambda.Tools" +
-                        " && dotnet build" +
-                        " && dotnet lambda package --project-location src/Lambda/AuthFunction --output-package /asset-output/function.zip"
-                    }
-                }
-            }),
+            Code = Code.FromAsset("./dist/AuthFunction"),
             Environment = new Dictionary<string, string>
             {
                 {"REGION", Region},
@@ -135,23 +119,7 @@ public sealed class CdkStack : Stack
         {
             Runtime = Runtime.DOTNET_6,
             Handler = "BackendFunction::BackendFunction.Function::FunctionHandler",
-            Code = Code.FromAsset(".", new AssetOptions
-            {
-                Bundling = new BundlingOptions
-                {
-                    Image = Runtime.DOTNET_6.BundlingImage,
-                    User = "root",
-                    OutputType = BundlingOutput.ARCHIVED,
-                    Command = new[]
-                    {
-                        "/bin/sh",
-                        "-c",
-                        " dotnet tool install -g Amazon.Lambda.Tools" +
-                        " && dotnet build" +
-                        " && dotnet lambda package --project-location src/Lambda/BackendFunction --output-package /asset-output/function.zip"
-                    }
-                }
-            })
+            Code = Code.FromAsset("./dist/BackendFunction")
         });
 
         // APIGateway 
@@ -202,13 +170,18 @@ public sealed class CdkStack : Stack
 
         #region "CloudFormation Output"
 
+        var unused5 = new CfnOutput(this, "ApiGwEndpoint", new CfnOutputProps
+            {Value = apiGateway.Url});
+        var unused7 = new CfnOutput(this, "CognitoAppClientId",
+            new CfnOutputProps {Value = cognitoAppClient.UserPoolClientId});
         var unused4 = new CfnOutput(this, "CognitoHostedUIUrl", new CfnOutputProps
         {
             Value =
                 $"{cognitoDomainName.BaseUrl()}/login?response_type=token&client_id={cognitoAppClient.UserPoolClientId}&redirect_uri={HttpUtility.UrlEncode(callbackUrl)}"
         });
-        var unused5 = new CfnOutput(this, "ApiGwEndpoint", new CfnOutputProps
-            {Value = apiGateway.Url});
+        var unused8 = new CfnOutput(this, "CognitoUserPoolDomain", new CfnOutputProps
+            {Value = cognitoDomainName.DomainName});
+        var unused6 = new CfnOutput(this, "CognitoUserPoolId", new CfnOutputProps {Value = userPool.UserPoolId});
 
         #endregion
     }
