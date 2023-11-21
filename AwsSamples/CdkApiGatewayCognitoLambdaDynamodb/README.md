@@ -56,6 +56,7 @@ cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 - 上記実行の後、`Blazor/wwwroor/appsettings.json`に値を設定する
   - 実行してうまくいかない場合は`Lambda`のログを確認しよう 
   - `Blazor`からうまく実行できない場合は以下の手順に沿って`curl`で`Lambda`を実行してみよう
+  - ブラウザからの実行では`CORS`の問題もあるため、それも調べよう
 - `DynamoDB`に初期値を登録
 
 ```shell
