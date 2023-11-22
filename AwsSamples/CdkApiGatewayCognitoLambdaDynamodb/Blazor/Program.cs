@@ -11,7 +11,7 @@ builder.Services.AddSingleton(p => p.GetRequiredService<IConfiguration>().Get<Ap
 var apiBaseAddress = builder.Configuration[nameof(AppSettings.ApiBaseAddress)];
 if (string.IsNullOrWhiteSpace(apiBaseAddress))
     throw new Exception("ApiBaseAddress is not set in appsettings.json");
-builder.Services.AddScoped(_ => 
+builder.Services.AddScoped(_ =>
     new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
 
 await builder.Build().RunAsync();

@@ -45,12 +45,10 @@ aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Sta
 
 ## Deploy
 
+- デプロイは`deploy.sh`を実行すれば良い。
+
 ```shell
-rm -rf dist
-dotnet build
-dotnet publish src/Lambda/BackendFunction/BackendFunction.csproj -c Release -o dist/BackendFunction
-dotnet publish src/Lambda/AuthFunction/AuthFunction.csproj -c Release -o dist/AuthFunction
-cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
+sh deploy.sh
 ```
 
 - 上記実行の後、`Blazor/wwwroor/appsettings.json`に値を設定する
@@ -173,7 +171,9 @@ aws cognito-idp list-users-in-group \
    `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。
 
 ```shell
-aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`CognitoHostedUIUrl`].OutputValue' --output text
+aws cloudformation describe-stacks \
+  --stack-name ApiGatewayAuthStack \
+  --query 'Stacks[].Outputs[?OutputKey==`CognitoHostedUIUrl`].OutputValue' --output text
 ```
 
 6. `read-only`ユーザーグループに割り当てたユーザーでログインする。
@@ -191,7 +191,9 @@ export AccessToken=""
    ![PostmanCall](PostmanCall.png)
 
 ```shell
-export ApiGwEndpoint=$(aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`ApiGwEndpoint`].OutputValue' --output text)
+export ApiGwEndpoint=$(aws cloudformation describe-stacks \
+  --stack-name ApiGatewayAuthStack \
+  --query 'Stacks[].Outputs[?OutputKey==`ApiGwEndpoint`].OutputValue' --output text)
 echo ${ApiGwEndpoint}
 ```
 

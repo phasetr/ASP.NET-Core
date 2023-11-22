@@ -61,7 +61,7 @@ public class Function
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns>APIGatewayCustomAuthorizerResponse</returns>
-    public APIGatewayCustomAuthorizerResponse FunctionHandler(
+    public async Task<APIGatewayCustomAuthorizerResponse> FunctionHandler(
         APIGatewayCustomAuthorizerRequest request,
         ILambdaContext context)
     {
@@ -86,7 +86,7 @@ public class Function
         if (string.IsNullOrEmpty(userGroup)) throw new Exception("Unauthorized: invalid token claims");
 
         // Get policy document based on user group
-        var policyDocument = GetApiGwAccessPolicy(userGroup);
+        var policyDocument = await GetApiGwAccessPolicy(userGroup);
 
         if (string.IsNullOrEmpty(policyDocument))
             // Return deny policy
@@ -184,8 +184,9 @@ public class Function
             var jwtToken = (JwtSecurityToken) validatedToken;
             return jwtToken;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            LambdaLogger.Log("Exception: " + e.Message);
             // return null if JWT validation fails
             return null;
         }
@@ -196,9 +197,9 @@ public class Function
     /// </summary>
     /// <param name="userGroup"></param>
     /// <returns>string</returns>
-    private string GetApiGwAccessPolicy(string userGroup)
+    private async Task<string> GetApiGwAccessPolicy(string userGroup)
     {
-        var data = _context.LoadAsync<DynamoDbTableModel>(userGroup).Result;
+        var data = await _context.LoadAsync<DynamoDbTableModel>(userGroup);
         return data != null ? data.ApiGwAccessPolicy : string.Empty;
     }
 
