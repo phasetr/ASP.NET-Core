@@ -122,7 +122,7 @@ public sealed class CdkStack : Stack
             Code = Code.FromAsset("./dist/BackendFunction")
         });
 
-        // APIGateway 
+        // APIGateway
         var apiGateway = new RestApi(this, "SampleApi", new RestApiProps
         {
             RestApiName = "SampleApi",

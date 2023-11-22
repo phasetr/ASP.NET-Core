@@ -54,7 +54,7 @@ cdk deploy ApiGatewayAuthStack --app 'dotnet run --project src/CDK/cdk.csproj'
 ```
 
 - 上記実行の後、`Blazor/wwwroor/appsettings.json`に値を設定する
-  - 実行してうまくいかない場合は`Lambda`のログを確認しよう 
+  - 実行してうまくいかない場合は`Lambda`のログを確認しよう
   - `Blazor`からうまく実行できない場合は以下の手順に沿って`curl`で`Lambda`を実行してみよう
   - ブラウザからの実行では`CORS`の問題もあるため、それも調べよう
 - `DynamoDB`に初期値を登録
@@ -170,7 +170,7 @@ aws cognito-idp list-users-in-group \
 ```
 
 5. 次のコマンドで`CognitoHostedUIUrl`を確認して、
-   `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。 
+   `CDK`で作った`CognitoHostedUIUrl`の`Cognito`アプリクライアントにアクセスする。
 
 ```shell
 aws cloudformation describe-stacks --stack-name ApiGatewayAuthStack --query 'Stacks[].Outputs[?OutputKey==`CognitoHostedUIUrl`].OutputValue' --output text
@@ -207,7 +207,7 @@ curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer ${Acc
 10. Now invoke the same request with the POST verb and the same `access_token`.
 11. Confirm that you are returned an HTTP 403 Unauthorized response.
 12. Log into the Hosted UI as the second user you created following the steps previously described.
-13. Make a GET request to the API Gateway HTTP Endpoint as you did previously, 
+13. Make a GET request to the API Gateway HTTP Endpoint as you did previously,
     this time using the second user's `access_token` for the bearer token.
 14. Confirm that you are returned a 200 Success response
 15. Make a POST request to the API HTTP Endpoint
