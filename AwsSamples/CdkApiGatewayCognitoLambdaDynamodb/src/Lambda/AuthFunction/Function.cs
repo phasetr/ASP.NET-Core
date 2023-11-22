@@ -1,10 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -34,7 +32,7 @@ public class Function
         ClientId = envClientId;
         UserPool = $"https://cognito-idp.{envRegion}.amazonaws.com/{envCognitoUserPoolId}";
         var keyUrl = UserPool + "/.well-known/jwks.json";
-        Jwks = GetJwks(keyUrl).Result;
+        Jwks = Helpers.GetJwks(keyUrl).Result;
 
         var dynamoDbClient = new AmazonDynamoDBClient();
         _context = new DynamoDBContext(dynamoDbClient);
@@ -43,17 +41,6 @@ public class Function
     private string Jwks { get; }
     private string ClientId { get; }
     private string UserPool { get; }
-
-    /// <summary>
-    ///     Method to make GET JWKs by calling Cognito User pool Key URL
-    /// </summary>
-    /// <param name="keyUrl"></param>
-    /// <returns>Task</returns>
-    private static async Task<string> GetJwks(string keyUrl)
-    {
-        var client = new HttpClient();
-        return await client.GetStringAsync(keyUrl).ConfigureAwait(false);
-    }
 
     /// <summary>
     ///     Lambda function handler to validate JWT token
@@ -66,23 +53,25 @@ public class Function
         ILambdaContext context)
     {
         LambdaLogger.Log("Received Auth request");
-        /* Validating JWT token in three steps as documented at - https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
-          Step 1: Confirm the structure of the JWT
-          Step 2: Validate the JWT signature
-          Step 3: Verify the claims
+
+        /*
+         Validating JWT token in three steps as documented at - https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
+         Step 1: Confirm the structure of the JWT
+         Step 2: Validate the JWT signature
+         Step 3: Verify the claims
         */
 
-        var token = GetTokenFromRequest(request.AuthorizationToken);
+        var token = Helpers.GetTokenFromRequest(request.AuthorizationToken);
 
         // Step 1: Confirm the structure of the JWT
-        if (!IsValidJwtStructure(token)) throw new Exception("Unauthorized: invalid token structure");
+        if (!Helpers.IsValidJwtStructure(token)) throw new Exception("Unauthorized: invalid token structure");
 
         // Step 2: Validate the JWT signature
-        var jwtSecurityToken = ValidateJwtSignature(token);
+        var jwtSecurityToken = Helpers.ValidateJwtSignature(Jwks, token);
         if (jwtSecurityToken == null) throw new Exception("Unauthorized: invalid token signature");
 
         // Step 3: Verify the claims
-        var userGroup = VerifyClaims(jwtSecurityToken);
+        var userGroup = Helpers.VerifyClaims(ClientId, jwtSecurityToken, UserPool);
         if (string.IsNullOrEmpty(userGroup)) throw new Exception("Unauthorized: invalid token claims");
 
         // Get policy document based on user group
@@ -93,7 +82,8 @@ public class Function
             return new APIGatewayCustomAuthorizerResponse
             {
                 PrincipalID = "yyyyyyyy",
-                PolicyDocument = JsonConvert.DeserializeObject<APIGatewayCustomAuthorizerPolicy>(GetDenyPolicy()),
+                PolicyDocument =
+                    JsonConvert.DeserializeObject<APIGatewayCustomAuthorizerPolicy>(Helpers.GetDenyPolicy()),
                 UsageIdentifierKey = ""
             };
 
@@ -107,92 +97,6 @@ public class Function
     }
 
     /// <summary>
-    ///     Get token from request
-    /// </summary>
-    /// <param name="authorizationHeader"></param>
-    /// <returns>string</returns>
-    private static string GetTokenFromRequest(string authorizationHeader)
-    {
-        if (string.IsNullOrEmpty(authorizationHeader)) return string.Empty;
-        var authHeaders = authorizationHeader.Split(" ");
-        LambdaLogger.Log("authHearers.Length: " + authHeaders.Length);
-        if (authHeaders.Length == 2 && authHeaders[0] == "Bearer") return authHeaders[1];
-        return string.Empty;
-    }
-
-    /// <summary>
-    ///     Validate JWT structure
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns>bool</returns>
-    private static bool IsValidJwtStructure(string token)
-    {
-        if (string.IsNullOrEmpty(token)) return false;
-        return token.Split(".").Length == 3;
-    }
-
-    /// <summary>
-    ///     Verify JWT claims and return user group
-    /// </summary>
-    /// <param name="jwtSecurityToken"></param>
-    /// <returns>string</returns>
-    private string VerifyClaims(JwtSecurityToken? jwtSecurityToken)
-    {
-        if (jwtSecurityToken == null) return string.Empty;
-        // Note: Token expiration already verified in ValidateJwtSignature method.  
-        try
-        {
-            var clientId = jwtSecurityToken.Claims.First(x => x.Type == "client_id").Value;
-            if (clientId != ClientId) return string.Empty;
-
-            var iss = jwtSecurityToken.Claims.First(x => x.Type == "iss").Value;
-            if (iss != UserPool) return string.Empty;
-
-            var tokenUse = jwtSecurityToken.Claims.First(x => x.Type == "token_use").Value;
-            return tokenUse != "access"
-                ? string.Empty
-                : jwtSecurityToken.Claims.First(x => x.Type == "cognito:groups").Value;
-        }
-        catch (Exception)
-        {
-            // Exception when claim is missing
-            return string.Empty;
-        }
-    }
-
-    /// <summary>
-    ///     Validate JWT signature
-    /// </summary>
-    /// <param name="token"></param>
-    /// <returns>JwtSecurityToken</returns>
-    private JwtSecurityToken? ValidateJwtSignature(string token)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var signingKeys = new JsonWebKeySet(Jwks).GetSigningKeys();
-        try
-        {
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                IssuerSigningKeys = signingKeys,
-                ValidateIssuerSigningKey = true,
-                ValidateIssuer = false,
-                ValidateLifetime = true,
-                ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero // set expiration time same as JWT expiration time
-            }, out var validatedToken);
-
-            var jwtToken = (JwtSecurityToken) validatedToken;
-            return jwtToken;
-        }
-        catch (Exception e)
-        {
-            LambdaLogger.Log("Exception: " + e.Message);
-            // return null if JWT validation fails
-            return null;
-        }
-    }
-
-    /// <summary>
     ///     Get API GW access policy document
     /// </summary>
     /// <param name="userGroup"></param>
@@ -201,15 +105,5 @@ public class Function
     {
         var data = await _context.LoadAsync<DynamoDbTableModel>(userGroup);
         return data != null ? data.ApiGwAccessPolicy : string.Empty;
-    }
-
-    /// <summary>
-    ///     Get API GW deny policy document
-    /// </summary>
-    /// <returns>string</returns>
-    private static string GetDenyPolicy()
-    {
-        return
-            "{\"Version\": \"2012-10-17\",\"Statement\": [ {\"Effect\": \"Deny\",\"Principal\": \"*\", \"Action\": [\"execute-api:Invoke\"], \"Resource\": [ \"arn:aws:execute-api:*:*:*\"]}]}";
     }
 }
