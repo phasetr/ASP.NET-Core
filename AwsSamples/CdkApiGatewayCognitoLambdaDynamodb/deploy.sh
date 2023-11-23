@@ -18,7 +18,7 @@ blazor=$(cat <<EOS
   "CognitoHostedUiUrl": "${CognitoHostedUIUrl}"
 }
 EOS)
-echo "$blazor" > Blazor/wwwroot/appsettings.json  
+echo "$blazor" > Blazor/wwwroot/appsettings.json
 
 cat <<EOS
 初回デプロイ時はREADMEを見てCognitoのユーザープールを設定すること。

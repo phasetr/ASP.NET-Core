@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Constants;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Service.Services;
 using Service.Services.Interfaces;
 using WebApi.Middleware;
@@ -65,8 +67,36 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // `Minimal API`の`Swagger`ドキュメント生成用
 builder.Services.AddEndpointsApiExplorer();
-// Swagger
-builder.Services.AddSwaggerGen();
+// SwaggerUIの設定
+builder.Services.AddSwaggerGen(options =>
+{
+    // SwaggerUIにJWT認証用の入力欄を追加
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        // これを`SecuritySchemeType.ApiKey`にすると`SwaggerUI`で`Authorization`に`Bearer`が入らず認証が通らない
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        In = ParameterLocation.Header,
+        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
+        }
+    });
+});
 
 // DI設定
 builder.Services.AddScoped<IApplicationRoleService, ApplicationRoleService>();
