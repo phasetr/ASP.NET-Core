@@ -20,6 +20,10 @@ public class SecuredController : ControllerBase
         });
     }
 
+    /// <summary>
+    ///     admin@secureapi.com/adminpassなど管理権限を持つユーザーに対するJWTを設定すること
+    /// </summary>
+    /// <returns></returns>
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     public IActionResult PostSecuredData()
