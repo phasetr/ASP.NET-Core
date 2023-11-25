@@ -1,2 +1,0 @@
-CREATE DATABASE sports;
-CREATE DATABASE auth;
