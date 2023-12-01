@@ -1,0 +1,109 @@
+﻿@inject IContactFilters Filters
+@using System.Timers
+@using Common.Grid
+@implements IDisposable
+
+Filter by:
+<input type="text" autofocus @bind-value="FilterText" @bind-value:event="oninput"/>
+<button class="btn btn-danger" @onclick="@(() => FilterText = string.Empty)">Clear</button>
+Filter on:
+<select @bind="SelectedColumn">
+  @foreach (var column in (ContactFilterColumns[]) Enum.GetValues(typeof(ContactFilterColumns)))
+  {
+    <option @attributes="Selected(column)" value="@((int) column)">@(column.ToString())</option>
+  }
+</select>
+
+@code {
+
+  // Get a reference to the global GridWrapper.
+  [CascadingParameter] public GridWrapper? Wrapper { get; set; }
+
+  // Wait period in (ms) after the user stops typing.
+  const int DebounceMs = 300;
+
+  // Timer for debounce.
+  Timer? _timer;
+
+  // When ready.
+  protected override void OnInitialized()
+  {
+    // Grab filter.
+    _filterText = Filters.FilterText;
+    // Grab column to filter on.
+    _selectedColumn = (int) Filters.FilterColumn;
+    base.OnInitialized();
+  }
+
+  // Sets selected attribute.
+  // column: The ContactFilterColumns being evaluated.
+  // Returns the proper attribute to select the option.
+  private IEnumerable<KeyValuePair<string, object>> Selected(ContactFilterColumns column)
+  {
+    return (int) column == _selectedColumn
+      ? new[] {new KeyValuePair<string, object>("selected", "selected")}
+      : Enumerable.Empty<KeyValuePair<string, object>>();
+  }
+
+  private int _selectedColumn;
+
+  // Column to filter on.
+  private int SelectedColumn
+  {
+    get => _selectedColumn;
+    set
+    {
+      if (value != _selectedColumn)
+      {
+        _selectedColumn = value;
+        Filters.FilterColumn = (ContactFilterColumns) _selectedColumn;
+        FilterText = string.Empty;
+      }
+    }
+  }
+
+  private string? _filterText;
+
+  // Text to filter on.
+  private string? FilterText
+  {
+    get => _filterText;
+    set
+    {
+      if (value != _filterText)
+      {
+        _filterText = value;
+        // More text means restart the debounce timer.
+        _timer?.Dispose();
+        _timer = new Timer(DebounceMs);
+        _timer.Elapsed += NotifyTimerElapsed;
+        _timer.Enabled = true;
+      }
+    }
+  }
+
+  // Fired after debounce time.
+  // sender: Timer
+  // e: Event args
+  private async void NotifyTimerElapsed(object? sender, ElapsedEventArgs e)
+  {
+    _timer?.Dispose();
+    _timer = null;
+    if (Filters.FilterText == _filterText) return;
+    // Notify the controls.
+    Filters.FilterText = _filterText?.Trim();
+    if (Wrapper is not null)
+    {
+      await InvokeAsync(() => Wrapper.FilterChanged.InvokeAsync(this));
+    }
+  }
+
+  // Disposable pattern - override to dispose any ticking timers.
+  // disposing is True when disposing.
+  public void Dispose()
+  {
+    _timer?.Dispose();
+    _timer = null;
+  }
+
+}

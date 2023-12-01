@@ -1,0 +1,101 @@
+﻿@using Common.Entities
+@using Blazor.Data
+@using Common.Constants
+@using Microsoft.EntityFrameworkCore
+@attribute [Route(AppPath.ContactRoot + "/add")]
+@rendermode InteractiveServer
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+
+@if (Contact is not null)
+{
+  <ContactForm Busy="@_busy"
+               Contact="@Contact"
+               IsAdd="true"
+               CancelRequest="Cancel"
+               ValidationResult="@(async success => await ValidationResultAsync(success))"/>
+}
+@if (_success)
+{
+  <br/>
+  <div class="alert alert-success">The contact was successfully added.</div>
+}
+@if (_error)
+{
+  <br/>
+  <div class="alert alert-danger">Failed to add the contact (@_errorMessage).</div>
+}
+
+@code {
+  private Contact? Contact { get; set; }
+
+  // True when an asynchronous operation is running.
+  private bool _busy;
+
+  // True after successful add.
+  private bool _success;
+
+  // True when an error occurred.
+  private bool _error;
+
+  private string _errorMessage = string.Empty;
+
+  // Start with fresh Contact.
+  protected override Task OnInitializedAsync()
+  {
+    Contact = new Contact();
+    return base.OnInitializedAsync();
+  }
+
+  // Respond to a forms submission.
+  // success is True when valid.
+  private async Task ValidationResultAsync(bool success)
+  {
+    if (_busy)
+    {
+      return;
+    }
+
+    if (!success)
+    {
+      _success = false;
+      _error = false;
+      return;
+    }
+
+    _busy = true;
+
+    await using var context = await DbFactory.CreateDbContextAsync();
+
+    // This just attaches.
+    if (Contact is not null)
+    {
+      context.Contacts?.Add(Contact);
+    }
+
+    try
+    {
+      await context.SaveChangesAsync();
+      _success = true;
+      _error = false;
+      // Ready for the next.
+      Contact = new Contact();
+      _busy = false;
+    }
+    catch (Exception ex)
+    {
+      _success = false;
+      _error = true;
+      _errorMessage = ex.Message;
+      _busy = false;
+    }
+  }
+
+  // Back to list.
+  private void Cancel()
+  {
+    Navigation.NavigateTo($"{AppPath.ContactRoot}/{PageHelper.Page}");
+  }
+
+}

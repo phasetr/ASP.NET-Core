@@ -1,0 +1,46 @@
+﻿@typeparam TModel
+
+@if (Show)
+{
+    @if (_isDelta)
+    {
+        <span class="alert alert-warning"><strong>@_property</strong></span>
+    }
+    else
+    {
+        <span class="alert alert-success">(same)</span>
+    }
+}
+
+@code {
+    // The TModel being edited.
+    [Parameter]
+    public TModel? Model { get; set; }
+
+    // The TModel in the database.
+    [Parameter]
+    public TModel? DbModel { get; set; }
+
+    // Returns the property to inspect.
+    [Parameter]
+    public Func<TModel, IComparable>? Property { get; set; }
+
+    // Only show if concurrency conflict exists.
+    private bool Show => Model != null && DbModel != null;
+
+    // Highlight properties with different values.
+    private bool _isDelta;
+
+    private IComparable? _property;
+
+    protected override void OnInitialized()
+    {
+        if (Property is null || DbModel is null) return;
+        _property = Property(DbModel);
+
+        if (Model is not null)
+        {
+            _isDelta = !Property(Model).Equals(Property(DbModel));
+        }
+    }
+}

@@ -1,0 +1,11 @@
+﻿@using Common.Constants
+@inject NavigationManager NavigationManager
+
+@code {
+
+  protected override void OnInitialized()
+  {
+    NavigationManager.NavigateTo($"{AppPath.AccountLogin}?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}", true);
+  }
+
+}

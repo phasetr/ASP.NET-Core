@@ -1,0 +1,212 @@
+﻿@rendermode InteractiveServer
+@attribute [Route(AppPath.ContactEdit + "/{ContactId:int}")]
+@using Common.Entities
+@using Blazor.Data
+@using Common.Constants
+@using Microsoft.EntityFrameworkCore
+@using Common.Helper
+@implements IDisposable
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject NavigationManager Navigation
+@inject IPageHelper PageHelper
+@inject EditSuccess EditSuccessState
+
+@if (Contact is null && !_busy)
+{
+  <p>Could not find contact with id @ContactId.</p>
+}
+else
+{
+  <ContactForm Busy="@_busy"
+               Contact="@Contact"
+               DbContact="@DbContact"
+               IsAdd="false"
+               CancelRequest="Cancel"
+               ValidationResult="@(async success => await ValidationResultAsync(success))"/>
+}
+@if (_concurrencyError)
+{
+  <br/>
+  <div class="alert alert-danger">
+    <p>
+      The contact details have changed since it was last loaded. The updated fields are highlighted in the form.
+      Please choose an option:
+    </p>
+    <p><b>Cancel</b> to lose your changes and keep the database version.</p>
+    <p><b>Submit</b> to force an update with your version.</p>
+  </div>
+}
+@if (_error)
+{
+  <br/>
+  <div class="alert alert-danger">Failed to update the contact (@_errorMessage).</div>
+}
+
+@code {
+
+  /// <summary>
+  ///   Id of contact to edit
+  /// </summary>
+  [Parameter]
+  public int ContactId { get; set; }
+
+  /// <summary>
+  ///   The <see cref="ApplicationDbContext" /> for database access.
+  /// </summary>
+  private ApplicationDbContext? Context { get; set; }
+
+  /// <summary>
+  ///   Contact being edited
+  /// </summary>
+  private Contact Contact { get; set; } = new();
+
+  /// <summary>
+  ///   Database version when concurrency issues exist
+  /// </summary>
+  private Contact DbContact { get; set; } = new();
+
+  /// <summary>
+  ///   Avoid concurrent requests
+  /// </summary>
+  private bool _busy;
+
+  /// <summary>
+  ///   An error occurred in the update
+  /// </summary>
+  private bool _error;
+
+  /// <summary>
+  ///   A concurrency error needs resolution
+  /// </summary>
+  private bool _concurrencyError;
+
+  /// <summary>
+  ///   Error message
+  /// </summary>
+  private string _errorMessage = string.Empty;
+
+  /// <summary>
+  ///   Start it up
+  /// </summary>
+  /// <returns>Task</returns>
+
+  #region snippet2
+
+  protected override async Task OnInitializedAsync()
+  {
+    _busy = true;
+
+    try
+    {
+      Context = await DbFactory.CreateDbContextAsync();
+
+      if (Context is not null && Context.Contacts is not null)
+      {
+        var contact = await Context.Contacts.SingleOrDefaultAsync(c => c.Id == ContactId);
+
+        if (contact is not null)
+        {
+          Contact = contact;
+        }
+      }
+    }
+    finally
+    {
+      _busy = false;
+    }
+
+    await base.OnInitializedAsync();
+  }
+
+  #endregion
+
+  /// <summary>
+  ///   Result of form validation
+  /// </summary>
+  /// <param name="success">Success when model is valid</param>
+  /// <returns>Task</returns>
+  private async Task ValidationResultAsync(bool success)
+  {
+    if (_busy)
+    {
+      return;
+    }
+
+    if (!success)
+    {
+      // still need to edit model
+      _error = false;
+      _concurrencyError = false;
+      return;
+    }
+
+    _busy = true; // async
+    try
+    {
+      if (Context is not null)
+      {
+        await Context.SaveChangesAsync();
+      }
+
+      EditSuccessState.Success = true;
+      // go to view to see the record
+      Navigation.NavigateTo($"{AppPath.ContactView}/{Contact.Id}");
+    }
+    catch (DbUpdateConcurrencyException dbEx)
+    {
+      EditSuccessState.Success = false;
+
+      // concurrency issues!
+      _concurrencyError = true;
+
+      // get values from database
+      var dbValues = await dbEx.Entries[0].GetDatabaseValuesAsync();
+
+      if (dbValues is null)
+      {
+        // deleted - show contact not found
+        Navigation.NavigateTo($"{AppPath.ContactView}/{Contact.Id}");
+        return;
+      }
+
+      // bind to show labels on form
+      DbContact = (Contact) dbValues.ToObject();
+
+      // move to original so second submit works (unless there is another concurrent edit)
+      dbEx.Entries[0].OriginalValues.SetValues(dbValues);
+      _error = false;
+      _busy = false;
+    }
+    catch (Exception ex)
+    {
+      EditSuccessState.Success = false;
+      // unknown exception
+      _error = true;
+      _errorMessage = ex.Message;
+      _busy = false;
+    }
+  }
+
+  /// <summary>
+  ///   Bail out!
+  /// </summary>
+  private void Cancel()
+  {
+    _busy = true;
+    Navigation.NavigateTo($"{AppPath.ContactRoot}/{PageHelper.Page}");
+  }
+
+  /// <summary>
+  ///   Implement <see cref="IDisposable" />.
+  /// </summary>
+
+  #region snippet1
+
+  public void Dispose()
+  {
+    Context?.Dispose();
+  }
+
+  #endregion
+
+}

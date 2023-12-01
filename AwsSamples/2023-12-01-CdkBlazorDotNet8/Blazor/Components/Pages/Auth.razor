@@ -1,0 +1,14 @@
+﻿@using Common.Constants
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Route(AppPath.AuthRoot)]
+
+@attribute [Authorize]
+
+<PageTitle>Auth</PageTitle>
+
+<h1>You are authenticated</h1>
+
+<AuthorizeView>
+  Hello @context.User.Identity?.Name!
+</AuthorizeView>
