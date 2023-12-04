@@ -37,7 +37,7 @@ az account list --refresh --query "[?contains(name, 'Concierge Subscription')].i
 - サブスクリプションIDを利用
 
 ```shell
-subscriptionId=2645d18f-f656-46b4-b46b-69edcb85b29d
+subscriptionId=18974119-7a45-4077-9932-f95c83cee0e3
 ```
 
 ```shell
@@ -78,6 +78,14 @@ az configure --defaults group=learn-f8fd88e3-9b9f-4820-bb2f-a72ea1b3910c
 
 ```shell
 az deployment group create --template-file basic/main.bicep
+```
+
+- `Chapter6`
+
+```shell
+az deployment group create \
+  --template-file basic/main.bicep \
+  --parameters basic/main.parameters.dev.json
 ```
 
 ### 初めてのBicepテンプレートを作成する
