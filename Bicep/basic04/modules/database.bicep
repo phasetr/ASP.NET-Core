@@ -61,7 +61,7 @@ resource sqlServerAudit 'Microsoft.Sql/servers/auditingSettings@2021-11-01-previ
   properties: {
     state: 'Enabled'
     storageEndpoint: environmentName == 'Production' ? auditStorageAccount.properties.primaryEndpoints.blob : ''
-    storageAccountAccessKey: environmentName == 'Production' ? listKeys(auditStorageAccount.id, auditStorageAccount.apiVersion).keys[0].value : ''
+    storageAccountAccessKey: environmentName == 'Production' ? auditStorageAccount.listKeys().keys[0].value : ''
   }
 }
 
