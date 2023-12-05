@@ -79,6 +79,6 @@ az deployment group create \
   --parameters main.parameters.dev.json
 ```
 
-### 初めてのBicepテンプレートを作成する
+## 初めてのBicepテンプレートを作成する
 
 - <https://learn.microsoft.com/ja-jp/training/modules/build-first-bicep-template/>
