@@ -11,7 +11,6 @@ location=$(az group show --name exampleRG | jq -r '.["location"]')
 echo ${location}
 ```
 
-
 ```shell
 az deployment group create --resource-group exampleRG --template-file main.bicep --parameters appInsightsLocation=${location}
 ```
