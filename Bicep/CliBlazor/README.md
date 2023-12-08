@@ -1,5 +1,7 @@
 # README
 
+`App Service`に`.NET8`の`Blazor`アプリをデプロイする。
+
 - [Tooling for ASP.NET Core Blazor](https://learn.microsoft.com/ja-jp/aspnet/core/blazor/tooling?view=aspnetcore-8.0&pivots=linux-macos)
 - [クイックスタート: ASP.NET Web アプリをデプロイする](https://learn.microsoft.com/ja-jp/azure/app-service/quickstart-dotnetcore?tabs=net70&pivots=development-environment-cli)
 
