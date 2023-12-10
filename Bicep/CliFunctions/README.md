@@ -1,8 +1,8 @@
 # README
 
 - [【備忘録】初めてのAzureFunctionsのデプロイ](https://qiita.com/gsy0911/items/61198607476ac686ce6f)
-- [クイックスタート: Azure でコマンド ラインから C# 関数を作成する](https://learn.microsoft.com/ja-jp/azure/azure-functions/create-first-function-cli-csharp?tabs=macos%2Cazure-cli)
-- 参考:[サーバーレス コード実行用の関数アプリを作成する](https://learn.microsoft.com/ja-jp/azure/azure-functions/scripts/functions-cli-create-serverless)
+- [クイックスタート: `Azure`でコマンドラインから`C#`関数を作成する](https://learn.microsoft.com/ja-jp/azure/azure-functions/create-first-function-cli-csharp?tabs=macos%2Cazure-cli)
+- 参考:[サーバーレスコード実行用の関数アプリを作成する](https://learn.microsoft.com/ja-jp/azure/azure-functions/scripts/functions-cli-create-serverless)
 
 ## `Azure`の操作と`Azure Functions`のデプロイ
 
