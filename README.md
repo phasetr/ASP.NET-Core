@@ -26,6 +26,8 @@ dotnet dotnet-ef database update # SQLiteの初期化
 
 - [URL](https://zenn.dev/okazuki/articles/add-auth-to-blazor-server-app)
   - `@attribute [Authorize(Roles = "Administrator")]`をつけるとロールで認可振り分けできる
+- GitHub, [blazor-samples](https://github.com/dotnet/blazor-samples)
+  - [Standalone Blazor WebAssembly with ASP.NET Core Identity](https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAssemblyStandaloneWithIdentity)
 
 ### ページャー
 
