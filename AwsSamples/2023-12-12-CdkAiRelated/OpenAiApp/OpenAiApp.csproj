@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include=".env\" />
+    <Folder Include=".env\"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenAI" Version="1.8.0" />
+    <PackageReference Include="OpenAI" Version="1.9.0"/>
   </ItemGroup>
 
 </Project>
