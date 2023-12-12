@@ -19,7 +19,8 @@ export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-ai-
   && echo ${API_GATEWAY_URL} \
   && curl -s ${API_GATEWAY_URL} \
   && curl -s ${API_GATEWAY_URL}one \
-  && curl -s ${API_GATEWAY_URL}add/1/2
+  && curl -s ${API_GATEWAY_URL}calc/add/1/2 \
+  && curl -s ${API_GATEWAY_URL}weather
 ```
 
 ### 環境削除
