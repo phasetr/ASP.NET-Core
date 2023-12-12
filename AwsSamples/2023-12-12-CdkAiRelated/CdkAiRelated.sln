@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi", "Serverless
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07B62FAB-3BDB-4787-BBEE-135D6B70D1AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkLambdaAspNetCore", "src\CdkLambdaAspNetCore\CdkLambdaAspNetCore.csproj", "{56E3C4D2-77CE-4534-88AD-C07FC535A343}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkAiRelated", "CdkAiRelated\CdkAiRelated.csproj", "{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,12 +22,11 @@ Global
 		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56E3C4D2-77CE-4534-88AD-C07FC535A343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56E3C4D2-77CE-4534-88AD-C07FC535A343}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56E3C4D2-77CE-4534-88AD-C07FC535A343}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56E3C4D2-77CE-4534-88AD-C07FC535A343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{56E3C4D2-77CE-4534-88AD-C07FC535A343} = {07B62FAB-3BDB-4787-BBEE-135D6B70D1AC}
 	EndGlobalSection
 EndGlobal

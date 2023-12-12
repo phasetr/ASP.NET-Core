@@ -7,13 +7,13 @@ using Amazon.CDK.AWS.Logs;
 using Constructs;
 using AssetOptions = Amazon.CDK.AWS.S3.Assets.AssetOptions;
 
-namespace CdkLambdaAspNetCore;
+namespace CdkAiRelated;
 
-public class CdkLambdaAspNetCoreStack : Stack
+public class CdkAiRelated : Stack
 {
-    private const string Prefix = "cdk-lambda-asp-net-core-stack";
+    private const string Prefix = "cdk-ai-related-stack";
 
-    internal CdkLambdaAspNetCoreStack(Construct scope, string id, MyStackProps props = null) : base(scope, id, props)
+    internal CdkAiRelated(Construct scope, string id, MyStackProps props = null) : base(scope, id, props)
     {
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;

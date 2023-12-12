@@ -1,4 +1,4 @@
-namespace CdkLambdaAspNetCore;
+namespace CdkAiRelated;
 
 public class MyConfiguration
 {

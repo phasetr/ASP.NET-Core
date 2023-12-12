@@ -1,6 +1,6 @@
 using Amazon.CDK;
 
-namespace CdkLambdaAspNetCore;
+namespace CdkAiRelated;
 
 public class MyStackProps : StackProps
 {

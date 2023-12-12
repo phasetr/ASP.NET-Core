@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run --project src/CdkLambdaAspNetCore/CdkLambdaAspNetCore.csproj",
+  "app": "dotnet run --project CdkAiRelated/CdkAiRelated.csproj",
   "watch": {
     "include": [
       "**"
@@ -7,11 +7,10 @@
     "exclude": [
       "README.md",
       "cdk*.json",
-      "src/*/obj",
-      "src/*/bin",
-      "src/*.sln",
-      "src/*/GlobalSuppressions.cs",
-      "src/*/*.csproj"
+      "CdkAiRelated/obj",
+      "CdkAiRelated/bin",
+      "CdkAiRelated/GlobalSuppressions.cs",
+      "CdkAiRelated/*.csproj"
     ]
   },
   "context": {
