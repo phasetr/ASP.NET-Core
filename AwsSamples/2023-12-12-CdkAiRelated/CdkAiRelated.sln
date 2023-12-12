@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkAiRelated", "CdkAiRelate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaBedrock", "LambdaBedrock\LambdaBedrock.csproj", "{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAiApp", "OpenAiApp\OpenAiApp.csproj", "{99F1DA5C-5B12-4B02-A2F5-28E237C7B0EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F1DA5C-5B12-4B02-A2F5-28E237C7B0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F1DA5C-5B12-4B02-A2F5-28E237C7B0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F1DA5C-5B12-4B02-A2F5-28E237C7B0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F1DA5C-5B12-4B02-A2F5-28E237C7B0EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
