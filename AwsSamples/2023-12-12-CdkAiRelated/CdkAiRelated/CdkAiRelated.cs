@@ -32,29 +32,28 @@ public class CdkAiRelated : Stack
         bedrockAccessRole.AddToPolicy(bedrockAccessPolicy);
 
         // Lambda
-        var buildOption = new BundlingOptions
-        {
-            Image = Runtime.DOTNET_6.BundlingImage,
-            User = "root",
-            OutputType = BundlingOutput.ARCHIVED,
-            Command = new[]
-            {
-                "/bin/sh",
-                "-c",
-                " dotnet tool install -g Amazon.Lambda.Tools" +
-                " && dotnet build" +
-                " && dotnet lambda package --output-package /asset-output/function.zip"
-            }
-        };
         var lambda = new Function(this, $"{Prefix}-serverless-api-{envName}", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
             MemorySize = 256,
             LogRetention = RetentionDays.ONE_DAY,
-            Handler = "ServerlessApi",
-            Code = Code.FromAsset("ServerlessApi/", new AssetOptions
+            Handler = "LambdaBedrock",
+            Code = Code.FromAsset("LambdaBedrock/", new AssetOptions
             {
-                Bundling = buildOption
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_6.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command = new[]
+                    {
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                    }
+                }
             }),
             Role = bedrockAccessRole,
             Timeout = Duration.Seconds(30)

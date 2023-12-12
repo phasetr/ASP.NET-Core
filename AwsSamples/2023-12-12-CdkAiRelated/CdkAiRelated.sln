@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi", "ServerlessApi\ServerlessApi.csproj", "{9BFCA264-2614-4525-BD4F-D0EF9728735E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{07B62FAB-3BDB-4787-BBEE-135D6B70D1AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkAiRelated", "CdkAiRelated\CdkAiRelated.csproj", "{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaBedrock", "LambdaBedrock\LambdaBedrock.csproj", "{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +18,14 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BFCA264-2614-4525-BD4F-D0EF9728735E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B51610C-05D6-4B3B-A6E5-D941ECA170F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6CBD17-85F7-4A8E-8FC2-DB6C5DF9A05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

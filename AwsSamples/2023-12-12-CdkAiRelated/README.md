@@ -12,7 +12,7 @@ cdk deploy --profile dev --require-approval never
 - `API`側の確認
 
 ```shell
-export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-lambda-asp-net-core-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdklambdaaspnetcorestackapigwurldev`].OutputValue' --output text --profile dev) \
+export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-ai-related-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdkairelatedstackapigwurldev`].OutputValue' --output text --profile dev) \
   && echo ${API_GATEWAY_URL} \
   && curl -s ${API_GATEWAY_URL} \
   && curl -s ${API_GATEWAY_URL}one \
