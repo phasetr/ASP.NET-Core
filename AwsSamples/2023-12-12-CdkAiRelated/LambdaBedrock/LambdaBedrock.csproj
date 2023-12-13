@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.7.0"/>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.6.1"/>
+    <PackageReference Include="AWSSDK.BedrockRuntime" Version="3.7.301.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
   </ItemGroup>
 </Project>

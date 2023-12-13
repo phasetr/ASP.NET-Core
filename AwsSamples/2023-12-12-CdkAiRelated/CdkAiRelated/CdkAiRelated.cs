@@ -21,15 +21,15 @@ public class CdkAiRelated : Stack
         var bedrockAccessPolicy = new PolicyStatement(new PolicyStatementProps
         {
             Effect = Effect.ALLOW,
-            Actions = new[] {"bedrock:InvokeModel"},
+            Actions = new[] {"bedrock:*"},
             Resources = new[] {"*"}
         });
 
-        var bedrockAccessRole = new Role(this, $"{Prefix}-bedrock-access-role-{envName}", new RoleProps
+        var lambdaRole = new Role(this, $"{Prefix}-lambda-bedrock-role-{envName}", new RoleProps
         {
             AssumedBy = new ServicePrincipal("lambda.amazonaws.com")
         });
-        bedrockAccessRole.AddToPolicy(bedrockAccessPolicy);
+        lambdaRole.AddToPolicy(bedrockAccessPolicy);
 
         // Lambda
         var lambda = new Function(this, $"{Prefix}-serverless-api-{envName}", new FunctionProps
@@ -55,7 +55,7 @@ public class CdkAiRelated : Stack
                     }
                 }
             }),
-            Role = bedrockAccessRole,
+            Role = lambdaRole,
             Timeout = Duration.Seconds(30)
         });
 
