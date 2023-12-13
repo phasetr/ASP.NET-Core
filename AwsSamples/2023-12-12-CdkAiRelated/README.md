@@ -4,6 +4,29 @@
 - [[Amazon Bedrock] Lambda関数からBedrockを呼び出してみた](https://dev.classmethod.jp/articles/invoke-bedrock-form-lambda-function/)
 - 参考：[aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
 
+## Parameter Store
+
+- `.env.sample`から`.env`を作る
+- `OPENAI_API_KEY`の値を設定する
+- 次のコマンドを実行する
+
+```shell
+source .env
+echo ${OPENAI_API_KEY}
+```
+
+- `Parameter Store`に`OPENAI_API_KEY`を設定する
+
+```shell
+aws ssm put-parameter --name "OPENAI_API_KEY" --value ${OPENAI_API_KEY} --type SecureString
+```
+
+- `Parameter Store`に値が設定できたか確認する
+
+```shell
+aws ssm get-parameter --name "OPENAI_API_KEY" --with-decryption
+```
+
 ## CDK
 
 ### デプロイと実行確認
@@ -37,4 +60,4 @@ cdk destroy --profile dev
 ## OpenAiApp
 
 - コンソールアプリ
-- （`Rider`の）起動構成で`OPENAI_API_KEY`を設定する
+- 上記`Parameter Store`での手順をもとに`OPENAI_API_KEY`の値を設定する
