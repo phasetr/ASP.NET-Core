@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8ED38C4B-5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldLambda.Tests", "HelloWorldLambda\test\HelloWorldLambda.Tests\HelloWorldLambda.Tests.csproj", "{3D33285C-87DE-47E9-B33D-20C1B1527DF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{213D277F-A479-4EC0-A153-8BC99C3BA809}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{3D33285C-87DE-47E9-B33D-20C1B1527DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D33285C-87DE-47E9-B33D-20C1B1527DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D33285C-87DE-47E9-B33D-20C1B1527DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{213D277F-A479-4EC0-A153-8BC99C3BA809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{213D277F-A479-4EC0-A153-8BC99C3BA809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{213D277F-A479-4EC0-A153-8BC99C3BA809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{213D277F-A479-4EC0-A153-8BC99C3BA809}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{007BC729-9570-4EC3-9EEF-17D71D74C143} = {08373124-8125-4BF9-A6CA-88FBB09FAAF1}
