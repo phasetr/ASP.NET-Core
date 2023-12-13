@@ -18,6 +18,33 @@ public class CdkAiRelated : Stack
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;
 
+        // HelloWorldLambdaによるサンプル
+        var helloWorldLambdaFunction = new Function(this, $"{Prefix}-lambda-hello-world-{envName}", new FunctionProps
+        {
+            Runtime = Runtime.DOTNET_6,
+            MemorySize = 256,
+            LogRetention = RetentionDays.ONE_DAY,
+            Handler = "HelloWorldLambda::HelloWorldLambda.Function::FunctionHandler",
+            Code = Code.FromAsset("HelloWorldLambda/src/HelloWorldLambda", new AssetOptions
+            {
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_6.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command = new[]
+                    {
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                    }
+                }
+            })
+        });
+
+        // Lambda
         var lambdaRole = new Role(this, $"{Prefix}-lambda-role-{envName}", new RoleProps
         {
             AssumedBy = new ServicePrincipal("lambda.amazonaws.com")
@@ -28,15 +55,15 @@ public class CdkAiRelated : Stack
             Actions = new[] {"ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"},
             Resources = new[] {"arn:aws:ssm:ap-northeast-1:573143736992:parameter/OPENAI_API_KEY"}
         }));
-
-        // Lambda
         var lambda = new Function(this, $"{Prefix}-serverless-api-{envName}", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
             MemorySize = 256,
             LogRetention = RetentionDays.ONE_DAY,
-            Handler = "LambdaBedrock",
-            Code = Code.FromAsset("LambdaBedrock/", new AssetOptions
+            // Handler = "LambdaBedrock",
+            Handler = "HelloWorldLambda::HelloWorldLambda.Function::FunctionHandler",
+            // Code = Code.FromAsset("LambdaBedrock/", new AssetOptions
+            Code = Code.FromAsset("HelloWorldLambda/src/HelloWorldLambda", new AssetOptions
             {
                 Bundling = new BundlingOptions
                 {
@@ -64,9 +91,11 @@ public class CdkAiRelated : Stack
             Proxy = true
         });
 
-        var unused1 = new CfnOutput(this, $"{Prefix}-api-gw-tarn-{envName}",
+        var unused1 = new CfnOutput(this, $"{Prefix}-api-gw-arn-{envName}",
             new CfnOutputProps {Value = restApi.ArnForExecuteApi()});
         var unused2 = new CfnOutput(this, $"{Prefix}-api-gw-url-{envName}",
             new CfnOutputProps {Value = restApi.UrlForPath()});
+        var unused3 = new CfnOutput(this, $"{Prefix}-hello-world-lambda-fn-name",
+            new CfnOutputProps {Value = helloWorldLambdaFunction.FunctionName});
     }
 }

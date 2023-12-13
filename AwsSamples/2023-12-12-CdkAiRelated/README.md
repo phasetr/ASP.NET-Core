@@ -60,6 +60,26 @@ export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-ai-
 cdk destroy --profile dev
 ```
 
+## Lambdaのイベントハンドラーと呼び出しサンプル
+
+- `HelloWorldLambda`のソースコードを参照すること
+    - 参考、`Lambda`のイベントハンドラー作成：[AWS Cloud Development Kit (AWS CDK) を使用する場合](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/csharp-package-cdk.html)
+    - 参考、`Lambda`を`CLI`で実行する：[AWS LambdaでAWS CLIからさくっとInvokeしてログを確認する方法](https://qiita.com/kai_kou/items/0df1e4d01ef76f8ee85c)
+
+```shell
+fnName=$(aws cloudformation describe-stacks --stack-name cdk-ai-related-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdkairelatedstackhelloworldlambdafnname`].OutputValue' --output text --profile dev)
+dotnet lambda invoke-function ${fnName} -p '{ "input": "test with lower case" }'
+```
+
+```shell
+fnName=$(aws cloudformation describe-stacks --stack-name cdk-ai-related-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdkairelatedstackhelloworldlambdafnname`].OutputValue' --output text --profile dev)
+aws lambda invoke --function-name ${fnName} \
+  --payload '{ "input": "test with lower case" }' \
+  --log-type Tail \
+  --cli-binary-format raw-in-base64-out response.json \
+  --query 'LogResult' | tr -d '"' | base64 -D
+```
+
 ## LambdaBedrock
 
 - `ASP.NET Core`による`Lambda`の`API`アプリ
