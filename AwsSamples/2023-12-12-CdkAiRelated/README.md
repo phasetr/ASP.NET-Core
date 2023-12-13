@@ -46,7 +46,12 @@ export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-ai-
   && echo "" \
   && curl -s ${API_GATEWAY_URL}weather \
   && echo "" \
-  && curl -s ${API_GATEWAY_URL}openai | jq '.message'
+  && curl -s ${API_GATEWAY_URL}openai | jq '.message' \
+  && echo "" \
+  && curl -X 'POST' ${API_GATEWAY_URL}openai \
+  -H 'accept: text/plain' \
+  -H 'Content-Type: application/json' \
+  -d '{ "prompt": "富士山の高さは何メートルですか？" }' | jq '.message' 
 ```
 
 ### 環境削除
