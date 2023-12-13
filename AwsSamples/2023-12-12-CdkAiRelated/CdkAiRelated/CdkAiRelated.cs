@@ -18,7 +18,7 @@ public class CdkAiRelated : Stack
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;
 
-        // HelloWorldLambdaによるサンプル
+        // HelloWorldLambdaによるサンプル：CLIでの実行法はREADMEを参照
         var helloWorldLambdaFunction = new Function(this, $"{Prefix}-lambda-hello-world-{envName}", new FunctionProps
         {
             Runtime = Runtime.DOTNET_6,
