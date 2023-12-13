@@ -18,18 +18,16 @@ public class CdkAiRelated : Stack
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;
 
-        var bedrockAccessPolicy = new PolicyStatement(new PolicyStatementProps
-        {
-            Effect = Effect.ALLOW,
-            Actions = new[] {"bedrock:*"},
-            Resources = new[] {"*"}
-        });
-
-        var lambdaRole = new Role(this, $"{Prefix}-lambda-bedrock-role-{envName}", new RoleProps
+        var lambdaRole = new Role(this, $"{Prefix}-lambda-role-{envName}", new RoleProps
         {
             AssumedBy = new ServicePrincipal("lambda.amazonaws.com")
         });
-        lambdaRole.AddToPolicy(bedrockAccessPolicy);
+        lambdaRole.AddToPolicy(new PolicyStatement(new PolicyStatementProps
+        {
+            Effect = Effect.ALLOW,
+            Actions = new[] {"ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"},
+            Resources = new[] {"arn:aws:ssm:ap-northeast-1:573143736992:parameter/OPENAI_API_KEY"}
+        }));
 
         // Lambda
         var lambda = new Function(this, $"{Prefix}-serverless-api-{envName}", new FunctionProps
