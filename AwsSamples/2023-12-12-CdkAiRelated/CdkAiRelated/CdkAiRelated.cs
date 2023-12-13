@@ -81,7 +81,7 @@ public class CdkAiRelated : Stack
                 }
             }),
             Role = lambdaRole,
-            Timeout = Duration.Seconds(30)
+            Timeout = Duration.Minutes(2)
         });
 
         // API Gateway
