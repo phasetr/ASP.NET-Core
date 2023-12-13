@@ -17,7 +17,3 @@ var _ = new CdkAiRelated.CdkAiRelated(app, $"{stackName}-dev", new MyStackProps
     }
 });
 app.Synth();
-
-namespace CdkAiRelated
-{
-}
