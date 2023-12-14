@@ -1,13 +1,28 @@
 ﻿using Amazon.SimpleSystemsManagement;
+using Amazon.SimpleSystemsManagement.Model;
 using Common;
 using Microsoft.Extensions.DependencyInjection;
+using OpenAI_API;
 
 try
 {
+    // パラメータストアからAPIキーを取得
+    var request = new GetParameterRequest
+    {
+        Name = "OPENAI_API_KEY",
+        WithDecryption = true
+    };
+    var client = new AmazonSimpleSystemsManagementClient();
+    var response = await client.GetParameterAsync(request);
+    var apiKey = response.Parameter.Value;
+
     // DI
     var serviceCollection = new ServiceCollection();
-    serviceCollection.AddSingleton<IAmazonSimpleSystemsManagement, AmazonSimpleSystemsManagementClient>();
-    serviceCollection.AddTransient<IOpenAiRequest, OpenAiRequest>();
+    serviceCollection.AddScoped<IOpenAiRequest, OpenAiRequest>(_ =>
+    {
+        var api = new OpenAIAPI(apiKey);
+        return new OpenAiRequest(api);
+    });
     var serviceProvider = serviceCollection.BuildServiceProvider();
     var openAiRequest = serviceProvider.GetService<IOpenAiRequest>();
     if (openAiRequest == null)

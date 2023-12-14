@@ -1,5 +1,7 @@
 using Amazon.SimpleSystemsManagement;
+using Amazon.SimpleSystemsManagement.Model;
 using Common;
+using OpenAI_API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +14,22 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// パラメータストアからAPIキーを取得
+var request = new GetParameterRequest
+{
+    Name = "OPENAI_API_KEY",
+    WithDecryption = true
+};
+var client = new AmazonSimpleSystemsManagementClient();
+var response = await client.GetParameterAsync(request);
+var apiKey = response.Parameter.Value;
+
 // DI
-builder.Services.AddSingleton<IAmazonSimpleSystemsManagement, AmazonSimpleSystemsManagementClient>();
-builder.Services.AddScoped<IOpenAiRequest, OpenAiRequest>();
+builder.Services.AddScoped<IOpenAiRequest, OpenAiRequest>(_ =>
+{
+    var api = new OpenAIAPI(apiKey);
+    return new OpenAiRequest(api);
+});
 
 var app = builder.Build();
 

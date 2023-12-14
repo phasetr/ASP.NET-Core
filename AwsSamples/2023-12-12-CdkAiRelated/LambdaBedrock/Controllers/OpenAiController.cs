@@ -66,13 +66,13 @@ public class OpenAiController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ResponseBaseDto> GetAsync()
+    public async Task<ResponseBaseDto> GetAsync(string input = "富士山の高さは何メートルですか？")
     {
         _logger.LogInformation("OpenAiController.GetAsync");
 
         try
         {
-            var textContent = await _openAiRequest.CreateChatAsync("富士山の高さは何メートルですか？");
+            var textContent = await _openAiRequest.CreateChatAsync(input);
             _logger.LogInformation("{T}", textContent);
 
             return new ResponseBaseDto
