@@ -60,7 +60,7 @@ export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-ai-
 cdk destroy --profile dev
 ```
 
-## Lambdaのイベントハンドラーと呼び出しサンプル
+## `HelloWorldLambda`: `Lambda`のイベントハンドラーと呼び出しサンプル
 
 - `HelloWorldLambda`のソースコードを参照すること
     - 参考、`Lambda`のイベントハンドラー作成：[AWS Cloud Development Kit (AWS CDK) を使用する場合](https://docs.aws.amazon.com/ja_jp/lambda/latest/dg/csharp-package-cdk.html)
@@ -80,12 +80,15 @@ aws lambda invoke --function-name ${fnName} \
   --query 'LogResult' | tr -d '"' | base64 -D
 ```
 
-## LambdaBedrock
+## `LambdaLex`
+
+## `LambdaBedrock`
 
 - `ASP.NET Core`による`Lambda`の`API`アプリ
 - `ASP.NET Core`は`Lambda`だからと言って特別な処理・対処が必要なわけではない
+- 名前と違い、`API Gateway`とセットにした単なる`API`アプリ
 
-## OpenAiApp
+## `OpenAiApp`
 
 - コンソールアプリ
 - 上記`Parameter Store`での手順をもとに`OPENAI_API_KEY`の値を設定する
