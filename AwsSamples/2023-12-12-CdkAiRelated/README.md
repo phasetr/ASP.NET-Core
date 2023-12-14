@@ -3,6 +3,7 @@
 - [Amazon BedrockのClaudeとAmazon Connectを利用し、電話で色々な質問に答えてくれるコールセンター向けAIチャットボットを構築してみた](https://dev.classmethod.jp/articles/amazon-bedrock-claude-connect-lex/)
 - [[Amazon Bedrock] Lambda関数からBedrockを呼び出してみた](https://dev.classmethod.jp/articles/invoke-bedrock-form-lambda-function/)
 - 参考：[aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
+- `Lambda`で`DI`を使ってテストを書く参考：[serverless-test-samples/dotnet-test-samples](https://github.com/aws-samples/serverless-test-samples/tree/main/dotnet-test-samples)
 
 ## Parameter Store
 

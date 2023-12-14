@@ -1,12 +1,10 @@
+using System.ComponentModel.Design;
 using System.Text.Json;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.LexV2Events;
 using Amazon.Lambda.Serialization.SystemTextJson;
-using Amazon.SimpleSystemsManagement;
-using Amazon.SimpleSystemsManagement.Model;
 using Common;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI_API;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
@@ -15,11 +13,26 @@ namespace LambdaConnectLex;
 
 public class Function
 {
-    private IOpenAiRequest _openAiRequest;
+    private readonly IOpenAiRequest _openAiRequest;
 
-    public Function(IOpenAiRequest openAiRequest)
+    public Function() : this(Startup.ServiceProvider)
     {
-        _openAiRequest = openAiRequest;
+    }
+
+    public Function(IOpenAiRequest openAiRequest) : this(NewServiceProvider(openAiRequest))
+    {
+    }
+
+    private Function(IServiceProvider serviceProvider)
+    {
+        _openAiRequest = serviceProvider.GetRequiredService<IOpenAiRequest>();
+    }
+
+    private static IServiceProvider NewServiceProvider(IOpenAiRequest openAiRequest)
+    {
+        var container = new ServiceContainer();
+        container.AddService(typeof(IOpenAiRequest), openAiRequest);
+        return container;
     }
 
     /// <summary>
@@ -30,26 +43,6 @@ public class Function
     /// <returns></returns>
     public async Task<string> FunctionHandler(LexV2Event lexV2Event, ILambdaContext context)
     {
-        // パラメータストアからAPIキーを取得
-        var request = new GetParameterRequest
-        {
-            Name = "OPENAI_API_KEY",
-            WithDecryption = true
-        };
-        var client = new AmazonSimpleSystemsManagementClient();
-        var parameterResponse = await client.GetParameterAsync(request);
-        var apiKey = parameterResponse.Parameter.Value;
-
-        // DI
-        var serviceCollection = new ServiceCollection();
-        serviceCollection.AddScoped<IOpenAiRequest, OpenAiRequest>(_ =>
-        {
-            var api = new OpenAIAPI(apiKey);
-            return new OpenAiRequest(api);
-        });
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        _openAiRequest = serviceProvider.GetService<IOpenAiRequest>() ?? throw new InvalidOperationException();
-
         Console.WriteLine("Received LexV2Event: " + JsonSerializer.Serialize(lexV2Event));
         var intentName = lexV2Event.SessionState.Intent.Name;
         if (intentName != "bedrock") return "お力になれず申し訳ありません。電話を切ります。";

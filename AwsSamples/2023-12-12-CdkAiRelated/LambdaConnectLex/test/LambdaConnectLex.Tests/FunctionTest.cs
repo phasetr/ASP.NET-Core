@@ -9,10 +9,10 @@ namespace LambdaConnectLex.Tests;
 public class FunctionTest
 {
     [Fact]
-    public async Task TestToUpperFunction()
+    public async Task TestFunction()
     {
         var mockOpenAiRequest = Substitute.For<IOpenAiRequest>();
-        mockOpenAiRequest.CreateChatAsync("hello world")
+        mockOpenAiRequest.CreateChatAsync(Arg.Any<string>())
             .Returns("HELLO WORLD");
         // Invoke the lambda function and confirm the string was upper cased.
         var function = new Function(mockOpenAiRequest);
