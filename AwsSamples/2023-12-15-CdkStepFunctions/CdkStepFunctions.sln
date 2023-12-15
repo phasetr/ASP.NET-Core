@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkStepFunctions", "Cdk\CdkStepFunctions.csproj", "{BB1785E4-D92B-4799-9152-41B99D82A80F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaSample1", "LambdaSample1\src\LambdaSample1\LambdaSample1.csproj", "{D85A8F0F-3166-432D-889F-4081548B2B38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB1785E4-D92B-4799-9152-41B99D82A80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1785E4-D92B-4799-9152-41B99D82A80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1785E4-D92B-4799-9152-41B99D82A80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1785E4-D92B-4799-9152-41B99D82A80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D85A8F0F-3166-432D-889F-4081548B2B38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D85A8F0F-3166-432D-889F-4081548B2B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D85A8F0F-3166-432D-889F-4081548B2B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D85A8F0F-3166-432D-889F-4081548B2B38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
