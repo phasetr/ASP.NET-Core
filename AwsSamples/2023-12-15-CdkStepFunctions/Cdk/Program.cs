@@ -2,5 +2,5 @@
 using CdkStepFunctions;
 
 var app = new App();
-var unused1 = new CdkStepFunctionsStack(app, "CdkStepFunctionsStack");
+var unused1 = new CdkStepFunctionsStack(app, "cdk-step-functions-stack");
 app.Synth();

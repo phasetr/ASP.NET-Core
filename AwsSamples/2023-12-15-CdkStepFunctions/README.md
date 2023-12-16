@@ -10,25 +10,25 @@
 - サンプルの`Step Functions`実行
 
 ```shell
-stackName=CdkStepFunctionsStack
-runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1)
-arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine1arn`].OutputValue' --output text --profile dev)
-aws stepfunctions start-execution \
-  --state-machine-arn ${arn} \
-  --name ${runName} \
-  --input '{"name":"World"}'
-echo runName: ${runName}
+stackName=cdk-step-functions-stack \
+  && runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1) \
+  && arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine1arn`].OutputValue' --output text --profile dev) \
+  && aws stepfunctions start-execution \
+    --state-machine-arn ${arn} \
+    --name ${runName} \
+    --input '{"name":"World"}' \
+  && echo runName: ${runName}
 ```
 
 ## AWS Step FunctionsとLambdaを使ってじゃんけんのフローを作ってみた
 
 ```shell
-stackName=CdkStepFunctionsStack
-runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1)
-arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine2arn`].OutputValue' --output text --profile dev)
-aws stepfunctions start-execution \
-  --state-machine-arn ${arn} \
-  --name ${runName} \
-  --input '{"throw": "1"}'
-echo runName: ${runName}
+stackName=cdk-step-functions-stack \
+ && runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1) \
+ && arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine2arn`].OutputValue' --output text --profile dev) \
+ && aws stepfunctions start-execution \
+   --state-machine-arn ${arn} \
+   --name ${runName} \
+   --input '{"throw": "1"}' \
+ && echo runName: ${runName}
 ```

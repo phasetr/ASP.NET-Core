@@ -41,6 +41,7 @@ public class CdkStepFunctionsStack : Stack
         });
         var stateMachine1 = new StateMachine(this, $"{Prefix}-state-machine1", new StateMachineProps
         {
+            StateMachineName = $"{Prefix}-state-machine1-name",
             DefinitionBody = DefinitionBody.FromChainable(new LambdaInvoke(this, $"{Prefix}-lambda-task1",
                     new LambdaInvokeProps
                     {
@@ -62,17 +63,18 @@ public class CdkStepFunctionsStack : Stack
             Code = Code.FromAsset("Cdk")
         });
         // 最終ステート
-        var lastState2 = new Succeed(this, $"{Prefix}-last-state2");
+        var lastState2 = new Succeed(this, "LastState");
         var stateMachine2 = new StateMachine(this, $"{Prefix}-state-machine2", new StateMachineProps
         {
+            Comment = "Tomato",
             StateMachineName = $"{Prefix}-state-machine2-name",
-            DefinitionBody = DefinitionBody.FromChainable(new LambdaInvoke(this, $"{Prefix}-lambda2-first-state",
+            DefinitionBody = DefinitionBody.FromChainable(new LambdaInvoke(this, "FirstState",
                     new LambdaInvokeProps
                     {
                         LambdaFunction = lambda2,
                         Payload = TaskInput.FromJsonPathAt("$.throw")
                     })
-                .Next(new Choice(this, $"{Prefix}-choice-state2")
+                .Next(new Choice(this, "ChoiceState")
                     .When(Condition.StringEquals("$.bar", "Tied"),
                         new Pass(this, "Tied", new PassProps
                             {
@@ -91,7 +93,7 @@ public class CdkStepFunctionsStack : Stack
                                 Result = Result.FromString("Lost")
                             })
                             .Next(lastState2))
-                    .Otherwise(new Fail(this, $"{Prefix}-default-state2", new FailProps {Cause = "Not match"}))))
+                    .Otherwise(new Fail(this, "DefaultState", new FailProps {Cause = "Not match"}))))
         });
 
         #endregion

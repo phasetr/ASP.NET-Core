@@ -1,0 +1,58 @@
+{
+  "Comment": "Tomato",
+  "StartAt": "FirstState",
+  "States": {
+    "FirstState": {
+      "Type": "Task",
+      "Resource": "作成したLamdaの実行を指定",
+      "Parameters": {
+        "InputPath.$": "$.throw"
+      },
+      "Next": "ChoiceState"
+    },
+    "ChoiceState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.bar",
+          "StringEquals": "Tied",
+          "Next": "Tied"
+        },
+        {
+          "Variable": "$.bar",
+          "StringEquals": "You win",
+          "Next": "Won"
+        },
+        {
+          "Variable": "$.bar",
+          "StringEquals": "You lose",
+          "Next": "Lost"
+        }
+      ],
+      "Default": "DefaultState"
+    },
+    "Tied": {
+      "Type": "Pass",
+      "Result": "Tied",
+      "Next": "LastState"
+    },
+    "Won": {
+      "Type": "Pass",
+      "Result": "Won",
+      "Next": "LastState"
+    },
+    "Lost": {
+      "Type": "Pass",
+      "Result": "Lost",
+      "Next": "LastState"
+    },
+    "DefaultState": {
+      "Type": "Fail",
+      "Cause": "Not match"
+    },
+    "LastState": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
