@@ -22,6 +22,8 @@ stackName=cdk-step-functions-stack \
 
 ## AWS Step FunctionsとLambdaを使ってじゃんけんのフローを作ってみた
 
+### `Python`版
+
 ```shell
 stackName=cdk-step-functions-stack \
  && runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1) \
@@ -30,5 +32,21 @@ stackName=cdk-step-functions-stack \
    --state-machine-arn ${arn} \
    --name ${runName} \
    --input '{"throw": "1"}' \
+ && echo runName: ${runName}
+```
+
+### `C#`
+
+- `TODO`: `LambdaSample3/src/Function.cs`を適切に修正する必要あり
+    - 修正できたら`LambdaSample1`も入力をログ出力して確認しよう
+
+```shell
+stackName=cdk-step-functions-stack \
+ && runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1) \
+ && arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine3arn`].OutputValue' --output text --profile dev) \
+ && aws stepfunctions start-execution \
+   --state-machine-arn ${arn} \
+   --name ${runName} \
+   --input '{"Input": "1"}' \
  && echo runName: ${runName}
 ```

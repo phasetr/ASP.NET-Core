@@ -14,6 +14,7 @@ public class CdkStepFunctionsStack : Stack
 
     internal CdkStepFunctionsStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
     {
+        /*
         #region "Step Functions 1"
 
         var helloFunction = new Function(this, $"{Prefix}-lambda1", new FunctionProps
@@ -97,16 +98,82 @@ public class CdkStepFunctionsStack : Stack
         });
 
         #endregion
+        */
+
+        #region "Step Functions 3"
+
+        var lambda3 = new Function(this, $"{Prefix}-lambda3", new FunctionProps
+        {
+            Runtime = Runtime.DOTNET_6,
+            MemorySize = 256,
+            LogRetention = RetentionDays.ONE_DAY,
+            Handler = "LambdaSample3::LambdaSample3.Function::FunctionHandler",
+            Code = Code.FromAsset("LambdaSample3/src/LambdaSample3", new AssetOptions
+            {
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_6.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command = new[]
+                    {
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                    }
+                }
+            })
+        });
+        // 最終ステート
+        var lastState3 = new Succeed(this, "LastState3");
+        var stateMachine3 = new StateMachine(this, $"{Prefix}-state-machine3", new StateMachineProps
+        {
+            Comment = "Tomato",
+            StateMachineName = $"{Prefix}-state-machine3-name",
+            DefinitionBody = DefinitionBody.FromChainable(new LambdaInvoke(this, "FirstState3",
+                    new LambdaInvokeProps
+                    {
+                        LambdaFunction = lambda3
+                    })
+                .Next(new Choice(this, "ChoiceState3")
+                    .When(Condition.StringEquals("$.Bar", "Tied"),
+                        new Pass(this, "Tied3", new PassProps
+                            {
+                                Result = Result.FromString("Tied")
+                            })
+                            .Next(lastState3))
+                    .When(Condition.StringEquals("$.Bar", "You win"),
+                        new Pass(this, "Won3", new PassProps
+                            {
+                                Result = Result.FromString("Won")
+                            })
+                            .Next(lastState3))
+                    .When(Condition.StringEquals("$.Bar", "You lose"),
+                        new Pass(this, "Lost3", new PassProps
+                            {
+                                Result = Result.FromString("Lost")
+                            })
+                            .Next(lastState3))
+                    .Otherwise(new Fail(this, "DefaultState3", new FailProps {Cause = "Not match"}))))
+        });
+
+        #endregion
 
         #region Outputs
 
-        var unused1 = new CfnOutput(this, $"{Prefix}-state-machine1-arn", new CfnOutputProps
+        // var unused1 = new CfnOutput(this, $"{Prefix}-state-machine1-arn", new CfnOutputProps
+        // {
+        //     Value = stateMachine1.StateMachineArn
+        // });
+        // var unused2 = new CfnOutput(this, $"{Prefix}-state-machine2-arn", new CfnOutputProps
+        // {
+        //     Value = stateMachine2.StateMachineArn
+        // });
+        var unused3 = new CfnOutput(this, $"{Prefix}-state-machine3-arn", new CfnOutputProps
         {
-            Value = stateMachine1.StateMachineArn
-        });
-        var unused2 = new CfnOutput(this, $"{Prefix}-state-machine2-arn", new CfnOutputProps
-        {
-            Value = stateMachine2.StateMachineArn
+            Value = stateMachine3.StateMachineArn
         });
 
         #endregion

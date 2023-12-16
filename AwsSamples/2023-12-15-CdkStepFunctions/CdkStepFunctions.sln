@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdkStepFunctions", "Cdk\Cdk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaSample1", "LambdaSample1\src\LambdaSample1\LambdaSample1.csproj", "{D85A8F0F-3166-432D-889F-4081548B2B38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LambdaSample3", "LambdaSample3\src\LambdaSample3\LambdaSample3.csproj", "{B6536C82-30F1-4307-B4BF-D33BB8C49960}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D85A8F0F-3166-432D-889F-4081548B2B38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D85A8F0F-3166-432D-889F-4081548B2B38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D85A8F0F-3166-432D-889F-4081548B2B38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6536C82-30F1-4307-B4BF-D33BB8C49960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6536C82-30F1-4307-B4BF-D33BB8C49960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6536C82-30F1-4307-B4BF-D33BB8C49960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6536C82-30F1-4307-B4BF-D33BB8C49960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
