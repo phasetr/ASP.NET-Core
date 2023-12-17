@@ -42,7 +42,8 @@ aws stepfunctions --endpoint-url http://localhost:8083 list-state-machines --que
 aws stepfunctions --endpoint-url http://localhost:8083 list-state-machines --query 'stateMachines[*].{name:name,arn:stateMachineArn}' \
   && arn=$(aws stepfunctions --endpoint-url http://localhost:8083 list-state-machines --query 'stateMachines[0].{arn:stateMachineArn}' --output text) \
   && echo ${arn} \
-  && aws stepfunctions --endpoint-url http://localhost:8083 start-execution --state-machine-arn ${arn}
+  && executionArn=$(aws stepfunctions --endpoint-url http://localhost:8083 start-execution --state-machine-arn ${arn} --query 'executionArn' --output text) \
+  && aws stepfunctions describe-execution --endpoint-url http://localhost:8083 --execution-arn ${executionArn} --output text
 ```
 
 ## [AWS Step Functions Localでモックテストをする](https://qiita.com/taskforce_Hisui/items/397ed38f0cdae94b0941)
