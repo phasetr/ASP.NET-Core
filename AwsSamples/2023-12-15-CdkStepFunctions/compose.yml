@@ -1,0 +1,13 @@
+version: "3"
+services:
+  statemachine:
+    image: amazon/aws-stepfunctions-local:latest
+    container_name: "statemachine"
+    ports:
+      - 8083:8083
+    # environment:
+    #   - SFN_MOCK_CONFIG=/home/StepFunctionsLocal/MockConfigFile.json
+    # volumes:
+    #   - ./statemachine:/home/StepFunctionsLocal
+    # env_file:
+    #   - ./statemachine/.env
