@@ -164,11 +164,13 @@ stackName=cdk-step-functions-stack \
 stackName=cdk-step-functions-stack \
  && runName=$(openssl rand -base64 100 | tr -dc 'a-zA-Z' | fold -w 10 | head -n 1) \
  && arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine2arn`].OutputValue' --output text --profile dev) \
- && aws stepfunctions start-execution \
+ && executionArn=$(aws stepfunctions start-execution \
    --state-machine-arn ${arn} \
    --name ${runName} \
    --input '{"throw": "1"}' \
- && echo runName: ${runName}
+   --query 'executionArn' --output text) \
+ && echo runName: ${runName} \
+ && aws stepfunctions describe-execution --execution-arn ${executionArn} --output text
 ```
 
 ### `C#`

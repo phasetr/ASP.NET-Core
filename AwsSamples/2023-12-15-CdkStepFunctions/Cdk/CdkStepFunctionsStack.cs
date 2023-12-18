@@ -52,6 +52,7 @@ public class CdkStepFunctionsStack : Stack
         });
 
         #endregion
+        */
 
         #region "Step Functions 2"
 
@@ -72,8 +73,7 @@ public class CdkStepFunctionsStack : Stack
             DefinitionBody = DefinitionBody.FromChainable(new LambdaInvoke(this, "FirstState",
                     new LambdaInvokeProps
                     {
-                        LambdaFunction = lambda2,
-                        Payload = TaskInput.FromJsonPathAt("$.throw")
+                        LambdaFunction = lambda2
                     })
                 .Next(new Choice(this, "ChoiceState")
                     .When(Condition.StringEquals("$.bar", "Tied"),
@@ -98,7 +98,6 @@ public class CdkStepFunctionsStack : Stack
         });
 
         #endregion
-        */
 
         #region "Step Functions 3"
 
@@ -167,10 +166,10 @@ public class CdkStepFunctionsStack : Stack
         // {
         //     Value = stateMachine1.StateMachineArn
         // });
-        // var unused2 = new CfnOutput(this, $"{Prefix}-state-machine2-arn", new CfnOutputProps
-        // {
-        //     Value = stateMachine2.StateMachineArn
-        // });
+        var unused2 = new CfnOutput(this, $"{Prefix}-state-machine2-arn", new CfnOutputProps
+        {
+            Value = stateMachine2.StateMachineArn
+        });
         var unused3 = new CfnOutput(this, $"{Prefix}-state-machine3-arn", new CfnOutputProps
         {
             Value = stateMachine3.StateMachineArn
