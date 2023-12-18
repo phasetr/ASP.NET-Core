@@ -175,8 +175,17 @@ stackName=cdk-step-functions-stack \
 
 ### `C#`
 
-- `TODO`: `LambdaSample3/src/Function.cs`を適切に修正する必要あり
-    - 修正できたら`LambdaSample1`も入力をログ出力して確認しよう
+- `CDK`でデプロイ
+
+```shell
+cdk deploy --require-approval never
+```
+
+```shell
+cdk deploy --require-approval never --hotswap
+```
+
+- `Step Functions`の実行
 
 ```shell
 stackName=cdk-step-functions-stack \
@@ -189,4 +198,13 @@ stackName=cdk-step-functions-stack \
    --query 'executionArn' --output text) \
  && echo runName: ${runName} \
  && aws stepfunctions describe-execution --execution-arn ${executionArn} --output text
+```
+
+- `Step Functions`の`ASL`の取得
+
+```shell
+stackName=cdk-step-functions-stack \
+  && arn=$(aws cloudformation describe-stacks --stack-name ${stackName} --query 'Stacks[].Outputs[?OutputKey==`cdkstepfunctionsstatemachine3arn`].OutputValue' --output text --profile dev) \
+  && aws stepfunctions describe-state-machine \
+  --state-machine-arn ${arn} --query "definition" --output text > statemachine3.asl.tmp.json
 ```
