@@ -62,7 +62,7 @@ public class CdkStepFunctionsStack : Stack
             MemorySize = 256,
             LogRetention = RetentionDays.ONE_DAY,
             Handler = "lambda.lambda_handler",
-            Code = Code.FromAsset("Cdk")
+            Code = Code.FromAsset("LambdaSample2")
         });
         // 最終ステート
         var lastState2 = new Succeed(this, "LastState");
