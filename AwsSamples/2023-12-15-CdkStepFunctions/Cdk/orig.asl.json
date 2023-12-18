@@ -3,12 +3,25 @@
   "StartAt": "FirstState",
   "States": {
     "FirstState": {
+      "Next": "ChoiceState",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ClientExecutionTimeoutException",
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
       "Type": "Task",
-      "Resource": "作成したLamdaの実行を指定",
+      "Resource": "作成したLambdaの実行を指定",
       "Parameters": {
         "InputPath.$": "$.throw"
-      },
-      "Next": "ChoiceState"
+      }
     },
     "ChoiceState": {
       "Type": "Choice",
