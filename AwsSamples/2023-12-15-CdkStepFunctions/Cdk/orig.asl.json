@@ -1,5 +1,4 @@
 {
-  "Comment": "Tomato",
   "StartAt": "FirstState",
   "States": {
     "FirstState": {
@@ -67,5 +66,6 @@
       "Type": "Pass",
       "End": true
     }
-  }
+  },
+  "Comment": "Tomato"
 }
