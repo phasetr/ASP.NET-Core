@@ -137,19 +137,19 @@ public class CdkStepFunctionsStack : Stack
                         LambdaFunction = lambda3
                     })
                 .Next(new Choice(this, "ChoiceState3")
-                    .When(Condition.StringEquals("$.Bar", "Tied"),
+                    .When(Condition.StringEquals("$.Payload.Bar", "Tied"),
                         new Pass(this, "Tied3", new PassProps
                             {
                                 Result = Result.FromString("Tied")
                             })
                             .Next(lastState3))
-                    .When(Condition.StringEquals("$.Bar", "You win"),
+                    .When(Condition.StringEquals("$.Payload.Bar", "You win"),
                         new Pass(this, "Won3", new PassProps
                             {
                                 Result = Result.FromString("Won")
                             })
                             .Next(lastState3))
-                    .When(Condition.StringEquals("$.Bar", "You lose"),
+                    .When(Condition.StringEquals("$.Payload.Bar", "You lose"),
                         new Pass(this, "Lost3", new PassProps
                             {
                                 Result = Result.FromString("Lost")

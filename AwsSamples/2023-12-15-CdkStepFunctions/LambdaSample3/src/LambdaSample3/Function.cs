@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.SystemTextJson;
 
@@ -9,7 +10,8 @@ namespace LambdaSample3;
 
 public class Payload
 {
-    public string Input { get; set; } = string.Empty;
+    [JsonPropertyName("throw")]
+    public string Throw { get; set; } = string.Empty;
 }
 
 public class MyResponse
@@ -35,11 +37,11 @@ public class Function
             var random = new Random();
             var rand = random.Next(1, 4);
             Console.WriteLine($"payloadのダンプ");
-            // Console.WriteLine(ObjectDumper(payload));
             var jsonString = JsonSerializer.Serialize(payload);
             Console.WriteLine(jsonString);
+            var inputObject = JsonSerializer.Deserialize<Payload>(jsonString);
 
-            var input = int.Parse(payload.Input);
+            var input = int.Parse(inputObject.Throw);
             Console.WriteLine($"input: {input}");
 
             string result;
@@ -63,12 +65,5 @@ public class Function
                 Bar = "Exception"
             };
         }
-    }
-
-    private static string ObjectDumper(object obj)
-    {
-        var type = obj.GetType();
-        var properties = type.GetProperties();
-        return string.Join(", ", properties.Select(p => $"{p.Name}: {p.GetValue(obj)}"));
     }
 }
