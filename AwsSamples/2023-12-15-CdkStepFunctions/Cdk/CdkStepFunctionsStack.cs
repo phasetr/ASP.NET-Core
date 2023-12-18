@@ -76,19 +76,19 @@ public class CdkStepFunctionsStack : Stack
                         LambdaFunction = lambda2
                     })
                 .Next(new Choice(this, "ChoiceState")
-                    .When(Condition.StringEquals("$.bar", "Tied"),
+                    .When(Condition.StringEquals("$.Payload.bar", "Tied"),
                         new Pass(this, "Tied", new PassProps
                             {
                                 Result = Result.FromString("Tied")
                             })
                             .Next(lastState2))
-                    .When(Condition.StringEquals("$.bar", "You win"),
+                    .When(Condition.StringEquals("$.Payload.bar", "You win"),
                         new Pass(this, "Won", new PassProps
                             {
                                 Result = Result.FromString("Won")
                             })
                             .Next(lastState2))
-                    .When(Condition.StringEquals("$.bar", "You lose"),
+                    .When(Condition.StringEquals("$.Payload.bar", "You lose"),
                         new Pass(this, "Lost", new PassProps
                             {
                                 Result = Result.FromString("Lost")
@@ -167,13 +167,9 @@ public class CdkStepFunctionsStack : Stack
         //     Value = stateMachine1.StateMachineArn
         // });
         var unused2 = new CfnOutput(this, $"{Prefix}-state-machine2-arn", new CfnOutputProps
-        {
-            Value = stateMachine2.StateMachineArn
-        });
+            {Value = stateMachine2.StateMachineArn});
         var unused3 = new CfnOutput(this, $"{Prefix}-state-machine3-arn", new CfnOutputProps
-        {
-            Value = stateMachine3.StateMachineArn
-        });
+            {Value = stateMachine3.StateMachineArn});
 
         #endregion
     }

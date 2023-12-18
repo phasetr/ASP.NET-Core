@@ -1,0 +1,71 @@
+{
+  "StartAt": "FirstState",
+  "States": {
+    "FirstState": {
+      "Next": "ChoiceState",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ClientExecutionTimeoutException",
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "作成したLambdaの実行を指定",
+        "Payload.$": "$.throw"
+      }
+    },
+    "ChoiceState": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.bar",
+          "StringEquals": "Tied",
+          "Next": "Tied"
+        },
+        {
+          "Variable": "$.bar",
+          "StringEquals": "You win",
+          "Next": "Won"
+        },
+        {
+          "Variable": "$.bar",
+          "StringEquals": "You lose",
+          "Next": "Lost"
+        }
+      ],
+      "Default": "DefaultState"
+    },
+    "DefaultState": {
+      "Type": "Fail",
+      "Cause": "Not match"
+    },
+    "Tied": {
+      "Type": "Pass",
+      "Result": "Tied",
+      "Next": "LastState"
+    },
+    "LastState": {
+      "Type": "Succeed"
+    },
+    "Won": {
+      "Type": "Pass",
+      "Result": "Won",
+      "Next": "LastState"
+    },
+    "Lost": {
+      "Type": "Pass",
+      "Result": "Lost",
+      "Next": "LastState"
+    }
+  },
+  "Comment": "Tomato"
+}
