@@ -36,9 +36,10 @@ public class Function
         {
             var random = new Random();
             var rand = random.Next(1, 4);
-            Console.WriteLine($"payloadのダンプ");
+            Console.WriteLine($"rand: {rand}");
+            Console.WriteLine("payloadのダンプ");
+            Console.WriteLine(payload);
             var jsonString = JsonSerializer.Serialize(payload);
-            Console.WriteLine(jsonString);
             var inputObject = JsonSerializer.Deserialize<Payload>(jsonString);
 
             var input = int.Parse(inputObject.Throw);
@@ -46,10 +47,10 @@ public class Function
 
             string result;
             if (input == rand) result = "Tied";
-            else if (input == 3 && rand == 1) result = "You Win";
-            else if (input == 1 && rand == 3) result = "You Lose";
-            else if (input < rand) result = "You Win";
-            else if (input > rand) result = "You Lose";
+            else if (input == 3 && rand == 1) result = "You win";
+            else if (input == 1 && rand == 3) result = "You lose";
+            else if (input < rand) result = "You win";
+            else if (input > rand) result = "You lose";
             else result = "Error";
             return new MyResponse
             {
