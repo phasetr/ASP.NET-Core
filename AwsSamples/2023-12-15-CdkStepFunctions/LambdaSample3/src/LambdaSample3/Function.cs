@@ -30,19 +30,14 @@ public class Function
     /// <param name="payload"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public MyResponse FunctionHandler(dynamic payload, ILambdaContext context)
+    public MyResponse FunctionHandler(Payload payload, ILambdaContext context)
     {
         try
         {
             var random = new Random();
             var rand = random.Next(1, 4);
             Console.WriteLine($"rand: {rand}");
-            Console.WriteLine("payloadのダンプ");
-            Console.WriteLine(payload);
-            var jsonString = JsonSerializer.Serialize(payload);
-            var inputObject = JsonSerializer.Deserialize<Payload>(jsonString);
-
-            var input = int.Parse(inputObject.Throw);
+            var input = int.Parse(payload.Throw);
             Console.WriteLine($"input: {input}");
 
             string result;
