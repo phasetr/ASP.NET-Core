@@ -1,5 +1,6 @@
 # README
 
+- [公式デベロッパーガイド](https://docs.aws.amazon.com/ja_jp/step-functions/latest/dg/welcome.html)
 - [ステートマシンをローカルでテストする](https://docs.aws.amazon.com/ja_jp/step-functions/latest/dg/sfn-local.html)
     - `Docker`を使う
     - 参考：[AWS Step Functions Localでモックテストをする](https://qiita.com/taskforce_Hisui/items/397ed38f0cdae94b0941)

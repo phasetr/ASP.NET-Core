@@ -9,11 +9,6 @@ var unused1 = new CdkSamBlazorAspNetCoreDynamoDbStack(app, $"{stackName}-dev", n
     MyConfiguration = new MyConfiguration
     {
         EnvironmentName = "dev"
-    },
-    Env = new Environment
-    {
-        Account = "573143736992",
-        Region = "ap-northeast-1"
     }
 });
 app.Synth();
