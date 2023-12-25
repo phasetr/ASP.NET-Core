@@ -14,7 +14,62 @@
 cdk deploy --require-approval never --hotswap
 ```
 
-## `Step Functions Local`
+## 公式チュートリアル
+
+### チュートリアル6まで
+
+- [AWS Step Functions の開始方法](https://docs.aws.amazon.com/ja_jp/step-functions/latest/dg/getting-started-with-sfn.html)
+- チュートリアル4では`Parallel State`のペイロードを固定している
+- コンソールから次の入力でステートマシンを実行する
+
+```json
+{
+  "email": "janedoe@example.com ",
+  "ssn": "012-00-0000"
+}
+```
+
+- `Wait for human approval`を進めるには、メールで送られてきたタスクトークンをコマンドで送信する
+
+```shell
+taskToken=<トークンを入力>
+aws stepfunctions send-task-success --task-token ${taskToken} --task-output "{}"
+```
+
+### チュートリアル7-8
+
+- 入力は次の通り
+
+```shell
+{
+  "data": {
+    "firstname": "Jane",
+    "lastname": "Doe",
+    "identity": {
+      "email": "jdoe@example.com",
+      "ssn": "123-45-6789"
+    },
+    "address": {
+      "street": "123 Main St",
+      "city": "Columbus",
+      "state": "OH",
+      "zip": "43219"
+    }
+  }
+}
+```
+
+- `Wait for human approval`を進めるには、メールで送られてきたタスクトークンをコマンドで送信する
+
+```shell
+taskToken=<トークンを入力>
+taskToken=AQB8AAAAKgAAAAMAAAAAAAAAATLD7jINtUEyTHc2DAM98GAsnBhXr3WXTwJ0znW6ZTBspcypwc2t49HKzmBSJ3fFGPRCTv/w0N7XbSpMyNNFnXz5hZ5FyvQPLikbng==RUGWDNZyKCK3rCcS7EXDBnZspsvLrt2pA2VP7XZ/YZLtYNNFHDKmZCrQfnW4ILQHGCsVQWrzM4kZFtmONChlWQg8DnGvdaSdzQ8xEP6QOXWOpdZo9/YOPBrnzZ3ptT65Izv0XmD36cFJF/2ZXFHHpV/R92Ri+CDjILPS0JoBAtboELLkBKJZN0yvLHqRRUTdS1z2tOVf7mKpzprvsjd+NW3kxCSYXH55Fgox8j9eNSPznFWjMpa/9LD9U9RUkYDC72U5SdLJLmuOgibBAvzJGRuUutVxVI7VHXcU3aYD0/KU2MHceLdO691TlAnsEVxhS8DhbphvbVDpXqmtkIdmSC68SpGwTTKnWQ+dJXq/gs2LcDH98jjxBQ4n+irQb9xCNO5TJ9Pl3ZNu8XnAaggrNoqQnKRWuossucTMecQBjEh0iJBHwYxpxi1joLOtxZhVXtKZy6AFeXUwbEWJjDD7X4D/WASP1p9NfJHNyPAX6cghN0VbWmnm5dSVVR9TSkXpduaNBRToI/1HO8FEsqvH
+aws stepfunctions send-task-success --task-token ${taskToken} --task-output "{}"
+```
+
+### `AWS CLI`で`Step Functions`を実行
+
+## `TODO`: `Step Functions Local`
 
 - TODO：[【Docker】Step Functions localとSAM LocalをDocker内で使用してみる](https://kakkoyakakko2.hatenablog.com/entry/aws-sfn-local)
 - [Docker の認証情報と設定](https://docs.aws.amazon.com/ja_jp/step-functions/latest/dg/sfn-local-config-options.html)
