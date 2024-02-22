@@ -9,15 +9,8 @@ namespace WebApiDynamodbLocal.Controllers.BigTimeDeals;
 
 [Route(ApiPath.Category)]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoryController(ICategoryService categoryService) : ControllerBase
 {
-    private readonly ICategoryService _categoryService;
-
-    public CategoryController(ICategoryService categoryService)
-    {
-        _categoryService = categoryService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string name)
     {
@@ -28,7 +21,7 @@ public class CategoryController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _categoryService.GetAsync(name);
+        var response = await categoryService.GetAsync(name);
         return Ok(response);
     }
 
@@ -51,7 +44,7 @@ public class CategoryController : ControllerBase
             LikeCount = 0,
             WatchCount = 0
         };
-        var response = await _categoryService.CreateAsync(category);
+        var response = await categoryService.CreateAsync(category);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Key.CategoryPk(dto.Name)}, response);
     }

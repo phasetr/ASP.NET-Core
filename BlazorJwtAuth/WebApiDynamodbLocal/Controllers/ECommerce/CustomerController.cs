@@ -9,15 +9,8 @@ namespace WebApiDynamodbLocal.Controllers.ECommerce;
 
 [Route(ApiPath.Customer)]
 [ApiController]
-public class CustomerController : ControllerBase
+public class CustomerController(ICustomerService customerService) : ControllerBase
 {
-    private readonly ICustomerService _customerService;
-
-    public CustomerController(ICustomerService customerService)
-    {
-        _customerService = customerService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string userName)
     {
@@ -29,7 +22,7 @@ public class CustomerController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _customerService.GetByUserNameAsync(userName);
+        var response = await customerService.GetByUserNameAsync(userName);
         return Ok(response);
     }
 
@@ -50,7 +43,7 @@ public class CustomerController : ControllerBase
             Name = postCustomerResponseDto.Name,
             Addresses = postCustomerResponseDto.Addresses
         };
-        var response = await _customerService.CreateAsync(customer);
+        var response = await customerService.CreateAsync(customer);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Key.CustomerPk(customer.UserName)}, response);
     }
@@ -67,7 +60,7 @@ public class CustomerController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _customerService.DeleteAddressAsync(userName, addressName);
+        var response = await customerService.DeleteAddressAsync(userName, addressName);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return Ok(response);
     }
@@ -82,7 +75,7 @@ public class CustomerController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _customerService.PutAddressAsync(dto);
+        var response = await customerService.PutAddressAsync(dto);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return Ok(response);
     }

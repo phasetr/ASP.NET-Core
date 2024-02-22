@@ -1,6 +1,6 @@
-namespace Common.Dto;
+namespace WebApiDynamodbLocal.Dto;
 
-public class ResponseBaseWithKeyDto : ResponseBaseDto
+public class ResponseBaseWithKeyDto : Common.Dto.ResponseBaseDto
 {
     /// <summary>
     ///     特にDynamoDBのときPostで生成されたデータのキーを返したい場合に使用する。

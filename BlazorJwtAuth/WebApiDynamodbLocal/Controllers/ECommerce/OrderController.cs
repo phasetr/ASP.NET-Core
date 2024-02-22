@@ -9,15 +9,8 @@ namespace WebApiDynamodbLocal.Controllers.ECommerce;
 
 [Route(ApiPath.Order)]
 [ApiController]
-public class OrderController : ControllerBase
+public class OrderController(IOrderService orderService) : ControllerBase
 {
-    private readonly IOrderService _orderService;
-
-    public OrderController(IOrderService orderService)
-    {
-        _orderService = orderService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string orderId)
     {
@@ -31,7 +24,7 @@ public class OrderController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _orderService.GetByOrderIdAsync(orderId);
+        var response = await orderService.GetByOrderIdAsync(orderId);
         return Ok(response);
     }
 
@@ -47,7 +40,7 @@ public class OrderController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _orderService.GetByUserNameAsync(userName);
+        var response = await orderService.GetByUserNameAsync(userName);
         return Ok(response);
     }
 
@@ -62,7 +55,7 @@ public class OrderController : ControllerBase
                 Succeeded = false
             });
         var dateTime = DateTime.UtcNow;
-        var response = await _orderService.CreateAsync(postOrderDto);
+        var response = await orderService.CreateAsync(postOrderDto);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Key.GenerateKsuId(dateTime)}, response);
     }
@@ -77,7 +70,7 @@ public class OrderController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _orderService.PutStatusAsync(userName, orderId, status);
+        var response = await orderService.PutStatusAsync(userName, orderId, status);
         return Ok(response);
     }
 }

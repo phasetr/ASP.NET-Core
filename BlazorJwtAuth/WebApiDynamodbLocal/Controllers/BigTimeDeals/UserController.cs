@@ -10,15 +10,8 @@ namespace WebApiDynamodbLocal.Controllers.BigTimeDeals;
 
 [Route(ApiPath.User)]
 [ApiController]
-public class UserController : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string userName)
     {
@@ -29,7 +22,7 @@ public class UserController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _userService.GetAsync(userName);
+        var response = await userService.GetAsync(userName);
         return Ok(response);
     }
 
@@ -51,7 +44,7 @@ public class UserController : ControllerBase
             Name = model.Name,
             CreatedAt = DateTime.UtcNow
         };
-        var response = await _userService.CreateAsync(user);
+        var response = await userService.CreateAsync(user);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Key.UserPk(model.UserName)}, response);
     }

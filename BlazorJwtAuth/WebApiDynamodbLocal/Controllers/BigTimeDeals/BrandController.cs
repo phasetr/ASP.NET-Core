@@ -10,15 +10,8 @@ namespace WebApiDynamodbLocal.Controllers.BigTimeDeals;
 
 [Route(ApiPath.Brand)]
 [ApiController]
-public class BrandController : ControllerBase
+public class BrandController(IBrandService brandService) : ControllerBase
 {
-    private readonly IBrandService _brandService;
-
-    public BrandController(IBrandService brandService)
-    {
-        _brandService = brandService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string name)
     {
@@ -30,7 +23,7 @@ public class BrandController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _brandService.GetAsync(name);
+        var response = await brandService.GetAsync(name);
         return Ok(response);
     }
 
@@ -53,7 +46,7 @@ public class BrandController : ControllerBase
             LikeCount = brandModel.LikeCount,
             WatchCount = brandModel.WatchCount
         };
-        var response = await _brandService.CreateAsync(brand);
+        var response = await brandService.CreateAsync(brand);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = Key.BrandPk(brandModel.Name)}, response);
     }

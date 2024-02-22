@@ -1,7 +1,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Common.Dto;
 using WebApiDynamodbLocal.Constants;
+using WebApiDynamodbLocal.Dto;
 using WebApiDynamodbLocal.Dto.SessionStore;
 using WebApiDynamodbLocal.Entities.SessionStore;
 using WebApiDynamodbLocal.Services.SessionStore.interfaces;
@@ -20,9 +20,11 @@ public class SessionService : ISessionService
         IConfiguration configuration,
         ILogger<SessionService> logger)
     {
+        var tableName = configuration[AwsSettings.ConfigurationSessionStoreTable];
+        ArgumentNullException.ThrowIfNull(tableName);
         _client = client;
         _logger = logger;
-        _tableName = configuration[AwsSettings.ConfigurationSessionStoreTable];
+        _tableName = tableName;
     }
 
     public async Task<ResponseBaseWithKeyDto> CreateAsync(PostDto dto)

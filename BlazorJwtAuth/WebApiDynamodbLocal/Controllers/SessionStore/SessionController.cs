@@ -8,15 +8,8 @@ namespace WebApiDynamodbLocal.Controllers.SessionStore;
 
 [Route(ApiPath.Session)]
 [ApiController]
-public class SessionController : ControllerBase
+public class SessionController(ISessionService sessionService) : ControllerBase
 {
-    private readonly ISessionService _sessionService;
-
-    public SessionController(ISessionService sessionService)
-    {
-        _sessionService = sessionService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string sessionId)
     {
@@ -28,7 +21,7 @@ public class SessionController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _sessionService.GetAsync(sessionId);
+        var response = await sessionService.GetAsync(sessionId);
         return Ok(response);
     }
 
@@ -42,7 +35,7 @@ public class SessionController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _sessionService.CreateAsync(dto);
+        var response = await sessionService.CreateAsync(dto);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = response.Key}, response);
     }
@@ -57,7 +50,7 @@ public class SessionController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _sessionService.DeleteByUserNameAsync(userName);
+        var response = await sessionService.DeleteByUserNameAsync(userName);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return Ok(response);
     }

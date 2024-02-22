@@ -10,15 +10,8 @@ namespace WebApiDynamodbLocal.Controllers.BigTimeDeals;
 
 [Route(ApiPath.Deal)]
 [ApiController]
-public class DealController : ControllerBase
+public class DealController(IDealService dealService) : ControllerBase
 {
-    private readonly IDealService _dealService;
-
-    public DealController(IDealService dealService)
-    {
-        _dealService = dealService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAsync(string dealId)
     {
@@ -30,7 +23,7 @@ public class DealController : ControllerBase
                 Message = "Validation Error",
                 Succeeded = false
             });
-        var response = await _dealService.GetAsync(dealId);
+        var response = await dealService.GetAsync(dealId);
         return Ok(response);
     }
 
@@ -55,7 +48,7 @@ public class DealController : ControllerBase
             Brand = model.Brand,
             CreatedAt = DateTime.UtcNow
         };
-        var response = await _dealService.CreateAsync(deal);
+        var response = await dealService.CreateAsync(deal);
         if (!response.Succeeded) return UnprocessableEntity(response);
         return CreatedAtAction("Post", new {pk = response.Key}, response);
     }
