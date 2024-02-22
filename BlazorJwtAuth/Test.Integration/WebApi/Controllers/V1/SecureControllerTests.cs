@@ -10,20 +10,14 @@ using Authorization = Common.Constants.Authorization;
 
 namespace Test.Integration.WebApi.Controllers.V1;
 
-public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class SecureControllerTests(WebApplicationFactory<Program> factory)
+    : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-
-    public SecureControllerTests(WebApplicationFactory<Program> factory)
-    {
-        _factory = factory;
-    }
-
     [Fact]
     public async Task GetSecuredData_WhenCalled_ReturnsOk()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIでトークンを取得
         var getTokenDto = new GetTokenDto
@@ -55,7 +49,7 @@ public class SecureControllerTests : IClassFixture<WebApplicationFactory<Program
     public async Task PostSecuredData_WhenCalled_ReturnsOk()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIでトークンを取得
         var getTokenDto = new GetTokenDto

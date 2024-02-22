@@ -2,8 +2,15 @@
 
 - `EC2`のサーバーにごく簡単な`API`を立てる
 - `EventBridge`+`Lambda`で`EC2`を平日の朝に自動起動, 夕方に自動停止する機構を追加している
+    - `TODO`：`EventBridge Scheduler`で`EC2`を平日の朝に自動起動, 夕方に自動停止する
+    - 公式ドキュメント：[Amazon EventBridge スケジューラとは](https://docs.aws.amazon.com/ja_jp/scheduler/latest/UserGuide/what-is-scheduler.html)
 - `TODO`: `API Gateway`+`Lambda`で`API`キーを設定してセキュアにする.
   構成イメージは[AWS API Gateway+EC2でセキュアなREST APIを構築する](https://qiita.com/masatojames/items/ecc8ee215b502c5eb6a8)などを参照
+
+## `EventBridge`
+
+- `EventBridge`ルールが正常にトリガーされたか、
+  `EventBridge`ルールのターゲットが正常に実行されたかどうかは`EventBridge`が発行する[ドキュメント](https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-monitoring.html#eb-metrics)のメトリクスを確認すること
 
 ## 参考リンク
 

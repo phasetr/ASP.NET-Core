@@ -327,7 +327,7 @@ app.MapGet("/error",
         };
 
         app.Logger.LogError(
-            CustomLogEvents.Error_Get,
+            CustomLogEvents.ErrorGet,
             exceptionHandler?.Error,
             "An unhandled exception occurred");
 

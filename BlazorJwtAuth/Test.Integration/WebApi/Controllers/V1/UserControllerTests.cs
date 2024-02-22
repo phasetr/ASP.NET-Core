@@ -6,20 +6,13 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Test.Integration.WebApi.Controllers.V1;
 
-public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class UserControllerTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-
-    public UserControllerTests(WebApplicationFactory<Program> factory)
-    {
-        _factory = factory;
-    }
-
     [Fact]
     public async Task Get_UrlChecker()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIで結果を取得
         var response = await client.GetAsync(ApiPath.V1User);
@@ -36,7 +29,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetUserByEmailAsync_ExistingUser()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIで結果を取得
         var response = await client.GetAsync(ApiPath.V1User + "/user@secureapi.com");
@@ -56,7 +49,7 @@ public class UserControllerTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task GetUserByEmailAsync_NonExistentUser()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIで結果を取得
         var response = await client.GetAsync("/api/v1/User/nouser@secureapi.com");

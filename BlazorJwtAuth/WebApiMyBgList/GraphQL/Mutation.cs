@@ -1,4 +1,4 @@
-﻿using HotChocolate.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WebApiMyBgList.Constants;
 using WebApiMyBgList.DbContext;
@@ -10,7 +10,7 @@ namespace WebApiMyBgList.GraphQL;
 public class Mutation
 {
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Moderator})]
+    [Authorize(Roles = RoleNames.Moderator)]
     public async Task<BoardGame?> UpdateBoardGame(
         [Service] ApplicationDbContext context, BoardGameDto model)
     {
@@ -32,7 +32,7 @@ public class Mutation
     }
 
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Administrator})]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task DeleteBoardGame(
         [Service] ApplicationDbContext context, int id)
     {
@@ -47,7 +47,7 @@ public class Mutation
     }
 
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Moderator})]
+    [Authorize(Roles = RoleNames.Moderator)]
     public async Task<Domain?> UpdateDomain(
         [Service] ApplicationDbContext context, DomainDto model)
     {
@@ -67,7 +67,7 @@ public class Mutation
     }
 
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Administrator})]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task DeleteDomain(
         [Service] ApplicationDbContext context, int id)
     {
@@ -82,28 +82,26 @@ public class Mutation
     }
 
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Moderator})]
+    [Authorize(Roles = RoleNames.Moderator)]
     public async Task<Mechanic?> UpdateMechanic(
         [Service] ApplicationDbContext context, MechanicDto model)
     {
         var mechanic = await context.Mechanics
             .Where(m => m.Id == model.Id)
             .FirstOrDefaultAsync();
-        if (mechanic != null)
-        {
-            if (!string.IsNullOrEmpty(model.Name))
-                mechanic.Name = model.Name;
-            mechanic.LastModifiedDate = DateTime.Now;
+        if (mechanic == null) return mechanic;
+        if (!string.IsNullOrEmpty(model.Name))
+            mechanic.Name = model.Name;
+        mechanic.LastModifiedDate = DateTime.Now;
 
-            context.Mechanics.Update(mechanic);
-            await context.SaveChangesAsync();
-        }
+        context.Mechanics.Update(mechanic);
+        await context.SaveChangesAsync();
 
         return mechanic;
     }
 
     [Serial]
-    [Authorize(Roles = new[] {RoleNames.Administrator})]
+    [Authorize(Roles = RoleNames.Administrator)]
     public async Task DeleteMechanic(
         [Service] ApplicationDbContext context, int id)
     {

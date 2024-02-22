@@ -46,7 +46,7 @@ public class BoardGamesController : ControllerBase
                           "to customize some retrieval parameters.")]
         RequestDto<BoardGameDto> input)
     {
-        _logger.LogInformation(CustomLogEvents.BoardGamesController_Get,
+        _logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
             "Get method started");
 
         var query = _context.BoardGames.AsQueryable();
@@ -96,7 +96,7 @@ public class BoardGamesController : ControllerBase
         int id
     )
     {
-        _logger.LogInformation(CustomLogEvents.BoardGamesController_Get,
+        _logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
             "GetBoardGame method started");
 
         var cacheKey = $"GetBoardGame-{id}";

@@ -9,21 +9,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Test.Integration.WebApi.Controllers.V1;
 
-public class WeatherForecastControllerTests
+public class WeatherForecastControllerTests(WebApplicationFactory<Program> factory)
     : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-
-    public WeatherForecastControllerTests(WebApplicationFactory<Program> factory)
-    {
-        _factory = factory;
-    }
-
     [Fact]
     public async Task Get_WhenNoAuthCalled_Returns401()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIにトークンを付与してリクエスト
         var response = await client.GetAsync(ApiPath.V1WeatherForecastFull);
@@ -34,7 +27,7 @@ public class WeatherForecastControllerTests
     public async Task Get_WhenAuthCalled_ReturnsOk()
     {
         // HTTPクライアントの初期化
-        var client = _factory.CreateClient();
+        var client = factory.CreateClient();
 
         // APIでトークンを取得
         var getTokenDto = new GetTokenDto

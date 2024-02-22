@@ -61,7 +61,7 @@ public class CdkS3CloudFrontStack : Stack
             }
         });
         contentsBucket.AddToResourcePolicy(contentsBucketPolicyStatement);
-        
+
         // 出力
         var unused2 = new CfnOutput(this, "S3BucketName", new CfnOutputProps
         {
