@@ -19,14 +19,11 @@
 
 @code {
 
-  [Parameter]
-  public DateTime Date { get; set; } = DateTime.Now;
+  [Parameter] public DateTime Date { get; set; } = DateTime.Now;
 
-  [Parameter]
-  public int Price { get; set; } = 100;
+  [Parameter] public int Price { get; set; } = 100;
 
-  [Parameter]
-  public int PriceWithTax { get; set; }
+  [Parameter] public int PriceWithTax { get; set; }
 
   private void Calc()
   {

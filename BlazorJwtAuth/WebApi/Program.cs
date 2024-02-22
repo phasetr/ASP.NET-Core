@@ -142,7 +142,7 @@ builder.Services.AddAuthentication(options =>
 
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new ArgumentNullException(builder.Configuration["Jwt:Key"])))
         };
         // Cookieからトークンを取得するための設定
         o.Events = new JwtBearerEvents

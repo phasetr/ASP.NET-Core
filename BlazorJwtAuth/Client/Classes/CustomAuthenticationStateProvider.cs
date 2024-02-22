@@ -5,15 +5,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Client.Classes;
 
-public class CustomAuthenticationStateProvider : AuthenticationStateProvider
+public class CustomAuthenticationStateProvider(ITokenService tokenService) : AuthenticationStateProvider
 {
-    private readonly ITokenService _tokenService;
-
-    public CustomAuthenticationStateProvider(ITokenService tokenService)
-    {
-        _tokenService = tokenService;
-    }
-
     public void StateChanged()
     {
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
@@ -23,7 +16,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         try
         {
-            var tokenDto = await _tokenService.GetTokenAsync();
+            var tokenDto = await tokenService.GetTokenAsync();
             // TODO：トークンが切れている場合はリフレッシュトークンを使ってトークンを再取得する
             // トークンをUTCで発行しているため現在時刻と比較するときはUTCで比較する
             var identity = string.IsNullOrEmpty(tokenDto.Token) || tokenDto.Expiration < DateTime.UtcNow

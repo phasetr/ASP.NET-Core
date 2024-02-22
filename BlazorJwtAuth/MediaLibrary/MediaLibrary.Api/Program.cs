@@ -18,10 +18,7 @@ builder.Services.AddDbContext<MediaLibraryDbContext>(options =>
 
 // CORS設定
 var clientUrl = builder.Configuration["ClientUrl"];
-if (string.IsNullOrEmpty(clientUrl))
-{
-    throw new ArgumentNullException(clientUrl);
-}
+if (string.IsNullOrEmpty(clientUrl)) throw new ArgumentNullException(clientUrl);
 builder.Services.AddCors(o => o.AddPolicy(clientUrl, corsPolicyBuilder =>
 {
     corsPolicyBuilder

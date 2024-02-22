@@ -15,26 +15,15 @@ using Service.Services.Interfaces;
 
 namespace Service.Services;
 
-public class UserService : IUserService
+public class UserService(
+    UserManager<ApplicationUser> userManager,
+    IOptions<Jwt> jwt,
+    ILogger<UserService> logger,
+    ApplicationDbContext context,
+    IApplicationRoleService applicationRoleService)
+    : IUserService
 {
-    private readonly IApplicationRoleService _applicationRoleService;
-    private readonly ApplicationDbContext _context;
-    private readonly Jwt _jwt;
-    private readonly ILogger<UserService> _logger;
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public UserService(UserManager<ApplicationUser> userManager,
-        IOptions<Jwt> jwt,
-        ILogger<UserService> logger,
-        ApplicationDbContext context,
-        IApplicationRoleService applicationRoleService)
-    {
-        _context = context;
-        _logger = logger;
-        _userManager = userManager;
-        _jwt = jwt.Value;
-        _applicationRoleService = applicationRoleService;
-    }
+    private readonly Jwt _jwt = jwt.Value;
 
     public async Task<UserRegisterResponseDto> RegisterAsync(UserRegisterDto dto)
     {
@@ -47,7 +36,7 @@ public class UserService : IUserService
                 FirstName = dto.FirstName ?? "",
                 LastName = dto.LastName ?? ""
             };
-            var result = await _userManager.CreateAsync(user, dto.Password);
+            var result = await userManager.CreateAsync(user, dto.Password ?? string.Empty);
             if (!result.Succeeded)
                 return new UserRegisterResponseDto
                 {
@@ -56,7 +45,7 @@ public class UserService : IUserService
                     Errors = result.Errors.Select(x => x.Description ?? "")
                 };
             var roleResult =
-                await _applicationRoleService.AddRoleToUserAsync(user, Authorization.DefaultRole.ToString());
+                await applicationRoleService.AddRoleToUserAsync(user, Authorization.DefaultRole.ToString());
             if (!roleResult.Succeeded)
                 return new UserRegisterResponseDto
                 {
@@ -73,8 +62,8 @@ public class UserService : IUserService
         }
         catch (Exception e)
         {
-            _logger.LogError("{E}", e.Message);
-            _logger.LogError("{E}", e.StackTrace);
+            logger.LogError("{E}", e.Message);
+            logger.LogError("{E}", e.StackTrace);
             return new UserRegisterResponseDto
             {
                 Errors = new List<string> {e.Message},
@@ -87,26 +76,26 @@ public class UserService : IUserService
     public async Task<AuthenticationResponseDto> GetTokenAsync(GetTokenDto model)
     {
         var authResponseDto = new AuthenticationResponseDto();
-        var user = await _context.Users
+        var user = await context.Users
             .Include(m => m.RefreshTokens)
             .FirstOrDefaultAsync(m => m.Email == model.Email);
         if (user == null)
         {
             authResponseDto.IsAuthenticated = false;
             authResponseDto.Message = $"No Accounts Registered with {model.Email}.";
-            _logger.LogInformation("No Accounts Registered with {Email}", model.Email);
+            logger.LogInformation("No Accounts Registered with {Email}", model.Email);
             return authResponseDto;
         }
 
-        if (await _userManager.CheckPasswordAsync(user, model.Password))
+        if (await userManager.CheckPasswordAsync(user, model.Password))
         {
             authResponseDto.IsAuthenticated = true;
             var jwtSecurityToken = await CreateJwtToken(user);
             authResponseDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            authResponseDto.Email = user.Email;
-            authResponseDto.UserName = user.UserName;
-            var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-            authResponseDto.Roles = rolesList.ToList<string>();
+            authResponseDto.Email = user.Email ?? string.Empty;
+            authResponseDto.UserName = user.UserName ?? string.Empty;
+            var rolesList = await userManager.GetRolesAsync(user).ConfigureAwait(false);
+            authResponseDto.Roles = rolesList.ToList();
 
             if (user is {RefreshTokens: not null} && user.RefreshTokens.Any(a => a.IsActive))
             {
@@ -119,8 +108,8 @@ public class UserService : IUserService
                 var refreshToken = CreateRefreshToken(user.Id);
                 user.RefreshTokens ??= new List<RefreshToken>();
                 user.RefreshTokens.Add(refreshToken);
-                _context.ApplicationUsers.Update(user);
-                await _context.SaveChangesAsync();
+                context.ApplicationUsers.Update(user);
+                await context.SaveChangesAsync();
                 authResponseDto.RefreshToken = refreshToken.Token;
                 authResponseDto.RefreshTokenExpiration = refreshToken.Expires;
             }
@@ -136,7 +125,7 @@ public class UserService : IUserService
 
     public async Task<string> AddRoleAsync(AddRoleDto dto)
     {
-        var user = await _userManager.FindByEmailAsync(dto.Email);
+        var user = await userManager.FindByEmailAsync(dto.Email);
         if (user == null) return $"No Accounts Registered with {dto.Email}.";
         var roleExists = Enum.GetNames(typeof(Authorization.Roles)).Any(x => x.ToLower().Equals(dto.Role.ToLower()));
 
@@ -144,7 +133,7 @@ public class UserService : IUserService
         {
             var validRole = Enum.GetValues(typeof(Authorization.Roles))
                 .Cast<Authorization.Roles>().FirstOrDefault(x => x.ToString().ToLower() == dto.Role.ToLower());
-            await _userManager.AddToRoleAsync(user, validRole.ToString());
+            await userManager.AddToRoleAsync(user, validRole.ToString());
             return $"Added {dto.Role} to user {dto.Email}.";
         }
     }
@@ -152,7 +141,7 @@ public class UserService : IUserService
     public async Task<AuthenticationResponseDto> RefreshTokenAsync(string requestRefreshToken)
     {
         var authResponseDto = new AuthenticationResponseDto();
-        var user = _context.Users
+        var user = context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
             .SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == requestRefreshToken));
         if (user == null)
@@ -177,17 +166,17 @@ public class UserService : IUserService
         // Generate new Refresh Token and save to Database
         var newRefreshToken = CreateRefreshToken(user.Id);
         user.RefreshTokens.Add(newRefreshToken);
-        _context.Update(user);
-        await _context.SaveChangesAsync();
+        context.Update(user);
+        await context.SaveChangesAsync();
 
         // Generates new jwt
         authResponseDto.IsAuthenticated = true;
         var jwtSecurityToken = await CreateJwtToken(user);
         authResponseDto.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-        authResponseDto.Email = user.Email;
-        authResponseDto.UserName = user.UserName;
-        var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-        authResponseDto.Roles = rolesList.ToList<string>();
+        authResponseDto.Email = user.Email ?? string.Empty;
+        authResponseDto.UserName = user.UserName ?? string.Empty;
+        var rolesList = await userManager.GetRolesAsync(user).ConfigureAwait(false);
+        authResponseDto.Roles = rolesList.ToList();
         authResponseDto.RefreshToken = newRefreshToken.Token;
         authResponseDto.RefreshTokenExpiration = newRefreshToken.Expires;
         authResponseDto.Message = "Token Refreshed Properly.";
@@ -196,7 +185,7 @@ public class UserService : IUserService
 
     public async Task<bool> RevokeTokenAsync(string token)
     {
-        var user = await _context.Users
+        var user = await context.Users
             .Include(applicationUser => applicationUser.RefreshTokens)
             .SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == token));
 
@@ -210,8 +199,8 @@ public class UserService : IUserService
 
         // revoke token and save
         refreshToken.Revoked = DateTime.UtcNow;
-        _context.Update(user);
-        await _context.SaveChangesAsync();
+        context.Update(user);
+        await context.SaveChangesAsync();
 
         return true;
     }
@@ -219,21 +208,21 @@ public class UserService : IUserService
     public async Task<ApplicationUser?> FindByEmailAsync(string email)
     {
         // return await _userManager.FindByEmailAsync(email);
-        return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        return await context.Users.FirstOrDefaultAsync(x => x.Email == email);
     }
 
     public async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
     {
-        var userClaims = await _userManager.GetClaimsAsync(user);
-        var roles = await _userManager.GetRolesAsync(user);
+        var userClaims = await userManager.GetClaimsAsync(user);
+        var roles = await userManager.GetRolesAsync(user);
 
         var roleClaims = roles.Select<string, Claim>(t => new Claim("roles", t)).ToList();
 
         var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new Claim("uid", user.Id)
             }
             .Union(userClaims)
