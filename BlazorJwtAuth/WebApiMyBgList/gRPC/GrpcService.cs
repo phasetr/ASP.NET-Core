@@ -6,20 +6,13 @@ using WebApiMyBgList.DbContext;
 
 namespace WebApiMyBgList.gRPC;
 
-public class GrpcService : Grpc.GrpcBase
+public class GrpcService(ApplicationDbContext context) : Grpc.GrpcBase
 {
-    private readonly ApplicationDbContext _context;
-
-    public GrpcService(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     public override async Task<BoardGameResponse> GetBoardGame(
         BoardGameRequest request,
         ServerCallContext scc)
     {
-        var bg = await _context.BoardGames
+        var bg = await context.BoardGames
             .Where(bg => bg.Id == request.Id)
             .FirstOrDefaultAsync();
         var response = new BoardGameResponse();
@@ -38,15 +31,15 @@ public class GrpcService : Grpc.GrpcBase
         UpdateBoardGameRequest request,
         ServerCallContext scc)
     {
-        var bg = await _context.BoardGames
+        var bg = await context.BoardGames
             .Where(bg => bg.Id == request.Id)
             .FirstOrDefaultAsync();
         var response = new BoardGameResponse();
         if (bg != null)
         {
             bg.Name = request.Name;
-            _context.BoardGames.Update(bg);
-            await _context.SaveChangesAsync();
+            context.BoardGames.Update(bg);
+            await context.SaveChangesAsync();
             response.Id = bg.Id;
             response.Name = bg.Name;
             response.Year = bg.Year;

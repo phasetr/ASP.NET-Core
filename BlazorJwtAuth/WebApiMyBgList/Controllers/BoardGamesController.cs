@@ -16,24 +16,12 @@ namespace WebApiMyBgList.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class BoardGamesController : ControllerBase
+public class BoardGamesController(
+    ApplicationDbContext context,
+    ILogger<BoardGamesController> logger,
+    IMemoryCache memoryCache)
+    : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-
-    private readonly ILogger<BoardGamesController> _logger;
-
-    private readonly IMemoryCache _memoryCache;
-
-    public BoardGamesController(
-        ApplicationDbContext context,
-        ILogger<BoardGamesController> logger,
-        IMemoryCache memoryCache)
-    {
-        _context = context;
-        _logger = logger;
-        _memoryCache = memoryCache;
-    }
-
     [HttpGet(Name = "GetBoardGames")]
     [ResponseCache(CacheProfileName = "Any-60")]
     [SwaggerOperation(
@@ -46,25 +34,41 @@ public class BoardGamesController : ControllerBase
                           "to customize some retrieval parameters.")]
         RequestDto<BoardGameDto> input)
     {
-        _logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
+        logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
             "Get method started");
 
-        var query = _context.BoardGames.AsQueryable();
+        var query = context.BoardGames.AsQueryable();
         if (!string.IsNullOrEmpty(input.FilterQuery))
             query = query.Where(b => b.Name.Contains(input.FilterQuery));
 
         var recordCount = await query.CountAsync();
 
         var cacheKey = $"{input.GetType()}-{JsonSerializer.Serialize(input)}";
-        if (!_memoryCache.TryGetValue<BoardGame[]>(cacheKey, out var result))
-        {
-            query = query
-                .OrderBy($"{input.SortColumn} {input.SortOrder}")
-                .Skip(input.PageIndex * input.PageSize)
-                .Take(input.PageSize);
-            result = await query.ToArrayAsync();
-            _memoryCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
-        }
+        if (memoryCache.TryGetValue<BoardGame[]>(cacheKey, out var result))
+            return new RestDto<BoardGame[]>
+            {
+                Data = result ?? Array.Empty<BoardGame>(),
+                PageIndex = input.PageIndex,
+                PageSize = input.PageSize,
+                RecordCount = recordCount,
+                Links =
+                [
+                    new LinkDto(
+                        Url.Action(
+                            null,
+                            "BoardGames",
+                            new {input.PageIndex, input.PageSize},
+                            Request.Scheme)!,
+                        "self",
+                        "GET")
+                ]
+            };
+        query = query
+            .OrderBy($"{input.SortColumn} {input.SortOrder}")
+            .Skip(input.PageIndex * input.PageSize)
+            .Take(input.PageSize);
+        result = await query.ToArrayAsync();
+        memoryCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
 
         return new RestDto<BoardGame[]>
         {
@@ -72,9 +76,9 @@ public class BoardGamesController : ControllerBase
             PageIndex = input.PageIndex,
             PageSize = input.PageSize,
             RecordCount = recordCount,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "BoardGames",
@@ -82,7 +86,7 @@ public class BoardGamesController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "GET")
-            }
+            ]
         };
     }
 
@@ -96,20 +100,20 @@ public class BoardGamesController : ControllerBase
         int id
     )
     {
-        _logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
+        logger.LogInformation(CustomLogEvents.BoardGamesControllerGet,
             "GetBoardGame method started");
 
         var cacheKey = $"GetBoardGame-{id}";
-        if (_memoryCache.TryGetValue<BoardGame>(cacheKey, out var result))
+        if (memoryCache.TryGetValue<BoardGame>(cacheKey, out var result))
             return new RestDto<BoardGame?>
             {
                 Data = result,
                 PageIndex = 0,
                 PageSize = 1,
                 RecordCount = result != null ? 1 : 0,
-                Links = new List<LinkDto>
-                {
-                    new(
+                Links =
+                [
+                    new LinkDto(
                         Url.Action(
                             null,
                             "BoardGames",
@@ -117,10 +121,10 @@ public class BoardGamesController : ControllerBase
                             Request.Scheme)!,
                         "self",
                         "GET")
-                }
+                ]
             };
-        result = await _context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
-        _memoryCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
+        result = await context.BoardGames.FirstOrDefaultAsync(bg => bg.Id == id);
+        memoryCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
 
         return new RestDto<BoardGame?>
         {
@@ -128,9 +132,9 @@ public class BoardGamesController : ControllerBase
             PageIndex = 0,
             PageSize = 1,
             RecordCount = result != null ? 1 : 0,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "BoardGames",
@@ -138,7 +142,7 @@ public class BoardGamesController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "GET")
-            }
+            ]
         };
     }
 
@@ -150,16 +154,16 @@ public class BoardGamesController : ControllerBase
         Description = "Updates the board game's data.")]
     public async Task<RestDto<BoardGame?>> Post(BoardGameDto model)
     {
-        var boardGame = await _context.BoardGames
+        var boardGame = await context.BoardGames
             .Where(b => b.Id == model.Id)
             .FirstOrDefaultAsync();
         if (boardGame == null)
             return new RestDto<BoardGame?>
             {
                 Data = boardGame,
-                Links = new List<LinkDto>
-                {
-                    new(
+                Links =
+                [
+                    new LinkDto(
                         Url.Action(
                             null,
                             "BoardGames",
@@ -167,22 +171,22 @@ public class BoardGamesController : ControllerBase
                             Request.Scheme)!,
                         "self",
                         "POST")
-                }
+                ]
             };
         if (!string.IsNullOrEmpty(model.Name))
             boardGame.Name = model.Name;
         if (model.Year is > 0)
             boardGame.Year = model.Year.Value;
         boardGame.LastModifiedDate = DateTime.Now;
-        _context.BoardGames.Update(boardGame);
-        await _context.SaveChangesAsync();
+        context.BoardGames.Update(boardGame);
+        await context.SaveChangesAsync();
 
         return new RestDto<BoardGame?>
         {
             Data = boardGame,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "BoardGames",
@@ -190,7 +194,7 @@ public class BoardGamesController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "POST")
-            }
+            ]
         };
     }
 
@@ -202,16 +206,16 @@ public class BoardGamesController : ControllerBase
         Description = "Deletes a board game from the database.")]
     public async Task<RestDto<BoardGame?>> Delete(int id)
     {
-        var boardGame = await _context.BoardGames
+        var boardGame = await context.BoardGames
             .Where(b => b.Id == id)
             .FirstOrDefaultAsync();
         if (boardGame == null)
             return new RestDto<BoardGame?>
             {
                 Data = boardGame,
-                Links = new List<LinkDto>
-                {
-                    new(
+                Links =
+                [
+                    new LinkDto(
                         Url.Action(
                             null,
                             "BoardGames",
@@ -219,17 +223,17 @@ public class BoardGamesController : ControllerBase
                             Request.Scheme)!,
                         "self",
                         "DELETE")
-                }
+                ]
             };
-        _context.BoardGames.Remove(boardGame);
-        await _context.SaveChangesAsync();
+        context.BoardGames.Remove(boardGame);
+        await context.SaveChangesAsync();
 
         return new RestDto<BoardGame?>
         {
             Data = boardGame,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "BoardGames",
@@ -237,7 +241,7 @@ public class BoardGamesController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "DELETE")
-            }
+            ]
         };
     }
 }

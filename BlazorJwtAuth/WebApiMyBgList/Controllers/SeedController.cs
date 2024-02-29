@@ -16,25 +16,13 @@ namespace WebApiMyBgList.Controllers;
 // [ApiExplorerSettings(IgnoreApi = true)]
 [Route("[controller]/[action]")]
 [ApiController]
-public class SeedController : ControllerBase
+public class SeedController(
+    ApplicationDbContext context,
+    IWebHostEnvironment env,
+    RoleManager<IdentityRole> roleManager,
+    UserManager<ApiUser> userManager)
+    : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IWebHostEnvironment _env;
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly UserManager<ApiUser> _userManager;
-
-    public SeedController(
-        ApplicationDbContext context,
-        IWebHostEnvironment env,
-        RoleManager<IdentityRole> roleManager,
-        UserManager<ApiUser> userManager)
-    {
-        _context = context;
-        _env = env;
-        _roleManager = roleManager;
-        _userManager = userManager;
-    }
-
     [HttpPut]
     [ResponseCache(CacheProfileName = "NoCache")]
     public async Task<IActionResult> BoardGameData()
@@ -46,13 +34,13 @@ public class SeedController : ControllerBase
             Delimiter = ";"
         };
         using var reader = new StreamReader(
-            Path.Combine(_env.ContentRootPath, "Data/bgg_dataset.csv"));
+            Path.Combine(env.ContentRootPath, "Data/bgg_dataset.csv"));
         using var csv = new CsvReader(reader, config);
-        var existingBoardGames = await _context.BoardGames
+        var existingBoardGames = await context.BoardGames
             .ToDictionaryAsync(bg => bg.Id);
-        var existingDomains = await _context.Domains
+        var existingDomains = await context.Domains
             .ToDictionaryAsync(d => d.Name);
-        var existingMechanics = await _context.Mechanics
+        var existingMechanics = await context.Mechanics
             .ToDictionaryAsync(m => m.Name);
         var now = DateTime.Now;
 
@@ -86,7 +74,7 @@ public class SeedController : ControllerBase
                 CreatedDate = now,
                 LastModifiedDate = now
             };
-            _context.BoardGames.Add(boardGame);
+            context.BoardGames.Add(boardGame);
 
             if (!string.IsNullOrEmpty(record.Domains))
                 foreach (var domainName in record.Domains
@@ -102,11 +90,11 @@ public class SeedController : ControllerBase
                             CreatedDate = now,
                             LastModifiedDate = now
                         };
-                        _context.Domains.Add(domain);
+                        context.Domains.Add(domain);
                         existingDomains.Add(domainName, domain);
                     }
 
-                    _context.BoardGamesDomains.Add(new BoardGamesDomains
+                    context.BoardGamesDomains.Add(new BoardGamesDomains
                     {
                         BoardGame = boardGame,
                         Domain = domain,
@@ -128,11 +116,11 @@ public class SeedController : ControllerBase
                         CreatedDate = now,
                         LastModifiedDate = now
                     };
-                    _context.Mechanics.Add(mechanic);
+                    context.Mechanics.Add(mechanic);
                     existingMechanics.Add(mechanicName, mechanic);
                 }
 
-                _context.BoardGamesMechanics.Add(new BoardGamesMechanics
+                context.BoardGamesMechanics.Add(new BoardGamesMechanics
                 {
                     BoardGame = boardGame,
                     Mechanic = mechanic,
@@ -142,7 +130,7 @@ public class SeedController : ControllerBase
         }
 
         // SAVE
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         // SQL Server用の対処
         /*
         await using var transaction = _context.Database.BeginTransaction();
@@ -155,9 +143,9 @@ public class SeedController : ControllerBase
         // RECAP
         return new JsonResult(new
         {
-            BoardGames = _context.BoardGames.Count(),
-            Domains = _context.Domains.Count(),
-            Mechanics = _context.Mechanics.Count(),
+            BoardGames = context.BoardGames.Count(),
+            Domains = context.Domains.Count(),
+            Mechanics = context.Mechanics.Count(),
             SkippedRows = skippedRows
         });
     }
@@ -169,43 +157,43 @@ public class SeedController : ControllerBase
         var rolesCreated = 0;
         var usersAddedToRoles = 0;
 
-        if (!await _roleManager.RoleExistsAsync(RoleNames.Moderator))
+        if (!await roleManager.RoleExistsAsync(RoleNames.Moderator))
         {
-            await _roleManager.CreateAsync(
+            await roleManager.CreateAsync(
                 new IdentityRole(RoleNames.Moderator));
             rolesCreated++;
         }
 
-        if (!await _roleManager.RoleExistsAsync(RoleNames.Administrator))
+        if (!await roleManager.RoleExistsAsync(RoleNames.Administrator))
         {
-            await _roleManager.CreateAsync(
+            await roleManager.CreateAsync(
                 new IdentityRole(RoleNames.Administrator));
             rolesCreated++;
         }
 
-        var testModerator = await _userManager
+        var testModerator = await userManager
             .FindByNameAsync("TestModerator");
         if (testModerator != null
-            && !await _userManager.IsInRoleAsync(
+            && !await userManager.IsInRoleAsync(
                 testModerator, RoleNames.Moderator))
         {
-            await _userManager.AddToRoleAsync(testModerator, RoleNames.Moderator);
+            await userManager.AddToRoleAsync(testModerator, RoleNames.Moderator);
             usersAddedToRoles++;
         }
 
-        var testAdministrator = await _userManager
+        var testAdministrator = await userManager
             .FindByNameAsync("TestAdministrator");
         if (testAdministrator == null
-            || await _userManager.IsInRoleAsync(
+            || await userManager.IsInRoleAsync(
                 testAdministrator, RoleNames.Administrator))
             return new JsonResult(new
             {
                 RolesCreated = rolesCreated,
                 UsersAddedToRoles = usersAddedToRoles
             });
-        await _userManager.AddToRoleAsync(
+        await userManager.AddToRoleAsync(
             testAdministrator, RoleNames.Moderator);
-        await _userManager.AddToRoleAsync(
+        await userManager.AddToRoleAsync(
             testAdministrator, RoleNames.Administrator);
         usersAddedToRoles++;
 

@@ -1,12 +1,7 @@
 ﻿namespace MediaLibrary.Client.Shared.Model;
 
-public class TableRow<TItem>
+public class TableRow<TItem>(TItem originValue)
 {
-    public TableRow(TItem originValue)
-    {
-        OriginValue = originValue;
-    }
-
     public List<TableCell> Values { get; set; } = new();
-    public TItem OriginValue { get; set; }
+    public TItem OriginValue { get; set; } = originValue;
 }

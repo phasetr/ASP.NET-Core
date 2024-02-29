@@ -3,15 +3,9 @@
 [AttributeUsage(
     AttributeTargets.Property | AttributeTargets.Parameter,
     AllowMultiple = true)]
-public class CustomKeyValueAttribute : Attribute
+public class CustomKeyValueAttribute(string? key, string? value) : Attribute
 {
-    public CustomKeyValueAttribute(string? key, string? value)
-    {
-        Key = key;
-        Value = value;
-    }
+    public string? Key { get; set; } = key;
 
-    public string? Key { get; set; }
-
-    public string? Value { get; set; }
+    public string? Value { get; set; } = value;
 }

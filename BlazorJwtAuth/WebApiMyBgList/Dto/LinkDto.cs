@@ -1,15 +1,8 @@
 ﻿namespace WebApiMyBgList.Dto;
 
-public class LinkDto
+public class LinkDto(string href, string rel, string type)
 {
-    public LinkDto(string href, string rel, string type)
-    {
-        Href = href;
-        Rel = rel;
-        Type = type;
-    }
-
-    public string Href { get; private set; }
-    public string Rel { get; private set; }
-    public string Type { get; private set; }
+    public string Href { get; private set; } = href;
+    public string Rel { get; private set; } = rel;
+    public string Type { get; private set; } = type;
 }

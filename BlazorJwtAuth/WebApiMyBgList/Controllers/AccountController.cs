@@ -11,22 +11,12 @@ namespace WebApiMyBgList.Controllers;
 
 [Route("[controller]/[action]")]
 [ApiController]
-public class AccountController : ControllerBase
+public class AccountController(
+    ILogger<AccountController> logger,
+    IConfiguration configuration,
+    UserManager<ApiUser> userManager)
+    : ControllerBase
 {
-    private readonly IConfiguration _configuration;
-    private readonly ILogger<AccountController> _logger;
-    private readonly UserManager<ApiUser> _userManager;
-
-    public AccountController(
-        ILogger<AccountController> logger,
-        IConfiguration configuration,
-        UserManager<ApiUser> userManager)
-    {
-        _logger = logger;
-        _configuration = configuration;
-        _userManager = userManager;
-    }
-
     /// <summary>
     ///     Registers a new user.
     /// </summary>
@@ -51,19 +41,17 @@ public class AccountController : ControllerBase
                     UserName = input.UserName,
                     Email = input.Email
                 };
-                var result = await _userManager.CreateAsync(
-                    newUser, input.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation(
-                        "User {UserName} ({Email}) has been created",
-                        newUser.UserName, newUser.Email);
-                    return StatusCode(201,
-                        $"User '{newUser.UserName}' has been created.");
-                }
+                var result = await userManager.CreateAsync(
+                    newUser, input.Password ?? string.Empty);
+                if (!result.Succeeded)
+                    throw new Exception(
+                        $"Error: {string.Join(" ", result.Errors.Select(e => e.Description))}");
+                logger.LogInformation(
+                    "User {UserName} ({Email}) has been created",
+                    newUser.UserName, newUser.Email);
+                return StatusCode(201,
+                    $"User '{newUser.UserName}' has been created.");
 
-                throw new Exception(
-                    $"Error: {string.Join(" ", result.Errors.Select(e => e.Description))}");
             }
 
             var details = new ValidationProblemDetails(ModelState)
@@ -106,30 +94,30 @@ public class AccountController : ControllerBase
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(input.UserName);
+                var user = await userManager.FindByNameAsync(input.UserName ?? string.Empty);
                 if (user == null
-                    || !await _userManager.CheckPasswordAsync(
-                        user, input.Password))
+                    || !await userManager.CheckPasswordAsync(
+                        user, input.Password ?? string.Empty))
                     throw new Exception("Invalid login attempt.");
 
                 var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(
-                            _configuration["JWT:SigningKey"])),
+                            configuration["JWT:SigningKey"] ?? string.Empty)),
                     SecurityAlgorithms.HmacSha256);
 
                 var claims = new List<Claim>
                 {
                     new(
-                        ClaimTypes.Name, user.UserName)
+                        ClaimTypes.Name, user.UserName ?? string.Empty)
                 };
                 claims.AddRange(
-                    (await _userManager.GetRolesAsync(user))
+                    (await userManager.GetRolesAsync(user))
                     .Select(r => new Claim(ClaimTypes.Role, r)));
 
                 var jwtObject = new JwtSecurityToken(
-                    _configuration["JWT:Issuer"],
-                    _configuration["JWT:Audience"],
+                    configuration["JWT:Issuer"],
+                    configuration["JWT:Audience"],
                     claims,
                     expires: DateTime.Now.AddSeconds(300),
                     signingCredentials: signingCredentials);

@@ -4,9 +4,5 @@ using MediaLibrary.Common.Models;
 
 namespace MediaLibrary.Api.Controllers;
 
-public class MovieController : BaseController<MovieModel, Movie, MovieService>
-{
-    public MovieController(MovieService service) : base(service, "/movies")
-    {
-    }
-}
+public class MovieController(MovieService service)
+    : BaseController<MovieModel, Movie, MovieService>(service, "/movies");

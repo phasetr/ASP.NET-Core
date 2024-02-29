@@ -9,7 +9,7 @@ namespace WebApiMyBgList.Controllers;
 [ApiController]
 public class GrpcController : ControllerBase
 {
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<BoardGameResponse> GetBoardGame(int id)
     {
         using var channel = GrpcChannel

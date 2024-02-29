@@ -5,13 +5,8 @@ using WebApiMyBgList.Models;
 
 namespace WebApiMyBgList.DbContext;
 
-public class ApplicationDbContext : IdentityDbContext<ApiUser>
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApiUser>(options)
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<BoardGame> BoardGames => Set<BoardGame>();
     public DbSet<Domain> Domains => Set<Domain>();
     public DbSet<Mechanic> Mechanics => Set<Mechanic>();

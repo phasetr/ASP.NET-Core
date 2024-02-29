@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Api.Data;
 
-public class MediaLibraryDbContext : DbContext
+public class MediaLibraryDbContext(DbContextOptions<MediaLibraryDbContext> options) : DbContext(options)
 {
-    public MediaLibraryDbContext(DbContextOptions<MediaLibraryDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<Person> Persons => Set<Person>();
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<MovieActor> MovieActors => Set<MovieActor>();

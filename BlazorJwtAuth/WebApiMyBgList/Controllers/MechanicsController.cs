@@ -15,39 +15,31 @@ namespace WebApiMyBgList.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class MechanicsController : ControllerBase
+public class MechanicsController(
+    ApplicationDbContext context,
+    IDistributedCache distributedCache)
+    : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IDistributedCache _distributedCache;
-
-    public MechanicsController(
-        ApplicationDbContext context,
-        IDistributedCache distributedCache)
-    {
-        _context = context;
-        _distributedCache = distributedCache;
-    }
-
     [HttpGet(Name = "GetMechanics")]
     [ResponseCache(CacheProfileName = "Any-60")]
     public async Task<RestDto<Mechanic[]>> Get(
         [FromQuery] RequestDto<MechanicDto> input)
     {
-        var query = _context.Mechanics.AsQueryable();
+        var query = context.Mechanics.AsQueryable();
         if (!string.IsNullOrEmpty(input.FilterQuery))
             query = query.Where(b => b.Name.Contains(input.FilterQuery));
 
         var recordCount = await query.CountAsync();
 
         var cacheKey = $"{input.GetType()}-{JsonSerializer.Serialize(input)}";
-        if (!_distributedCache.TryGetValue(cacheKey, out Mechanic[]? result))
+        if (!distributedCache.TryGetValue(cacheKey, out Mechanic[]? result))
         {
             query = query
                 .OrderBy($"{input.SortColumn} {input.SortOrder}")
                 .Skip(input.PageIndex * input.PageSize)
                 .Take(input.PageSize);
             result = await query.ToArrayAsync();
-            _distributedCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
+            distributedCache.Set(cacheKey, result, new TimeSpan(0, 0, 30));
         }
 
         return new RestDto<Mechanic[]>
@@ -56,16 +48,16 @@ public class MechanicsController : ControllerBase
             PageIndex = input.PageIndex,
             PageSize = input.PageSize,
             RecordCount = recordCount,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(null,
                         "Mechanics",
                         new {input.PageIndex, input.PageSize},
                         Request.Scheme)!,
                     "self",
                     "GET")
-            }
+            ]
         };
     }
 
@@ -74,24 +66,37 @@ public class MechanicsController : ControllerBase
     [ResponseCache(CacheProfileName = "NoCache")]
     public async Task<RestDto<Mechanic?>> Post(MechanicDto model)
     {
-        var mechanic = await _context.Mechanics
+        var mechanic = await context.Mechanics
             .Where(b => b.Id == model.Id)
             .FirstOrDefaultAsync();
-        if (mechanic != null)
-        {
-            if (!string.IsNullOrEmpty(model.Name))
-                mechanic.Name = model.Name;
-            mechanic.LastModifiedDate = DateTime.Now;
-            _context.Mechanics.Update(mechanic);
-            await _context.SaveChangesAsync();
-        }
+        if (mechanic == null)
+            return new RestDto<Mechanic?>
+            {
+                Data = mechanic,
+                Links =
+                [
+                    new LinkDto(
+                        Url.Action(
+                            null,
+                            "Mechanics",
+                            model,
+                            Request.Scheme)!,
+                        "self",
+                        "POST")
+                ]
+            };
+        if (!string.IsNullOrEmpty(model.Name))
+            mechanic.Name = model.Name;
+        mechanic.LastModifiedDate = DateTime.Now;
+        context.Mechanics.Update(mechanic);
+        await context.SaveChangesAsync();
 
         return new RestDto<Mechanic?>
         {
             Data = mechanic,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "Mechanics",
@@ -99,7 +104,7 @@ public class MechanicsController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "POST")
-            }
+            ]
         };
     }
 
@@ -108,28 +113,40 @@ public class MechanicsController : ControllerBase
     [ResponseCache(CacheProfileName = "NoCache")]
     public async Task<RestDto<Mechanic?>> Delete(int id)
     {
-        var mechanic = await _context.Mechanics
+        var mechanic = await context.Mechanics
             .Where(b => b.Id == id)
             .FirstOrDefaultAsync();
-        if (mechanic != null)
-        {
-            _context.Mechanics.Remove(mechanic);
-            await _context.SaveChangesAsync();
-        }
+        if (mechanic == null)
+            return new RestDto<Mechanic?>
+            {
+                Data = mechanic,
+                Links =
+                [
+                    new LinkDto(
+                        Url.Action(null,
+                            "Mechanics",
+                            id,
+                            Request.Scheme)!,
+                        "self",
+                        "DELETE")
+                ]
+            };
+        context.Mechanics.Remove(mechanic);
+        await context.SaveChangesAsync();
 
         return new RestDto<Mechanic?>
         {
             Data = mechanic,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(null,
                         "Mechanics",
                         id,
                         Request.Scheme)!,
                     "self",
                     "DELETE")
-            }
+            ]
         };
     }
 }

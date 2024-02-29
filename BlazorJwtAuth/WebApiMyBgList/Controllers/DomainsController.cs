@@ -14,15 +14,8 @@ namespace WebApiMyBgList.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class DomainsController : ControllerBase
+public class DomainsController(ApplicationDbContext context) : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
-
-    public DomainsController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
-
     [HttpGet(Name = "GetDomains")]
     [ResponseCache(CacheProfileName = "Any-60")]
     [ManualValidationFilter]
@@ -55,7 +48,7 @@ public class DomainsController : ControllerBase
             return new BadRequestObjectResult(details);
         }
 
-        var query = _context.Domains.AsQueryable();
+        var query = context.Domains.AsQueryable();
         if (!string.IsNullOrEmpty(input.FilterQuery))
             query = query.Where(b => b.Name.Contains(input.FilterQuery));
         var recordCount = await query.CountAsync();
@@ -70,16 +63,16 @@ public class DomainsController : ControllerBase
             PageIndex = input.PageIndex,
             PageSize = input.PageSize,
             RecordCount = recordCount,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(null,
                         "Domains",
                         new {input.PageIndex, input.PageSize},
                         Request.Scheme)!,
                     "self",
                     "GET")
-            }
+            ]
         };
     }
 
@@ -88,7 +81,7 @@ public class DomainsController : ControllerBase
     [ResponseCache(CacheProfileName = "NoCache")]
     public async Task<RestDto<Domain?>> Post(DomainDto model)
     {
-        var domain = await _context.Domains
+        var domain = await context.Domains
             .Where(b => b.Id == model.Id)
             .FirstOrDefaultAsync();
         if (domain != null)
@@ -96,16 +89,16 @@ public class DomainsController : ControllerBase
             if (!string.IsNullOrEmpty(model.Name))
                 domain.Name = model.Name;
             domain.LastModifiedDate = DateTime.Now;
-            _context.Domains.Update(domain);
-            await _context.SaveChangesAsync();
+            context.Domains.Update(domain);
+            await context.SaveChangesAsync();
         }
 
         return new RestDto<Domain?>
         {
             Data = domain,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(
                         null,
                         "Domains",
@@ -113,7 +106,7 @@ public class DomainsController : ControllerBase
                         Request.Scheme)!,
                     "self",
                     "POST")
-            }
+            ]
         };
     }
 
@@ -122,28 +115,28 @@ public class DomainsController : ControllerBase
     [ResponseCache(CacheProfileName = "NoCache")]
     public async Task<RestDto<Domain?>> Delete(int id)
     {
-        var domain = await _context.Domains
+        var domain = await context.Domains
             .Where(b => b.Id == id)
             .FirstOrDefaultAsync();
         if (domain != null)
         {
-            _context.Domains.Remove(domain);
-            await _context.SaveChangesAsync();
+            context.Domains.Remove(domain);
+            await context.SaveChangesAsync();
         }
 
         return new RestDto<Domain?>
         {
             Data = domain,
-            Links = new List<LinkDto>
-            {
-                new(
+            Links =
+            [
+                new LinkDto(
                     Url.Action(null,
                         "Domains",
                         id,
                         Request.Scheme)!,
                     "self",
                     "DELETE")
-            }
+            ]
         };
     }
 }

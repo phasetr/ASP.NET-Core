@@ -2,15 +2,10 @@
 
 namespace WebApiMyBgList.Attributes;
 
-public class SortOrderValidatorAttribute : ValidationAttribute
+public class SortOrderValidatorAttribute() : ValidationAttribute("Value must be one of the following: {0}.")
 {
-    public SortOrderValidatorAttribute()
-        : base("Value must be one of the following: {0}.")
-    {
-    }
-
     public string[] AllowedValues { get; } =
-        {"ASC", "DESC"};
+        ["ASC", "DESC"];
 
     protected override ValidationResult? IsValid(
         object? value,
