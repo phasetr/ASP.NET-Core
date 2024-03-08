@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 // DynamoDB
-const string serviceUrl = Constants.DynamoDbLocalUrl;
+const string serviceUrl = Constants.DynamoDbDevUrl;
 var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
 var amazonDynamoDbConfig =
     builder.Environment.IsDevelopment()
@@ -57,7 +57,7 @@ builder.Services
             ReadCapacityUnits = 5, // Default is 1
             WriteCapacityUnits = 5 // Default is 1
         };
-        options.DefaultTableName = "my-custom-identity-table-name"; // Default is identity
+        options.DefaultTableName = Constants.DynamoDbDevTableName; // Default is identity
     });
 
 // Identity

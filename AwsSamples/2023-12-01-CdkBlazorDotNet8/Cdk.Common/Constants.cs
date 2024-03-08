@@ -6,7 +6,9 @@ public static class Constants
     private static readonly string PrefixWithNoHyphens = Prefix.Replace("-", "");
 
     public const string StackName = $"{Prefix}-stack";
-    public const string DynamoDbLocalUrl = "http://localhost:8000";
+    public const string DynamoDbTableName = $"{Prefix}-dynamodb";
+    public const string DynamoDbDevUrl = "http://localhost:8000";
+    public const string DynamoDbDevTableName = $"{Prefix}-dynamodb-dev";
 
     public const string EcrRepositoryName = $"{Prefix}-ecr-repository";
     public const string DynamoDb = $"{Prefix}-dynamodb";
