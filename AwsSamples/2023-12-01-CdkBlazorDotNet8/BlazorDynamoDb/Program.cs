@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -28,7 +29,7 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 // DynamoDB
-const string serviceUrl = Constants.DynamoDbDevUrl;
+const string serviceUrl = Constants.DynamoDbLocalUrl;
 var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
 var amazonDynamoDbConfig =
     builder.Environment.IsDevelopment()
@@ -57,7 +58,7 @@ builder.Services
             ReadCapacityUnits = 5, // Default is 1
             WriteCapacityUnits = 5 // Default is 1
         };
-        options.DefaultTableName = Constants.DynamoDbDevTableName; // Default is identity
+        options.DefaultTableName = Constants.DynamoDbLocalTableName; // Default is identity
     });
 
 // Identity
@@ -75,6 +76,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+app.UsePathBase("/dev");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

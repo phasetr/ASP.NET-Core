@@ -7,11 +7,10 @@
     "exclude": [
       "README.md",
       "cdk*.json",
-      "src/*/obj",
-      "src/*/bin",
-      "src/*.sln",
-      "src/*/GlobalSuppressions.cs",
-      "src/*/*.csproj"
+      "Cdk/*/obj",
+      "Cdk/*/bin",
+      "Cdk/*/GlobalSuppressions.cs",
+      "Cdk/*/*.csproj"
     ]
   },
   "context": {

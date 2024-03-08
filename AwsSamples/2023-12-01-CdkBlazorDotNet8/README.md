@@ -12,6 +12,15 @@
   - `DynamoDB`での`Identity`: [AspNetCore.Identity.AmazonDynamoDB](https://github.com/ganhammar/AspNetCore.Identity.AmazonDynamoDB)
     - 上記ライブラリ作者の趣味プロジェクト: [what-did-i-do-login](https://github.com/ganhammar/what-did-i-do-login)
 
+## `AWS`コマンド類
+
+```shell
+aws cloudformation describe-stacks \
+  --stack-name cdk-blazor-dotnet8-stack \
+  --query 'Stacks[].Outputs[?OutputKey==`cdkfullstackwithauthcognitoappclientiddev`].OutputValue' \
+  --output text
+```
+
 ## ECR
 
 - 先に`CDK`で`ECR`以外をコメントアウトして、先に`ECR`リポジトリだけ作っておく

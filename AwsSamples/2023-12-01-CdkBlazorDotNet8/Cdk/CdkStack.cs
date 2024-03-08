@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
 using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Amazon.CDK.AWS.DynamoDB;
-using Amazon.CDK.AWS.ECR;
 using Amazon.CDK.AWS.Lambda;
 using Amazon.CDK.AWS.Logs;
 using Cdk.Common;
 using Constructs;
 using Attribute = Amazon.CDK.AWS.DynamoDB.Attribute;
+using AssetOptions = Amazon.CDK.AWS.S3.Assets.AssetOptions;
 
 namespace Cdk;
 
@@ -18,19 +17,6 @@ public sealed class CdkStack : Stack
     {
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;
-
-        #region ECR
-
-        var ecrRepository = new Repository(this, $"{Constants.EcrRepositoryName}-{envName}",
-            new RepositoryProps
-            {
-                AutoDeleteImages = true,
-                LifecycleRules = new ILifecycleRule[] {new LifecycleRule {MaxImageCount = 1}},
-                RepositoryName = $"{Constants.EcrRepositoryName}-{envName}",
-                RemovalPolicy = RemovalPolicy.DESTROY
-            });
-
-        #endregion
 
         #region DynamoDB
 
@@ -57,17 +43,32 @@ public sealed class CdkStack : Stack
 
         #region LambdaApiGateway
 
-        // Lambda from ECR
-        var lambda = new DockerImageFunction(this, $"{Constants.LambdaFromEcr}-{envName}", new DockerImageFunctionProps
+        // Lambda
+        var lambda = new Function(this, $"{Constants.Lambda}-{envName}", new FunctionProps
         {
-            Code = DockerImageCode.FromEcr(ecrRepository),
+            Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
-            Environment = new Dictionary<string, string>
+            Handler = "BlazorDynamoDb",
+            Code = Code.FromAsset(".", new AssetOptions
             {
-                {"REGION", Region},
-                {"TABLE_NAME", dynamodb.TableName}
-            }
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_8.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command =
+                    [
+                        "/bin/sh",
+                        "-c",
+                        "dotnet restore CdkBlazorDotNet8.sln" +
+                        " && dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && cd BlazorDynamoDb" +
+                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                    ]
+                }
+            })
         });
 
         // Grant the lambda role read/write permissions to our table
@@ -98,8 +99,6 @@ public sealed class CdkStack : Stack
             new CfnOutputProps {Value = apiGateway.UrlForPath()});
         var unused103 = new CfnOutput(this, $"{Constants.OutputDynamoDbTableName}{envName}",
             new CfnOutputProps {Value = dynamodb.TableName});
-        var unused104 = new CfnOutput(this, $"{Constants.OutputEcrRepositoryName}{envName}",
-            new CfnOutputProps {Value = ecrRepository.RepositoryName});
 
         #endregion
     }

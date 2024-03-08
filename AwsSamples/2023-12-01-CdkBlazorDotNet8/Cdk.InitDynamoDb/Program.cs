@@ -3,7 +3,7 @@ using AspNetCore.Identity.AmazonDynamoDB;
 using Cdk.Common;
 using Microsoft.Extensions.DependencyInjection;
 
-const string serviceUrl = Constants.DynamoDbDevUrl;
+const string serviceUrl = Constants.DynamoDbLocalUrl;
 
 var services = new ServiceCollection();
 var client = new AmazonDynamoDBClient(
@@ -13,7 +13,7 @@ var client = new AmazonDynamoDBClient(
 
 services.AddIdentityCore<DynamoDbUser>()
     .AddRoles<DynamoDbRole>()
-    .AddDynamoDbStores().Configure(options => { options.DefaultTableName = Constants.DynamoDbDevTableName; });
+    .AddDynamoDbStores().Configure(options => { options.DefaultTableName = Constants.DynamoDbLocalTableName; });
 services.AddSingleton<IAmazonDynamoDB>(client);
 
 var serviceProvider = services.BuildServiceProvider();
