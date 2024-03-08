@@ -1,4 +1,4 @@
-namespace Cdk.InitDynamoDb;
+namespace Common.Constants;
 
 public enum MyEnvironment
 {

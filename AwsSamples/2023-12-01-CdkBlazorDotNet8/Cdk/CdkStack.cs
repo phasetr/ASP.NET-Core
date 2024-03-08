@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Amazon.CDK.AWS.DynamoDB;
@@ -49,6 +50,10 @@ public sealed class CdkStack : Stack
             Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
+            Environment = new Dictionary<string, string>
+            {
+                {"TABLE_NAME", dynamodb.TableName}
+            },
             Handler = "BlazorDynamoDb",
             Code = Code.FromAsset(".", new AssetOptions
             {

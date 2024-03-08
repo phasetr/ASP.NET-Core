@@ -1,7 +1,8 @@
+using Amazon;
 using Amazon.DynamoDBv2;
 using AspNetCore.Identity.AmazonDynamoDB;
 using Cdk.Common;
-using Cdk.InitDynamoDb;
+using Common.Constants;
 using Microsoft.Extensions.DependencyInjection;
 
 InitializeDynamoDb(MyEnvironment.Local);
@@ -13,8 +14,15 @@ void InitializeDynamoDb(MyEnvironment env)
     var services = new ServiceCollection();
     var amazonDynamoDbConfig = env switch
     {
-        MyEnvironment.Local => new AmazonDynamoDBConfig {ServiceURL = Constants.DynamoDbLocalUrl},
-        MyEnvironment.Dev => new AmazonDynamoDBConfig(),
+        MyEnvironment.Local => new AmazonDynamoDBConfig
+        {
+            RegionEndpoint = RegionEndpoint.APNortheast1,
+            ServiceURL = Constants.DynamoDbLocalUrl
+        },
+        MyEnvironment.Dev => new AmazonDynamoDBConfig
+        {
+            RegionEndpoint = RegionEndpoint.APNortheast1
+        },
         _ => throw new ArgumentOutOfRangeException(nameof(env), env, null)
     };
     var client = new AmazonDynamoDBClient(amazonDynamoDbConfig);
