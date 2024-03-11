@@ -39,7 +39,6 @@ var amazonDynamoDbConfig =
             ServiceURL = serviceUrl
         }
         : new AmazonDynamoDBConfig {RegionEndpoint = RegionEndpoint.GetBySystemName(region)};
-if (builder.Environment.IsDevelopment()) amazonDynamoDbConfig.ServiceURL = serviceUrl;
 builder.Services
     .AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig))
     .AddScoped<IDynamoDBContext, DynamoDBContext>();
