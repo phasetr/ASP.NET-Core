@@ -29,14 +29,13 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 // DynamoDB
-const string serviceUrl = Constants.DynamoDbLocalUrl;
 var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
 var amazonDynamoDbConfig =
     builder.Environment.IsDevelopment()
         ? new AmazonDynamoDBConfig
         {
             RegionEndpoint = RegionEndpoint.GetBySystemName(region),
-            ServiceURL = serviceUrl
+            ServiceURL = Constants.DynamoDbLocalUrl
         }
         : new AmazonDynamoDBConfig {RegionEndpoint = RegionEndpoint.GetBySystemName(region)};
 builder.Services
