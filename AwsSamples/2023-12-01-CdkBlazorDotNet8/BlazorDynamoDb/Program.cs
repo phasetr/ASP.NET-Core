@@ -56,7 +56,10 @@ builder.Services
             ReadCapacityUnits = 5, // Default is 1
             WriteCapacityUnits = 5 // Default is 1
         };
-        options.DefaultTableName = Constants.DynamoDbLocalTableName; // Default is identity
+        options.DefaultTableName =
+            builder.Environment.IsDevelopment()
+                ? Constants.DynamoDbLocalTableName
+                : Constants.DynamoDbDevTableName;
     });
 
 // Identity

@@ -34,7 +34,7 @@ void InitializeDynamoDb(MyEnvironment env)
             options.DefaultTableName = env switch
             {
                 MyEnvironment.Local => Constants.DynamoDbLocalTableName,
-                MyEnvironment.Dev => Constants.DynamoDbTableName,
+                MyEnvironment.Dev => Constants.DynamoDbDevTableName,
                 _ => throw new ArgumentOutOfRangeException(nameof(env), env, null)
             };
         });
