@@ -28,8 +28,7 @@ public class LambdaEntryPoint :
     /// <param name="builder"></param>
     protected override void Init(IWebHostBuilder builder)
     {
-        builder
-            .UseStartup<Startup>();
+        builder.UseStartup<Startup>();
     }
 
     /// <summary>

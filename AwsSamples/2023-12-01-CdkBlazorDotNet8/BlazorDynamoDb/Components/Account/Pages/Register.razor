@@ -74,11 +74,20 @@
     await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
     var emailStore = GetEmailStore();
     await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-    var result = await UserManager.CreateAsync(user, Input.Password);
 
-    if (!result.Succeeded)
+    try
     {
-      _identityErrors = result.Errors;
+      var result = await UserManager.CreateAsync(user, Input.Password);
+      if (!result.Succeeded)
+      {
+        _identityErrors = result.Errors;
+        return;
+      }
+    }
+    catch (Exception e)
+    {
+      Logger.LogError(e, "Error in create user");
+      _identityErrors = new[] {new IdentityError {Code = "ErrorSettingCreateUser", Description = e.Message}};
       return;
     }
 

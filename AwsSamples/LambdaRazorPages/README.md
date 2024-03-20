@@ -1,7 +1,6 @@
 # README
 
 - [`.NET Core`アプリを`AWS Lambda`で動かす](https://qiita.com/mahiya/items/d724a5831a7fceb72f2b)
-- 2023/12/10時点では`Lambda`が対応していないため`.NET8`は使えない
 
 ```shell
 dotnet new install Amazon.Lambda.Templates
@@ -29,7 +28,7 @@ dotnet tool install -g Amazon.Lambda.Tools
 ```shell
 dotnet lambda deploy-function \
   -pl src/LambdaRazorPages \
-  -frun dotnet6 \
+  -frun dotnet8 \
   -fn LambdaRazorPages \
   -fms 1024 \
   -ft 300
@@ -38,8 +37,7 @@ dotnet lambda deploy-function \
 - `S3`バケットを作成する
 
 ```shell
-bucketName=pt-lambda-razor-pages-bucket
-stackName=LambdaRazorPagesStack
+bucketName=pt-lambda-razor-pages-bucket && stackName=LambdaRazorPagesStack
 ```
 
 ```shell
