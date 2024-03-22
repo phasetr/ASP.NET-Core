@@ -85,13 +85,13 @@ If already installed check if new version is available.
 Execute unit tests
 
 ```
-    cd "LambdaRazorPages/test/LambdaRazorPages.Tests"
+    cd "Web/test/Web.Tests"
     dotnet test
 ```
 
 Deploy application
 
 ```
-    cd "LambdaRazorPages/src/LambdaRazorPages"
+    cd "Web/src/Web"
     dotnet lambda deploy-serverless
 ```

@@ -12,7 +12,7 @@ dotnet new lambda --list
 - テンプレートからプロジェクトを作成する
 
 ```shell
-dotnet new serverless.AspNetCoreWebApp --name LambdaRazorPages --region ap-northeast-1 --profile dev
+dotnet new serverless.AspNetCoreWebApp --name Web --region ap-northeast-1 --profile dev
 ```
 
 ## デプロイ
@@ -27,9 +27,9 @@ dotnet tool install -g Amazon.Lambda.Tools
 
 ```shell
 dotnet lambda deploy-function \
-  -pl src/LambdaRazorPages \
+  -pl Web \
   -frun dotnet8 \
-  -fn LambdaRazorPages \
+  -fn Web \
   -fms 1024 \
   -ft 300
 ```
@@ -37,7 +37,7 @@ dotnet lambda deploy-function \
 - `S3`バケットを作成する
 
 ```shell
-bucketName=pt-lambda-razor-pages-bucket && stackName=LambdaRazorPagesStack
+bucketName=lrp-bn && stackName=lrp-sn
 ```
 
 ```shell
@@ -48,7 +48,7 @@ aws s3 mb s3://${bucketName} --region ap-northeast-1 --profile dev
 dotnet lambda deploy-serverless \
   --profile dev \
   --region ap-northeast-1 \
-  -pl src/LambdaRazorPages \
+  -pl Web \
   -sn ${stackName} \
   -sb ${bucketName}
 ```

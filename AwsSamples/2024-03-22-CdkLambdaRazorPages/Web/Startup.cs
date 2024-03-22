@@ -1,4 +1,4 @@
-namespace LambdaRazorPages;
+namespace Web;
 
 public class Startup
 {
