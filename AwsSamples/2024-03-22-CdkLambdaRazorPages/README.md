@@ -53,14 +53,14 @@ dotnet lambda deploy-serverless \
   -sb ${bucketName}
 ```
 
-- `Lambda`関数を削除する
+- `Lambda`関数と`S3`バケットを削除する
 
 ```shell
-aws cloudformation delete-stack --stack-name ${stackName} --profile dev
-```
-
-- `S3`バケットを削除する
-
-```shell
-aws s3 rb s3://${bucketName} --force
+dotnet lambda delete-serverless \
+  --profile dev \
+  --region ap-northeast-1 \
+  -pl Web \
+  -sn ${stackName} \
+  -sb ${bucketName} \
+  && aws s3 rb s3://${bucketName} --force 
 ```

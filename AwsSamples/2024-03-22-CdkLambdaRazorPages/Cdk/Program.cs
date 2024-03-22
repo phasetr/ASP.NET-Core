@@ -2,6 +2,6 @@
 using Cdk;
 
 var app = new App();
-var _ = new CdkStack(app, "CdkStack");
+var _ = new CdkStack(app, "lrp-stack");
 
 app.Synth();
