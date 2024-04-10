@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "dotnet fable ./src && webpack",
+    "start": "dotnet fable watch ./src --runFast webpack-dev-server"
+  },
+  "devDependencies": {
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
