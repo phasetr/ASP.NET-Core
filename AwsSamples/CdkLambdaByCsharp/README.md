@@ -11,7 +11,7 @@
 - `HOST`は`cdk deploy`の結果を見て適切に書き換えること
 
 ```shell
-HOST=yzgr9suab7 \
+HOST=qfsa6419fk \
   && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/ \
   && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/Calculator/add/1/2 \
   && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-two \
