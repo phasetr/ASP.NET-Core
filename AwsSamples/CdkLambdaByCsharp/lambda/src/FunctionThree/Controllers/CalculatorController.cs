@@ -4,40 +4,39 @@ namespace FunctionThree.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CalculatorController : ControllerBase
+public class CalculatorController(ILogger<CalculatorController> logger) : ControllerBase
 {
-    private readonly ILogger<CalculatorController> _logger;
-
-    public CalculatorController(ILogger<CalculatorController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet("add/{x:int}/{y:int}")]
-    public int Add(int x, int y)
+    public string Add(int x, int y)
     {
-        _logger.LogInformation("{X} plus {Y} is {XY}", x, y, x + y);
-        return x + y;
+        logger.LogInformation("{X} plus {Y} is {XY}", x, y, x + y);
+        return $"{x} + {y} = {x + y}\n";
     }
 
     [HttpGet("subtract/{x:int}/{y:int}")]
-    public int Subtract(int x, int y)
+    public string Subtract(int x, int y)
     {
-        _logger.LogInformation("{X} subtract {Y} is {XY}", x, y, x - y);
-        return x - y;
+        logger.LogInformation("{X} subtract {Y} is {XY}", x, y, x - y);
+        return $"{x} - {y} = {x - y}\n";
     }
 
     [HttpGet("multiply/{x:int}/{y:int}")]
-    public int Multiply(int x, int y)
+    public string Multiply(int x, int y)
     {
-        _logger.LogInformation("{X} multiply {Y} is {X}", x, y, x * y);
-        return x * y;
+        logger.LogInformation("{X} multiply {Y} is {X}", x, y, x * y);
+        return $"{x} * {y} = {x * y}\n";
     }
 
     [HttpGet("divide/{x:int}/{y:int}")]
-    public int Divide(int x, int y)
+    public string Divide(int x, int y)
     {
-        _logger.LogInformation("{X} divide {Y} is {XY}", x, y, x / y);
-        return x / y;
+        if (y == 0)
+        {
+            logger.LogError("Cannot divide by zero");
+            return "Cannot divide by zero\n";
+        }
+
+        logger.LogInformation("{X} divide {Y} is {XY}", x, y, x / y);
+        return $"{x} / {y} = {x / y}\n";
     }
 }

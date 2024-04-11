@@ -13,33 +13,33 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => "Welcome to running ASP.NET Core Minimal API on AWS Lambda - Function One!");
-app.MapGet("/one", () => "Function One: /one");
+app.MapGet("/", () => "Welcome to running ASP.NET Core Minimal API on AWS Lambda - Function One!\n");
+app.MapGet("/one", () => "Function One: /one\n");
 app.MapGet("/add/{x:int}/{y:int}", (ILogger<Program> logger, int x, int y) =>
 {
     logger.LogInformation("{X} plus {Y} is {XY}", x, y, x + y);
-    return $"{x} + {y} = {x + y}";
+    return $"{x} + {y} = {x + y}\n";
 });
 app.MapGet("/subtract/{x:int}/{y:int}", (ILogger<Program> logger, int x, int y) =>
 {
     logger.LogInformation("{X} subtract {Y} is {XY}", x, y, x - y);
-    return $"{x} - {y} = {x - y}";
+    return $"{x} - {y} = {x - y}\n";
 });
 app.MapGet("/multiply/{x:int}/{y:int}", (ILogger<Program> logger, int x, int y) =>
 {
     logger.LogInformation("{X} multiply {Y} is {XY}", x, y, x * y);
-    return $"{x} * {y} = {x * y}";
+    return $"{x} * {y} = {x * y}\n";
 });
 app.MapGet("/divide/{x:int}/{y:int}", (ILogger<Program> logger, int x, int y) =>
 {
     if (y == 0)
     {
         logger.LogError("Cannot divide by zero");
-        return "Cannot divide by zero";
+        return "Cannot divide by zero\n";
     }
 
     logger.LogInformation("{X} divide {Y} is {XY}", x, y, x / y);
-    return $"{x} / {y} = {x / y}";
+    return $"{x} / {y} = {x / y}\n";
 });
 
 app.Run();

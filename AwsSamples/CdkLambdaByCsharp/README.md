@@ -11,13 +11,13 @@
 - `HOST`は`cdk deploy`の結果を見て適切に書き換えること
 
 ```shell
-HOST=26reka5yzj
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/Calculator/add/1/2
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-two
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-two/Calculator/add/1/2
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-three
-curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-three/Calculator/add/1/2
+HOST=yzgr9suab7 \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/ \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/Calculator/add/1/2 \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-two \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-two/add/1/2 \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-three \
+  && curl https://${HOST}.execute-api.ap-northeast-1.amazonaws.com/prod/function-three/Calculator/add/1/2
 ```
 
 ## memo

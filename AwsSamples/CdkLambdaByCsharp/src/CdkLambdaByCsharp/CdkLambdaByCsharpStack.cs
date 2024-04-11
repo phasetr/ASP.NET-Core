@@ -15,22 +15,22 @@ public class CdkLambdaByCsharpStack : Stack
     {
         var buildOption = new BundlingOptions
         {
-            Image = Runtime.DOTNET_6.BundlingImage,
+            Image = Runtime.DOTNET_8.BundlingImage,
             User = "root",
             OutputType = BundlingOutput.ARCHIVED,
-            Command = new[]
-            {
+            Command =
+            [
                 "/bin/sh",
                 "-c",
                 " dotnet tool install -g Amazon.Lambda.Tools" +
                 " && dotnet build" +
                 " && dotnet lambda package --output-package /asset-output/function.zip"
-            }
+            ]
         };
 
         var lambdaFunctionOne = new Function(this, $"{StackName}-my-func-one", new FunctionProps
         {
-            Runtime = Runtime.DOTNET_6,
+            Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
             Handler = "FunctionOne",
@@ -42,7 +42,7 @@ public class CdkLambdaByCsharpStack : Stack
 
         var lambdaFunctionTwo = new Function(this, $"{StackName}-my-func-two", new FunctionProps
         {
-            Runtime = Runtime.DOTNET_6,
+            Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
             Handler = "FunctionTwo",
@@ -54,7 +54,7 @@ public class CdkLambdaByCsharpStack : Stack
 
         var lambdaFunctionThree = new Function(this, $"{StackName}-my-func-three", new FunctionProps
         {
-            Runtime = Runtime.DOTNET_6,
+            Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
             Handler = "FunctionThree",
@@ -89,7 +89,7 @@ public class CdkLambdaByCsharpStack : Stack
         apiFunctionThree.AddMethod("ANY");
         apiFunctionThree.AddProxy();
 
-        var unused = new CfnOutput(this, $"{StackName}-api-gw-tarn",
-            new CfnOutputProps {Value = restApi.ArnForExecuteApi()});
+        var unused = new CfnOutput(this, $"{StackName}-apigwarn",
+            new CfnOutputProps { Value = restApi.ArnForExecuteApi() });
     }
 }
