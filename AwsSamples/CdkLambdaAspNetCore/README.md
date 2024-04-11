@@ -12,11 +12,10 @@ cdk deploy --profile dev --require-approval never
 - `API`側の確認
 
 ```shell
-export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name cdk-lambda-asp-net-core-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdklambdaaspnetcorestackapigwurldev`].OutputValue' --output text --profile dev) \
+export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 'Stacks[].Outputs[?OutputKey==`lsapigwurldev`].OutputValue' --output text --profile dev) \
   && echo ${API_GATEWAY_URL} \
   && curl -s ${API_GATEWAY_URL} \
-  && curl -s ${API_GATEWAY_URL}one \
-  && curl -s ${API_GATEWAY_URL}add/1/2
+  && curl -s ${API_GATEWAY_URL}Calculator/add/1/2
 ```
 
 ## 環境削除
