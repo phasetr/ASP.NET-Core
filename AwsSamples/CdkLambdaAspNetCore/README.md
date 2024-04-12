@@ -3,7 +3,9 @@
 - オリジナル`CdkUrlShortener`を修正して単一の`Lambda`をルート直下に追加
 - 参考：[aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
 
-## デプロイと実行確認
+## `CDK`
+
+### デプロイと実行確認
 
 ```shell
 cdk deploy --profile dev --require-approval never
@@ -32,8 +34,29 @@ export BLAZOR_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --que
   && curl -s ${BLAZOR_URL}Calculator/add/1/2
 ```
 
-## 環境削除
+### 環境削除
 
 ```shell
 cdk destroy --profile dev
+```
+
+## `Blazor`
+
+- `WebSocket`がうまく行かない？
+
+### ルートパスの設定
+
+- [参考](https://qiita.com/jsakamoto/items/7f1bdf4ce3d9c757ed94)
+- 特に[Blazor WebAssembly スタンドアロンの場合](https://qiita.com/jsakamoto/items/7f1bdf4ce3d9c757ed94#blazor-webassembly-スタンドアロンの場合)を参考にすること
+
+```shell
+curl https://y08wf42as2.execute-api.ap-northeast-1.amazonaws.com/prod/_blazor
+```
+
+```shell
+curl -X POST https://y08wf42as2.execute-api.ap-northeast-1.amazonaws.com/prod/_blazor
+```
+
+```shell
+curl -X POST https://y08wf42as2.execute-api.ap-northeast-1.amazonaws.com/prod/_blazor?id=6lSlCppiW0FdPQgeCJa4nw 
 ```

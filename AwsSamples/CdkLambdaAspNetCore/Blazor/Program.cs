@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
 var app = builder.Build();
+app.UsePathBase("/prod");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
