@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cdk", "Cdk\Cdk.csproj", "{2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi", "ServerlessApi\ServerlessApi.csproj", "{64D3D668-66C9-4C72-A8FC-B5FC193136C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{73166587-59A8-4F68-B545-648EC4BF2712}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{64D3D668-66C9-4C72-A8FC-B5FC193136C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D3D668-66C9-4C72-A8FC-B5FC193136C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64D3D668-66C9-4C72-A8FC-B5FC193136C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73166587-59A8-4F68-B545-648EC4BF2712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73166587-59A8-4F68-B545-648EC4BF2712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73166587-59A8-4F68-B545-648EC4BF2712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73166587-59A8-4F68-B545-648EC4BF2712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

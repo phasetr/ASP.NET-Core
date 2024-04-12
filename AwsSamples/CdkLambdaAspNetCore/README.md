@@ -12,10 +12,17 @@ cdk deploy --profile dev --require-approval never
 - `API`側の確認
 
 ```shell
-export API_GATEWAY_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 'Stacks[].Outputs[?OutputKey==`lsapigwurldev`].OutputValue' --output text --profile dev) \
-  && echo ${API_GATEWAY_URL} \
-  && curl -s ${API_GATEWAY_URL} \
-  && curl -s ${API_GATEWAY_URL}Calculator/add/1/2
+export API_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 'Stacks[].Outputs[?OutputKey==`lsapiurldev`].OutputValue' --output text --profile dev) \
+  && echo ${API_URL} \
+  && curl -s ${API_URL} \
+  && curl -s ${API_URL}Calculator/add/1/2
+```
+
+```shell
+export WEB_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 'Stacks[].Outputs[?OutputKey==`lsweburldev`].OutputValue' --output text --profile dev) \
+  && echo ${WEB_URL} \
+  && curl -s ${WEB_URL}api \
+  && curl -s ${WEB_URL}Calculator/add/1/2
 ```
 
 ## 環境削除

@@ -17,8 +17,8 @@ public class CdkStack : Stack
         var configuration = props?.MyConfiguration ?? throw new ArgumentNullException(nameof(props));
         var envName = configuration.EnvironmentName;
 
-        // Lambda
-        var lambda = new Function(this, $"{Prefix}-l-{envName}", new FunctionProps
+        // ServerlessApi
+        var apiLambda = new Function(this, $"{Prefix}-api-{envName}", new FunctionProps
         {
             Runtime = Runtime.DOTNET_8,
             MemorySize = 512,
@@ -44,15 +44,52 @@ public class CdkStack : Stack
         });
 
         // API Gateway
-        var restApi = new LambdaRestApi(this, $"{Prefix}-apigw-{envName}", new LambdaRestApiProps
+        var apiLambdaAg = new LambdaRestApi(this, $"{Prefix}-api-apigw-{envName}", new LambdaRestApiProps
         {
-            Handler = lambda,
+            Handler = apiLambda,
             Proxy = true
         });
 
-        var unused1 = new CfnOutput(this, $"{Prefix}-apigw-arn-{envName}",
-            new CfnOutputProps { Value = restApi.ArnForExecuteApi() });
-        var unused2 = new CfnOutput(this, $"{Prefix}-apigw-url-{envName}",
-            new CfnOutputProps { Value = restApi.UrlForPath() });
+        // Web (Razor Pages)
+        var webLambda = new Function(this, $"{Prefix}-web-{envName}", new FunctionProps
+        {
+            Runtime = Runtime.DOTNET_8,
+            MemorySize = 512,
+            LogRetention = RetentionDays.ONE_DAY,
+            Handler = "Web",
+            Code = Code.FromAsset("Web/", new AssetOptions
+            {
+                Bundling = new BundlingOptions
+                {
+                    Image = Runtime.DOTNET_8.BundlingImage,
+                    User = "root",
+                    OutputType = BundlingOutput.ARCHIVED,
+                    Command =
+                    [
+                        "/bin/sh",
+                        "-c",
+                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " && dotnet build" +
+                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                    ]
+                }
+            })
+        });
+
+        // API Gateway
+        var webLambdaAg = new LambdaRestApi(this, $"{Prefix}-web-apigw-{envName}", new LambdaRestApiProps
+        {
+            Handler = webLambda,
+            Proxy = true
+        });
+
+        var unused1 = new CfnOutput(this, $"{Prefix}-api-arn-{envName}",
+            new CfnOutputProps { Value = webLambdaAg.ArnForExecuteApi() });
+        var unused2 = new CfnOutput(this, $"{Prefix}-api-url-{envName}",
+            new CfnOutputProps { Value = webLambdaAg.UrlForPath() });
+        var unused3 = new CfnOutput(this, $"{Prefix}-web-arn-{envName}",
+            new CfnOutputProps { Value = webLambdaAg.ArnForExecuteApi() });
+        var unused4 = new CfnOutput(this, $"{Prefix}-web-url-{envName}",
+            new CfnOutputProps { Value = webLambdaAg.UrlForPath() });
     }
 }
