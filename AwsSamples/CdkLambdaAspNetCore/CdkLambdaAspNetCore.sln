@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerlessApi", "Serverless
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{73166587-59A8-4F68-B545-648EC4BF2712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor\Blazor.csproj", "{BB24623E-5F6D-49A8-9E0B-4EEED811EC80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{73166587-59A8-4F68-B545-648EC4BF2712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73166587-59A8-4F68-B545-648EC4BF2712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73166587-59A8-4F68-B545-648EC4BF2712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB24623E-5F6D-49A8-9E0B-4EEED811EC80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB24623E-5F6D-49A8-9E0B-4EEED811EC80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB24623E-5F6D-49A8-9E0B-4EEED811EC80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB24623E-5F6D-49A8-9E0B-4EEED811EC80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -25,6 +25,13 @@ export WEB_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 
   && curl -s ${WEB_URL}Calculator/add/1/2
 ```
 
+```shell
+export BLAZOR_URL=$(aws cloudformation describe-stacks --stack-name ls-dev --query 'Stacks[].Outputs[?OutputKey==`lsburldev`].OutputValue' --output text --profile dev) \
+  && echo ${BLAZOR_URL} \
+  && curl -s ${BLAZOR_URL}api \
+  && curl -s ${BLAZOR_URL}Calculator/add/1/2
+```
+
 ## 環境削除
 
 ```shell
