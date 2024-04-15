@@ -7,11 +7,13 @@
    - `harry@contoso.com`/`Passw0rd!`
        - `User`
 
+## Original
+
 This sample app demonstrates how to use the built-in ASP.NET Core Identity capabilities from a standalone Blazor WebAssembly app.
 
 For more information, see [Secure ASP.NET Core Blazor WebAssembly with ASP.NET Core Identity](https://learn.microsoft.com/aspnet/core/blazor/security/webassembly/standalone-with-identity).
 
-## Steps to run the sample
+### Steps to run the sample
 
 1. Clone this repository or download a ZIP archive of the repository. For more information, see [How to download a sample](https://learn.microsoft.com/aspnet/core/introduction-to-aspnet-core#how-to-download-a-sample).
 
