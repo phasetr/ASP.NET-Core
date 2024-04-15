@@ -24,6 +24,14 @@ builder.Services.AddAuthorizationBuilder();
 // Add the database (in memory for the sample)
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseInMemoryDatabase("AppDb"));
+// Add identity and opt-in to endpoints
+builder.Services
+    .AddIdentityCore<ApplicationUser>()
+    .AddRoles<ApplicationRole>()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddApiEndpoints();
+
 // // DynamoDB
 // var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
 // // 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
@@ -37,14 +45,20 @@ builder.Services.AddDbContext<AppDbContext>(
 //     : new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
 // builder.Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig));
 // builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
-
-// Add identity and opt-in to endpoints
-builder.Services
-    .AddIdentityCore<ApplicationUser>()
-    .AddRoles<ApplicationRole>()
-    .AddRoleManager<RoleManager<ApplicationRole>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddApiEndpoints();
+// builder.Services
+//     .AddIdentityCore<DynamoDbUser>()
+//     .AddRoles<DynamoDbRole>()
+//     .AddDynamoDbStores()
+//     .Configure(options =>
+//     {
+//         options.BillingMode = BillingMode.PROVISIONED; // Default is BillingMode.PAY_PER_REQUEST
+//         options.ProvisionedThroughput = new ProvisionedThroughput
+//         {
+//             ReadCapacityUnits = 5, // Default is 1
+//             WriteCapacityUnits = 5, // Default is 1
+//         };
+//         options.DefaultTableName = "my-custom-identity-table-name"; // Default is identity
+//     });
 
 // Add a CORS policy for the client
 builder.Services.AddCors(
