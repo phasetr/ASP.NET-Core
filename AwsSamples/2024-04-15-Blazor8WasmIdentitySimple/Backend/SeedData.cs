@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend;
 
-public class SeedData
+public static class SeedData
 {
     private static readonly IEnumerable<SeedUser> SeedUsers =
     [
@@ -62,6 +62,6 @@ public class SeedData
 
     private class SeedUser : AppUser
     {
-        public string[]? RoleList { get; set; }
+        public string[]? RoleList { get; init; }
     }
 }
