@@ -10,31 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Establish cookie authentication
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 
-// Configure app cookie
-//
-// The default values, which are appropriate for hosting the Backend and
-// BlazorWasmAuth apps on the same domain, are Lax and SameAsRequest.
-// For more information on these settings, see:
-// https://learn.microsoft.com/aspnet/core/blazor/security/webassembly/standalone-with-identity#cross-domain-hosting-same-site-configuration
-/*
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-});
-*/
-
 // Configure authorization
 builder.Services.AddAuthorizationBuilder();
 
 // Add the database (in memory for the sample)
 builder.Services.AddDbContext<AppDbContext>(
-    options =>
-    {
-        options.UseInMemoryDatabase("AppDb");
-        //For debugging only: options.EnableDetailedErrors(true);
-        //For debugging only: options.EnableSensitiveDataLogging(true);
-    });
+    options => options.UseInMemoryDatabase("AppDb"));
 
 // Add identity and opt-in to endpoints
 builder.Services.AddIdentityCore<AppUser>()
@@ -47,8 +28,8 @@ builder.Services.AddCors(
     options => options.AddPolicy(
         "wasm",
         policy => policy.WithOrigins([
-                builder.Configuration["BackendUrl"] ?? "https://localhost:5001",
-                builder.Configuration["FrontendUrl"] ?? "https://localhost:5002"
+                builder.Configuration["BackendUrl"] ?? "http://localhost:5266",
+                builder.Configuration["FrontendUrl"] ?? "http://localhost:5170"
             ])
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -68,7 +49,6 @@ if (builder.Environment.IsDevelopment())
     // Seed the database
     await using var scope = app.Services.CreateAsyncScope();
     await SeedData.InitializeAsync(scope.ServiceProvider);
-
     // Add OpenAPI/Swagger generator and the Swagger UI
     app.UseOpenApi();
     app.UseSwaggerUi();

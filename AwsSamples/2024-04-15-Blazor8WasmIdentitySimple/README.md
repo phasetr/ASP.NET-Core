@@ -6,6 +6,7 @@
        - `Administrator`, `Manager`, and `User`
    - `harry@contoso.com`/`Passw0rd!`
        - `User`
+- 特に開発環境では`Program.cs`で適切な`URL`が設定されているか確認する
 
 ## Original
 
