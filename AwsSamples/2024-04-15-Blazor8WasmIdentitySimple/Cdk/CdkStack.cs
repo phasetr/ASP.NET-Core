@@ -29,7 +29,7 @@ public sealed class CdkStack : Stack
         #region BlazorFrontend
 
         // S3
-        var contentsBucket = new Bucket(this, $"{Prefix}-s3-{envName}", new BucketProps
+        var frontendS3 = new Bucket(this, $"{Prefix}-s3-{envName}", new BucketProps
         {
             BlockPublicAccess = BlockPublicAccess.BLOCK_ALL,
             RemovalPolicy = RemovalPolicy.DESTROY,
@@ -49,33 +49,33 @@ public sealed class CdkStack : Stack
                 }
             });
         // CloudFront
-        var cloudFront = new Distribution(this, $"{Prefix}-cf-{envName}", new DistributionProps
+        var frontendCloudFront = new Distribution(this, $"{Prefix}-cf-{envName}", new DistributionProps
         {
             Comment = "distribution for bucket",
             DefaultBehavior = new BehaviorOptions
             {
-                Origin = new S3Origin(contentsBucket),
+                Origin = new S3Origin(frontendS3),
                 AllowedMethods = AllowedMethods.ALLOW_ALL
             },
             DefaultRootObject = "index.html",
             HttpVersion = HttpVersion.HTTP2_AND_3
         });
         // S3 bucket policy statement
-        var contentsBucketPolicyStatement = new PolicyStatement(new PolicyStatementProps
+        var frontendS3PolicyStatement = new PolicyStatement(new PolicyStatementProps
         {
             Actions = ["s3:GetObject"],
             Effect = Effect.ALLOW,
             Principals = [new ServicePrincipal("cloudfront.amazonaws.com")],
-            Resources = [contentsBucket.ArnForObjects("*")]
+            Resources = [frontendS3.ArnForObjects("*")]
         });
-        contentsBucketPolicyStatement.AddCondition("StringEquals", new Dictionary<string, object>
+        frontendS3PolicyStatement.AddCondition("StringEquals", new Dictionary<string, object>
         {
             {
                 "AWS:SourceArn",
-                $"arn:aws:cloudfront::{Aws.ACCOUNT_ID}:distribution/cloudfront/{cloudFront.DistributionId}-{envName}"
+                $"arn:aws:cloudfront::{Aws.ACCOUNT_ID}:distribution/cloudfront/{frontendCloudFront.DistributionId}-{envName}"
             }
         });
-        contentsBucket.AddToResourcePolicy(contentsBucketPolicyStatement);
+        frontendS3.AddToResourcePolicy(frontendS3PolicyStatement);
 
         #endregion
 
@@ -113,7 +113,7 @@ public sealed class CdkStack : Stack
             Handler = "Backend",
             Environment = new Dictionary<string, string>
             {
-                { "FRONTEND_URL", $"https://{cloudFront.DistributionDomainName}" },
+                { "FRONTEND_URL", $"https://{frontendCloudFront.DistributionDomainName}" },
                 { "REGION", Region },
                 { "TABLE_NAME", dynamodb.TableName }
             },
@@ -139,7 +139,7 @@ public sealed class CdkStack : Stack
         dynamodb.GrantReadWriteData(lambda);
 
         // API Gateway
-        var apiGateway = new LambdaRestApi(this, $"{Prefix}-ag-{envName}", new LambdaRestApiProps
+        var backendApiGateway = new LambdaRestApi(this, $"{Prefix}-ag-{envName}", new LambdaRestApiProps
         {
             Handler = lambda,
             Proxy = true,
@@ -157,14 +157,14 @@ public sealed class CdkStack : Stack
 
         #region Outputs
 
-        var unused101 = new CfnOutput(this, $"{Prefix}-ag-arn-{envName}",
-            new CfnOutputProps { Value = apiGateway.ArnForExecuteApi() });
-        var unused102 = new CfnOutput(this, $"{Prefix}-ag-url-{envName}",
-            new CfnOutputProps { Value = apiGateway.UrlForPath() });
-        var unused104 = new CfnOutput(this, $"{Prefix}-cf-dn-{envName}",
-            new CfnOutputProps { Value = $"https://{cloudFront.DistributionDomainName}" });
-        var unused103 = new CfnOutput(this, $"{Prefix}-b-{envName}",
-            new CfnOutputProps { Value = contentsBucket.BucketName });
+        var unused101 = new CfnOutput(this, $"{Prefix}-b-ag-arn-{envName}",
+            new CfnOutputProps { Value = backendApiGateway.ArnForExecuteApi() });
+        var unused102 = new CfnOutput(this, $"{Prefix}-b-ag-url-{envName}",
+            new CfnOutputProps { Value = backendApiGateway.UrlForPath() });
+        var unused104 = new CfnOutput(this, $"{Prefix}-f-dn-{envName}",
+            new CfnOutputProps { Value = $"https://{frontendCloudFront.DistributionDomainName}" });
+        var unused103 = new CfnOutput(this, $"{Prefix}-f-bn-{envName}",
+            new CfnOutputProps { Value = frontendS3.BucketName });
 
         #endregion
     }

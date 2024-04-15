@@ -7,6 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddControllers();
+
+// Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
+// package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
+
 // Establish cookie authentication
 builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 
@@ -66,6 +73,7 @@ app.UseCors("wasm");
 // to set the appropriate headers.
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers();
 
 // Provide an end point to clear the cookie for logout
 //
@@ -80,7 +88,7 @@ app.MapPost("/logout", async (SignInManager<AppUser> signInManager, [FromBody] o
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => Results.Text("Hello, world!"));
+app.MapGet("/", () => Results.Text("Hello, world!\n"));
 app.MapGet("/roles", (ClaimsPrincipal user) =>
 {
     if (user.Identity is null || !user.Identity.IsAuthenticated) return Results.Unauthorized();
