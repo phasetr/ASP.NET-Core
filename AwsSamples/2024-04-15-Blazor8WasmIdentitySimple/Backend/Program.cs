@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
 
 // Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
 // package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
@@ -45,9 +46,6 @@ builder.Services.AddCors(
 // Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 
-// Add NSwag services
-builder.Services.AddOpenApiDocument();
-
 var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
@@ -56,9 +54,15 @@ if (builder.Environment.IsDevelopment())
     // Seed the database
     await using var scope = app.Services.CreateAsyncScope();
     await SeedData.InitializeAsync(scope.ServiceProvider);
-    // Add OpenAPI/Swagger generator and the Swagger UI
-    app.UseOpenApi();
-    app.UseSwaggerUi();
+    // 必要に応じて本番環境でも公開して調べよう
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 // Create routes for the identity endpoints
@@ -87,6 +91,8 @@ app.MapPost("/logout", async (SignInManager<AppUser> signInManager, [FromBody] o
 }).RequireAuthorization();
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 
 app.MapGet("/", () => Results.Text("Hello, world!\n"));
 app.MapGet("/roles", (ClaimsPrincipal user) =>
