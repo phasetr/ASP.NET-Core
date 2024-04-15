@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmAuth", "BlazorWas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "Backend\Backend.csproj", "{DAFFE81D-7A08-40E0-9E14-E4F2E6D6F705}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cdk", "Cdk\Cdk.csproj", "{86993B12-891C-41D5-BCF9-46C72DC1E011}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DAFFE81D-7A08-40E0-9E14-E4F2E6D6F705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFFE81D-7A08-40E0-9E14-E4F2E6D6F705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFFE81D-7A08-40E0-9E14-E4F2E6D6F705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86993B12-891C-41D5-BCF9-46C72DC1E011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86993B12-891C-41D5-BCF9-46C72DC1E011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86993B12-891C-41D5-BCF9-46C72DC1E011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86993B12-891C-41D5-BCF9-46C72DC1E011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
