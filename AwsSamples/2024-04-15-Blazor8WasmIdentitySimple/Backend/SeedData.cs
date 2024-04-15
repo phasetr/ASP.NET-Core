@@ -28,22 +28,26 @@ public static class SeedData
 
     public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
-        await using var context = new AppDbContext(serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>());
+        await using var context =
+            new AppDbContext(serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>());
 
         if (context.Users.Any()) return;
 
-        var userStore = new UserStore<AppUser>(context);
-        var password = new PasswordHasher<AppUser>();
+        var userStore = new UserStore<ApplicationUser>(context);
+        var password = new PasswordHasher<ApplicationUser>();
 
-        using var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        using var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
         string[] roles = ["Administrator", "Manager", "User"];
 
         foreach (var role in roles)
             if (!await roleManager.RoleExistsAsync(role))
-                await roleManager.CreateAsync(new IdentityRole(role));
+                await roleManager.CreateAsync(new ApplicationRole
+                {
+                    Name = role
+                });
 
-        using var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+        using var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
         foreach (var user in SeedUsers)
         {
@@ -60,7 +64,7 @@ public static class SeedData
         await context.SaveChangesAsync();
     }
 
-    private class SeedUser : AppUser
+    private class SeedUser : ApplicationUser
     {
         public string[]? RoleList { get; init; }
     }

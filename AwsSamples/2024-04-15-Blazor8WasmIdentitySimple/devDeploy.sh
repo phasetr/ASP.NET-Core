@@ -7,7 +7,7 @@ cat <<EOS
 cdk deploy：特にバックエンドのデプロイ
 EOS
 
-cdk deploy --profile dev --require-approval never
+# cdk deploy --profile dev --require-approval never
 
 cat <<EOS
 フロントエンド用のlaunchSettings.jsonの設定
@@ -29,14 +29,15 @@ frontendLaunchSettingJson=$(cat <<EOS
     }
   }
 }
-EOS)
+EOS
+)
 
 echo "${frontendLaunchSettingJson}" > ${frontendDirectory}/Properties/launchSettings.json
 
-export BackendUrl=$(aws cloudformation describe-stacks \
+BackendUrl=$(aws cloudformation describe-stacks \
   --stack-name ${stackName} \
   --query 'Stacks[].Outputs[?OutputKey==`babagurldev`].OutputValue' --output text)
-export FrontendUrl=$(aws cloudformation describe-stacks \
+FrontendUrl=$(aws cloudformation describe-stacks \
   --stack-name ${stackName} \
   --query 'Stacks[].Outputs[?OutputKey==`bafdndev`].OutputValue' \
   --output text)
@@ -46,7 +47,8 @@ frontendAppSettingsJson=$(cat <<EOS
   "FrontendUrl": "${FrontendUrl}",
   "BackendUrl": "${BackendUrl}"
 }
-EOS)
+EOS
+)
 echo "$frontendAppSettingsJson" > ${frontendDirectory}/wwwroot/appsettings.json
 
 frontendAppSettingsDevelopmentJson=$(cat <<EOS
@@ -54,7 +56,8 @@ frontendAppSettingsDevelopmentJson=$(cat <<EOS
   "FrontendUrl": "https://localhost:6500",
   "BackendUrl": "https://localhost:5500"
 }
-EOS)
+EOS
+)
 echo "$frontendAppSettingsDevelopmentJson" > ${frontendDirectory}/wwwroot/appsettings.Development.json
 
 cat <<EOS
@@ -79,15 +82,47 @@ backendLaunchSettingsJson=$(cat <<EOS
     }
   }
 }
-EOS)
+EOS
+)
 
 echo "$backendLaunchSettingsJson" > ${backendDirectory}/Properties/launchSettings.json
+
+backendAppSettingsJson=$(cat <<EOS
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "FrontendUrl": "${FrontendUrl}",
+  "BackendUrl": "${BackendUrl}"
+}
+EOS
+)
+echo "$backendAppSettingsJson" > ${backendDirectory}/appsettings.json
+
+backendAppSettingsDevelopmentJson=$(cat <<EOS
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "FrontendUrl": "https://localhost:6500",
+  "BackendUrl": "https://localhost:5500"
+}
+EOS
+)
+echo "$backendAppSettingsDevelopmentJson" > ${backendDirectory}/appsettings.Development.json
 
 cat <<EOS
 フロントエンドのデプロイ
 EOS
 
-export S3BucketName=$(aws cloudformation describe-stacks \
+S3BucketName=$(aws cloudformation describe-stacks \
   --stack-name ${stackName} \
   --query 'Stacks[].Outputs[?OutputKey==`bafbndev`].OutputValue' \
   --output text --profile dev)
@@ -102,6 +137,6 @@ EOS
 echo APIGateway URL: ${BackendUrl}
 curl -s ${BackendUrl}
 
-export DomainName=$(aws cloudformation describe-stacks --stack-name ${stackName} \
+DomainName=$(aws cloudformation describe-stacks --stack-name ${stackName} \
   --query 'Stacks[].Outputs[?OutputKey==`bafdndev`].OutputValue' --output text --profile dev)
 echo "フロントエンドのURL": ${DomainName}

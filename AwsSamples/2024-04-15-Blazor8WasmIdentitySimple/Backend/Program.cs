@@ -24,10 +24,25 @@ builder.Services.AddAuthorizationBuilder();
 // Add the database (in memory for the sample)
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseInMemoryDatabase("AppDb"));
+// // DynamoDB
+// var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
+// // 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
+// // `ServiceURL`は`compose.yml`で設定
+// var amazonDynamoDbConfig = builder.Environment.IsDevelopment()
+//     ? new AmazonDynamoDBConfig
+//     {
+//         RegionEndpoint = RegionEndpoint.GetBySystemName(region),
+//         ServiceURL = "http://localhost:8000"
+//     }
+//     : new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
+// builder.Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig));
+// builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 
 // Add identity and opt-in to endpoints
-builder.Services.AddIdentityCore<AppUser>()
-    .AddRoles<IdentityRole>()
+builder.Services
+    .AddIdentityCore<ApplicationUser>()
+    .AddRoles<ApplicationRole>()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
 
@@ -36,8 +51,8 @@ builder.Services.AddCors(
     options => options.AddPolicy(
         "wasm",
         policy => policy.WithOrigins([
-                builder.Configuration["BackendUrl"] ?? "http://localhost:5266",
-                builder.Configuration["FrontendUrl"] ?? "http://localhost:5170"
+                builder.Configuration["FrontendUrl"] ?? "https://localhost:6500",
+                builder.Configuration["BackendUrl"] ?? "https://localhost:5500"
             ])
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -65,8 +80,12 @@ else
     app.UseHsts();
 }
 
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
 // Create routes for the identity endpoints
-app.MapIdentityApi<AppUser>();
+app.MapIdentityApi<ApplicationUser>();
 
 // Activate the CORS policy
 app.UseCors("wasm");
@@ -83,16 +102,12 @@ app.MapControllers();
 //
 // For more information on the logout endpoint and antiforgery, see:
 // https://learn.microsoft.com/aspnet/core/blazor/security/webassembly/standalone-with-identity#antiforgery-support
-app.MapPost("/logout", async (SignInManager<AppUser> signInManager, [FromBody] object? empty) =>
+app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager, [FromBody] object? empty) =>
 {
     if (empty is null) return Results.Unauthorized();
     await signInManager.SignOutAsync();
     return Results.Ok();
 }).RequireAuthorization();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
 
 app.MapGet("/", () => Results.Text("Hello, world!\n"));
 app.MapGet("/roles", (ClaimsPrincipal user) =>
@@ -123,13 +138,18 @@ app.MapPost("/data-processing-2", ([FromBody] FormModel model) =>
 app.Run();
 
 // Identity user
-internal class AppUser : IdentityUser
+internal class ApplicationUser : IdentityUser
 {
-    public IEnumerable<IdentityRole>? Roles { get; set; }
+    public IEnumerable<ApplicationRole>? Roles { get; set; }
+}
+
+// Identity role
+internal class ApplicationRole : IdentityRole
+{
 }
 
 // Identity database
-internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)
+internal class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
 }
 
