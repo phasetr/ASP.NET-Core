@@ -73,8 +73,8 @@ backendLaunchSettingsJson=$(cat <<EOS
       "applicationUrl": "https://localhost:5500;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CLIENT_URL": "https://localhost:6500",
-        "REGION": "ap-northeast-1"
+        "AWS_REGION": "ap-northeast-1",
+        "TABLE_NAME": "ba-ddb-local"
       }
     }
   }

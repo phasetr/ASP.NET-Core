@@ -165,6 +165,8 @@ public sealed class CdkStack : Stack
             new CfnOutputProps { Value = $"https://{frontendCloudFront.DistributionDomainName}" });
         var unused103 = new CfnOutput(this, $"{Prefix}-f-bn-{envName}",
             new CfnOutputProps { Value = frontendS3.BucketName });
+        var unused105 = new CfnOutput(this, $"{Prefix}-ddb-tn-{envName}",
+            new CfnOutputProps { Value = dynamodb.TableName });
 
         #endregion
     }
