@@ -11,9 +11,9 @@
     <div class="alert alert-success">You're logged in as @context.User.Identity?.Name.</div>
   </Authorized>
   <NotAuthorized>
-    @if (errors)
+    @if (_errors)
     {
-      @foreach (var error in errorList)
+      @foreach (var error in _errorList)
       {
         <div class="alert alert-danger">@error</div>
       }
@@ -23,13 +23,13 @@
         <label for="email">
           Email:
         </label>
-        <input required id="email" name="emailInput" placeholder="Enter your email address" type="email" @bind-value="email"/>
+        <input required id="email" name="emailInput" placeholder="Enter your email address" type="email" @bind-value="_email"/>
       </div>
       <div>
         <label for="password">
           Password:
         </label>
-        <input required id="password" name="passwordInput" placeholder="Enter your password" type="password" @bind-value="password"/>
+        <input required id="password" name="passwordInput" placeholder="Enter your password" type="password" @bind-value="_password"/>
       </div>
       <div>
         <button class="btn btn-primary" @onclick="DoLoginAsync">Login</button>
@@ -39,43 +39,41 @@
 </AuthorizeView>
 
 @code {
-  private bool success, errors;
-  private string email = string.Empty;
-  private string password = string.Empty;
-  private string[] errorList = [];
+  private bool _success, _errors;
+  private string _email = string.Empty;
+  private string _password = string.Empty;
+  private string[] _errorList = [];
 
-  public async Task DoLoginAsync()
+  private async Task DoLoginAsync()
   {
-    success = errors = false;
-    errorList = [];
+    _success = _errors = false;
+    _errorList = [];
 
-    if (string.IsNullOrWhiteSpace(email))
+    if (string.IsNullOrWhiteSpace(_email))
     {
-      errors = true;
-      errorList = ["Email is required."];
-
+      _errors = true;
+      _errorList = ["Email is required."];
       return;
     }
 
-    if (string.IsNullOrWhiteSpace(password))
+    if (string.IsNullOrWhiteSpace(_password))
     {
-      errors = true;
-      errorList = ["Password is required."];
-
+      _errors = true;
+      _errorList = ["Password is required."];
       return;
     }
 
-    var result = await Acct.LoginAsync(email, password);
+    var result = await Acct.LoginAsync(_email, _password);
 
     if (result.Succeeded)
     {
-      success = true;
-      email = password = string.Empty;
+      _success = true;
+      _email = _password = string.Empty;
     }
     else
     {
-      errors = true;
-      errorList = result.ErrorList;
+      _errors = true;
+      _errorList = result.ErrorList;
     }
   }
 

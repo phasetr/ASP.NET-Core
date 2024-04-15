@@ -12,10 +12,10 @@
 
 <h2>Claims</h2>
 
-@if (claims.Count() > 0)
+@if (_claims.Any())
 {
   <ul>
-    @foreach (var claim in claims)
+    @foreach (var claim in _claims)
     {
       <li>
         <b>@claim.Type:</b> @claim.Value
@@ -25,19 +25,16 @@
 }
 
 @code {
-  private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+  private IEnumerable<Claim> _claims = Enumerable.Empty<Claim>();
 
   [CascadingParameter] private Task<AuthenticationState>? AuthState { get; set; }
 
   protected override async Task OnInitializedAsync()
   {
-    if (AuthState == null)
-    {
-      return;
-    }
+    if (AuthState == null) return;
 
     var authState = await AuthState;
-    claims = authState.User.Claims;
+    _claims = authState.User.Claims;
   }
 
 }

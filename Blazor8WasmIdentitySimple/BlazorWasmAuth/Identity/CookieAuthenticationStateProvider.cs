@@ -20,17 +20,15 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
     /// <summary>
     ///     Map the JavaScript-formatted properties to C#-formatted classes.
     /// </summary>
-    private readonly JsonSerializerOptions jsonSerializerOptions =
-        new()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     /// <summary>
     ///     Default principal for anonymous (not authenticated) users.
     /// </summary>
-    private readonly ClaimsPrincipal Unauthenticated =
-        new(new ClaimsIdentity());
+    private readonly ClaimsPrincipal _unauthenticated = new(new ClaimsIdentity());
 
     /// <summary>
     ///     Authentication state.
@@ -78,13 +76,31 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
             var errorList = problemDetails.RootElement.GetProperty("errors");
 
             foreach (var errorEntry in errorList.EnumerateObject())
-                if (errorEntry.Value.ValueKind == JsonValueKind.String)
-                    errors.Add(errorEntry.Value.GetString()!);
-                else if (errorEntry.Value.ValueKind == JsonValueKind.Array)
-                    errors.AddRange(
-                        errorEntry.Value.EnumerateArray().Select(
-                                e => e.GetString() ?? string.Empty)
+                switch (errorEntry.Value.ValueKind)
+                {
+                    case JsonValueKind.String:
+                        errors.Add(errorEntry.Value.GetString()!);
+                        break;
+                    case JsonValueKind.Array:
+                        errors.AddRange(errorEntry.Value.EnumerateArray()
+                            .Select(e => e.GetString() ?? string.Empty)
                             .Where(e => !string.IsNullOrEmpty(e)));
+                        break;
+                    case JsonValueKind.Undefined:
+                        break;
+                    case JsonValueKind.Object:
+                        break;
+                    case JsonValueKind.Number:
+                        break;
+                    case JsonValueKind.True:
+                        break;
+                    case JsonValueKind.False:
+                        break;
+                    case JsonValueKind.Null:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException($"Unknown JSON value kind: {errorEntry.Value.ValueKind}");
+                }
 
             // return the error list
             return new FormResult
@@ -93,8 +109,9 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
                 ErrorList = problemDetails == null ? defaultDetail : [.. errors]
             };
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
         }
 
         // unknown error
@@ -116,25 +133,24 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
         try
         {
             // login with cookies
-            var result = await _httpClient.PostAsJsonAsync(
-                "login?useCookies=true", new
-                {
-                    email,
-                    password
-                });
+            var result = await _httpClient.PostAsJsonAsync("login?useCookies=true", new
+            {
+                email,
+                password
+            });
 
             // success?
             if (result.IsSuccessStatusCode)
             {
                 // need to refresh auth state
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-
                 // success!
                 return new FormResult { Succeeded = true };
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
         }
 
         // unknown error
@@ -147,8 +163,7 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
 
     public async Task LogoutAsync()
     {
-        const string Empty = "{}";
-        var emptyContent = new StringContent(Empty, Encoding.UTF8, "application/json");
+        var emptyContent = new StringContent("{}", Encoding.UTF8, "application/json");
         await _httpClient.PostAsync("logout", emptyContent);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
@@ -172,7 +187,7 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
         _authenticated = false;
 
         // default to not authenticated
-        var user = Unauthenticated;
+        var user = _unauthenticated;
 
         try
         {
@@ -184,7 +199,7 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
 
             // user is authenticated,so let's build their authenticated identity
             var userJson = await userResponse.Content.ReadAsStringAsync();
-            var userInfo = JsonSerializer.Deserialize<UserInfo>(userJson, jsonSerializerOptions);
+            var userInfo = JsonSerializer.Deserialize<UserInfo>(userJson, _jsonSerializerOptions);
 
             if (userInfo != null)
             {
@@ -196,9 +211,9 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
                 };
 
                 // add any additional claims
-                claims.AddRange(
-                    userInfo.Claims.Where(c => c.Key != ClaimTypes.Name && c.Key != ClaimTypes.Email)
-                        .Select(c => new Claim(c.Key, c.Value)));
+                claims.AddRange(userInfo.Claims
+                    .Where(c => c.Key != ClaimTypes.Name && c.Key != ClaimTypes.Email)
+                    .Select(c => new Claim(c.Key, c.Value)));
 
                 // tap the roles endpoint for the user's roles
                 var rolesResponse = await _httpClient.GetAsync("roles");
@@ -210,14 +225,14 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
                 var rolesJson = await rolesResponse.Content.ReadAsStringAsync();
 
                 // deserialize the roles string into an array
-                var roles = JsonSerializer.Deserialize<RoleClaim[]>(rolesJson, jsonSerializerOptions);
+                var roles = JsonSerializer.Deserialize<RoleClaim[]>(rolesJson, _jsonSerializerOptions);
 
                 // if there are roles, add them to the claims collection
                 if (roles?.Length > 0)
-                    foreach (var role in roles)
-                        if (!string.IsNullOrEmpty(role.Type) && !string.IsNullOrEmpty(role.Value))
-                            claims.Add(new Claim(role.Type, role.Value, role.ValueType, role.Issuer,
-                                role.OriginalIssuer));
+                    claims.AddRange(
+                        from role in roles
+                        where !string.IsNullOrEmpty(role.Type) && !string.IsNullOrEmpty(role.Value)
+                        select new Claim(role.Type, role.Value, role.ValueType, role.Issuer, role.OriginalIssuer));
 
                 // set the principal
                 var id = new ClaimsIdentity(claims, nameof(CookieAuthenticationStateProvider));
@@ -233,7 +248,7 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
         return new AuthenticationState(user);
     }
 
-    public class RoleClaim
+    private class RoleClaim
     {
         public string? Issuer { get; set; }
         public string? OriginalIssuer { get; set; }

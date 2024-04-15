@@ -6,7 +6,7 @@
 
 <h1>Logout</h1>
 
-<AuthorizeView @ref="authView">
+<AuthorizeView @ref="_authView">
   <Authorized>
     <div class="alert alert-info">Logging you out...</div>
   </Authorized>
@@ -16,7 +16,7 @@
 </AuthorizeView>
 
 @code {
-  private AuthorizeView? authView;
+  private AuthorizeView? _authView;
 
   protected override async Task OnInitializedAsync()
   {

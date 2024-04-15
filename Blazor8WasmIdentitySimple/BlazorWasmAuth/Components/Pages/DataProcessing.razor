@@ -31,7 +31,7 @@
 </EditForm>
 
 <div>
-  @result1
+  @_result1
 </div>
 
 <h2>Data processing for Managers</h2>
@@ -51,15 +51,14 @@
 </EditForm>
 
 <div>
-  @result2
+  @_result2
 </div>
 
 @code {
-  private string? result1;
-  private string? result2;
+  private string? _result1;
+  private string? _result2;
 
   [SupplyParameterFromForm] public FormModel? Model1 { get; set; }
-
   [SupplyParameterFromForm] public FormModel? Model2 { get; set; }
 
   protected override void OnInitialized()
@@ -70,26 +69,21 @@
 
   private async Task Submit1()
   {
-    result1 = await ProcessData("data-processing-1", Model1!);
+    _result1 = await ProcessData("data-processing-1", Model1!);
   }
 
   private async Task Submit2()
   {
-    result2 = await ProcessData("data-processing-2", Model2!);
+    _result2 = await ProcessData("data-processing-2", Model2!);
   }
 
   private async Task<string> ProcessData(string endpoint, FormModel model)
   {
     var client = ClientFactory.CreateClient("Auth");
-
     var response = await client.PostAsJsonAsync(endpoint, model);
-
-    if (response.IsSuccessStatusCode)
-    {
-      return $"The data was processed by the server! The server indicates that the message is {await response.Content.ReadAsStringAsync()} long.";
-    }
-
-    return $"The server responded with an unsuccessful status code ({response.StatusCode}).";
+    return response.IsSuccessStatusCode
+      ? $"The data was processed by the server! The server indicates that the message is {await response.Content.ReadAsStringAsync()} long."
+      : $"The server responded with an unsuccessful status code ({response.StatusCode}).";
   }
 
   public class FormModel
