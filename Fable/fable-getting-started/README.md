@@ -1,6 +1,7 @@
 # Fable Getting Started
 
 - [Original Repository](https://github.com/Zaid-Ajaj/fable-getting-started)
+- [The Elmish book](https://zaid-ajaj.github.io/the-elmish-book/#/)
 
 ### 開発用に`watch`で実行
 
