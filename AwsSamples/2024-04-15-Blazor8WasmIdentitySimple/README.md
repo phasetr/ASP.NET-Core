@@ -22,28 +22,13 @@
     （`docker compose`で立ち上げるわけではない。）
   - `DynamoDB Local`は次のコマンドで作る
 
-## 参考
-
-- 参考：[CloudFront と API Gateway で SPA の CORS 問題をイイ感じに解決する](https://dev.classmethod.jp/articles/spa-cloudfront-and-api-gateway-voiding-cors/)
-  - これは難しそう：頑張って`CORS`対応しよう
-  - 参考：CORS対策のフロント・バックエンドの統合
-    - <https://dev.to/evnz/single-cloudfront-distribution-for-s3-web-app-and-api-gateway-15c3>
-    - GitHub: <https://github.com/evnz/blog-example-single-cf-distribution/tree/main>
-- 参考・後で実装：[dynamodbのローカルでのテスト並列実行](https://dev.classmethod.jp/articles/localstack-dynamodb-concurrency/)
-- GitHub: [aws-cdk-examples/csharp/apigateway-cognito-lambda-dynamodb at master · aws-samples/aws-cdk-examples](https://github.com/aws-samples/aws-cdk-examples/tree/master/csharp/apigateway-cognito-lambda-dynamodb)
-  - `Cognito`まわりはこのリポジトリを参考にした
-- GitHub: [aws-samples/aws-cdk-examples: Example projects using the AWS CDK](https://github.com/aws-samples/aws-cdk-examples/tree/master)
-- 初め`OAC`でエラーが起きていたため`AWS`に質問を投げた時のメモ
-  - `OAC`のエラーは`CloudTrail`のログを見るとわかる。
-  - `CloudFormation`含めてログをしっかり見る。
-  - 今回は`"errorMessage": "The parameter Name is too big."`だった
-  - `OAC`は`Name`は最大64文字まで
-
 ## `AWS`
 
-### `Cognito`と`DynamoDB`のデータ初期化
+### `DynamoDB`のデータ初期化
 
-- `Scripts/initCognitoDynamoDB.sh`を実行すること
+```shell
+dotnet run --project InitDynamoDb
+```
 
 ### コマンドライン上で初期化後の確認
 
