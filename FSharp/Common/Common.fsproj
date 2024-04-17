@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Entities\ApplicationRole.fs"/>
+    <Compile Include="Entities\ApplicationUser.fs"/>
+    <Compile Include="Entities\ApplicationUserRole.fs" />
+    <Compile Include="Constants\Authorization.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4"/>
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.4"/>
+  </ItemGroup>
+</Project>

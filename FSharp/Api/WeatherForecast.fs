@@ -1,6 +1,10 @@
 namespace Api
 
 open System
+open Api.Data.Configuration
+
+module Test =
+  let a = ApplicationUserConfiguration
 
 type WeatherForecast =
   { Date: DateTime
