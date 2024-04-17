@@ -12,6 +12,7 @@ open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.EntityFrameworkCore
+open Microsoft.AspNetCore.Routing
 
 module Program =
   let getConfiguration (builder: WebApplicationBuilder) item =
@@ -71,7 +72,6 @@ module Program =
           |> ignore)
       ))
 
-    // Add services to the container
     builder.Services.AddEndpointsApiExplorer()
 
     let app = builder.Build()
@@ -88,7 +88,7 @@ module Program =
     app.UseRouting()
 
     // Create routes for the identity endpoints
-    // app.MapIdentityApi<ApplicationUser>()
+    app.MapIdentityApi<ApplicationUser>()
 
     // Activate the CORS policy
     app.UseCors("wasm")
