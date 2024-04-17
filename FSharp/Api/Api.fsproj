@@ -4,22 +4,17 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Data\Configuration\ApplicationUserConfiguration.fs" />    
-    <Compile Include="Data\Configuration\ApplicationRoleConfiguration.fs" />    
-    <Compile Include="Data\Configuration\ApplicationUserRoleConfiguration.fs" />
-    <Compile Include="Data\ApplicationDbContext.fs" />
     <Compile Include="WeatherForecast.fs" />
     <Compile Include="Controllers/WeatherForecastController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
+    <ProjectReference Include="..\DataContext\DataContext.csproj" />
   </ItemGroup>  
 </Project>

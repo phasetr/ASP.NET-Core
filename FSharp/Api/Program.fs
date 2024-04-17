@@ -3,7 +3,7 @@ namespace Api
 #nowarn "20"
 
 open System
-open Api.Data
+open DataContext.Data
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
