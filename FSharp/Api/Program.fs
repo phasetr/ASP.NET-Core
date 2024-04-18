@@ -76,7 +76,7 @@ module Program =
 
     builder.Services.AddEndpointsApiExplorer()
 
-    builder.Services.AddScoped<IBookService, BookService>();
+    builder.Services.AddScoped<IBookService, BookService>()
 
     let app = builder.Build()
 

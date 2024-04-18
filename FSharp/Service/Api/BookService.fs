@@ -4,19 +4,27 @@ open Common.Entities
 open Common.Interfaces
 open DataContext.Data
 open Common.Helpers.MyAsync
+open Microsoft.Extensions.Logging
 
-type BookService(context: ApplicationDbContext) =
+type BookService(logger: ILogger<BookService>, context: ApplicationDbContext) =
   interface IBookService with
     member _.GetBookAsync(bookId: BookId) =
-      async {
-        let! book = context.Books.FindAsync(bookId) |> awaitValueTask
-        return book
-      }
+      try
+        async {
+          let! book = context.Books.FindAsync(bookId) |> awaitValueTask
+          return book
+        }
+      with ex ->
+        logger.LogError(ex, "Error in GetBookAsync")
+        raise ex
 
     member _.AddBookAsync(book: Book) =
-      async {
-        context.Books.AddAsync(book) |> ignore
-        let! cnt = context.SaveChangesAsync() |> Async.AwaitTask
-        return cnt
-      }
-
+      try
+        async {
+          context.Books.AddAsync(book) |> ignore
+          let! cnt = context.SaveChangesAsync() |> Async.AwaitTask
+          return cnt
+        }
+      with ex ->
+        logger.LogError(ex, "Error in AddBookAsync")
+        raise ex
