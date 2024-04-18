@@ -7,6 +7,7 @@
     <Compile Include="Entities\ApplicationRole.fs"/>
     <Compile Include="Entities\ApplicationUser.fs"/>
     <Compile Include="Entities\ApplicationUserRole.fs" />
+    <Compile Include="Entities\Book.fs" />
     <Compile Include="Constants\Authorization.fs" />
   </ItemGroup>
   <ItemGroup>

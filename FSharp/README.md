@@ -9,11 +9,11 @@
 - `DataContext`配下に`Migrations`ができる
 
 ```shell
-dotnet ef migrations add InitialCreate --project DataContext --startup-project Api
+dotnet ef migrations add <SomeName> --project DataContext --startup-project Api
 ```
 
 ### マイグレーションの適用
 
 ```shell
-dotnet ef database update InitialCreate --project DataContext --startup-project Api
+dotnet ef database update --project DataContext --startup-project Api
 ```

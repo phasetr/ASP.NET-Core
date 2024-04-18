@@ -11,6 +11,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<ApplicationRole> ApplicationRoles => Set<ApplicationRole>();
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
     public DbSet<ApplicationUserRole> ApplicationUserRoles => Set<ApplicationUserRole>();
+    public DbSet<Book> Books => Set<Book>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -18,6 +19,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         builder
             .ApplyConfiguration(new ApplicationUserConfiguration())
             .ApplyConfiguration(new ApplicationRoleConfiguration())
-            .ApplyConfiguration(new ApplicationUserRoleConfiguration());
+            .ApplyConfiguration(new ApplicationUserRoleConfiguration())
+            .ApplyConfiguration(new BookConfiguration());
     }
 }
