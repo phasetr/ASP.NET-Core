@@ -3,11 +3,11 @@
   "name": "introduction",
   "version": "1.0.0",
   "description": "",
-  "main": "./Introduction/App.fs.js",
+  "main": "./src/App.fs.js",
   "scripts": {
     "postinstall": "dotnet tool restore",
-    "build": "dotnet fable ./Introduction && webpack",
-    "start": "dotnet fable watch ./Introduction --run webpack serve"
+    "build": "dotnet fable ./src && webpack",
+    "start": "dotnet fable watch ./src --run webpack serve"
   },
   "devDependencies": {
     "webpack": "^5.91.0",
