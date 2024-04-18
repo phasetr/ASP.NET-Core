@@ -4,8 +4,8 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="WeatherForecast.fs" />
-    <Compile Include="Controllers/WeatherForecastController.fs" />
+    <Compile Include="Controllers\WeatherForecastController.fs" />
+    <Compile Include="Controllers\BookController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -20,5 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.fsproj" />
     <ProjectReference Include="..\DataContext\DataContext.csproj" />
+    <ProjectReference Include="..\Service\Service.fsproj" />
   </ItemGroup>  
 </Project>

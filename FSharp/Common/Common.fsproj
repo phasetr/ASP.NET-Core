@@ -9,6 +9,8 @@
     <Compile Include="Entities\ApplicationUserRole.fs" />
     <Compile Include="Entities\Book.fs" />
     <Compile Include="Constants\Authorization.fs" />
+    <Compile Include="Interfaces\IBookService.fs" />
+    <Compile Include="Helpers\MyAsync.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.4"/>

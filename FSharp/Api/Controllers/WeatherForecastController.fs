@@ -3,10 +3,16 @@
 open System
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
-open Api
+
+type WeatherForecast =
+  { Date: DateTime
+    TemperatureC: int
+    Summary: string }
+
+  member this.TemperatureF = 32.0 + (float this.TemperatureC / 0.5556)
 
 [<ApiController>]
-[<Route("[controller]")>]
+[<Route("api/[controller]")>]
 type WeatherForecastController(logger: ILogger<WeatherForecastController>) =
   inherit ControllerBase()
 
@@ -24,7 +30,8 @@ type WeatherForecastController(logger: ILogger<WeatherForecastController>) =
 
   [<HttpGet>]
   member _.Get() =
-    let rng = System.Random()
+    logger.LogInformation("Getting weather forecast")
+    let rng = Random()
 
     [| for index in 0..4 ->
          { Date = DateTime.Now.AddDays(float index)

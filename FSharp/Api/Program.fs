@@ -4,6 +4,7 @@ namespace Api
 
 open System
 open Common.Entities
+open Common.Interfaces
 open DataContext.Data
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
@@ -13,6 +14,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open Microsoft.EntityFrameworkCore
 open Microsoft.AspNetCore.Routing
+open Service.Api
 
 module Program =
   let getConfiguration (builder: WebApplicationBuilder) item =
@@ -73,6 +75,8 @@ module Program =
       ))
 
     builder.Services.AddEndpointsApiExplorer()
+
+    builder.Services.AddScoped<IBookService, BookService>();
 
     let app = builder.Build()
 
