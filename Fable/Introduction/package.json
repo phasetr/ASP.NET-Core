@@ -1,13 +1,13 @@
 {
   "private": true,
-  "name": "fable-getting-started",
+  "name": "introduction",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/App.fs.js",
+  "main": "./Introduction/App.fs.js",
   "scripts": {
     "postinstall": "dotnet tool restore",
-    "build": "dotnet fable ./src && webpack",
-    "start": "dotnet fable watch ./src --run webpack serve"
+    "build": "dotnet fable ./Introduction && webpack",
+    "start": "dotnet fable watch ./Introduction --run webpack serve"
   },
   "devDependencies": {
     "webpack": "^5.91.0",

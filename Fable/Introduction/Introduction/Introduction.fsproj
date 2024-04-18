@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>fable-getting-started</RootNamespace>
+    <RootNamespace>Introduction</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.fs"/>

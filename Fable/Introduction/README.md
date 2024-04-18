@@ -2,6 +2,7 @@
 
 - [Original Repository](https://github.com/Zaid-Ajaj/fable-getting-started)
 - [The Elmish book](https://zaid-ajaj.github.io/the-elmish-book/#/)
+- [React in Elmish](https://zaid-ajaj.github.io/the-elmish-book/#/chapters/elm/react-in-elmish)まで実装
 
 ### 開発用に`watch`で実行
 
