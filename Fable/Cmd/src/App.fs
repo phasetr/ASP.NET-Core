@@ -16,6 +16,7 @@ type Msg =
   | Increment
   | Decrement
   | IncrementDelayed
+  | DecrementDelayed
   | Tick of DateTime
   | Toggle of Enabled: bool
 
@@ -26,6 +27,30 @@ let init () =
     Enabled = true },
   Cmd.none
 
+module Cmd =
+  let fromAsync (operation: Async<'msg>) : Cmd<'msg> =
+    let delayedCmd (dispatch: 'msg -> unit) : unit =
+      async {
+        let! msg = operation
+        dispatch msg
+      }
+      |> Async.StartImmediate
+
+    Cmd.ofEffect delayedCmd
+
+let delayedMsg (delay: int) (msg: Msg) : Cmd<Msg> =
+  async {
+    do! Async.Sleep delay
+    return msg
+  }
+  |> Cmd.fromAsync
+
+let delayedIncrement =
+  async {
+    do! Async.Sleep 1000
+    return Increment
+  }
+
 let update msg state =
   match msg with
   | Increment ->
@@ -35,15 +60,8 @@ let update msg state =
     Cmd.none
   | Decrement -> { state with Count = state.Count - 1 }, Cmd.none
   | IncrementDelayed when state.Loading -> state, Cmd.none
-  | IncrementDelayed ->
-    let incrementDelayedCmd (dispatch: Msg -> unit) : unit =
-      async {
-        do! Async.Sleep 1000
-        dispatch Increment
-      }
-      |> Async.StartImmediate
-
-    { state with Loading = true }, Cmd.ofEffect incrementDelayedCmd
+  | IncrementDelayed -> { state with Loading = true }, Cmd.fromAsync delayedIncrement
+  | DecrementDelayed -> state, delayedMsg 1000 Decrement
   | Tick current -> { state with Current = current }, Cmd.none
   | Toggle enabled -> { state with Enabled = enabled }, Cmd.none
 
