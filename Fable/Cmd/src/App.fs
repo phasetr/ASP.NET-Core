@@ -49,18 +49,18 @@ let update msg state =
 
 let render (state: State) (dispatch: Msg -> unit) =
   let timestamp = state.Current.ToString("yyyy-MM-dd HH:mm:ss")
+  let content = if state.Loading then Html.h2 "Loading..." else Html.h2 $"Current count: {state.Count}"
 
   Html.div
-    [ Html.h1 state.Count
+    [ content
       Html.button [ prop.onClick (fun _ -> dispatch Increment); prop.text "Increment" ]
       Html.button [ prop.onClick (fun _ -> dispatch Decrement); prop.text "Decrement" ]
       Html.button
         [ prop.disabled state.Loading
           prop.onClick (fun _ -> dispatch IncrementDelayed)
           prop.text "Increment Delayed" ]
-      Html.p [ prop.text $"Current time: %A{state.Current}" ]
       Html.div
-        [ Html.div [ Html.text timestamp ]
+        [ Html.div [ Html.text $"Current time: %A{timestamp}" ]
           Html.div
             [ Html.label
                 [ prop.children
