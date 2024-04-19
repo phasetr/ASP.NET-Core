@@ -1,17 +1,9 @@
 module App
 
-open Browser.Types
-open Browser
 open Elmish
 open Elmish.HMR
+open Fable.SimpleHttp
 open Feliz
-
-type Request =
-  { url: string
-    method: string
-    body: string }
-
-type Response = { statusCode: int; body: string }
 
 type Deferred<'t> =
   | HasNotStartedYet
@@ -21,31 +13,6 @@ type Deferred<'t> =
 type AsyncOperationStatus<'t> =
   | Started
   | Finished of 't
-
-let wait (timeout: int) : Async<unit> =
-  Async.FromContinuations
-  <| fun (resolve, _, _) -> window.setTimeout ((fun _ -> resolve ()), timeout) |> ignore
-
-let httpRequest (request: Request) : Async<Response> =
-  Async.FromContinuations
-  <| fun (resolve, _, _) ->
-    // create an instance
-    let xhr = XMLHttpRequest.Create()
-    // open the connection
-    xhr.``open`` (method = request.method, url = request.url)
-    // set up the event handler that triggers when the content is loaded
-    xhr.onreadystatechange <-
-      fun _ ->
-        if xhr.readyState = ReadyState.Done then
-          // create the response
-          let response =
-            { statusCode = xhr.status
-              body = xhr.responseText }
-          // transform response into a message
-          resolve response
-
-    // send the request
-    xhr.send request.body
 
 type State =
   { LoremIpsum: Deferred<Result<string, string>> }
@@ -72,15 +39,10 @@ let update msg state =
 
     let loadLoremIpsum =
       async {
-        let request =
-          { url = "/lorem-ipsum.txt"
-            method = "GET"
-            body = "" }
-
-        let! response = httpRequest request
+        let! response = Http.request "/lorem-ipsum.txt" |> Http.method GET |> Http.send
 
         if response.statusCode = 200 then
-          return LoadLoremIpsum(Finished(Ok response.body))
+          return LoadLoremIpsum(Finished(Ok response.responseText))
         else
           return LoadLoremIpsum(Finished(Error "Could not load the content"))
       }
