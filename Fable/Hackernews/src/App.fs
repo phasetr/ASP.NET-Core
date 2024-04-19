@@ -11,7 +11,8 @@ type HackerNewsItem =
     title: string
     itemType: string
     url: string option
-    score: int }
+    score: int
+    time: int64 }
 
 [<RequireQualifiedAccess>]
 type Stories =
@@ -44,7 +45,8 @@ let itemDecoder: Decoder<HackerNewsItem> =
       title = fields.Required.At [ "title" ] Decode.string
       itemType = fields.Required.At [ "type" ] Decode.string
       url = fields.Optional.At [ "url" ] Decode.string
-      score = fields.Required.At [ "score" ] Decode.int })
+      score = fields.Required.At [ "score" ] Decode.int
+      time = fields.Required.At [ "time" ] Decode.int64 })
 
 let storiesEndpoint stories =
   let fromBaseUrl = sprintf "https://hacker-news.firebaseio.com/v0/%sstories.json"
@@ -109,12 +111,10 @@ let update (msg: Msg) (state: State) =
 
     let nextCmd = Cmd.fromAsync (loadStoryItems stories)
     nextState, nextCmd
-
   | LoadStoryItems Started ->
     let nextState = startLoading state
     let nextCmd = Cmd.fromAsync (loadStoryItems state.CurrentStories)
     nextState, nextCmd
-
   | LoadStoryItems(Finished(Ok storyIds)) ->
     // initialize the story IDs
     let storiesMap = Map.ofList [ for id in storyIds -> id, Deferred.InProgress ]
@@ -124,14 +124,12 @@ let update (msg: Msg) (state: State) =
           StoryItems = Resolved(Ok storiesMap) }
 
     nextState, Cmd.batch [ for id in storyIds -> Cmd.fromAsync (loadStoryItem id) ]
-
   | LoadStoryItems(Finished(Error error)) ->
     let nextState =
       { state with
           StoryItems = Resolved(Error error) }
 
     nextState, Cmd.none
-
   | LoadedStoryItem(itemId, Ok item) ->
     match state.StoryItems with
     | Resolved(Ok storiesMap) ->
@@ -144,7 +142,6 @@ let update (msg: Msg) (state: State) =
       nextState, Cmd.none
 
     | _ -> state, Cmd.none
-
   | LoadedStoryItem(itemId, Error error) ->
     match state.StoryItems with
     | Resolved(Ok storiesMap) ->
@@ -155,7 +152,6 @@ let update (msg: Msg) (state: State) =
             StoryItems = Resolved(Ok modifiedStoriesMap) }
 
       nextState, Cmd.none
-
     | _ -> state, Cmd.none
 
 let storiesName =
@@ -237,7 +233,14 @@ let renderStories items =
   | InProgress -> spinner
   | Resolved(Error errorMsg) -> renderError errorMsg
   | Resolved(Ok items) ->
-    items |> Map.toList |> List.map (fun (id, storyItem) -> renderStoryItem id storyItem) |> Html.div
+    items
+    |> Map.toList
+    |> List.sortByDescending (fun (_, storyItem) ->
+      match storyItem with
+      | Resolved(Ok item) -> item.time
+      | _ -> 0)
+    |> List.map (fun (id, storyItem) -> renderStoryItem id storyItem)
+    |> Html.div
 
 let title = Html.h1 [ prop.className "title"; prop.text "Elmish Hacker News" ]
 
