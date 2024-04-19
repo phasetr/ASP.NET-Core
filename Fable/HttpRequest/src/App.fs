@@ -26,8 +26,9 @@ let wait (timeout: int) : Async<unit> =
   Async.FromContinuations
   <| fun (resolve, _, _) -> window.setTimeout ((fun _ -> resolve ()), timeout) |> ignore
 
-let httpRequest (request: Request) (responseHandler: Response -> 'Msg) : Cmd<'Msg> =
-  let command (dispatch: 'Msg -> unit) =
+let httpRequest (request: Request) : Async<Response> =
+  Async.FromContinuations
+  <| fun (resolve, _, _) ->
     // create an instance
     let xhr = XMLHttpRequest.Create()
     // open the connection
@@ -41,13 +42,10 @@ let httpRequest (request: Request) (responseHandler: Response -> 'Msg) : Cmd<'Ms
             { statusCode = xhr.status
               body = xhr.responseText }
           // transform response into a message
-          let messageToDispatch = responseHandler response
-          dispatch messageToDispatch
+          resolve response
 
     // send the request
     xhr.send request.body
-
-  Cmd.ofEffect command
 
 type State =
   { LoremIpsum: Deferred<Result<string, string>> }
@@ -67,30 +65,27 @@ module Cmd =
 
     Cmd.ofEffect delayedCmd
 
-let delayedMsg (delay: int) (msg: Msg) : Cmd<Msg> =
-  async {
-    do! Async.Sleep delay
-    return msg
-  }
-  |> Cmd.fromAsync
-
 let update msg state =
   match msg with
   | LoadLoremIpsum Started ->
     let nextState = { state with LoremIpsum = InProgress }
 
-    let request =
-      { url = "/lorem-ipsum.txt"
-        method = "GET"
-        body = "" }
+    let loadLoremIpsum =
+      async {
+        let request =
+          { url = "/lorem-ipsum.txt"
+            method = "GET"
+            body = "" }
 
-    let responseMapper (response: Response) =
-      if response.statusCode = 200 then
-        LoadLoremIpsum(Finished(Ok response.body))
-      else
-        LoadLoremIpsum(Finished(Error "Could not load the content"))
+        let! response = httpRequest request
 
-    nextState, httpRequest request responseMapper
+        if response.statusCode = 200 then
+          return LoadLoremIpsum(Finished(Ok response.body))
+        else
+          return LoadLoremIpsum(Finished(Error "Could not load the content"))
+      }
+
+    nextState, Cmd.fromAsync loadLoremIpsum
   | LoadLoremIpsum(Finished result) ->
     let nextState =
       { state with
