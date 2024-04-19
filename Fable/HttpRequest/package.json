@@ -6,7 +6,7 @@
   "main": "./src/App.fs.js",
   "scripts": {
     "postinstall": "dotnet tool restore",
-    "build": "dotnet fable ./src && webpack",
+    "build": "dotnet fable ./src && webpack --mode production",
     "start": "dotnet fable watch ./src --run webpack serve",
     "serve": "http-server ./dist"
   },
