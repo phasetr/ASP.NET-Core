@@ -1,3 +1,4 @@
+[<RequireQualifiedAccess>]
 module Multiple.Common
 
 open Feliz

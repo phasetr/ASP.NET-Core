@@ -6,54 +6,74 @@ open Elmish
 
 [<RequireQualifiedAccess>]
 type Page =
-  | Counter
-  | InputText
+  | Counter of Counter.State
+  | InputText of InputText.State
 
-type State =
-  { Counter: Counter.State
-    InputText: InputText.State
-    CurrentPage: Page }
+type State = { CurrentPage: Page }
 
 type Msg =
   | CounterMsg of Counter.Msg
   | InputTextMsg of InputText.Msg
-  | SwitchPage of Page
+  | SwitchToCounter
+  | SwitchToInputText
 
 let init () =
   let counterState, counterCmd = Counter.init ()
-  let inputTextState, inputTextCmd = InputText.init ()
-
-  let initialState =
-    { Counter = counterState
-      InputText = inputTextState
-      CurrentPage = Page.Counter }
-
-  let initialCmd = Cmd.batch [ Cmd.map CounterMsg counterCmd; Cmd.map InputTextMsg inputTextCmd ]
+  let initialState = { CurrentPage = Page.Counter counterState }
+  let initialCmd = Cmd.map CounterMsg counterCmd
 
   initialState, initialCmd
 
 let update (msg: Msg) (state: State) =
-  match msg with
-  | CounterMsg counterMsg ->
-    let updatedCounter, counterCmd = Counter.update counterMsg state.Counter
-    { state with Counter = updatedCounter }, Cmd.map CounterMsg counterCmd
-  | InputTextMsg inputTextMsg ->
-    let updatedInputText, inputTextCmd = InputText.update inputTextMsg state.InputText
+  match state.CurrentPage, msg with
+  | Page.Counter counterState, CounterMsg counterMsg ->
+    let counterState, counterCmd = Counter.update counterMsg counterState
 
-    { state with
-        InputText = updatedInputText },
-    Cmd.map InputTextMsg inputTextCmd
-  | SwitchPage page -> { state with CurrentPage = page }, Cmd.none
+    let nextState =
+      { state with
+          CurrentPage = Page.Counter counterState }
+
+    let nextCmd = Cmd.map CounterMsg counterCmd
+    nextState, nextCmd
+  | Page.InputText inputTextState, InputTextMsg inputTextMsg ->
+    let updatedInputText, inputTextCmd = InputText.update inputTextMsg inputTextState
+
+    let nextState =
+      { state with
+          CurrentPage = Page.InputText updatedInputText }
+
+    let nextCmd = Cmd.map InputTextMsg inputTextCmd
+    nextState, nextCmd
+  | _, SwitchToCounter ->
+    let counterState, counterCmd = Counter.init ()
+
+    let nextState =
+      { state with
+          CurrentPage = Page.Counter counterState }
+
+    let nextCmd = Cmd.map CounterMsg counterCmd
+    nextState, nextCmd
+  | _, SwitchToInputText ->
+    let inputTextState, inputTextCmd = InputText.init ()
+
+    let nextState =
+      { state with
+          CurrentPage = Page.InputText inputTextState }
+
+    let nextCmd = Cmd.map InputTextMsg inputTextCmd
+    nextState, nextCmd
+
+  | _, _ -> state, Cmd.none
 
 let render (state: State) (dispatch: Msg -> unit) =
   match state.CurrentPage with
-  | Page.Counter ->
+  | Page.Counter counterState ->
     Html.div
-      [ Html.button [ prop.text "Show Text Input"; prop.onClick (fun _ -> dispatch (SwitchPage Page.InputText)) ]
+      [ Html.button [ prop.text "Show Text Input"; prop.onClick (fun _ -> dispatch SwitchToInputText) ]
         Common.divider
-        Counter.render state.Counter (CounterMsg >> dispatch) ]
-  | Page.InputText ->
+        Counter.render counterState (CounterMsg >> dispatch) ]
+  | Page.InputText inputTextState ->
     Html.div
-      [ Html.button [ prop.text "Show counter"; prop.onClick (fun _ -> dispatch (SwitchPage Page.Counter)) ]
+      [ Html.button [ prop.text "Show counter"; prop.onClick (fun _ -> dispatch SwitchToCounter) ]
         Common.divider
-        InputText.render state.InputText (InputTextMsg >> dispatch) ]
+        InputText.render inputTextState (InputTextMsg >> dispatch) ]
