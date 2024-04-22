@@ -1,6 +1,7 @@
 # AWS samples
 
 - GitHub, [aws-samples / aws-cdk-examples](https://github.com/aws-samples/aws-cdk-examples/)
+- [Serverless Land](https://serverlessland.com/)
 
 ## Database access from copilot job
 

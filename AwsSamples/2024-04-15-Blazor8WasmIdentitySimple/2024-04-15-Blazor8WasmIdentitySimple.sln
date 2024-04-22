@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{E55A0DD7-2610-4A3C-A6C4-640C535123F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{E55A0DD7-2610-4A3C-A6C4-640C535123F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWasmAuth", "BlazorWasmAuth\BlazorWasmAuth.csproj", "{C9E769DE-CA56-487E-B2FA-7DC9524542BF}"
 EndProject

@@ -110,14 +110,14 @@ public sealed class CdkStack : Stack
             Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
             LogRetention = RetentionDays.ONE_DAY,
-            Handler = "Backend",
+            Handler = "Api",
             Environment = new Dictionary<string, string>
             {
                 { "FRONTEND_URL", $"https://{frontendCloudFront.DistributionDomainName}" },
                 { "REGION", Region },
                 { "TABLE_NAME", dynamodb.TableName }
             },
-            Code = Code.FromAsset("Backend", new AssetOptions
+            Code = Code.FromAsset("Api", new AssetOptions
             {
                 Bundling = new BundlingOptions
                 {
