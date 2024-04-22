@@ -1,6 +1,6 @@
 namespace Common;
 
-public static class Constants
+public static class MyConstants
 {
     public const string DynamoDbDevTableName = "ba-ddb-dev";
     public const string DynamoDbLocalUrl = "http://localhost:8000";

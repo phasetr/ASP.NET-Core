@@ -16,7 +16,7 @@ void InitializeDynamoDb(MyEnvironment env)
         MyEnvironment.Local => new AmazonDynamoDBConfig
         {
             RegionEndpoint = RegionEndpoint.APNortheast1,
-            ServiceURL = Constants.DynamoDbLocalUrl
+            ServiceURL = MyConstants.DynamoDbLocalUrl
         },
         MyEnvironment.Dev => new AmazonDynamoDBConfig
         {
@@ -32,8 +32,8 @@ void InitializeDynamoDb(MyEnvironment env)
         {
             options.DefaultTableName = env switch
             {
-                MyEnvironment.Local => Constants.DynamoDbLocalTableName,
-                MyEnvironment.Dev => Constants.DynamoDbDevTableName,
+                MyEnvironment.Local => MyConstants.DynamoDbLocalTableName,
+                MyEnvironment.Dev => MyConstants.DynamoDbDevTableName,
                 _ => throw new ArgumentOutOfRangeException(nameof(env), env, null)
             };
         });
