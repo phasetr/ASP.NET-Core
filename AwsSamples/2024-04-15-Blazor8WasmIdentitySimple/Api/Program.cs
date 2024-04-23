@@ -1,65 +1,74 @@
 using System.Security.Claims;
-using Api;
+using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using AspNetCore.Identity.AmazonDynamoDB;
+using Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
-
-// Add AWS Lambda support. When application is run in Lambda Kestrel is swapped out as the web server with Amazon.Lambda.AspNetCoreServer. This
-// package will act as the webserver translating request and responses between the Lambda event source and ASP.NET Core.
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 
 // Establish cookie authentication
-builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
-
+// builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 // Configure authorization
 builder.Services.AddAuthorizationBuilder();
 
-// Add the database (in memory for the sample)
-builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseInMemoryDatabase("AppDb"));
-// Add identity and opt-in to endpoints
-builder.Services
-    .AddIdentityCore<ApplicationUser>()
-    .AddRoles<ApplicationRole>()
-    .AddRoleManager<RoleManager<ApplicationRole>>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddApiEndpoints();
-
-// // DynamoDB
-// var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
-// // 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
-// // `ServiceURL`は`compose.yml`で設定
-// var amazonDynamoDbConfig = builder.Environment.IsDevelopment()
-//     ? new AmazonDynamoDBConfig
-//     {
-//         RegionEndpoint = RegionEndpoint.GetBySystemName(region),
-//         ServiceURL = "http://localhost:8000"
-//     }
-//     : new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
-// builder.Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig));
-// builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
+// // Add the database (in memory for the sample)
+// builder.Services.AddDbContext<AppDbContext>(
+//     options => options.UseInMemoryDatabase("AppDb"));
+// // Add identity and opt-in to endpoints
 // builder.Services
-//     .AddIdentityCore<DynamoDbUser>()
-//     .AddRoles<DynamoDbRole>()
-//     .AddDynamoDbStores()
-//     .Configure(options =>
-//     {
-//         options.BillingMode = BillingMode.PROVISIONED; // Default is BillingMode.PAY_PER_REQUEST
-//         options.ProvisionedThroughput = new ProvisionedThroughput
-//         {
-//             ReadCapacityUnits = 5, // Default is 1
-//             WriteCapacityUnits = 5, // Default is 1
-//         };
-//         options.DefaultTableName = "my-custom-identity-table-name"; // Default is identity
-//     });
+//     .AddIdentityCore<ApplicationUser>()
+//     .AddRoles<ApplicationRole>()
+//     .AddRoleManager<RoleManager<ApplicationRole>>()
+//     .AddEntityFrameworkStores<AppDbContext>()
+//     .AddApiEndpoints();
 
+// DynamoDB
+var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? RegionEndpoint.APNortheast1.SystemName;
+// 開発環境だけ`ServiceURL`を`DynamoDB Local`に設定する
+// `ServiceURL`は`compose.yml`で設定
+var amazonDynamoDbConfig = builder.Environment.IsDevelopment()
+    ? new AmazonDynamoDBConfig
+    {
+        RegionEndpoint = RegionEndpoint.GetBySystemName(region),
+        ServiceURL = "http://localhost:8000"
+    }
+    : new AmazonDynamoDBConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(region) };
+builder.Services
+    .AddDefaultAWSOptions(builder.Configuration.GetAWSOptions())
+    .AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(amazonDynamoDbConfig));
+builder.Services.AddTransient<IEmailSender, NoOpEmailSender>();
+builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
+builder.Services
+    .AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddDefaultUI()
+    .AddDynamoDbStores()
+    .Configure(options =>
+        options.DefaultTableName = builder.Environment.IsDevelopment()
+            ? MyConstants.DynamoDbLocalTableName
+            : MyConstants.DynamoDbDevTableName);
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 8;
+    options.Password.RequiredUniqueChars = 1;
+});
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddRazorPages();
 // Add a CORS policy for the client
 builder.Services.AddCors(
     options => options.AddPolicy(
@@ -72,17 +81,14 @@ builder.Services.AddCors(
             .AllowAnyHeader()
             .AllowCredentials()));
 
-// Add services to the container
-builder.Services.AddEndpointsApiExplorer();
-
 var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
 {
-    Console.WriteLine("👺Development mode detected. Adding seed data.");
     // Seed the database
-    await using var scope = app.Services.CreateAsyncScope();
-    await SeedData.InitializeAsync(scope.ServiceProvider);
+    // Console.WriteLine("👺Development mode detected. Adding seed data.");
+    // await using var scope = app.Services.CreateAsyncScope();
+    // await SeedData.InitializeAsync(scope.ServiceProvider);
     // 必要に応じて本番環境でも公開して調べよう
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -90,16 +96,12 @@ if (builder.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-
-// Create routes for the identity endpoints
-app.MapIdentityApi<ApplicationUser>();
 
 // Activate the CORS policy
 app.UseCors("wasm");
@@ -111,6 +113,7 @@ app.UseCors("wasm");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapIdentityApi<ApplicationUser>();
 
 // Provide an end point to clear the cookie for logout
 //
@@ -152,13 +155,13 @@ app.MapPost("/data-processing-2", ([FromBody] FormModel model) =>
 app.Run();
 
 // Identity user
-internal class ApplicationUser : IdentityUser
+internal class ApplicationUser : DynamoDbUser
 {
-    public IEnumerable<ApplicationRole>? Roles { get; set; }
+    public new IEnumerable<ApplicationRole>? Roles { get; set; }
 }
 
 // Identity role
-internal class ApplicationRole : IdentityRole
+internal class ApplicationRole : DynamoDbRole
 {
 }
 
