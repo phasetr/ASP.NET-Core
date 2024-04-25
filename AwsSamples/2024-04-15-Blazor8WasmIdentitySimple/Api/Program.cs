@@ -21,7 +21,7 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 // Establish cookie authentication
 // builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 // Configure authorization
-// builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder();
 
 // // Add the database (in memory for the sample)
 // builder.Services.AddDbContext<AppDbContext>(
@@ -69,7 +69,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 builder.Services.AddSingleton(TimeProvider.System);
-builder.Services.AddRazorPages();
 // Add a CORS policy for the client
 builder.Services.AddCors(
     options => options.AddPolicy(
