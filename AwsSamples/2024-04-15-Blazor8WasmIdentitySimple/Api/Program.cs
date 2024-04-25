@@ -21,7 +21,7 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 // Establish cookie authentication
 // builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 // Configure authorization
-builder.Services.AddAuthorizationBuilder();
+// builder.Services.AddAuthorizationBuilder();
 
 // // Add the database (in memory for the sample)
 // builder.Services.AddDbContext<AppDbContext>(
@@ -53,6 +53,7 @@ builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 builder.Services
     .AddIdentity<ApplicationUser, ApplicationRole>()
     .AddDefaultUI()
+    .AddDefaultTokenProviders()
     .AddDynamoDbStores()
     .Configure(options =>
         options.DefaultTableName = builder.Environment.IsDevelopment()
@@ -157,7 +158,7 @@ app.Run();
 // Identity user
 internal class ApplicationUser : DynamoDbUser
 {
-    public new IEnumerable<ApplicationRole>? Roles { get; set; }
+    // public new IEnumerable<ApplicationRole>? Roles { get; set; }
 }
 
 // Identity role
