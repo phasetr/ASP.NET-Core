@@ -9,7 +9,7 @@
 
 ```shell
 cdk deploy --profile dev
-````
+```
 
 ```shell
 export S3BucketName=$(aws cloudformation describe-stacks --stack-name cdk-s3-blazor-stack-dev --query 'Stacks[].Outputs[?OutputKey==`cdks3blazors3bucketnamedev`].OutputValue' --output text --profile dev) 

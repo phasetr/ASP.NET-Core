@@ -1,5 +1,7 @@
 ﻿@page "/weather"
-@inject HttpClient Http
+@using Common
+@using Microsoft.Extensions.Options
+@inject IOptions<MyUrl> Config
 
 <PageTitle>Weather</PageTitle>
 
@@ -43,7 +45,9 @@ else
 
   protected override async Task OnInitializedAsync()
   {
-    _forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    using var httpClient = new HttpClient();
+    httpClient.BaseAddress = new Uri(Config.Value.FrontendUrl);
+    _forecasts = await httpClient.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
   }
 
   public class WeatherForecast

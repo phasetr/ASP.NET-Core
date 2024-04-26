@@ -1,4 +1,8 @@
 ﻿@page "/"
+@using Common
+@using Microsoft.Extensions.Options
+@inject HttpClient Http
+@inject IOptions<MyUrl> Config
 
 <PageTitle>Home</PageTitle>
 
@@ -7,3 +11,26 @@
 <p>Welcome to your new app.</p>
 
 <p>After a user authenticates, the navigation menu shows a link to the <a href="private-page">Private Page</a>.</p>
+
+<dl>
+  <dt>Frontend URL</dt>
+  <dd>@Config.Value.FrontendUrl</dd>
+  <dt>Backend URL</dt>
+  <dd>@Config.Value.BackendUrl</dd>
+  <dt>API root result</dt>
+  <dd>@_helloWorld</dd>
+</dl>
+
+@code {
+  private string _helloWorld = string.Empty;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var response = await Http.GetAsync("/");
+    if (response.IsSuccessStatusCode)
+    {
+      _helloWorld = await response.Content.ReadAsStringAsync();
+    }
+  }
+
+}

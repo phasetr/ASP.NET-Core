@@ -79,11 +79,18 @@
 
   private async Task<string> ProcessData(string endpoint, FormModel model)
   {
-    var client = ClientFactory.CreateClient("Auth");
-    var response = await client.PostAsJsonAsync(endpoint, model);
-    return response.IsSuccessStatusCode
-      ? $"The data was processed by the server! The server indicates that the message is {await response.Content.ReadAsStringAsync()} long."
-      : $"The server responded with an unsuccessful status code ({response.StatusCode}).";
+    try
+    {
+      var client = ClientFactory.CreateClient("Auth");
+      var response = await client.PostAsJsonAsync(endpoint, model);
+      return response.IsSuccessStatusCode
+        ? $"The data was processed by the server! The server indicates that the message is {await response.Content.ReadAsStringAsync()} long."
+        : $"The server responded with an unsuccessful status code ({response.StatusCode}).";
+    }
+    catch (Exception ex)
+    {
+      return $"An exception occurred: {ex.Message}";
+    }
   }
 
   public class FormModel

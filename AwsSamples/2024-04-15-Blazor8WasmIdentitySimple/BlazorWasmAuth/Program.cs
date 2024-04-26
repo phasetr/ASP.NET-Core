@@ -1,5 +1,6 @@
 using BlazorWasmAuth.Components;
 using BlazorWasmAuth.Identity;
+using Common;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -24,12 +25,14 @@ builder.Services.AddScoped(
 
 // set base address for default host
 builder.Services.AddScoped(_ =>
-    new HttpClient { BaseAddress = new Uri(builder.Configuration["FrontendUrl"] ?? "https://localhost:6500") });
+    new HttpClient { BaseAddress = new Uri(builder.Configuration["BackendUrl"] ?? "https://localhost:5500") });
 
 // configure client for auth interactions
 builder.Services.AddHttpClient(
         "Auth",
         opt => opt.BaseAddress = new Uri(builder.Configuration["BackendUrl"] ?? "https://localhost:5500"))
     .AddHttpMessageHandler<CookieHandler>();
+
+builder.Services.Configure<MyUrl>(builder.Configuration.GetSection("Url"));
 
 await builder.Build().RunAsync();

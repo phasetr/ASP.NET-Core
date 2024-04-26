@@ -1,7 +1,7 @@
 #!/bin/bash
 stackName="ba-dev"
 frontendDirectory="BlazorWasmAuth"
-backendDirectory="Backend"
+backendDirectory="Api"
 
 cat <<EOS
 cdk deploy：特にバックエンドのデプロイ
@@ -44,8 +44,10 @@ FrontendUrl=$(aws cloudformation describe-stacks \
 
 frontendAppSettingsJson=$(cat <<EOS
 {
-  "FrontendUrl": "${FrontendUrl}",
-  "BackendUrl": "${BackendUrl}"
+  "Url": {
+    "FrontendUrl": "${FrontendUrl}",
+    "BackendUrl": "${BackendUrl}"
+  }
 }
 EOS
 )
@@ -53,8 +55,10 @@ echo "$frontendAppSettingsJson" > ${frontendDirectory}/wwwroot/appsettings.json
 
 frontendAppSettingsDevelopmentJson=$(cat <<EOS
 {
-  "FrontendUrl": "https://localhost:6500",
-  "BackendUrl": "https://localhost:5500"
+  "Url": {
+    "FrontendUrl": "https://localhost:6500",
+    "BackendUrl": "https://localhost:5500"
+  }
 }
 EOS
 )
