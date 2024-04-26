@@ -102,6 +102,7 @@ EOS
 
 echo "$backendLaunchSettingsJson" > ${backendDirectory}/Properties/launchSettings.json
 
+devDeletedBackendUrl="$(echo ${BackendUrl} | rev | cut -c $((5+1))- | rev)"
 backendAppSettingsJson=$(cat <<EOS
 {
   "Logging": {
@@ -111,8 +112,10 @@ backendAppSettingsJson=$(cat <<EOS
     }
   },
   "AllowedHosts": "*",
-  "FrontendUrl": "${FrontendUrl}",
-  "BackendUrl": "${BackendUrl}"
+  "Url": {
+    "FrontendUrl": "${FrontendUrl}",
+    "BackendUrl": "${devDeletedBackendUrl}"
+  }
 }
 EOS
 )
@@ -126,8 +129,10 @@ backendAppSettingsDevelopmentJson=$(cat <<EOS
       "Microsoft.AspNetCore": "Warning"
     }
   },
-  "FrontendUrl": "https://localhost:6500",
-  "BackendUrl": "https://localhost:5500"
+  "Url": {
+    "FrontendUrl": "https://localhost:6500",
+    "BackendUrl": "https://localhost:5500"
+  }
 }
 EOS
 )

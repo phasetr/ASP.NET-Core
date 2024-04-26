@@ -26,10 +26,18 @@
 
   protected override async Task OnInitializedAsync()
   {
-    var response = await Http.GetAsync("/");
-    if (response.IsSuccessStatusCode)
+    Console.WriteLine($"👺BaseAddress: {Http.BaseAddress}");
+    try
     {
-      _helloWorld = await response.Content.ReadAsStringAsync();
+      var response = await Http.GetAsync("");
+      if (response.IsSuccessStatusCode)
+      {
+        _helloWorld = await response.Content.ReadAsStringAsync();
+      }
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine(ex.Message);
     }
   }
 

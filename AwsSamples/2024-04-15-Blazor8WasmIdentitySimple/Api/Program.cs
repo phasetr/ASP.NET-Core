@@ -74,8 +74,8 @@ builder.Services.AddCors(
     options => options.AddPolicy(
         "wasm",
         policy => policy.WithOrigins([
-                builder.Configuration["FrontendUrl"] ?? "https://localhost:6500",
-                builder.Configuration["BackendUrl"] ?? "https://localhost:5500"
+                builder.Configuration["Url:FrontendUrl"] ?? "https://localhost:6500",
+                "https://localhost:6500"
             ])
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -85,16 +85,20 @@ var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
 {
+    Console.WriteLine("👺Development mode");
     // Seed the database
     // Console.WriteLine("👺Development mode detected. Adding seed data.");
     // await using var scope = app.Services.CreateAsyncScope();
     // await SeedData.InitializeAsync(scope.ServiceProvider);
-    // 必要に応じて本番環境でも公開して調べよう
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 else
 {
+    // 必要に応じて本番環境でも公開して調べよう
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    Console.WriteLine("👺Production mode");
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
@@ -126,7 +130,11 @@ app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager, [Fro
     return Results.Ok();
 }).RequireAuthorization();
 
-app.MapGet("/", () => Results.Text("Hello, world!\n"));
+app.MapGet("/", () =>
+{
+    var env = builder.Environment.IsDevelopment() ? "local" : "Production";
+    return Results.Text($"Hello, world in {env}!\n");
+});
 app.MapGet("/roles", (ClaimsPrincipal user) =>
 {
     if (user.Identity is null || !user.Identity.IsAuthenticated) return Results.Unauthorized();

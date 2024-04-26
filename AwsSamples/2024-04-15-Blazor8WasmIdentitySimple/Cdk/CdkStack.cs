@@ -88,12 +88,12 @@ public sealed class CdkStack : Stack
             RemovalPolicy = RemovalPolicy.DESTROY,
             PartitionKey = new Attribute
             {
-                Name = "PK",
+                Name = "PartitionKey",
                 Type = AttributeType.STRING
             },
             SortKey = new Attribute
             {
-                Name = "SK",
+                Name = "SortKey",
                 Type = AttributeType.STRING
             },
             ReadCapacity = 3,
