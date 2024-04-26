@@ -5,7 +5,7 @@ using Common;
 using Microsoft.Extensions.DependencyInjection;
 
 InitializeDynamoDb(MyEnvironment.Local);
-// InitializeDynamoDb(MyEnvironment.Dev);
+InitializeDynamoDb(MyEnvironment.Dev);
 return;
 
 void InitializeDynamoDb(MyEnvironment env)

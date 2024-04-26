@@ -117,7 +117,7 @@ public sealed class CdkStack : Stack
                 { "REGION", Region },
                 { "TABLE_NAME", dynamodb.TableName }
             },
-            Code = Code.FromAsset("Api", new AssetOptions
+            Code = Code.FromAsset(".", new AssetOptions
             {
                 Bundling = new BundlingOptions
                 {
@@ -128,9 +128,10 @@ public sealed class CdkStack : Stack
                     [
                         "/bin/sh",
                         "-c",
-                        " dotnet tool install -g Amazon.Lambda.Tools" +
+                        " dotnet restore" +
+                        " && dotnet tool install -g Amazon.Lambda.Tools" +
                         " && dotnet build" +
-                        " && dotnet lambda package --output-package /asset-output/function.zip"
+                        " && dotnet lambda package --project-location Api --output-package /asset-output/function.zip"
                     ]
                 }
             })
@@ -163,6 +164,8 @@ public sealed class CdkStack : Stack
             new CfnOutputProps { Value = backendApiGateway.UrlForPath() });
         var unused104 = new CfnOutput(this, $"{Prefix}-f-dn-{envName}",
             new CfnOutputProps { Value = $"https://{frontendCloudFront.DistributionDomainName}" });
+        var unused106 = new CfnOutput(this, $"{Prefix}-f-cfdid-{envName}",
+            new CfnOutputProps { Value = $"{frontendCloudFront.DistributionId}" });
         var unused103 = new CfnOutput(this, $"{Prefix}-f-bn-{envName}",
             new CfnOutputProps { Value = frontendS3.BucketName });
         var unused105 = new CfnOutput(this, $"{Prefix}-ddb-tn-{envName}",

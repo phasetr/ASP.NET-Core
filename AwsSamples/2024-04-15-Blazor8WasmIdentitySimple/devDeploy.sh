@@ -4,13 +4,20 @@ frontendDirectory="BlazorWasmAuth"
 backendDirectory="Api"
 
 cat <<EOS
+
 cdk deploy：特にバックエンドのデプロイ
+
+
 EOS
 
-# cdk deploy --profile dev --require-approval never
+cdk deploy --profile dev --require-approval never
 
 cat <<EOS
+
+
 フロントエンド用のlaunchSettings.jsonの設定
+
+
 EOS
 
 frontendLaunchSettingJson=$(cat <<EOS
@@ -65,7 +72,11 @@ EOS
 echo "$frontendAppSettingsDevelopmentJson" > ${frontendDirectory}/wwwroot/appsettings.Development.json
 
 cat <<EOS
+
+
 バックエンド用のlaunchSettings.jsonの設定
+
+
 EOS
 
 backendLaunchSettingsJson=$(cat <<EOS
@@ -123,7 +134,11 @@ EOS
 echo "$backendAppSettingsDevelopmentJson" > ${backendDirectory}/appsettings.Development.json
 
 cat <<EOS
+
+
 フロントエンドのデプロイ
+
+
 EOS
 
 S3BucketName=$(aws cloudformation describe-stacks \
@@ -132,10 +147,27 @@ S3BucketName=$(aws cloudformation describe-stacks \
   --output text --profile dev)
 echo S3 bucket name: ${S3BucketName}
 dotnet publish ${frontendDirectory} -c Release -o ./publish
-aws s3 sync ./publish/wwwroot s3://${S3BucketName} --profile dev
+aws s3 sync ./publish/wwwroot s3://${S3BucketName} --profile dev --cache-control "max-age=0, no-cache, no-store, must-revalidate"
+rm -rf ./publish
 
 cat <<EOS
+
+CloudFrontのキャッシュの削除
+
+EOS
+
+DistributionId=$(aws cloudformation describe-stacks \
+  --stack-name ${stackName} \
+  --query 'Stacks[].Outputs[?OutputKey==`bafcfdiddev`].OutputValue' \
+  --output text --profile dev)
+aws cloudfront create-invalidation --distribution-id ${DistributionId} --paths '/*' --output text --profile dev
+
+cat <<EOS
+
+
 APIの実行確認
+
+
 EOS
 
 echo APIGateway URL: ${BackendUrl}
