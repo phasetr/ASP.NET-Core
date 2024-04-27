@@ -2,8 +2,10 @@ using System.Security.Claims;
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Api.Services;
 using AspNetCore.Identity.AmazonDynamoDB;
 using Common;
+using Common.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -80,6 +82,9 @@ builder.Services.AddCors(
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()));
+
+builder.Services.Configure<MyDynamoDbSettings>(builder.Configuration.GetSection("DynamoDbSettings"));
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 
@@ -162,6 +167,17 @@ app.MapGet("/user/{email}", async (string email, UserManager<ApplicationUser> us
         user.UserName,
         user.Email
     });
+});
+
+app.MapPut("/book", async ([FromBody] BookDto dto, IBookService bookService) =>
+{
+    var bookId = await bookService.SaveItemAsync(dto);
+    return Results.Ok(bookId);
+});
+app.MapGet("/book/{id}", async (string id, IBookService bookService) =>
+{
+    var document = await bookService.GetItemAsync(id);
+    return Results.Ok(document);
 });
 
 app.MapPost("/data-processing-1", ([FromBody] FormModel model) =>
