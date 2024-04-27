@@ -103,6 +103,10 @@ EOS
 echo "$backendLaunchSettingsJson" > ${backendDirectory}/Properties/launchSettings.json
 
 devDeletedBackendUrl="$(echo ${BackendUrl} | rev | cut -c $((5+1))- | rev)"
+ddbTableName=$(aws cloudformation describe-stacks \
+  --stack-name ${stackName} \
+  --query 'Stacks[].Outputs[?OutputKey==`baddbtndev`].OutputValue' \
+  --output text --profile dev)
 backendAppSettingsJson=$(cat <<EOS
 {
   "Logging": {
@@ -115,6 +119,9 @@ backendAppSettingsJson=$(cat <<EOS
   "Url": {
     "FrontendUrl": "${FrontendUrl}",
     "BackendUrl": "${devDeletedBackendUrl}"
+  },
+  "DynamoDbSettings": {
+    "TableName": "${ddbTableName}"
   }
 }
 EOS
@@ -132,6 +139,9 @@ backendAppSettingsDevelopmentJson=$(cat <<EOS
   "Url": {
     "FrontendUrl": "https://localhost:6500",
     "BackendUrl": "https://localhost:5500"
+  },
+  "DynamoDbSettings": {
+    "TableName": "ba-ddb-local"
   }
 }
 EOS

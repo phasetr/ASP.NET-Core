@@ -152,6 +152,18 @@ app.MapGet("/roles", (ClaimsPrincipal user) =>
     return TypedResults.Json(roles);
 }).RequireAuthorization();
 
+app.MapGet("/user/{email}", async (string email, UserManager<ApplicationUser> userManager) =>
+{
+    var user = await userManager.FindByEmailAsync(email);
+    if (user == null) return Results.NotFound();
+    return Results.Ok(new
+    {
+        user.Id,
+        user.UserName,
+        user.Email
+    });
+});
+
 app.MapPost("/data-processing-1", ([FromBody] FormModel model) =>
     Results.Text($"{model.Message.Length} characters"))
     .RequireAuthorization();
