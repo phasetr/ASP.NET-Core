@@ -75,7 +75,7 @@ else
   {
     try
     {
-      var response = await Http.GetAsync("/book");
+      var response = await Http.GetAsync("book");
       if (response.IsSuccessStatusCode)
       {
         _books = await response.Content.ReadFromJsonAsync<List<BookResponseDto>>();
