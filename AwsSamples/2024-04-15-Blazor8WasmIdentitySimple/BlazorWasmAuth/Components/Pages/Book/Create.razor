@@ -1,0 +1,64 @@
+@page "/book/create"
+@using Common.Dtos
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Create Book</h3>
+
+@if (_errorMessage != null)
+{
+  <p>@_errorMessage</p>
+}
+
+<form>
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input type="text" class="form-control" id="title" @bind="_book.Title"/>
+  </div>
+  <div class="form-group">
+    <label for="isbn">ISBN:</label>
+    <input type="text" class="form-control" id="isbn" @bind="_book.Isbn"/>
+  </div>
+  <div class="form-group">
+    <label for="authors">Authors:</label>
+    <input type="text" class="form-control" id="authors" @bind="_authorsInput"/>
+  </div>
+  <div class="form-group">
+    <label for="coverPage">Cover Page:</label>
+    <input type="text" class="form-control" id="coverPage" @bind="_book.CoverPage"/>
+  </div>
+  <button type="button" class="btn btn-primary" @onclick="CreateBook">Submit</button>
+</form>
+
+@code {
+  private readonly BookDto _book = new();
+  private string? _authorsInput;
+  private string? _errorMessage;
+
+  private async Task CreateBook()
+  {
+    if (!string.IsNullOrEmpty(_authorsInput))
+    {
+      _book.Authors = _authorsInput.Split(',').Select(a => a.Trim()).ToList();
+    }
+
+    try
+    {
+      var response = await Http.PutAsJsonAsync("book", _book);
+      response.EnsureSuccessStatusCode();
+      if (response.IsSuccessStatusCode)
+      {
+        NavigationManager.NavigateTo("/book");
+      }
+      else
+      {
+        _errorMessage = "Error creating book: " + response.ReasonPhrase;
+      }
+    }
+    catch (HttpRequestException e)
+    {
+      _errorMessage = "Error creating book: " + e.Message;
+    }
+  }
+
+}

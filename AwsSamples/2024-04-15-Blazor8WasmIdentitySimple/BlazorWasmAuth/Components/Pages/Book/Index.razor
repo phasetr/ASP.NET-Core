@@ -1,0 +1,71 @@
+@page "/book"
+@using System.Net
+@using Common.Dtos
+@inject HttpClient Http
+<h3>Book Index</h3>
+
+<p><a href="book/create">Create New</a></p>
+
+@if (_books == null)
+{
+<p>
+  <em>No books!</em>
+</p>
+}
+else
+{
+<table class="table">
+  <thead>
+  <tr>
+    <th>BookId</th>
+    <th>Title</th>
+    <th>ISBN</th>
+    <th>Authors</th>
+    <th>Cover page</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var book in _books)
+  {
+  <tr>
+    <td>@book.BookId</td>
+    <td>@book.Title</td>
+    <td>@book.Isbn</td>
+    <td>
+      @if (book.Authors != null)
+      {
+        foreach (var author in book.Authors)
+        {
+          @author
+        }
+      }
+    </td>
+    <td>@book.CoverPage</td>
+    <td><a href="book/detail/@(WebUtility.UrlEncode(book.BookId))">Detail</a></td>
+  </tr>
+  }
+  </tbody>
+</table>
+}
+
+@code {
+  private List<BookResponseDto>? _books = [];
+
+  protected override async Task OnInitializedAsync()
+  {
+    try
+    {
+      var response = await Http.GetAsync("/book");
+      if (response.IsSuccessStatusCode)
+      {
+        _books = await response.Content.ReadFromJsonAsync<List<BookResponseDto>>();
+      }
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine(ex.Message);
+    }
+  }
+
+}

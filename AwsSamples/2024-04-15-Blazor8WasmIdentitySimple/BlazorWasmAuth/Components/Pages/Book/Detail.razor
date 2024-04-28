@@ -1,0 +1,68 @@
+@page "/book/detail/{id}"
+@using System.Net
+@using Common.Dtos
+@inject HttpClient Http
+
+<h3>Book Details</h3>
+
+@if (_errors)
+{
+  <p>There was an error loading the book:</p>
+  <ul>
+    @foreach (var error in _errorList)
+    {
+      <li>@error</li>
+    }
+  </ul>
+}
+
+@if (_book == null)
+{
+  <p>Loading...</p>
+}
+else
+{
+  <dl>
+    <dt>Id</dt>
+    <dd>@_book.BookId</dd>
+    <dt>Title</dt>
+    <dd>@_book.Title</dd>
+    <dt>ISBN</dt>
+    <dd>@_book.Isbn</dd>
+    <dt>Authors</dt>
+    <dd>
+      @if (_book.Authors != null)
+      {
+        foreach (var author in _book.Authors)
+        {
+          <span>@author</span>
+        }
+      }
+    </dd>
+  </dl>
+  <dt>Cover page</dt>
+  <dd>@_book.CoverPage</dd>
+}
+
+@code {
+  private bool _errors;
+  private string[] _errorList = [];
+  private BookResponseDto? _book = new();
+
+  [Parameter] public string Id { get; set; } = string.Empty;
+
+  protected override async Task OnInitializedAsync()
+  {
+    var response = await Http.GetAsync($"book/{WebUtility.UrlEncode(Id)}");
+    if (response.IsSuccessStatusCode)
+    {
+      _book = await response.Content.ReadFromJsonAsync<BookResponseDto>();
+    }
+    else
+    {
+      _errors = true;
+      _errorList = [response.Content.ToString() ?? string.Empty];
+    }
+  }
+
+}

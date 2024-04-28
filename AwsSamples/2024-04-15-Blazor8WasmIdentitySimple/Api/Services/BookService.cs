@@ -2,7 +2,6 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Common;
 using Common.Dtos;
-using Common.Entities;
 using Microsoft.Extensions.Options;
 
 namespace Api.Services;
@@ -17,18 +16,44 @@ public class BookService : IBookService
         _table = Table.LoadTable(dynamoDbClient, tableName);
     }
 
-    public async Task<Book?> GetItemAsync(string partitionKey)
+    public async Task<BookResponseDto?> GetItemAsync(string partitionKey)
     {
         var book = await _table.GetItemAsync(partitionKey, partitionKey);
         if (book == null) return null;
-        return new Book
+        return new BookResponseDto
         {
-            PartitionKey = book["PartitionKey"],
+            BookId = book["PartitionKey"],
             Title = book["Title"],
             Isbn = book["Isbn"],
             Authors = book["Authors"].AsListOfString(),
             CoverPage = book["CoverPage"]
         };
+    }
+
+    public async Task<List<BookResponseDto>> GetListAsync()
+    {
+        // TODO 適当な形でクエリフィルターにしたい
+        var scanFilter = new ScanFilter();
+        scanFilter.AddCondition(
+            MyConstants.DynamoDbPartitionKey,
+            ScanOperator.Contains,
+            "BOOK#");
+        var search = _table.Scan(scanFilter);
+        var bookResponseDtos = new List<BookResponseDto>();
+        do
+        {
+            var documentSet = await search.GetNextSetAsync();
+            bookResponseDtos.AddRange(documentSet.Select(document => new BookResponseDto
+            {
+                BookId = document["PartitionKey"],
+                Title = document["Title"],
+                Isbn = document["Isbn"],
+                Authors = document["Authors"].AsListOfString(),
+                CoverPage = document["CoverPage"]
+            }));
+        } while (!search.IsDone);
+
+        return bookResponseDtos;
     }
 
     public async Task<string> SaveItemAsync(BookDto dto)

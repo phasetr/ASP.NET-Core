@@ -17,6 +17,8 @@
   <dd>@Config.Value.FrontendUrl</dd>
   <dt>Backend URL</dt>
   <dd>@Config.Value.BackendUrl</dd>
+  <dt>Base Address</dt>
+  <dd>@Http.BaseAddress</dd>
   <dt>API root result</dt>
   <dd>@_helloWorld</dd>
 </dl>
@@ -26,7 +28,6 @@
 
   protected override async Task OnInitializedAsync()
   {
-    Console.WriteLine($"👺BaseAddress: {Http.BaseAddress}");
     try
     {
       var response = await Http.GetAsync("");

@@ -5,6 +5,7 @@ namespace Api.Services;
 
 public interface IBookService
 {
-    Task<Book?> GetItemAsync(string partitionKey);
+    Task<BookResponseDto?> GetItemAsync(string partitionKey);
+    Task<List<BookResponseDto>> GetListAsync();
     Task<string> SaveItemAsync(BookDto dto);
 }
