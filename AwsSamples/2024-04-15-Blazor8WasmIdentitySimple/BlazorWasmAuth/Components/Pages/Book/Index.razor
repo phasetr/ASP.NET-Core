@@ -4,52 +4,71 @@
 @inject HttpClient Http
 <h3>Book Index</h3>
 
-<p><a href="book/create">Create New</a></p>
+<p>
+  <a href="book/create">Create New</a>
+</p>
+
+@if (_errors)
+{
+  <p>
+    <em>Errors:</em>
+  </p>
+  <ul>
+    @foreach (var error in _errorList)
+    {
+      <li>@error</li>
+    }
+  </ul>
+}
 
 @if (_books == null)
 {
-<p>
-  <em>No books!</em>
-</p>
+  <p>
+    <em>No books!</em>
+  </p>
 }
 else
 {
-<table class="table">
-  <thead>
-  <tr>
-    <th>BookId</th>
-    <th>Title</th>
-    <th>ISBN</th>
-    <th>Authors</th>
-    <th>Cover page</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  @foreach (var book in _books)
-  {
-  <tr>
-    <td>@book.BookId</td>
-    <td>@book.Title</td>
-    <td>@book.Isbn</td>
-    <td>
-      @if (book.Authors != null)
-      {
-        foreach (var author in book.Authors)
-        {
-          @author
-        }
-      }
-    </td>
-    <td>@book.CoverPage</td>
-    <td><a href="book/detail/@(WebUtility.UrlEncode(book.BookId))">Detail</a></td>
-  </tr>
-  }
-  </tbody>
-</table>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>BookId</th>
+      <th>Title</th>
+      <th>ISBN</th>
+      <th>Authors</th>
+      <th>Cover page</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in _books)
+    {
+      <tr>
+        <td>@book.BookId</td>
+        <td>@book.Title</td>
+        <td>@book.Isbn</td>
+        <td>
+          @if (book.Authors != null)
+          {
+            foreach (var author in book.Authors)
+            {
+              @author
+            }
+          }
+        </td>
+        <td>@book.CoverPage</td>
+        <td>
+          <a href="book/detail/@(WebUtility.UrlEncode(book.BookId))">Detail</a>
+        </td>
+      </tr>
+    }
+    </tbody>
+  </table>
 }
 
 @code {
+  private bool _errors;
+  private string[] _errorList = [];
   private List<BookResponseDto>? _books = [];
 
   protected override async Task OnInitializedAsync()
@@ -61,10 +80,16 @@ else
       {
         _books = await response.Content.ReadFromJsonAsync<List<BookResponseDto>>();
       }
+      else
+      {
+        _errors = true;
+        _errorList = [response.Content.ToString() ?? string.Empty];
+      }
     }
     catch (Exception ex)
     {
-      Console.WriteLine(ex.Message);
+      _errors = true;
+      _errorList = [ex.Message];
     }
   }
 
