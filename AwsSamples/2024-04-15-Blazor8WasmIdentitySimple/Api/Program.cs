@@ -179,10 +179,15 @@ app.MapGet("/book/{id}", async (string id, IBookService bookService) =>
     var responseDto = await bookService.GetItemAsync(id);
     return responseDto == null ? Results.NotFound() : Results.Ok(responseDto);
 });
-app.MapPut("/book", async ([FromBody] BookDto dto, IBookService bookService) =>
+app.MapPut("/book", async ([FromBody] BookPutDto dto, IBookService bookService) =>
 {
-    var bookId = await bookService.SaveItemAsync(dto);
+    var bookId = await bookService.PutItemAsync(dto);
     return Results.Ok(bookId);
+});
+app.MapPost("/book", async ([FromBody] BookUpdateDto dto, IBookService bookService) =>
+{
+    var flag = await bookService.UpdateItemAsync(dto);
+    return Results.Ok(flag);
 });
 
 app.MapPost("/data-processing-1", ([FromBody] FormModel model) =>

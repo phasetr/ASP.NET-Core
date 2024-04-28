@@ -13,11 +13,11 @@
 <form>
   <div class="form-group">
     <label for="title">Title:</label>
-    <input type="text" class="form-control" id="title" @bind="_book.Title"/>
+    <input type="text" class="form-control" id="title" @bind="_bookPut.Title"/>
   </div>
   <div class="form-group">
     <label for="isbn">ISBN:</label>
-    <input type="text" class="form-control" id="isbn" @bind="_book.Isbn"/>
+    <input type="text" class="form-control" id="isbn" @bind="_bookPut.Isbn"/>
   </div>
   <div class="form-group">
     <label for="authors">Authors:</label>
@@ -25,13 +25,13 @@
   </div>
   <div class="form-group">
     <label for="coverPage">Cover Page:</label>
-    <input type="text" class="form-control" id="coverPage" @bind="_book.CoverPage"/>
+    <input type="text" class="form-control" id="coverPage" @bind="_bookPut.CoverPage"/>
   </div>
   <button type="button" class="btn btn-primary" @onclick="CreateBook">Submit</button>
 </form>
 
 @code {
-  private readonly BookDto _book = new();
+  private readonly BookPutDto _bookPut = new();
   private string? _authorsInput;
   private string? _errorMessage;
 
@@ -39,12 +39,12 @@
   {
     if (!string.IsNullOrEmpty(_authorsInput))
     {
-      _book.Authors = _authorsInput.Split(',').Select(a => a.Trim()).ToList();
+      _bookPut.Authors = _authorsInput.Split(',').Select(a => a.Trim()).ToList();
     }
 
     try
     {
-      var response = await Http.PutAsJsonAsync("book", _book);
+      var response = await Http.PutAsJsonAsync("book", _bookPut);
       response.EnsureSuccessStatusCode();
       if (response.IsSuccessStatusCode)
       {

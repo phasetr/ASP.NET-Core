@@ -56,7 +56,7 @@ else
             }
           }
         </td>
-        <td>@book.CoverPage</td>
+        <td>@(book.CoverPage ?? string.Empty)</td>
         <td>
           <a href="book/detail/@(WebUtility.UrlEncode(book.BookId))">Detail</a>
         </td>

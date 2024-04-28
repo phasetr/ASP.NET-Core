@@ -1,6 +1,6 @@
 namespace Common.Dtos;
 
-public class BookDto
+public class BookPutDto
 {
     public string Title { get; set; } = default!;
     public string? Isbn { get; set; }

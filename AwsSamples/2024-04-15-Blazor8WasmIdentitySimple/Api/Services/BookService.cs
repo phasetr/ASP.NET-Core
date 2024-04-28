@@ -24,9 +24,9 @@ public class BookService : IBookService
         {
             BookId = book["PartitionKey"],
             Title = book["Title"],
-            Isbn = book["Isbn"],
+            Isbn = book.TryGetValue("Isbn", out var isbn) ? isbn : string.Empty,
             Authors = book["Authors"].AsListOfString(),
-            CoverPage = book["CoverPage"]
+            CoverPage = book.TryGetValue("CoverPage", out var coverPage) ? coverPage : string.Empty
         };
     }
 
@@ -47,28 +47,51 @@ public class BookService : IBookService
             {
                 BookId = document["PartitionKey"],
                 Title = document["Title"],
-                Isbn = document["Isbn"],
+                Isbn = document.TryGetValue("Isbn", out var isbn) ? isbn : string.Empty,
                 Authors = document["Authors"].AsListOfString(),
-                CoverPage = document["CoverPage"]
+                CoverPage = document.TryGetValue("CoverPage", out var coverPage) ? coverPage : string.Empty
             }));
         } while (!search.IsDone);
 
         return bookResponseDtos;
     }
 
-    public async Task<string> SaveItemAsync(BookDto dto)
+    public async Task<string> PutItemAsync(BookPutDto putDto)
     {
         var bookId = $"BOOK#{Guid.NewGuid().ToString()}";
         var document = new Document
         {
             ["PartitionKey"] = bookId,
             ["SortKey"] = bookId,
-            ["Title"] = dto.Title,
-            ["Isbn"] = dto.Isbn,
-            ["Authors"] = dto.Authors,
-            ["CoverPage"] = dto.CoverPage
+            ["Title"] = putDto.Title,
+            ["Isbn"] = putDto.Isbn,
+            ["Authors"] = putDto.Authors,
+            ["CoverPage"] = putDto.CoverPage
         };
         await _table.PutItemAsync(document);
         return document["PartitionKey"];
+    }
+
+    public async Task<bool> UpdateItemAsync(BookUpdateDto putDto)
+    {
+        try
+        {
+            var document = new Document
+            {
+                ["PartitionKey"] = putDto.BookId,
+                ["SortKey"] = putDto.BookId,
+                ["Title"] = putDto.Title,
+                ["Isbn"] = putDto.Isbn,
+                ["Authors"] = putDto.Authors,
+                ["CoverPage"] = putDto.CoverPage
+            };
+            await _table.UpdateItemAsync(document);
+            return true;
+        } catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
+            return false;
+        }
     }
 }

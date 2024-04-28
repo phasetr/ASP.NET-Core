@@ -2,6 +2,7 @@
 @using System.Net
 @using Common.Dtos
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <h3>Book Details</h3>
 
@@ -16,38 +17,44 @@
   </ul>
 }
 
-@if (_book == null)
+@if (_bookUpdate == null)
 {
-  <p>Loading...</p>
+  <p>No item!</p>
 }
 else
 {
-  <dl>
-    <dt>Id</dt>
-    <dd>@_book.BookId</dd>
-    <dt>Title</dt>
-    <dd>@_book.Title</dd>
-    <dt>ISBN</dt>
-    <dd>@_book.Isbn</dd>
-    <dt>Authors</dt>
-    <dd>
-      @if (_book.Authors != null)
-      {
-        foreach (var author in _book.Authors)
-        {
-          <span>@author</span>
-        }
-      }
-    </dd>
-  </dl>
-  <dt>Cover page</dt>
-  <dd>@_book.CoverPage</dd>
+  <EditForm Model="@_bookUpdate" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div class="form-group">
+      <label for="bookId">Book ID:</label>
+      <InputText id="bookId" class="form-control" @bind-Value="@_bookUpdate.BookId"/>
+    </div>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <InputText id="title" class="form-control" @bind-Value="@_bookUpdate.Title"/>
+    </div>
+    <div class="form-group">
+      <label for="isbn">ISBN:</label>
+      <InputText id="isbn" class="form-control" @bind-Value="@_bookUpdate.Isbn"/>
+    </div>
+    <div class="form-group">
+      <label for="authors">Authors:</label>
+      <p id="authors">TODO</p>
+    </div>
+    <div class="form-group">
+      <label for="coverPage">Cover page:</label>
+      <InputText id="coverPage" class="form-control" @bind-Value="@_bookUpdate.CoverPage"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </EditForm>
 }
 
 @code {
   private bool _errors;
   private string[] _errorList = [];
   private BookResponseDto? _book = new();
+  private BookUpdateDto? _bookUpdate = new();
 
   [Parameter] public string Id { get; set; } = string.Empty;
 
@@ -57,12 +64,48 @@ else
     if (response.IsSuccessStatusCode)
     {
       _book = await response.Content.ReadFromJsonAsync<BookResponseDto>();
+      if (_book == null)
+      {
+        _errors = true;
+        _errorList = ["Book not found"];
+        return;
+      }
+
+      _bookUpdate = new BookUpdateDto
+      {
+        BookId = _book.BookId,
+        Title = _book.Title,
+        Isbn = _book.Isbn,
+        Authors = _book.Authors,
+        CoverPage = _book.CoverPage
+      };
     }
     else
     {
       _errors = true;
       _errorList = [response.Content.ToString() ?? string.Empty];
     }
+  }
+
+  private async Task HandleValidSubmit()
+  {
+    if (_bookUpdate == null)
+    {
+      _errors = true;
+      _errorList = ["Book not found"];
+      return;
+    }
+
+    var bookUpdate = new BookUpdateDto
+    {
+      BookId = _bookUpdate.BookId,
+      Title = _bookUpdate.Title,
+      Isbn = _bookUpdate.Isbn,
+      Authors = _bookUpdate.Authors,
+      CoverPage = _bookUpdate.CoverPage ?? "EMPTY"
+    };
+    await Http.PostAsJsonAsync("book", bookUpdate);
+    NavigationManager.NavigateTo("book");
   }
 
 }
