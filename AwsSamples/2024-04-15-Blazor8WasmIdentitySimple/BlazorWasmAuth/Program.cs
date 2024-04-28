@@ -26,12 +26,12 @@ builder.Services.AddScoped(
 // set base address for default host
 var baseAddress = builder.Configuration["Url:BackendUrl"] ?? "http://localhost:5500";
 builder.Services.AddScoped(_ =>
-    new HttpClient { BaseAddress = new Uri(baseAddress!) });
+    new HttpClient { BaseAddress = new Uri(baseAddress) });
 
 // configure client for auth interactions
 builder.Services.AddHttpClient(
         "Auth",
-        opt => opt.BaseAddress = new Uri(baseAddress!))
+        opt => opt.BaseAddress = new Uri(baseAddress))
     .AddHttpMessageHandler<CookieHandler>();
 
 builder.Services.Configure<MyUrl>(builder.Configuration.GetSection("Url"));
