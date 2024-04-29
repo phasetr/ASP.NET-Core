@@ -25,6 +25,16 @@
 dotnet run --project InitDynamoDb
 ```
 
+- 上記コマンドで正しく`GSI`が設定されたか確認する。
+
+```shell
+aws dynamodb describe-table --table-name ba-ddb-dev --output text
+```
+
+```shell
+aws dynamodb describe-table --table-name ba-ddb-local --endpoint-url http://localhost:8000 --output text
+```
+
 ### コマンドライン上で初期化後の確認
 
 - `read-only`ユーザーグループに割り当てたユーザーでログインする。

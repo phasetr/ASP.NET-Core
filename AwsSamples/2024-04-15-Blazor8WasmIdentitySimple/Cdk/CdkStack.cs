@@ -99,6 +99,89 @@ public sealed class CdkStack : Stack
             ReadCapacity = 3,
             WriteCapacity = 3
         });
+        // Global Secondary Index for Identity API from https://github.com/ganhammar/AspNetCore.Identity.AmazonDynamoDB/blob/e383a1eb2121c81424c839b165d4582478548696/src/AspNetCore.Identity.AmazonDynamoDB/Setup/DynamoDbTableSetup.cs#L52
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "NormalizedEmail-index",
+            PartitionKey = new Attribute
+            {
+                Name = "NormalizedEmail",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "NormalizedUserName-index",
+            PartitionKey = new Attribute
+            {
+                Name = "NormalizedUserName",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "ClaimType-ClaimValue-index",
+            PartitionKey = new Attribute
+            {
+                Name = "ClaimType",
+                Type = AttributeType.STRING
+            },
+            SortKey = new Attribute
+            {
+                Name = "ClaimValue",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "RoleName-index",
+            PartitionKey = new Attribute
+            {
+                Name = "RoleName",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "LoginProvider-ProviderKey-index",
+            PartitionKey = new Attribute
+            {
+                Name = "LoginProvider",
+                Type = AttributeType.STRING
+            },
+            SortKey = new Attribute
+            {
+                Name = "ProviderKey",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
+        dynamodb.AddGlobalSecondaryIndex(new GlobalSecondaryIndexProps
+        {
+            IndexName = "NormalizedName-index",
+            PartitionKey = new Attribute
+            {
+                Name = "NormalizedName",
+                Type = AttributeType.STRING
+            },
+            ReadCapacity = 3,
+            WriteCapacity = 3,
+            ProjectionType = ProjectionType.ALL
+        });
 
         #endregion
 
@@ -136,6 +219,13 @@ public sealed class CdkStack : Stack
                 }
             })
         });
+        // Identity API
+        lambda.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
+        {
+            Actions = ["dynamodb:Query"],
+            Effect = Effect.ALLOW,
+            Resources = [dynamodb.TableArn, $"{dynamodb.TableArn}/index/NormalizedUserName-index"]
+        }));
         // Grant the lambda role read/write permissions to our table
         dynamodb.GrantReadWriteData(lambda);
 
