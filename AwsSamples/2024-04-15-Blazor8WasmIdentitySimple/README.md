@@ -6,6 +6,8 @@
 - `devDeploy.sh`でデプロイできる
   - このスクリプト実行でフロント・`API`プロジェクトの`appsettings.json`・`appsettings.Development.json`を設定するため、
     うまく動かない場合はまずはスクリプトを実行すること。
+  - 特に`appsettings.json`は実際の`AWS`での値を前提にした、スクリプトによる設定を前提に`.gitignore`に入れているため、
+    プロジェクトにコミットされていない点に注意する。
 - ローカル開発時の注意
   - ルート直下の`compose.yml`で`DynamoDB Local`を`docker compose`で起動する。
     `DynamoDB Local`の管理画面が`http://localhost:8001`で起動する。

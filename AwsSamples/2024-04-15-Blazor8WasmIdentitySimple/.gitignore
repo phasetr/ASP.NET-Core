@@ -341,7 +341,5 @@ ASALocalRun/
 # End of https://www.gitignore.io/api/csharp
 
 docker/
-# Api/Properties/launchSettings.json
-# Blazor/Properties/launchSettings.json
-# Blazor/wwwroot/appsettings.json
-# Blazor/wwwroot/appsettings.Development.json
+BlazorWasmAuth/wwwroot/appsettings.json
+Api/appsettings.json
