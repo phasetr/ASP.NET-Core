@@ -3,10 +3,10 @@
 ## その他メモ
 
 - [AWS Cloud Development Kit(CDK)でURL短縮サービスを作ってみた](https://dev.classmethod.jp/articles/implement-url-shorten-service-with-aws-cdk-python/)
-- C#とDynamoDB: [C#でオブジェクト永続性モデルを使用してDynamoDBにアクセスする方法](https://zenn.dev/em8215/articles/9df42db46f400b)
-- C#でのCDKによる, C#製のLambda: [aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
+- `C#`と`DynamoDB`: [C#でオブジェクト永続性モデルを使用してDynamoDBにアクセスする方法](https://zenn.dev/em8215/articles/9df42db46f400b)
+- `C#`での`CDK`による, `C#`製の`Lambda`: [aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
 - 参考：[aws-cdk-build-package-publish-dotnet-lambda-function](https://github.com/aws-samples/aws-cdk-build-package-publish-dotnet-lambda-function/tree/main)
-- エンドポイントのURL例：リージョンによっても変わるので注意
+- エンドポイントの`URL`例：リージョンによっても変わるので注意
   - <https://xxxyyyzzz.execute-api.us-east-1.amazonaws.com/prod/>
   - <https://xxxyyyzzz.execute-api.us-east-1.amazonaws.com/prod/>
 

@@ -1,11 +1,11 @@
 # sam-app
 
-- Module 7：[The Complete AWS SAM Workshop](https://catalog.workshops.aws/complete-aws-sam/en-US/module-7-permissions)
+- `Module 7`：[The Complete AWS SAM Workshop](https://catalog.workshops.aws/complete-aws-sam/en-US/module-7-permissions)
 - [デベロッパーガイド](https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/what-is-sam.html)
 - 特に`sam init`で`Serverless API`を選択
 - `Swagger`設定済み：<https://localhost:5500/swagger/index.html>
 - その他いくつか修正
-- **注意**：上記ワークショップの通りのリクエストでは正しくAPIが動かないため、適宜DTOを確認すること。
+- **注意**：上記ワークショップの通りのリクエストでは正しく`API`が動かないため、適宜`DTO`を確認すること。
 - **注意**：`curl`によるリクエストの投げ方はローカルで起動して`Swagger`を確認するとよい。
 
 ## ローカル起動
@@ -15,7 +15,7 @@
 ```shell
 docker compose up
 dotnet watch
-````
+```
 
 ## AWSでの確認
 

@@ -1,6 +1,6 @@
 # SAM-Complete-Workshop
 
-- TODO：CI/CD設定
+- TODO：`CI/CD`設定
 
 ## MEMO
 

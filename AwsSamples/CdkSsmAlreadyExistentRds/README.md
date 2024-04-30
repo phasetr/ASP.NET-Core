@@ -18,7 +18,7 @@ aws ssm start-session --target ${SSM_MANAGED_INSTANCE_ID}
 aws ssm start-session --target ${SSM_MANAGED_INSTANCE_ID} \
    --document-name AWS-StartPortForwardingSessionToRemoteHost \
    --parameters '{"portNumber":["5432"],"localPortNumber":["1053"],"host":["webapi-staging-ap-addonsstack-1-apclusterdbcluster-qpodz4ycshv3.cluster-cbiybupppygm.ap-northeast-1.rds.amazonaws.com"]}'
-````
+```
 
 - コネクションが転送されているか確認
 
