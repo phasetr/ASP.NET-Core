@@ -2,24 +2,43 @@
 
 - [Original](https://github.com/dotnet/blazor-samples/tree/main/8.0/BlazorWebAssemblyStandaloneWithIdentity)
 - ユーザーは`api`の`register`を実行して登録する。フロントの`Blazor`からも登録できる。
-- 特に開発環境では`Program.cs`で適切な`URL`が設定されているか確認する
-- デプロイは`AWS/CDK/デプロイ・確認`を見ること
-- いったんデプロイしたあとの設定
-  - `Api`の`appsettings.json`で`ClientUrl`を適切に設定
-  - `Blazor`の`appsettings.json`で`ApiBaseAddress`を適切に設定
-  - 設定後もう一度デプロイする
-  - フロントからの`API`結果取得で実行してうまくいかない場合は`Lambda`のログを確認しよう
-  - `Blazor`からうまく実行できない場合は以下の手順に沿って`curl`で`Lambda`を実行してみよう
-  - ブラウザからの実行では`CORS`の問題もあるため、それも調べよう- 
+- `CDK`でのデプロイは`AWS/CDK/デプロイ・確認`を見ること
+- `devDeploy.sh`でデプロイできる
+  - このスクリプト実行でフロント・`API`プロジェクトの`appsettings.json`・`appsettings.Development.json`を設定するため、
+    うまく動かない場合はまずはスクリプトを実行すること。
 - ローカル開発時の注意
   - ルート直下の`compose.yml`で`DynamoDB Local`を`docker compose`で起動する。
     `DynamoDB Local`の管理画面が`http://localhost:8001`で起動する。
-  - `Blazor`・`Api`はそれぞれコマンドラインから実行する。
+  - `Blazor`・`Api`はそれぞれコマンドラインから`dotnet watch`で実行する。
     （`docker compose`で立ち上げるわけではない。）
+
+## 開発環境での起動
+
+- `開発環境構築`の内容を実行して初期化すること。
+
+```shell
+docker compose up -d
+```
+
+- `Blazor`・`Api`をそれぞれ別のターミナルで起動する。
+
+```shell
+dotnet watch run --project BlazorWasmAuth
+dotnet watch run --project Api
+````
+
+## 開発環境構築
+
+```shell
+docker compose up -d
+dotnet run --project InitDynamoDb
+```
 
 ## `AWS`
 
-### `DynamoDB`のデータ初期化
+### `DynamoDB`のデータ初期化（ローカルだけ）
+
+- 本番環境用の設定（特に`GSI`）は`CDK`で対応する：認証周りがうまく動かないなら利用ライブラリの[AspNetCore.Identity.AmazonDynamoDB](https://github.com/ganhammar/AspNetCore.Identity.AmazonDynamoDB/blob/main/src/AspNetCore.Identity.AmazonDynamoDB/Setup/DynamoDbTableSetup.cs#L52)と比較して設定を確認すること。
 
 ```shell
 dotnet run --project InitDynamoDb
@@ -28,29 +47,18 @@ dotnet run --project InitDynamoDb
 - 上記コマンドで正しく`GSI`が設定されたか確認する。
 
 ```shell
-aws dynamodb describe-table --table-name ba-ddb-dev --output text
-```
-
-```shell
 aws dynamodb describe-table --table-name ba-ddb-local --endpoint-url http://localhost:8000 --output text
 ```
 
-### コマンドライン上で初期化後の確認
-
-- `read-only`ユーザーグループに割り当てたユーザーでログインする。
-- 上記手順で遷移した`URL`から`access_token`を取得する。
-  以下のコマンドはコールバック`URL`から取得した`access_token`を貼り付けている。
+- 本番環境の確認は次の通り
 
 ```shell
-stackName=ba-dev
-aws cloudformation describe-stacks \
-  --stack-name ${stackName} \
-  --output text
+aws dynamodb describe-table --table-name ba-ddb-dev --output text
 ```
 
 ### `CDK`
 
-- メモ：スタック取得用コマンド
+- メモ：スタックの情報取得用コマンド
 
 ```shell
 aws cloudformation describe-stacks --stack-name ba-dev --output text

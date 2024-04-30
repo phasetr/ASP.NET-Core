@@ -6,6 +6,7 @@ using Api.Services;
 using AspNetCore.Identity.AmazonDynamoDB;
 using Common;
 using Common.Dtos;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -24,6 +25,14 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.RestApi);
 // builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 // Configure authorization
 builder.Services.AddAuthorizationBuilder();
+
+// Cookie settings：SameSite=LaxではクロスドメインのCloudFront+Lambdaで認証が通らない
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+    options.Secure = CookieSecurePolicy.Always;
+    options.HttpOnly = HttpOnlyPolicy.Always;
+});
 
 // // Add the database (in memory for the sample)
 // builder.Services.AddDbContext<AppDbContext>(
@@ -60,7 +69,15 @@ builder.Services
     .Configure(options =>
         options.DefaultTableName = builder.Environment.IsDevelopment()
             ? MyConstants.DynamoDbLocalTableName
-            : MyConstants.DynamoDbDevTableName);
+            : MyConstants.DynamoDbDevTableName
+    );
+// 標準のSameSite:LaxではクロスドメインのCloudFront+Lambdaで認証が通らない
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
+});
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireDigit = false;
