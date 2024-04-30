@@ -240,8 +240,9 @@ public class CookieAuthenticationStateProvider : AuthenticationStateProvider, IA
                 _authenticated = true;
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
         }
 
         // return the state
