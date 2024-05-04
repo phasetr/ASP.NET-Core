@@ -12,6 +12,9 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ToDoApp", "ToDoApp\src\ToDoApp.fsproj", "{69ADDED8-FAEB-4EA2-B51D-BA4ACB3A39A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cmd", "Cmd", "{2F3DA065-EE01-42F9-9208-C89D36074DC8}"
+	ProjectSection(SolutionItems) = preProject
+		Cmd\vite.config.js = Cmd\vite.config.js
+	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Cmd", "Cmd\src\Cmd.fsproj", "{C13C7E49-A484-4C2B-8F63-A5E540F5AEE4}"
 EndProject

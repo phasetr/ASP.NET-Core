@@ -4,13 +4,17 @@
 - [The Elmish book](https://zaid-ajaj.github.io/the-elmish-book/#/)
 - [React in Elmish](https://zaid-ajaj.github.io/the-elmish-book/#/chapters/elm/react-in-elmish)まで実装
 
-### 開発用に`watch`で実行
+## 注意
+
+- `The Elmish book`での`webpack`を`vite`に置き換えるサンプルは`Cmd`などを参照すること
+
+## 開発用に`watch`で実行
 
 ```shell
 npm start
 ```
 
-### 単純な実行
+## 単純な実行
 
 - 以下のコマンドを実行して`dist/index.html`をブラウザで開く
 

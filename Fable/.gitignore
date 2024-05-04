@@ -199,3 +199,4 @@ bundle.js.map
 .fable
 main.js
 *.fs.js
+dist
