@@ -23,6 +23,9 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HttpRequest", "HttpRequest\src\HttpRequest.fsproj", "{645E23F0-3D30-4D87-87CC-9DB06977E51D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HttpReqWithJson", "HttpReqWithJson", "{C5C5D5BC-EFE6-49D4-B815-CADBF2B814B0}"
+	ProjectSection(SolutionItems) = preProject
+		HttpReqWithJson\vite.config.js = HttpReqWithJson\vite.config.js
+	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HttpReqWithJson", "HttpReqWithJson\src\HttpReqWithJson.fsproj", "{27C07BF6-C800-4B69-A013-7CC182BED869}"
 EndProject
