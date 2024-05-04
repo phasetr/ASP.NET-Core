@@ -34,15 +34,15 @@ let update (msg: Msg) (state: State) =
       { state with
           CurrentPage = Page.Login loginState },
       Cmd.map LoginMsg loginCmd
-  | HomeMsg homeMsg, Page.Home homeState ->
+  | HomeMsg homeMsg, _ ->
+  // | HomeMsg homeMsg, Page.Home homeState ->
     match homeMsg with
     | Home.Msg.Logout -> init ()
-    | homeMsg ->
-      let homeState, homeCmd = Home.update homeMsg homeState
-
-      { state with
-          CurrentPage = Page.Home homeState },
-      Cmd.map HomeMsg homeCmd
+    // | _ ->
+    //   let homeState, homeCmd = Home.update homeMsg homeState
+    //   { state with
+    //       CurrentPage = Page.Home homeState },
+    //   Cmd.map HomeMsg homeCmd
   | _, _ -> state, Cmd.none
 
 let render (state: State) (dispatch: Msg -> unit) =
