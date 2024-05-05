@@ -28,33 +28,24 @@ let update (msg: Msg) (state: State) =
   match state.CurrentPage, msg with
   | Page.Counter counterState, CounterMsg counterMsg ->
     let counterState, counterCmd = Counter.update counterMsg counterState
-
     let nextState = { state with CurrentPage = Page.Counter counterState }
-
     let nextCmd = Cmd.map CounterMsg counterCmd
     nextState, nextCmd
   | Page.InputText inputTextState, InputTextMsg inputTextMsg ->
     let updatedInputText, inputTextCmd = InputText.update inputTextMsg inputTextState
-
     let nextState = { state with CurrentPage = Page.InputText updatedInputText }
-
     let nextCmd = Cmd.map InputTextMsg inputTextCmd
     nextState, nextCmd
   | _, SwitchToCounter ->
     let counterState, counterCmd = Counter.init ()
-
     let nextState = { state with CurrentPage = Page.Counter counterState }
-
     let nextCmd = Cmd.map CounterMsg counterCmd
     nextState, nextCmd
   | _, SwitchToInputText ->
     let inputTextState, inputTextCmd = InputText.init ()
-
     let nextState = { state with CurrentPage = Page.InputText inputTextState }
-
     let nextCmd = Cmd.map InputTextMsg inputTextCmd
     nextState, nextCmd
-
   | _, _ -> state, Cmd.none
 
 let render (state: State) (dispatch: Msg -> unit) =
