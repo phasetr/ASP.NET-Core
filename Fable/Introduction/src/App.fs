@@ -98,7 +98,9 @@ let render (state: State) (dispatch: Msg -> unit) =
 
   Html.div [ Html.div [ prop.style [ style.padding 20 ]
                         prop.children [ Html.div [ Html.input [ prop.valueOrDefault state.TextInput
-                                                                prop.onChange (SetTextInput >> dispatch) ]
+                                                                prop.onChange (
+                                                                  SetTextInput >> dispatch
+                                                                ) ]
                                                    Html.span state.TextInput ]
 
                                         Html.div [ Html.label [ prop.htmlFor "checkbox-capitalized"
@@ -108,7 +110,9 @@ let render (state: State) (dispatch: Msg -> unit) =
                                                                 prop.id "checkbox-capitalized"
                                                                 prop.type'.checkbox
                                                                 prop.isChecked state.Capitalized
-                                                                prop.onChange (SetCapitalized >> dispatch) ]
+                                                                prop.onChange (
+                                                                  SetCapitalized >> dispatch
+                                                                ) ]
 
                                                    Html.span (
                                                      if state.Capitalized then
@@ -119,9 +123,14 @@ let render (state: State) (dispatch: Msg -> unit) =
 
                                         Html.input [ prop.type'.number
                                                      prop.valueOrDefault state.NumberInput.Raw
-                                                     prop.onChange (tryParseInt >> SetNumberInput >> dispatch) ]
+                                                     prop.onChange (
+                                                       tryParseInt >> SetNumberInput >> dispatch
+                                                     ) ]
 
-                                        Html.h2 [ prop.style [ style.color (validatedTextColor state.NumberInput) ]
+                                        Html.h2 [ prop.style [ style.color (
+                                                                 validatedTextColor
+                                                                   state.NumberInput
+                                                               ) ]
                                                   prop.text state.NumberInput.Raw ] ] ]
              Html.button [ prop.onClick (fun _ -> dispatch Increment)
                            prop.text "+" ]

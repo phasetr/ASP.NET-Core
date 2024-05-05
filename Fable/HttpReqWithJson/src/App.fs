@@ -31,7 +31,8 @@ let storeInfoDecoder: Decoder<StoreInfo> =
       daysOpen = get.Required.Field "daysOpen" (Decode.list Decode.string)
       products = get.Required.Field "products" (Decode.list productDecoder) })
 
-let parseStoreInfo (json: string) : Result<StoreInfo, string> = Decode.Auto.fromString<StoreInfo> json
+let parseStoreInfo (json: string) : Result<StoreInfo, string> =
+  Decode.Auto.fromString<StoreInfo> json
 
 let init () = { StoreInfo = HasNotStartedYet }, Cmd.ofMsg (LoadStoreInfo Started)
 
