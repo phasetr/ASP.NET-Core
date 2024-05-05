@@ -1,6 +1,7 @@
 # README
 
 - [The Elmish Book](https://zaid-ajaj.github.io/the-elmish-book/#/)
+- 参考: [real-world-fable](https://github.com/thitemple/real-world-fable)
 
 ## `Hello World!`
 
