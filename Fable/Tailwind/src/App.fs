@@ -70,11 +70,16 @@ let render (state: State) (dispatch: Msg -> unit) =
   let content = if state.Loading then Html.h2 "Loading..." else Html.h2 $"Current count: {state.Count}"
 
   Html.div [ content
-             Html.button [ prop.onClick (fun _ -> dispatch Increment)
+             Html.h1 [ prop.classes [ "text-3xl font-bold underline" ]
+                       prop.text "Hello world!" ]
+             Html.button [ prop.classes [ "bg-red-600 hover:bg-red-500 text-white rounded px-4 py-2" ]
+                           prop.onClick (fun _ -> dispatch Increment)
                            prop.text "Increment" ]
-             Html.button [ prop.onClick (fun _ -> dispatch Decrement)
+             Html.button [ prop.classes [ "bg-green-600 hover:bg-green-500 text-white rounded px-4 py-2" ]
+                           prop.onClick (fun _ -> dispatch Decrement)
                            prop.text "Decrement" ]
-             Html.button [ prop.disabled state.Loading
+             Html.button [ prop.classes [ "bg-blue-600 hover:bg-blue-500 text-white rounded px-4 py-2" ]
+                           prop.disabled state.Loading
                            prop.onClick (fun _ -> dispatch IncrementDelayed)
                            prop.text "Increment Delayed" ]
              Html.div [ Html.div [ Html.text $"Current time: %A{timestamp}" ]
