@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "todo-app",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/App.fs.js",
+  "scripts": {
+    "postinstall": "dotnet tool restore",
+    "build": "dotnet fable ./src && vite build",
+    "start": "dotnet fable watch ./src --run vite --open",
+    "serve": "vite preview --open"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
