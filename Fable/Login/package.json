@@ -2,6 +2,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "./src/Main.fs.js",
   "scripts": {
     "postinstall": "dotnet tool restore",
