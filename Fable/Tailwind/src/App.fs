@@ -67,7 +67,9 @@ let update msg state =
 
 let render (state: State) (dispatch: Msg -> unit) =
   let timestamp = state.Current.ToString("yyyy-MM-dd HH:mm:ss")
-  let content = if state.Loading then Html.h2 "Loading..." else Html.h2 $"Current count: {state.Count}"
+
+  let content =
+    if state.Loading then Html.h2 "Loading..." else Html.h2 $"Current count: {state.Count}"
 
   Html.div [ content
              Html.h1 [ prop.classes [ "text-3xl font-bold underline" ]
@@ -84,9 +86,11 @@ let render (state: State) (dispatch: Msg -> unit) =
                            prop.text "Increment Delayed" ]
              Html.div [ Html.div [ Html.text $"Current time: %A{timestamp}" ]
                         Html.div [ Html.label [ prop.children [ Html.input [ prop.type' "checkbox"
-                                                                             prop.isChecked state.Enabled
-                                                                             prop.onCheckedChange (fun b ->
-                                                                               dispatch (Toggle b)) ]
+                                                                             prop.isChecked
+                                                                               state.Enabled
+                                                                             prop.onCheckedChange
+                                                                               (fun b ->
+                                                                                 dispatch (Toggle b)) ]
                                                                 Html.text " enabled" ] ] ] ] ]
 
 let timer _ =
