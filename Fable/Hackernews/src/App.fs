@@ -106,7 +106,6 @@ let update (msg: Msg) (state: State) =
   match msg with
   | ChangeStories stories ->
     let nextState = { startLoading state with CurrentStories = stories }
-
     let nextCmd = Cmd.fromAsync (loadStoryItems stories)
     nextState, nextCmd
   | LoadStoryItems Started ->
@@ -116,31 +115,25 @@ let update (msg: Msg) (state: State) =
   | LoadStoryItems (Finished (Ok storyIds)) ->
     // initialize the story IDs
     let storiesMap = Map.ofList [ for id in storyIds -> id, Deferred.InProgress ]
-
     let nextState = { state with StoryItems = Resolved(Ok storiesMap) }
-
     nextState, Cmd.batch [ for id in storyIds -> Cmd.fromAsync (loadStoryItem id) ]
   | LoadStoryItems (Finished (Error error)) ->
     let nextState = { state with StoryItems = Resolved(Error error) }
-
     nextState, Cmd.none
   | LoadedStoryItem (itemId, Ok item) ->
     match state.StoryItems with
     | Resolved (Ok storiesMap) ->
       let modifiedStoriesMap = storiesMap |> Map.remove itemId |> Map.add itemId (Resolved(Ok item))
-
       let nextState = { state with StoryItems = Resolved(Ok modifiedStoriesMap) }
-
       nextState, Cmd.none
-
     | _ -> state, Cmd.none
   | LoadedStoryItem (itemId, Error error) ->
     match state.StoryItems with
     | Resolved (Ok storiesMap) ->
-      let modifiedStoriesMap = storiesMap |> Map.remove itemId |> Map.add itemId (Resolved(Error error))
+      let modifiedStoriesMap =
+        storiesMap |> Map.remove itemId |> Map.add itemId (Resolved(Error error))
 
       let nextState = { state with StoryItems = Resolved(Ok modifiedStoriesMap) }
-
       nextState, Cmd.none
     | _ -> state, Cmd.none
 
@@ -153,7 +146,8 @@ let storiesName =
 
 let renderTab currentStories stories dispatch =
   Html.li [ prop.className [ if currentStories = stories then "is-active" ]
-            prop.onClick (fun _ -> if (currentStories <> stories) then dispatch (ChangeStories stories))
+            prop.onClick (fun _ ->
+              if (currentStories <> stories) then dispatch (ChangeStories stories))
             prop.children [ Html.a [ Html.span (storiesName stories) ] ] ]
 
 let stories = [ Stories.New; Stories.Top; Stories.Best; Stories.Job ]
@@ -162,7 +156,8 @@ let renderTabs currentStories dispatch =
   Html.div [ prop.className [ "tabs"
                               "is-toggle"
                               "is-fullwidth" ]
-             prop.children [ Html.ul [ for story in stories -> renderTab currentStories story dispatch ] ] ]
+             prop.children [ Html.ul [ for story in stories ->
+                                         renderTab currentStories story dispatch ] ] ]
 
 let renderError (errorMsg: string) =
   Html.h1 [ prop.style [ style.color.red ]
@@ -187,7 +182,6 @@ let renderItemContent (item: HackerNewsItem) =
                                                                      style.marginRight 10 ]
                                                         prop.text item.score ] ] ]
                ]
-
                div [ "column" ] [
                  match item.url with
                  | Some url ->
@@ -195,7 +189,6 @@ let renderItemContent (item: HackerNewsItem) =
                             prop.target.blank
                             prop.href url
                             prop.text item.title ]
-
                  | None -> Html.p item.title
                ]
              ] ]
