@@ -3,11 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Main.fs" />
+    <Compile Include="Main.fs"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fable.Elmish.React" Version="4.0.0" />
-    <PackageReference Include="Feliz" Version="2.7.0" />
-    <PackageReference Include="Feliz.Router" Version="4.0.0" />
+    <PackageReference Include="Fable.Elmish.React" Version="4.0.0"/>
+    <PackageReference Include="Feliz" Version="2.7.0"/>
+    <PackageReference Include="Feliz.Router" Version="4.0.0"/>
   </ItemGroup>
 </Project>

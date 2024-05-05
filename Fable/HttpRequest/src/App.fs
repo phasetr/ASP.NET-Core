@@ -48,10 +48,8 @@ let update msg state =
       }
 
     nextState, Cmd.fromAsync loadLoremIpsum
-  | LoadLoremIpsum(Finished result) ->
-    let nextState =
-      { state with
-          LoremIpsum = Resolved result }
+  | LoadLoremIpsum (Finished result) ->
+    let nextState = { state with LoremIpsum = Resolved result }
 
     nextState, Cmd.none
 
@@ -59,7 +57,11 @@ let render (state: State) (_: Msg -> unit) =
   match state.LoremIpsum with
   | HasNotStartedYet -> Html.none
   | InProgress -> Html.div "Loading..."
-  | Resolved(Ok content) -> Html.div [ prop.style [ style.color.green ]; prop.text content ]
-  | Resolved(Error errorMsg) -> Html.div [ prop.style [ style.color.red ]; prop.text errorMsg ]
+  | Resolved (Ok content) ->
+    Html.div [ prop.style [ style.color.green ]
+               prop.text content ]
+  | Resolved (Error errorMsg) ->
+    Html.div [ prop.style [ style.color.red ]
+               prop.text errorMsg ]
 
 Program.mkProgram init update render |> Program.withReactSynchronous "elmish-app" |> Program.run

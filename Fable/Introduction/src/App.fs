@@ -56,8 +56,8 @@ module Validated =
 let tryParseInt (input: string) : Validated<int> =
   try
     Validated.success input (int input)
-  with _ ->
-    Validated.failure input
+  with
+  | _ -> Validated.failure input
 
 let validatedTextColor validated =
   match validated.Parsed with
@@ -93,59 +93,41 @@ let update (msg: Msg) (state: State) : State =
 
 let render (state: State) (dispatch: Msg -> unit) =
   let oddOrEvenMessage =
-    Html.h1
-      [ prop.style
-          [ if state.Count < 0 then
-              style.display.none
-            else
-              style.display.block ]
-        prop.text (
-          if state.Count % 2 = 0 then
-            "Count is even"
-          else
-            "Count is odd"
-        ) ]
+    Html.h1 [ prop.style [ if state.Count < 0 then style.display.none else style.display.block ]
+              prop.text (if state.Count % 2 = 0 then "Count is even" else "Count is odd") ]
 
-  Html.div
-    [ Html.div
-        [ prop.style [ style.padding 20 ]
-          prop.children
-            [ Html.div
-                [ Html.input
-                    [ prop.valueOrDefault state.TextInput
-                      prop.onChange (SetTextInput >> dispatch) ]
-                  Html.span state.TextInput ]
+  Html.div [ Html.div [ prop.style [ style.padding 20 ]
+                        prop.children [ Html.div [ Html.input [ prop.valueOrDefault state.TextInput
+                                                                prop.onChange (SetTextInput >> dispatch) ]
+                                                   Html.span state.TextInput ]
 
-              Html.div
-                [ Html.label [ prop.htmlFor "checkbox-capitalized"; prop.text "Capitalized" ]
+                                        Html.div [ Html.label [ prop.htmlFor "checkbox-capitalized"
+                                                                prop.text "Capitalized" ]
 
-                  Html.input
-                    [ prop.style [ style.margin 5 ]
-                      prop.id "checkbox-capitalized"
-                      prop.type'.checkbox
-                      prop.isChecked state.Capitalized
-                      prop.onChange (SetCapitalized >> dispatch) ]
+                                                   Html.input [ prop.style [ style.margin 5 ]
+                                                                prop.id "checkbox-capitalized"
+                                                                prop.type'.checkbox
+                                                                prop.isChecked state.Capitalized
+                                                                prop.onChange (SetCapitalized >> dispatch) ]
 
-                  Html.span (
-                    if state.Capitalized then
-                      state.TextInput.ToUpper()
-                    else
-                      state.TextInput
-                  ) ]
+                                                   Html.span (
+                                                     if state.Capitalized then
+                                                       state.TextInput.ToUpper()
+                                                     else
+                                                       state.TextInput
+                                                   ) ]
 
-              Html.input
-                [ prop.type'.number
-                  prop.valueOrDefault state.NumberInput.Raw
-                  prop.onChange (tryParseInt >> SetNumberInput >> dispatch) ]
+                                        Html.input [ prop.type'.number
+                                                     prop.valueOrDefault state.NumberInput.Raw
+                                                     prop.onChange (tryParseInt >> SetNumberInput >> dispatch) ]
 
-              Html.h2
-                [ prop.style [ style.color (validatedTextColor state.NumberInput) ]
-                  prop.text state.NumberInput.Raw ] ] ]
-      Html.button [ prop.onClick (fun _ -> dispatch Increment); prop.text "+" ]
-      Html.button [ prop.onClick (fun _ -> dispatch Decrement); prop.text "-" ]
-      Html.div state.Count
-      oddOrEvenMessage ]
+                                        Html.h2 [ prop.style [ style.color (validatedTextColor state.NumberInput) ]
+                                                  prop.text state.NumberInput.Raw ] ] ]
+             Html.button [ prop.onClick (fun _ -> dispatch Increment)
+                           prop.text "+" ]
+             Html.button [ prop.onClick (fun _ -> dispatch Decrement)
+                           prop.text "-" ]
+             Html.div state.Count
+             oddOrEvenMessage ]
 
-Program.mkSimple init update render
-|> Program.withReactSynchronous "elmish-app"
-|> Program.run
+Program.mkSimple init update render |> Program.withReactSynchronous "elmish-app" |> Program.run

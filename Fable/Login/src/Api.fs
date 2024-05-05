@@ -17,6 +17,7 @@ let login (username: string) (password: string) =
 
     if username = "admin" && password = "admin" then
       let accessToken = System.Guid.NewGuid().ToString()
+
       return
         LoggedIn
           { Username = username

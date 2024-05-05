@@ -23,12 +23,16 @@ let render (state: State) (dispatch: Msg -> unit) =
     | [ "contact" ] -> Html.h1 "Contact"
     | _ -> Html.h1 "Not Found"
 
-  React.router
-    [ router.onUrlChanged (UrlChanged >> dispatch)
-      router.children
-        [ Html.a [ prop.text "Home"; prop.href (Router.format ""); prop.style [ style.margin 5 ] ]
-          Html.a [ prop.text "About"; prop.href (Router.format "about"); prop.style [ style.margin 5 ] ]
-          Html.a [ prop.text "Contact"; prop.href (Router.format "contact"); prop.style [ style.margin 5 ] ]
-          activePage ] ]
+  React.router [ router.onUrlChanged (UrlChanged >> dispatch)
+                 router.children [ Html.a [ prop.text "Home"
+                                            prop.href (Router.format "")
+                                            prop.style [ style.margin 5 ] ]
+                                   Html.a [ prop.text "About"
+                                            prop.href (Router.format "about")
+                                            prop.style [ style.margin 5 ] ]
+                                   Html.a [ prop.text "Contact"
+                                            prop.href (Router.format "contact")
+                                            prop.style [ style.margin 5 ] ]
+                                   activePage ] ]
 
 Program.mkSimple init update render |> Program.withReactSynchronous "elmish-app" |> Program.run

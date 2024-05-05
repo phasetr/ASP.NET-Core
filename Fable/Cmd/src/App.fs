@@ -69,24 +69,20 @@ let render (state: State) (dispatch: Msg -> unit) =
   let timestamp = state.Current.ToString("yyyy-MM-dd HH:mm:ss")
   let content = if state.Loading then Html.h2 "Loading..." else Html.h2 $"Current count: {state.Count}"
 
-  Html.div
-    [ content
-      Html.button [ prop.onClick (fun _ -> dispatch Increment); prop.text "Increment" ]
-      Html.button [ prop.onClick (fun _ -> dispatch Decrement); prop.text "Decrement" ]
-      Html.button
-        [ prop.disabled state.Loading
-          prop.onClick (fun _ -> dispatch IncrementDelayed)
-          prop.text "Increment Delayed" ]
-      Html.div
-        [ Html.div [ Html.text $"Current time: %A{timestamp}" ]
-          Html.div
-            [ Html.label
-                [ prop.children
-                    [ Html.input
-                        [ prop.type' "checkbox"
-                          prop.isChecked state.Enabled
-                          prop.onCheckedChange (fun b -> dispatch (Toggle b)) ]
-                      Html.text " enabled" ] ] ] ] ]
+  Html.div [ content
+             Html.button [ prop.onClick (fun _ -> dispatch Increment)
+                           prop.text "Increment" ]
+             Html.button [ prop.onClick (fun _ -> dispatch Decrement)
+                           prop.text "Decrement" ]
+             Html.button [ prop.disabled state.Loading
+                           prop.onClick (fun _ -> dispatch IncrementDelayed)
+                           prop.text "Increment Delayed" ]
+             Html.div [ Html.div [ Html.text $"Current time: %A{timestamp}" ]
+                        Html.div [ Html.label [ prop.children [ Html.input [ prop.type' "checkbox"
+                                                                             prop.isChecked state.Enabled
+                                                                             prop.onCheckedChange (fun b ->
+                                                                               dispatch (Toggle b)) ]
+                                                                Html.text " enabled" ] ] ] ] ]
 
 let timer _ =
   let start dispatch =
@@ -97,9 +93,7 @@ let timer _ =
 
   start
 
-let subscribe state =
-  [ if state.Enabled then
-      [ "timer" ], timer Tick ]
+let subscribe state = [ if state.Enabled then [ "timer" ], timer Tick ]
 
 Program.mkProgram init update render
 |> Program.withSubscription subscribe

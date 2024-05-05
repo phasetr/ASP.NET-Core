@@ -15,11 +15,14 @@ let update (msg: Msg) (state: State) : State * Cmd<Msg> =
   | Logout -> state, Cmd.none
 
 let centered (children: ReactElement list) =
-  Html.div
-    [ prop.style [ style.margin.auto; style.textAlign.center; style.padding 20; style.width (length.percent 100) ]
-      prop.children children ]
+  Html.div [ prop.style [ style.margin.auto
+                          style.textAlign.center
+                          style.padding 20
+                          style.width (length.percent 100) ]
+             prop.children children ]
 
 let render (state: State) (dispatch: Msg -> unit) =
-  centered
-    [ Html.h1 [ Html.strong (state.User.Username.ToUpper()) ]
-      Html.button [ prop.className "button is-info"; prop.onClick (fun _ -> dispatch Logout); prop.text "Logout" ] ]
+  centered [ Html.h1 [ Html.strong (state.User.Username.ToUpper()) ]
+             Html.button [ prop.className "button is-info"
+                           prop.onClick (fun _ -> dispatch Logout)
+                           prop.text "Logout" ] ]
