@@ -50,7 +50,6 @@ let update msg state =
     nextState, Cmd.fromAsync loadLoremIpsum
   | LoadLoremIpsum (Finished result) ->
     let nextState = { state with LoremIpsum = Resolved result }
-
     nextState, Cmd.none
 
 let render (state: State) (_: Msg -> unit) =
