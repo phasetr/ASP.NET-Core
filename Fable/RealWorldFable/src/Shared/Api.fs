@@ -3,11 +3,9 @@ module Api
 open Thoth.Json
 open Fable.RemoteData
 open Fable.SimpleHttp
-
 open Types
 
 let private baseUrl = "https://conduit.productionready.io/api/"
-
 
 let private badRequestErrorDecoder str =
   str
@@ -114,6 +112,7 @@ module Articles =
 
   let updateArticle session (slug, article: Article.ValidatedArticle) =
     let url = $"%s{articlesBaseUrl}/%s{slug}"
+
     Article.validatedToJson article
     |> safePut url (Decode.field "article" FullArticle.Decoder) session
 
@@ -183,6 +182,7 @@ module Users =
 
   let updateUser session (validatedUser: User.ValidatedUser, password) =
     let url = $"%s{baseUrl}user/"
+
     User.validatedToJsonValue validatedUser password
     |> safePut url (Decode.field "user" User.Decoder) session
 

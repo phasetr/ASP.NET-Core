@@ -11,7 +11,6 @@ open Api
 open Elements
 
 // TYPES
-
 type Model =
   { Email: string
     Password: string
