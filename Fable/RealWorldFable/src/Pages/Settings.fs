@@ -30,10 +30,14 @@ type Msg =
   | Submit
 
 // COMMANDS
-let private fetchUser session = Cmd.OfAsync.perform Users.fetchUser session UserFetched
+let private fetchUser session =
+  Cmd.OfAsync.perform Users.fetchUser session UserFetched
 
 let private updateUser session validatedUser password =
-  Cmd.OfAsync.perform (Users.updateUser session) (validatedUser, password) UserSaved
+  Cmd.OfAsync.perform
+    (Users.updateUser session)
+    (validatedUser, password)
+    UserSaved
 
 // STATE
 let init session =
@@ -58,7 +62,8 @@ let update msg model =
     updateForm
       (fun formData ->
         { formData with
-            Image = if String.IsNullOrWhiteSpace image then None else Some image })
+            Image =
+              if String.IsNullOrWhiteSpace image then None else Some image })
       model
   | SetBio bio ->
     updateForm
@@ -66,8 +71,10 @@ let update msg model =
         { formData with
             Bio = if String.IsNullOrWhiteSpace bio then None else Some bio })
       model
-  | SetUsername username -> updateForm (fun formData -> { formData with Username = username }) model
-  | SetEmail email -> updateForm (fun formData -> { formData with Email = email }) model
+  | SetUsername username ->
+    updateForm (fun formData -> { formData with Username = username }) model
+  | SetEmail email ->
+    updateForm (fun formData -> { formData with Email = email }) model
   | SetPassword password -> { model with Password = password }, Cmd.none
   | Submit ->
     match model.User with
@@ -75,7 +82,8 @@ let update msg model =
       let result = validateUser user
 
       match result with
-      | Ok validatedUser -> model, updateUser model.Session validatedUser model.Password
+      | Ok validatedUser ->
+        model, updateUser model.Session validatedUser model.Password
       | Error err -> { model with Errors = [ err ] }, Cmd.none
     | _ -> model, Cmd.none
   | UserSaved(Success _) -> model, newUrl Articles
@@ -127,7 +135,9 @@ let private form dispatch (user: User) password =
               Value password
               OnChange(fun ev -> dispatch <| SetPassword ev.Value)
               Placeholder "Password" ] ]
-      button [ ClassName "btn btn-lg btn-primary pull-xs-right" ] [ str "Update Settings" ] ]
+      button
+        [ ClassName "btn btn-lg btn-primary pull-xs-right" ]
+        [ str "Update Settings" ] ]
 
 let private renderForm dispatch model =
   match model.User with

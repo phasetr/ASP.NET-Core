@@ -39,7 +39,10 @@ let private fetchArticles session articlesView page =
 
   match articlesView, session with
   | Feed, Some s ->
-    Cmd.OfAsync.perform Articles.fetchFeed {| Session = s; Offset = offset |} ArticlesFetched
+    Cmd.OfAsync.perform
+      Articles.fetchFeed
+      {| Session = s; Offset = offset |}
+      ArticlesFetched
   | TagFeed tag, _ ->
     Cmd.OfAsync.perform
       Articles.fetchArticlesWithTag
@@ -65,7 +68,8 @@ let private unfavArticle session article =
 
 // STATE
 let init session =
-  let articlesView = Option.map (fun _ -> Feed) session |> Option.defaultValue Global
+  let articlesView =
+    Option.map (fun _ -> Feed) session |> Option.defaultValue Global
 
   { Articles = Loading
     PopularTags = Loading
@@ -86,7 +90,9 @@ let update msg model : Model * Cmd<Msg> =
     map
       (fun (articles: ArticlesList) ->
         let updatedArticles =
-          List.map (fun a -> if a.Slug = article.Slug then article else a) articles.Articles
+          List.map
+            (fun a -> if a.Slug = article.Slug then article else a)
+            articles.Articles
 
         { model with
             Articles =
@@ -101,7 +107,9 @@ let update msg model : Model * Cmd<Msg> =
     map
       (fun (articles: ArticlesList) ->
         let updatedArticles =
-          List.map (fun a -> if a.Slug = article.Slug then article else a) articles.Articles
+          List.map
+            (fun a -> if a.Slug = article.Slug then article else a)
+            articles.Articles
 
         { model with
             Articles =
@@ -129,20 +137,27 @@ let update msg model : Model * Cmd<Msg> =
 let private tags tags =
   ul
     [ ClassName "tag-list" ]
-    (List.map (fun tag -> li [ ClassName "tag-default tag-pill tag-outline" ] [ str tag ]) tags)
+    (List.map
+      (fun tag ->
+        li [ ClassName "tag-default tag-pill tag-outline" ] [ str tag ])
+      tags)
 
 let private article dispatch (article: FullArticle) =
   div
     [ ClassName "article-preview" ]
     [ div
         [ ClassName "article-meta" ]
-        [ a [ href <| Profile article.Author.Username ] [ img [ Src article.Author.Image ] ]
+        [ a
+            [ href <| Profile article.Author.Username ]
+            [ img [ Src article.Author.Image ] ]
           div
             [ ClassName "info" ]
             [ a
                 [ ClassName "author"; href <| Profile article.Author.Username ]
                 [ str article.Author.Username ]
-              span [ ClassName "date" ] [ str <| article.CreatedAt.ToLongDateString() ] ]
+              span
+                [ ClassName "date" ]
+                [ str <| article.CreatedAt.ToLongDateString() ] ]
           div
             [ ClassName "pull-xs-right" ]
             [ button
@@ -156,7 +171,8 @@ let private article dispatch (article: FullArticle) =
                       dispatch <| UnfavoriteArticle article
                     else
                       dispatch <| FavoriteArticle article) ]
-                [ i [ ClassName "ion-heart" ] []; str <| $" %i{article.FavoritesCount}" ] ] ]
+                [ i [ ClassName "ion-heart" ] []
+                  str <| $" %i{article.FavoritesCount}" ] ] ]
       a
         [ ClassName "preview-link"; href <| Article article.Slug ]
         [ h1 [] [ str article.Title ]
@@ -222,7 +238,8 @@ let private feedToggle dispatch articlesView session =
              li
                [ ClassName "nav-item" ]
                [ a
-                   [ classList [ ("nav-link", true); ("active", articlesView = Feed) ]
+                   [ classList
+                       [ ("nav-link", true); ("active", articlesView = Feed) ]
                      Href ""
                      OnClick(fun ev ->
                        ev.preventDefault ()
@@ -232,7 +249,8 @@ let private feedToggle dispatch articlesView session =
           li
             [ ClassName "nav-item" ]
             [ a
-                [ classList [ ("nav-link", true); ("active", articlesView = Global) ]
+                [ classList
+                    [ ("nav-link", true); ("active", articlesView = Global) ]
                   Href ""
                   OnClick(fun ev ->
                     ev.preventDefault ()
@@ -242,7 +260,7 @@ let private feedToggle dispatch articlesView session =
            | TagFeed(Tag t) ->
              li
                [ ClassName "nav-item" ]
-               [ a [ ClassName "nav-link active" ] [ str <| sprintf "# %s" t ] ]
+               [ a [ ClassName "nav-link active" ] [ str <| $"# %s{t}" ] ]
            | _ -> empty) ] ]
 
 let view dispatch model =
@@ -258,13 +276,21 @@ let view dispatch model =
                 [ feedToggle dispatch model.ArticlesView model.Session
                   (match model.Articles with
                    | Success({ Articles = [] }) ->
-                     div [ ClassName "article-preview" ] [ str "No articles here... yet." ]
+                     div
+                       [ ClassName "article-preview" ]
+                       [ str "No articles here... yet." ]
                    | Success articles ->
                      fragment
                        []
                        [ div [] (List.map (article dispatch) articles.Articles)
-                         pagination dispatch model.CurrentArticlesPage articles.ArticlesCount ]
+                         pagination
+                           dispatch
+                           model.CurrentArticlesPage
+                           articles.ArticlesCount ]
                    | Loading -> div [] [ str "Loading..." ]
-                   | Failure _ -> str <| sprintf "There was an issue fetching the articles"
+                   | Failure _ ->
+                     str <| "There was an issue fetching the articles"
                    | NotAsked -> empty) ]
-              div [ ClassName "col-md-3" ] [ sidebar dispatch model.PopularTags ] ] ] ]
+              div
+                [ ClassName "col-md-3" ]
+                [ sidebar dispatch model.PopularTags ] ] ] ]

@@ -76,17 +76,27 @@ module User =
     Encode.object
       [ "username", Encode.string user.Username
         "email", Encode.string user.Email
-        "bio", Option.map Encode.string user.Bio |> Option.defaultValue Encode.nil
-        "image", Option.map Encode.string user.Image |> Option.defaultValue Encode.nil
+        "bio",
+        Option.map Encode.string user.Bio |> Option.defaultValue Encode.nil
+        "image",
+        Option.map Encode.string user.Image |> Option.defaultValue Encode.nil
         "password",
-        (if String.IsNullOrWhiteSpace password then Encode.nil else Encode.string password) ]
+        (if String.IsNullOrWhiteSpace password then
+           Encode.nil
+         else
+           Encode.string password) ]
 
   let validateUser (user: User) =
-    let isUsernameEmpty user = isEmpty "username can't be blank" (fun u -> u.Username) user
-    let isEmailEmpty user = isEmpty "email can't be blank" (fun u -> u.Email) user
+    let isUsernameEmpty user =
+      isEmpty "username can't be blank" (_.Username) user
+
+    let isEmailEmpty user = isEmpty "email can't be blank" (_.Email) user
 
     let isValidEmail user =
-      if String.exists (fun c -> c = '@') user.Email then Ok user else Error "email must have a '@'"
+      if String.exists (fun c -> c = '@') user.Email then
+        Ok user
+      else
+        Error "email must have a '@'"
 
     user
     |> isUsernameEmpty
@@ -99,9 +109,9 @@ type Tag =
 
   static member Decoder: Decoder<Tag> =
     Decode.object <| fun get -> Tag <| get.Required.Raw Decode.string
-
   static member ListDecoder: Decoder<Tag list> =
-    Decode.object (fun get -> get.Required.At [ "tags" ] (Decode.list Tag.Decoder))
+    Decode.object (fun get ->
+      get.Required.At [ "tags" ] (Decode.list Tag.Decoder))
 
 module Article =
   type Article =
@@ -113,9 +123,12 @@ module Article =
   type ValidatedArticle = private ValidatedArticle of Article
 
   let validateArticle (simplifiedArticle: Article) =
-    let isTitleEmpty = isEmpty "title can't be empty" (fun a -> a.Title)
-    let isDescriptionEmpty = isEmpty "description can't be empty" (fun a -> a.Body)
-    let isBodyEmpty = isEmpty "body can't be empty" (fun a -> a.Description)
+    let isTitleEmpty = isEmpty "title can't be empty" (_.Title)
+
+    let isDescriptionEmpty =
+      isEmpty "description can't be empty" (_.Body)
+
+    let isBodyEmpty = isEmpty "body can't be empty" (_.Description)
 
     simplifiedArticle
     |> isTitleEmpty
@@ -128,7 +141,8 @@ module Article =
       [ "title", Encode.string article.Title
         "description", Encode.string article.Description
         "body", Encode.string article.Body
-        "tagList", Encode.list (article.TagList |> Set.toList |> List.map Encode.string) ]
+        "tagList",
+        Encode.list (article.TagList |> Set.toList |> List.map Encode.string) ]
 
   type ArticlesList =
     { Articles: FullArticle list
@@ -137,7 +151,8 @@ module Article =
     static member Decoder: Decoder<ArticlesList> =
       Decode.object
       <| fun get ->
-        { Articles = get.Required.Field "articles" (Decode.list FullArticle.Decoder)
+        { Articles =
+            get.Required.Field "articles" (Decode.list FullArticle.Decoder)
           ArticlesCount = get.Required.Field "articlesCount" Decode.int }
 
 type Comment =
@@ -157,6 +172,8 @@ type Comment =
         Author = get.Required.Field "author" Author.Decoder }
 
   static member DecoderList: Decoder<Comment list> =
-    Decode.object <| fun get -> get.Required.At [ "comments" ] (Decode.list Comment.Decoder)
+    Decode.object
+    <| fun get -> get.Required.At [ "comments" ] (Decode.list Comment.Decoder)
 
-  static member Encode comment = Encode.object [ ("body", Encode.string comment.Body) ]
+  static member Encode comment =
+    Encode.object [ ("body", Encode.string comment.Body) ]

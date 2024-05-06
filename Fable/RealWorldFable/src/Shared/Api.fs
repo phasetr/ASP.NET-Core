@@ -14,7 +14,8 @@ let private badRequestErrorDecoder str =
     (Decode.dict (Decode.list Decode.string)
      |> Decode.andThen (
        Map.toList
-       >> List.collect (fun (key, errors) -> List.map (fun e -> sprintf "%s %s" key e) errors)
+       >> List.collect (fun (key, errors) ->
+         List.map (sprintf "%s %s" key) errors)
        >> Decode.succeed
      ))
 // The errors are returned as a key/pair value of string * string list
@@ -26,7 +27,8 @@ let private makeRequest method url decoder session body =
 
     let request =
       session
-      |> Option.map (fun s -> Http.header (Headers.authorization <| $"Token %s{s.Token}") request)
+      |> Option.map (fun s ->
+        Http.header (Headers.authorization <| $"Token %s{s.Token}") request)
       |> Option.defaultValue request
 
     let request =
@@ -46,7 +48,8 @@ let private makeRequest method url decoder session body =
       | Ok value -> return Success value
       | Error e -> return Failure [ e ]
     | 422 ->
-      let decodedErrors = Decode.fromString badRequestErrorDecoder response.responseText
+      let decodedErrors =
+        Decode.fromString badRequestErrorDecoder response.responseText
 
       match decodedErrors with
       | Ok errors -> return Failure errors
@@ -55,17 +58,20 @@ let private makeRequest method url decoder session body =
   }
 
 
-let private safeGet url decoder session = makeRequest GET url decoder (Some session) None
+let private safeGet url decoder session =
+  makeRequest GET url decoder (Some session) None
 
 
-let private safeDelete url decoder session = makeRequest DELETE url decoder (Some session) None
+let private safeDelete url decoder session =
+  makeRequest DELETE url decoder (Some session) None
 
 
 let private safeChange method (body: JsonValue) url decoder session =
   Some(Encode.toString 0 body) |> makeRequest method url decoder (Some session)
 
 
-let private safePut url decoder session (body: JsonValue) = safeChange PUT body url decoder session
+let private safePut url decoder session (body: JsonValue) =
+  safeChange PUT body url decoder session
 
 
 let private safePost url decoder session (body: JsonValue) =
@@ -83,7 +89,10 @@ module Articles =
 
   let fetchArticlesWithTag (payload: {| Tag: Tag; Offset: int |}) =
     let (Tag tag) = payload.Tag
-    let url = $"%s{articlesBaseUrl}?tag=%s{tag}&limit=10&offset=%i{payload.Offset}"
+
+    let url =
+      $"%s{articlesBaseUrl}?tag=%s{tag}&limit=10&offset=%i{payload.Offset}"
+
     get url Article.ArticlesList.Decoder
 
   let fetchArticles offset =
@@ -108,7 +117,10 @@ module Articles =
 
   let createArticle session (article: Article.ValidatedArticle) =
     Article.validatedToJson article
-    |> safePost articlesBaseUrl (Decode.field "article" FullArticle.Decoder) session
+    |> safePost
+      articlesBaseUrl
+      (Decode.field "article" FullArticle.Decoder)
+      session
 
   let updateArticle session (slug, article: Article.ValidatedArticle) =
     let url = $"%s{articlesBaseUrl}/%s{slug}"
@@ -124,7 +136,12 @@ module Articles =
     =
     let url = $"%s{articlesBaseUrl}/%s{payload.Slug}/comments"
     let comment = Encode.object [ ("body", Encode.string payload.CommentBody) ]
-    safePost url (Decode.field "comment" Comment.Decoder) payload.Session {| comment = comment |}
+
+    safePost
+      url
+      (Decode.field "comment" Comment.Decoder)
+      payload.Session
+      {| comment = comment |}
 
   let favoriteArticle
     (payload:
@@ -147,11 +164,13 @@ module Articles =
     get url Article.ArticlesList.Decoder
 
   let deleteArticle (payload: {| Session: Session; Slug: string |}) =
-    let url = sprintf "%s/%s" articlesBaseUrl payload.Slug
+    let url = $"%s{articlesBaseUrl}/%s{payload.Slug}"
     safeDelete url (Decode.succeed ()) payload.Session
 
   let fetchFavoriteArticles (author: Author) =
-    let url = $"%s{articlesBaseUrl}?favorited=%s{author.Username}&limit=10&offset={0}"
+    let url =
+      $"%s{articlesBaseUrl}?favorited=%s{author.Username}&limit=10&offset={0}"
+
     get url Article.ArticlesList.Decoder
 
 module Tags =
@@ -168,7 +187,10 @@ module Users =
          email: string
          password: string |})
     =
-    post usersBaseUrl (Decode.field "user" Session.Decoder) {| user = createUser |}
+    post
+      usersBaseUrl
+      (Decode.field "user" Session.Decoder)
+      {| user = createUser |}
 
   let login (credentials: {| email: string; password: string |}) =
     let url = $"%s{usersBaseUrl}login/"

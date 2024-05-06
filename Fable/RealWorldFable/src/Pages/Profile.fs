@@ -32,7 +32,8 @@ type Msg =
   | ToggleArticlesView of ArticlesView
 
 // COMMANDS
-let private fetchProfile username = Cmd.OfAsync.perform Profiles.fetchProfile username ProfileLoaded
+let private fetchProfile username =
+  Cmd.OfAsync.perform Profiles.fetchProfile username ProfileLoaded
 
 let private fetchArticlesFromAuthor username =
   Cmd.OfAsync.perform Articles.fetchArticlesFromAuthor username ArticlesLoaded
@@ -97,7 +98,9 @@ let update msg (model: Model) =
       map
         (fun (articlesList: ArticlesList) ->
           let articles =
-            List.map (fun a -> if a.Slug = article.Slug then article else a) articlesList.Articles
+            List.map
+              (fun a -> if a.Slug = article.Slug then article else a)
+              articlesList.Articles
 
           { articlesList with
               Articles = articles })
@@ -105,7 +108,8 @@ let update msg (model: Model) =
 
     { model with Articles = articles }, Cmd.none
   | FavoriteArticleToggled _ -> model, Cmd.none
-  | ToggleFollowAuthor({ Following = true } as author) -> model, unfollowAuthor model.Session author
+  | ToggleFollowAuthor({ Following = true } as author) ->
+    model, unfollowAuthor model.Session author
   | ToggleFollowAuthor author -> model, followAuthor model.Session author
   | FollowAuthorToggled data -> { model with Author = data }, Cmd.none
   | ToggleArticlesView articlesView ->
@@ -121,11 +125,16 @@ let update msg (model: Model) =
     | _ -> model, Cmd.none
 
 // VIEW
-let private userInfoButtons dispatch (session: Session option) (author: Author) =
+let private userInfoButtons
+  dispatch
+  (session: Session option)
+  (author: Author)
+  =
   match session with
   | Some s when s.Username = author.Username ->
     a
-      [ ClassName "btn btn-sm btn-outline-secondary action-btn"; href <| SessionRoute Settings ]
+      [ ClassName "btn btn-sm btn-outline-secondary action-btn"
+        href <| SessionRoute Settings ]
       [ i [ ClassName "ion-gear-a" ] [ str " Edit Profile Settings" ] ]
   | _ ->
     button
@@ -137,7 +146,11 @@ let private userInfoButtons dispatch (session: Session option) (author: Author) 
             ("btn-secondary", author.Following) ]
         OnClick(fun _ -> dispatch <| ToggleFollowAuthor author) ]
       [ i [ ClassName "ion-plus-round" ] []
-        str <| sprintf " %s %s" (if author.Following then "Unfollow" else "Follow") author.Username ]
+        str
+        <| sprintf
+          " %s %s"
+          (if author.Following then "Unfollow" else "Follow")
+          author.Username ]
 
 let private userInfo dispatch session (author: Author) =
   div
@@ -158,11 +171,17 @@ let private article dispatch (article: FullArticle) =
     [ ClassName "article-preview" ]
     [ div
         [ ClassName "article-meta" ]
-        [ a [ href <| Profile article.Author.Username ] [ img [ Src article.Author.Image ] ]
+        [ a
+            [ href <| Profile article.Author.Username ]
+            [ img [ Src article.Author.Image ] ]
           div
             [ ClassName "info" ]
-            [ a [ href <| Profile article.Author.Username ] [ str article.Author.Username ]
-              span [ ClassName "date" ] [ str <| article.CreatedAt.ToLongDateString() ] ]
+            [ a
+                [ href <| Profile article.Author.Username ]
+                [ str article.Author.Username ]
+              span
+                [ ClassName "date" ]
+                [ str <| article.CreatedAt.ToLongDateString() ] ]
           div
             [ ClassName "pull-xs-right" ]
             [ button
@@ -172,7 +191,8 @@ let private article dispatch (article: FullArticle) =
                       ("btn-outline-primary", not article.Favorited)
                       ("btn-primary", article.Favorited) ]
                   OnClick(fun _ -> dispatch <| ToggleFavoriteArticle article) ]
-                [ i [ ClassName "ion-heart" ] []; str <| $" %i{article.FavoritesCount}" ] ] ]
+                [ i [ ClassName "ion-heart" ] []
+                  str <| $" %i{article.FavoritesCount}" ] ] ]
       a
         [ ClassName "preview-link"; href <| Article article.Slug ]
         [ h1 [] [ str article.Title ]
@@ -187,7 +207,9 @@ let private articlesToggle dispatch currentArticlesView =
         [ li
             [ ClassName "nav-item" ]
             [ a
-                [ classList [ ("nav-link", true); ("active", currentArticlesView = AuthorArticles) ]
+                [ classList
+                    [ ("nav-link", true)
+                      ("active", currentArticlesView = AuthorArticles) ]
                   Href ""
                   OnClick(fun ev ->
                     ev.preventDefault ()
@@ -197,7 +219,8 @@ let private articlesToggle dispatch currentArticlesView =
             [ ClassName "nav-item" ]
             [ a
                 [ classList
-                    [ ("nav-link", true); ("active", currentArticlesView = FavoritedArticles) ]
+                    [ ("nav-link", true)
+                      ("active", currentArticlesView = FavoritedArticles) ]
                   Href ""
                   OnClick(fun ev ->
                     ev.preventDefault ()
@@ -225,5 +248,7 @@ let view dispatch model =
                     [ articlesToggle dispatch model.ArticlesView
                       (match model.Articles with
                        | Success articles ->
-                         fragment [] (List.map (article dispatch) articles.Articles)
+                         fragment
+                           []
+                           (List.map (article dispatch) articles.Articles)
                        | _ -> empty) ] ] ] ] ]

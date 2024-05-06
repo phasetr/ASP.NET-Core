@@ -9,9 +9,7 @@ open Types.Article
 open Types
 open Api
 
-
 // TYPES
-
 type Mode =
   | Editing of string
   | Creating
@@ -34,21 +32,20 @@ type Msg =
   | ArticleSaved of RemoteData<string list, FullArticle>
   | ArticleLoaded of RemoteData<string list, FullArticle>
 
-
 // COMMANDS
-
 let createArticle session article =
   Cmd.OfAsync.perform (Articles.createArticle session) article ArticleSaved
 
-
 let saveArticle session slug article =
-  Cmd.OfAsync.perform (Articles.updateArticle session) (slug, article) ArticleSaved
+  Cmd.OfAsync.perform
+    (Articles.updateArticle session)
+    (slug, article)
+    ArticleSaved
 
-
-let fetchArticle slug = Cmd.OfAsync.perform (Articles.fetchArticle) slug ArticleLoaded
+let fetchArticle slug =
+  Cmd.OfAsync.perform Articles.fetchArticle slug ArticleLoaded
 
 // STATE
-
 let initNew session =
   { Session = session
     TagPlaceholder = ""
@@ -62,7 +59,6 @@ let initNew session =
           TagList = Set.empty } },
   Cmd.none
 
-
 let initEdit session slug =
   { Session = session
     TagPlaceholder = ""
@@ -70,7 +66,6 @@ let initEdit session slug =
     Errors = []
     Article = Loading },
   fetchArticle slug
-
 
 let private updateArticle transform model =
   match model.Article with
@@ -85,16 +80,12 @@ let private updateArticle transform model =
 let update (msg: Msg) (model: Model) =
   match msg with
   | SetTitle title -> updateArticle (fun a -> { a with Title = title }) model
-
   | SetDescription description ->
     updateArticle (fun a -> { a with Description = description }) model
-
   | SetBody body -> updateArticle (fun a -> { a with Body = body }) model
-
   | SetTag tag -> { model with TagPlaceholder = tag }, Cmd.none
-
   | AddTag tag ->
-    let (model, cmd) =
+    let model, cmd =
       updateArticle
         (fun a ->
           { a with
@@ -102,14 +93,12 @@ let update (msg: Msg) (model: Model) =
         model
 
     { model with TagPlaceholder = "" }, cmd
-
   | RemoveTag tag ->
     updateArticle
       (fun a ->
         { a with
             TagList = Set.remove tag a.TagList })
       model
-
   | ArticleLoaded data ->
     data
     |> map (fun article ->
@@ -122,39 +111,35 @@ let update (msg: Msg) (model: Model) =
                 TagList = article.TagList |> Set.ofList } },
       Cmd.none)
     |> withDefault (model, Cmd.none)
-
   | SaveArticle ->
     match model.Article with
     | Success article ->
       let result = validateArticle article
 
       match result, model.Mode with
-      | Ok validatedArticle, Creating -> model, createArticle model.Session validatedArticle
-
-      | Ok validatedArticle, Editing slug -> model, saveArticle model.Session slug validatedArticle
-
+      | Ok validatedArticle, Creating ->
+        model, createArticle model.Session validatedArticle
+      | Ok validatedArticle, Editing slug ->
+        model, saveArticle model.Session slug validatedArticle
       | Error err, _ -> { model with Errors = [ err ] }, Cmd.none
-
     | _ -> model, Cmd.none
-
-  | ArticleSaved(Success article) -> model, Router.newUrl <| Router.Route.Article article.Slug
-
+  | ArticleSaved(Success article) ->
+    model, Router.newUrl <| Router.Route.Article article.Slug
   | ArticleSaved(Failure errs) -> { model with Errors = errs }, Cmd.none
-
   | ArticleSaved _ -> model, Cmd.none
 
-
-
 // VIEW
-
 let private tagList dispatch tags =
   let tag t =
     span
       [ ClassName "tag-default tag-pill" ]
-      [ i [ ClassName "ion-close-round"; OnClick(fun _ -> dispatch <| RemoveTag t) ] []; str t ]
+      [ i
+          [ ClassName "ion-close-round"
+            OnClick(fun _ -> dispatch <| RemoveTag t) ]
+          []
+        str t ]
 
   div [ ClassName "tag-list" ] (tags |> Set.toList |> List.map tag)
-
 
 let private form dispatch tag (article: Article) =
   form
@@ -169,7 +154,6 @@ let private form dispatch tag (article: Article) =
                   Value article.Title
                   OnChange(fun ev -> dispatch <| SetTitle ev.Value)
                   Placeholder "Article Title" ] ]
-
           fieldset
             [ ClassName "form-group" ]
             [ input
@@ -178,7 +162,6 @@ let private form dispatch tag (article: Article) =
                   Value article.Description
                   OnChange(fun ev -> dispatch <| SetDescription ev.Value)
                   Placeholder "What's this article about?" ] ]
-
           fieldset
             [ ClassName "form-group" ]
             [ textarea
@@ -188,7 +171,6 @@ let private form dispatch tag (article: Article) =
                   OnChange(fun ev -> dispatch <| SetBody ev.Value)
                   Placeholder "Write your article (in markdown)" ]
                 [] ]
-
           fieldset
             [ ClassName "form-group" ]
             [ input
@@ -201,11 +183,10 @@ let private form dispatch tag (article: Article) =
                       dispatch <| AddTag ev.Value)
                   OnChange(fun ev -> dispatch <| SetTag ev.Value)
                   Placeholder "Enter tags" ]
-
               tagList dispatch article.TagList ]
-
-          button [ ClassName "btn btn-lg pull-xs-right btn-primary" ] [ str "Publish Article" ] ] ]
-
+          button
+            [ ClassName "btn btn-lg pull-xs-right btn-primary" ]
+            [ str "Publish Article" ] ] ]
 
 let view dispatch (model: Model) =
   div
@@ -217,6 +198,6 @@ let view dispatch (model: Model) =
             [ div
                 [ ClassName "col-md-10 offset-md-1 col-xs-12" ]
                 [ (match model.Article with
-                   | Success article -> form dispatch model.TagPlaceholder article
-
+                   | Success article ->
+                     form dispatch model.TagPlaceholder article
                    | _ -> empty) ] ] ] ]

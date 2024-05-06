@@ -72,7 +72,9 @@ let private form dispatch model =
               Value model.Password
               OnChange(fun ev -> dispatch <| SetPassword ev.Value)
               Placeholder "Password" ] ]
-      button [ ClassName "btn btn-lg btn-primary pull-xs-right" ] [ str "Sign in" ] ]
+      button
+        [ ClassName "btn btn-lg btn-primary pull-xs-right" ]
+        [ str "Sign in" ] ]
 
 let view dispatch model =
   div

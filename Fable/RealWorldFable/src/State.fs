@@ -44,8 +44,10 @@ let private saveSession (session: Session) =
     (fun _ -> NoOp)
 
 let private removeSession =
-  Cmd.OfFunc.perform (fun _ -> Browser.WebStorage.localStorage.removeItem "session") () (fun _ ->
-    NoOp)
+  Cmd.OfFunc.perform
+    (fun _ -> Browser.WebStorage.localStorage.removeItem "session")
+    ()
+    (fun _ -> NoOp)
 
 // STATE
 
@@ -54,7 +56,9 @@ let setSessionRoute sessionRoute model =
   | None -> model, newUrl Route.Login
   | Some session ->
     match sessionRoute with
-    | Logout -> { model with Session = None }, Cmd.batch [ newUrl Route.Articles; removeSession ]
+    | Logout ->
+      { model with Session = None },
+      Cmd.batch [ newUrl Route.Articles; removeSession ]
     | SessionRoute.Settings ->
       let settingsModel, settingsCmd = Pages.Settings.init session
 
@@ -124,7 +128,8 @@ let update msg model : Model * Cmd<Msg> =
   | ArticlesMsg articlesMsg ->
     match model.ActivePage with
     | Articles articlesModel ->
-      let articlesModel, articlesCmd = Pages.Articles.update articlesMsg articlesModel
+      let articlesModel, articlesCmd =
+        Pages.Articles.update articlesMsg articlesModel
 
       { model with
           ActivePage = (Articles articlesModel) },
@@ -133,7 +138,8 @@ let update msg model : Model * Cmd<Msg> =
   | ArticleMsg articleMsg ->
     match model.ActivePage with
     | Article articleModel ->
-      let articleModel, articleCmd = Pages.Article.update articleMsg articleModel
+      let articleModel, articleCmd =
+        Pages.Article.update articleMsg articleModel
 
       { model with
           ActivePage = Article articleModel },
@@ -142,7 +148,8 @@ let update msg model : Model * Cmd<Msg> =
   | LoginMsg loginMsg ->
     match model.ActivePage with
     | Login loginModel ->
-      let loginModel, loginCmd, externalMsg = Pages.Login.update loginMsg loginModel
+      let loginModel, loginCmd, externalMsg =
+        Pages.Login.update loginMsg loginModel
 
       let model, cmd =
         match externalMsg with
@@ -158,7 +165,8 @@ let update msg model : Model * Cmd<Msg> =
   | RegisterMsg registerMsg ->
     match model.ActivePage with
     | Register registerModel ->
-      let registerModel, registerCmd, externalMsg = Pages.Register.update registerMsg registerModel
+      let registerModel, registerCmd, externalMsg =
+        Pages.Register.update registerMsg registerModel
 
       let model, cmd =
         match externalMsg with
@@ -174,7 +182,8 @@ let update msg model : Model * Cmd<Msg> =
   | SettingsMsg settingsMsg ->
     match model.ActivePage with
     | Settings settingsModel ->
-      let settingsModel, settingsCmd = Pages.Settings.update settingsMsg settingsModel
+      let settingsModel, settingsCmd =
+        Pages.Settings.update settingsMsg settingsModel
 
       { model with
           ActivePage = Settings settingsModel },
@@ -192,7 +201,8 @@ let update msg model : Model * Cmd<Msg> =
   | ProfileMsg profileMsg ->
     match model.ActivePage with
     | Profile profileModel ->
-      let profileModel, profileCmd = Pages.Profile.update profileMsg profileModel
+      let profileModel, profileCmd =
+        Pages.Profile.update profileMsg profileModel
 
       { model with
           ActivePage = Profile profileModel },

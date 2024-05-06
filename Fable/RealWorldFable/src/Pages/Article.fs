@@ -52,7 +52,8 @@ let private fetchArticle session slug =
       ArticleFetched
   | None -> Cmd.OfAsync.perform Articles.fetchArticle slug ArticleFetched
 
-let private fetchComments slug = Cmd.OfAsync.perform Articles.fetchComments slug CommentsFetched
+let private fetchComments slug =
+  Cmd.OfAsync.perform Articles.fetchComments slug CommentsFetched
 
 let private createComment session slug comment =
   let payload =
@@ -62,10 +63,14 @@ let private createComment session slug comment =
 
   Cmd.OfAsync.perform Articles.createComment payload CommentCreated
 
-let private fetchUser session = Cmd.OfAsync.perform Users.fetchUser session UserFetched
+let private fetchUser session =
+  Cmd.OfAsync.perform Users.fetchUser session UserFetched
 
 let private deleteArticle session slug =
-  Cmd.OfAsync.perform Articles.deleteArticle {| Session = session; Slug = slug |} ArticleDeleted
+  Cmd.OfAsync.perform
+    Articles.deleteArticle
+    {| Session = session; Slug = slug |}
+    ArticleDeleted
 
 let private followAuthor session author =
   Cmd.OfAsync.perform
@@ -99,7 +104,7 @@ let private unfavoredArticle authentication article =
 
 // STATE
 let init session slug =
-  let (authentication, cmdUser) =
+  let authentication, cmdUser =
     match session with
     | Some s -> (Authenticated { Session = s; User = Loading }), fetchUser s
     | None -> Unauthenticated, Cmd.none
@@ -118,7 +123,10 @@ let update msg model =
   | SetNewComment comment -> { model with NewComment = comment }, Cmd.none
   | SubmitComment ->
     let errors =
-      if String.IsNullOrWhiteSpace model.NewComment then [ "comment can't be blank" ] else []
+      if String.IsNullOrWhiteSpace model.NewComment then
+        [ "comment can't be blank" ]
+      else
+        []
 
     match List.isEmpty errors, model.Authentication, model.Article with
     | true, Authenticated { Session = session }, Success(article) ->
@@ -158,27 +166,37 @@ let update msg model =
     | Authenticated auth, true -> model, unfollowAuthor auth.Session author
     | _ -> model, Cmd.none
   | FollowAuthorToggled(Success author) ->
-    let article = map (fun (article: FullArticle) -> { article with Author = author }) model.Article
+    let article =
+      map
+        (fun (article: FullArticle) -> { article with Author = author })
+        model.Article
+
     { model with Article = article }, Cmd.none
   | FollowAuthorToggled _ -> model, Cmd.none
   | ToggleFavoriteArticle({ Favorited = true } as article) ->
     model, unfavoredArticle model.Authentication article
-  | ToggleFavoriteArticle article -> model, favArticle model.Authentication article
+  | ToggleFavoriteArticle article ->
+    model, favArticle model.Authentication article
   | FavoriteArticleToggled data -> { model with Article = data }, Cmd.none
 
 // VIEW
 let private comment (comment: Comment) =
   div
     [ ClassName "card" ]
-    [ div [ ClassName "card-block" ] [ p [ ClassName "card-text" ] [ str comment.Body ] ]
+    [ div
+        [ ClassName "card-block" ]
+        [ p [ ClassName "card-text" ] [ str comment.Body ] ]
       div
         [ ClassName "card-footer" ]
         [ a
-            [ ClassName "comment-author"; href <| Profile comment.Author.Username ]
+            [ ClassName "comment-author"
+              href <| Profile comment.Author.Username ]
             [ img [ ClassName "comment-author-img"; Src comment.Author.Image ]
               str " "
               str comment.Author.Username
-              span [ ClassName "date-posted" ] [ str <| comment.CreatedAt.ToLongDateString() ] ] ] ]
+              span
+                [ ClassName "date-posted" ]
+                [ str <| comment.CreatedAt.ToLongDateString() ] ] ] ]
 
 let private commentForm dispatch (user: User) errors newComment =
   form
@@ -198,7 +216,8 @@ let private commentForm dispatch (user: User) errors newComment =
         [ img
             [ Src
               <| Option.defaultWith
-                (fun _ -> "https://static.productionready.io/images/smiley-cyrus.jpg")
+                (fun _ ->
+                  "https://static.productionready.io/images/smiley-cyrus.jpg")
                 user.Image
               ClassName "comment-author-img" ]
           button [ ClassName "btn btn-sn btn-primary" ] [ str "Post Comment" ] ] ]
@@ -244,7 +263,11 @@ let private followAuthorButton dispatch (author: Author) =
           ("btn-secondary", author.Following) ]
       OnClick(fun _ -> dispatch <| ToggleFollowAuthor author) ]
     [ i [ ClassName "ion-plus-round" ] []
-      str <| sprintf " %s %s" (if author.Following then "Unfollow" else "Follow") author.Username ]
+      str
+      <| sprintf
+        " %s %s"
+        (if author.Following then "Unfollow" else "Follow")
+        author.Username ]
 
 let private favoriteArticleButton dispatch article =
   button
@@ -256,7 +279,9 @@ let private favoriteArticleButton dispatch article =
       OnClick(fun _ -> dispatch <| ToggleFavoriteArticle article) ]
     [ i [ ClassName "ion-heart" ] []
       str " Favorite Post "
-      span [ ClassName "counter" ] [ str <| sprintf "(%i)" article.FavoritesCount ] ]
+      span
+        [ ClassName "counter" ]
+        [ str <| $"(%i{article.FavoritesCount})" ] ]
 
 let private infoButtons dispatch authentication (article: FullArticle) =
   match authentication with
@@ -278,13 +303,18 @@ let private banner dispatch authentication article =
         [ h1 [] [ str article.Title ]
           div
             [ ClassName "article-meta" ]
-            [ a [ href <| Profile article.Author.Username ] [ img [ Src article.Author.Image ] ]
+            [ a
+                [ href <| Profile article.Author.Username ]
+                [ img [ Src article.Author.Image ] ]
               div
                 [ ClassName "info" ]
                 [ a
-                    [ ClassName "author"; href <| Profile article.Author.Username ]
+                    [ ClassName "author"
+                      href <| Profile article.Author.Username ]
                     [ str article.Author.Username ]
-                  span [ ClassName "date" ] [ str <| article.CreatedAt.ToLongDateString() ] ]
+                  span
+                    [ ClassName "date" ]
+                    [ str <| article.CreatedAt.ToLongDateString() ] ]
               infoButtons dispatch authentication article ] ] ]
 
 let view dispatch (model: Model) =
@@ -301,7 +331,8 @@ let view dispatch (model: Model) =
                    [ ClassName "row article-content" ]
                    [ div
                        [ ClassName "col-md-12"
-                         DangerouslySetInnerHTML { __html = markdown.toHTML article.Body } ]
+                         DangerouslySetInnerHTML
+                           { __html = markdown.toHTML article.Body } ]
                        [] ]
                  hr []
                  div
@@ -314,7 +345,8 @@ let view dispatch (model: Model) =
                          div
                            [ ClassName "info" ]
                            [ a
-                               [ ClassName "author"; href <| Profile article.Author.Username ]
+                               [ ClassName "author"
+                                 href <| Profile article.Author.Username ]
                                [ str article.Author.Username ]
                              span
                                [ ClassName "date" ]

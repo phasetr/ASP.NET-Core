@@ -8,7 +8,8 @@ open State
 open Types
 
 let private isActiveRoute optRoute targetRoute =
-  Option.map (fun route -> route = targetRoute) optRoute |> Option.defaultValue false
+  Option.map (fun route -> route = targetRoute) optRoute
+  |> Option.defaultValue false
 
 let authenticatedMenuItems isActiveRoute (session: Session) =
   fragment
@@ -18,7 +19,8 @@ let authenticatedMenuItems isActiveRoute (session: Session) =
         [ a
             [ classList
                 [ ("nav-link", true)
-                  ("active", isActiveRoute <| SessionRoute SessionRoute.NewArticle) ]
+                  ("active",
+                   isActiveRoute <| SessionRoute SessionRoute.NewArticle) ]
               href <| SessionRoute SessionRoute.NewArticle ]
             [ i [ ClassName "ion-compose" ] []; str " New Post" ] ]
       li
@@ -33,12 +35,15 @@ let authenticatedMenuItems isActiveRoute (session: Session) =
         [ ClassName "nav-item" ]
         [ a
             [ classList
-                [ ("nav-link", true); ("active", isActiveRoute <| Router.Profile session.Username) ]
+                [ ("nav-link", true)
+                  ("active", isActiveRoute <| Router.Profile session.Username) ]
               href <| Router.Profile session.Username ]
             [ str session.Username ] ]
       li
         [ ClassName "nav-item" ]
-        [ a [ ClassName "nav-link"; href <| SessionRoute Logout ] [ str " Sign out" ] ] ]
+        [ a
+            [ ClassName "nav-link"; href <| SessionRoute Logout ]
+            [ str " Sign out" ] ] ]
 
 let private unauthenticatedMenuItems isActiveRoute =
   fragment
@@ -46,13 +51,15 @@ let private unauthenticatedMenuItems isActiveRoute =
     [ li
         [ ClassName "nav-item" ]
         [ a
-            [ classList [ ("nav-link", true); ("active", isActiveRoute Route.Login) ]
+            [ classList
+                [ ("nav-link", true); ("active", isActiveRoute Route.Login) ]
               href Route.Login ]
             [ str "Sign in" ] ]
       li
         [ ClassName "nav-item" ]
         [ a
-            [ classList [ ("nav-link", true); ("active", isActiveRoute Route.Register) ]
+            [ classList
+                [ ("nav-link", true); ("active", isActiveRoute Route.Register) ]
               href Route.Register ]
             [ str "Sign up" ] ] ]
 
@@ -73,20 +80,27 @@ let private navbar isActiveRoute session =
                 [ ClassName "nav-item" ]
                 [ a
                     [ ClassName "nav-link active"
-                      classList [ ("nav-link", true); ("active", isActiveRoute Route.Articles) ]
+                      classList
+                        [ ("nav-link", true)
+                          ("active", isActiveRoute Route.Articles) ]
                       href Route.Articles ]
                     [ str "Home" ] ]
               navbarItems isActiveRoute session ] ] ]
 
 let private activePage dispatch activePage =
   match activePage with
-  | Articles articlesModel -> Pages.Articles.view (ArticlesMsg >> dispatch) articlesModel
-  | Article articleModel -> Pages.Article.view (ArticleMsg >> dispatch) articleModel
+  | Articles articlesModel ->
+    Pages.Articles.view (ArticlesMsg >> dispatch) articlesModel
+  | Article articleModel ->
+    Pages.Article.view (ArticleMsg >> dispatch) articleModel
   | Login loginModel -> Pages.Login.view (LoginMsg >> dispatch) loginModel
-  | Register registerModel -> Pages.Register.view (RegisterMsg >> dispatch) registerModel
-  | Settings settingsModel -> Pages.Settings.view (SettingsMsg >> dispatch) settingsModel
+  | Register registerModel ->
+    Pages.Register.view (RegisterMsg >> dispatch) registerModel
+  | Settings settingsModel ->
+    Pages.Settings.view (SettingsMsg >> dispatch) settingsModel
   | Editor editorModel -> Pages.Editor.view (EditorMsg >> dispatch) editorModel
-  | Profile profileModel -> Pages.Profile.view (ProfileMsg >> dispatch) profileModel
+  | Profile profileModel ->
+    Pages.Profile.view (ProfileMsg >> dispatch) profileModel
   | Loading -> div [] [ str "Loading" ]
   | NotFound -> div [] [ str "404" ]
 
