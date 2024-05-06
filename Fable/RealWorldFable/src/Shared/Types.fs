@@ -19,7 +19,6 @@ type Author =
         Image = get.Required.Field "image" Decode.string
         Following = get.Required.Field "following" Decode.bool }
 
-
 type Session =
   { Username: string
     Token: string }
@@ -29,7 +28,6 @@ type Session =
     <| fun get ->
       { Username = get.Required.Field "username" Decode.string
         Token = get.Required.Field "token" Decode.string }
-
 
 type User =
   { Username: string
@@ -44,7 +42,6 @@ type User =
         Email = get.Required.Field "email" Decode.string
         Bio = get.Optional.Field "bio" Decode.string
         Image = get.Optional.Field "image" Decode.string }
-
 
 type FullArticle =
   { Slug: string
@@ -73,7 +70,6 @@ type FullArticle =
         Author = get.Required.Field "author" Author.Decoder }
 
 module User =
-
   type ValidatedUser = private ValidatedUser of User
 
   let validatedToJsonValue (ValidatedUser user) (password: string) : JsonValue =
@@ -87,7 +83,6 @@ module User =
 
   let validateUser (user: User) =
     let isUsernameEmpty user = isEmpty "username can't be blank" (fun u -> u.Username) user
-
     let isEmailEmpty user = isEmpty "email can't be blank" (fun u -> u.Email) user
 
     let isValidEmail user =
@@ -99,7 +94,6 @@ module User =
     |> Result.bind isValidEmail
     |> Result.map ValidatedUser
 
-
 type Tag =
   | Tag of string
 
@@ -110,7 +104,6 @@ type Tag =
     Decode.object (fun get -> get.Required.At [ "tags" ] (Decode.list Tag.Decoder))
 
 module Article =
-
   type Article =
     { Title: string
       Description: string
@@ -121,9 +114,7 @@ module Article =
 
   let validateArticle (simplifiedArticle: Article) =
     let isTitleEmpty = isEmpty "title can't be empty" (fun a -> a.Title)
-
     let isDescriptionEmpty = isEmpty "description can't be empty" (fun a -> a.Body)
-
     let isBodyEmpty = isEmpty "body can't be empty" (fun a -> a.Description)
 
     simplifiedArticle
@@ -139,7 +130,6 @@ module Article =
         "body", Encode.string article.Body
         "tagList", Encode.list (article.TagList |> Set.toList |> List.map Encode.string) ]
 
-
   type ArticlesList =
     { Articles: FullArticle list
       ArticlesCount: int }
@@ -149,7 +139,6 @@ module Article =
       <| fun get ->
         { Articles = get.Required.Field "articles" (Decode.list FullArticle.Decoder)
           ArticlesCount = get.Required.Field "articlesCount" Decode.int }
-
 
 type Comment =
   { Id: int

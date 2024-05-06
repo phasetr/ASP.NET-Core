@@ -18,7 +18,6 @@ type Route =
   | Profile of string
   | SessionRoute of SessionRoute
 
-
 let pageParser: Parser<Route -> Route, Route> =
   oneOf
     [ map Article (s "article" </> str)
@@ -31,33 +30,21 @@ let pageParser: Parser<Route -> Route, Route> =
       map Profile (s "profile" </> str)
       map (Logout |> SessionRoute) (s "logout") ]
 
-
 let toHash route =
   match route with
   | Articles -> ""
-
-  | Article slug -> sprintf "article/%s" slug
-
+  | Article slug -> $"article/%s{slug}"
   | Login -> "login"
-
   | Register -> "register"
-
   | SessionRoute Settings -> "settings"
-
   | SessionRoute NewArticle -> "editor"
-
-  | Profile username -> sprintf "profile/%s" username
-
+  | Profile username -> $"profile/%s{username}"
   | SessionRoute Logout -> "logout"
-
-  | SessionRoute(EditArticle slug) -> sprintf "editor/%s" slug
-  |> (fun r -> sprintf "#/%s" r)
-
+  | SessionRoute(EditArticle slug) -> $"editor/%s{slug}"
+  |> sprintf "#/%s"
 
 let href = toHash >> Href
 
-
 let modifyUrl route = route |> toHash |> Navigation.modifyUrl
-
 
 let newUrl route = route |> toHash |> Navigation.newUrl

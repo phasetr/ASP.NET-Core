@@ -28,8 +28,7 @@ let private makeRequest method url decoder session body =
 
     let request =
       session
-      |> Option.map (fun s ->
-        Http.header (Headers.authorization <| sprintf "Token %s" s.Token) request)
+      |> Option.map (fun s -> Http.header (Headers.authorization <| $"Token %s{s.Token}") request)
       |> Option.defaultValue request
 
     let request =
@@ -47,17 +46,13 @@ let private makeRequest method url decoder session body =
 
       match decodedValue with
       | Ok value -> return Success value
-
       | Error e -> return Failure [ e ]
-
     | 422 ->
       let decodedErrors = Decode.fromString badRequestErrorDecoder response.responseText
 
       match decodedErrors with
       | Ok errors -> return Failure errors
-
       | Error e -> return Failure [ e ]
-
     | _ -> return Failure [ response.responseText ]
   }
 
@@ -86,51 +81,41 @@ let private post url decoder body =
   Some(Encode.toString 0 body) |> makeRequest POST url decoder None
 
 module Articles =
-
-  let articlesBaseUrl = sprintf "%sarticles/" baseUrl
-
+  let articlesBaseUrl = $"%s{baseUrl}articles/"
 
   let fetchArticlesWithTag (payload: {| Tag: Tag; Offset: int |}) =
     let (Tag tag) = payload.Tag
-    let url = sprintf "%s?tag=%s&limit=10&offset=%i" articlesBaseUrl tag payload.Offset
+    let url = $"%s{articlesBaseUrl}?tag=%s{tag}&limit=10&offset=%i{payload.Offset}"
     get url Article.ArticlesList.Decoder
-
 
   let fetchArticles offset =
-    let url = sprintf "%s?limit=10&offset=%i" articlesBaseUrl offset
+    let url = $"%s{articlesBaseUrl}?limit=10&offset=%i{offset}"
     get url Article.ArticlesList.Decoder
 
-
   let fetchArticle slug =
-    let url = sprintf "%s/%s" articlesBaseUrl slug
+    let url = $"%s{articlesBaseUrl}/%s{slug}"
     get url (Decode.field "article" FullArticle.Decoder)
 
   let fetchArticleWithSession (payload: {| Session: Session; Slug: string |}) =
-    let url = sprintf "%s/%s" articlesBaseUrl payload.Slug
+    let url = $"%s{articlesBaseUrl}/%s{payload.Slug}"
     safeGet url (Decode.field "article" FullArticle.Decoder) payload.Session
 
-
   let fetchFeed (payload: {| Session: Session; Offset: int |}) =
-    let url = sprintf "%sfeed?limit=10&offset=%i" articlesBaseUrl payload.Offset
+    let url = $"%s{articlesBaseUrl}feed?limit=10&offset=%i{payload.Offset}"
     safeGet url Article.ArticlesList.Decoder payload.Session
 
-
   let fetchComments slug =
-    let url = sprintf "%s/%s/comments" articlesBaseUrl slug
+    let url = $"%s{articlesBaseUrl}/%s{slug}/comments"
     get url Comment.DecoderList
-
 
   let createArticle session (article: Article.ValidatedArticle) =
     Article.validatedToJson article
     |> safePost articlesBaseUrl (Decode.field "article" FullArticle.Decoder) session
 
-
   let updateArticle session (slug, article: Article.ValidatedArticle) =
-    let url = sprintf "%s/%s" articlesBaseUrl slug
-
+    let url = $"%s{articlesBaseUrl}/%s{slug}"
     Article.validatedToJson article
     |> safePut url (Decode.field "article" FullArticle.Decoder) session
-
 
   let createComment
     (payload:
@@ -138,55 +123,45 @@ module Articles =
          Slug: string
          CommentBody: string |})
     =
-    let url = sprintf "%s/%s/comments" articlesBaseUrl payload.Slug
+    let url = $"%s{articlesBaseUrl}/%s{payload.Slug}/comments"
     let comment = Encode.object [ ("body", Encode.string payload.CommentBody) ]
     safePost url (Decode.field "comment" Comment.Decoder) payload.Session {| comment = comment |}
-
 
   let favoriteArticle
     (payload:
       {| Session: Session
          Article: FullArticle |})
     =
-    let url = sprintf "%s/%s/favorite" articlesBaseUrl payload.Article.Slug
+    let url = $"%s{articlesBaseUrl}/%s{payload.Article.Slug}/favorite"
     safePost url (Decode.field "article" FullArticle.Decoder) payload.Session ""
-
 
   let unfavoriteArticle
     (payload:
       {| Session: Session
          Article: FullArticle |})
     =
-    let url = sprintf "%s/%s/favorite" articlesBaseUrl payload.Article.Slug
+    let url = $"%s{articlesBaseUrl}/%s{payload.Article.Slug}/favorite"
     safeDelete url (Decode.field "article" FullArticle.Decoder) payload.Session
 
-
   let fetchArticlesFromAuthor author =
-    let url = sprintf "%s?author=%s&limit=10&offset=%i" articlesBaseUrl author 0
+    let url = $"%s{articlesBaseUrl}?author=%s{author}&limit=10&offset={0}"
     get url Article.ArticlesList.Decoder
-
 
   let deleteArticle (payload: {| Session: Session; Slug: string |}) =
     let url = sprintf "%s/%s" articlesBaseUrl payload.Slug
     safeDelete url (Decode.succeed ()) payload.Session
 
-
   let fetchFavoriteArticles (author: Author) =
-    let url = sprintf "%s?favorited=%s&limit=10&offset=%i" articlesBaseUrl author.Username 0
+    let url = $"%s{articlesBaseUrl}?favorited=%s{author.Username}&limit=10&offset={0}"
     get url Article.ArticlesList.Decoder
 
-
 module Tags =
-
   let fetchTags () =
-    let url = sprintf "%stags" baseUrl
+    let url = $"%s{baseUrl}tags"
     get url Tag.ListDecoder
 
-
 module Users =
-
-  let usersBaseUrl = sprintf "%susers/" baseUrl
-
+  let usersBaseUrl = $"%s{baseUrl}users/"
 
   let createUser
     (createUser:
@@ -196,36 +171,30 @@ module Users =
     =
     post usersBaseUrl (Decode.field "user" Session.Decoder) {| user = createUser |}
 
-
   let login (credentials: {| email: string; password: string |}) =
-    let url = sprintf "%slogin/" usersBaseUrl
+    let url = $"%s{usersBaseUrl}login/"
     post url (Decode.field "user" Session.Decoder) {| user = credentials |}
 
-
   let fetchUserWithDecoder decoder session =
-    let url = sprintf "%suser/" baseUrl
+    let url = $"%s{baseUrl}user/"
     safeGet url (Decode.field "user" decoder) session
-
 
   let fetchUser session = fetchUserWithDecoder User.Decoder session
 
-
   let updateUser session (validatedUser: User.ValidatedUser, password) =
-    let url = sprintf "%suser/" baseUrl
-
+    let url = $"%s{baseUrl}user/"
     User.validatedToJsonValue validatedUser password
     |> safePut url (Decode.field "user" User.Decoder) session
 
-
 module Profiles =
   let fetchProfile username =
-    let url = sprintf "%sprofiles/%s/" baseUrl username
+    let url = $"%s{baseUrl}profiles/%s{username}/"
     get url (Decode.field "profile" Author.Decoder)
 
   let createFollower (payload: {| Session: Session; Author: Author |}) =
-    let url = sprintf "%sprofiles/%s/follow" baseUrl payload.Author.Username
+    let url = $"%s{baseUrl}profiles/%s{payload.Author.Username}/follow"
     safePost url (Decode.field "profile" Author.Decoder) payload.Session ""
 
   let deleteFollower (payload: {| Session: Session; Author: Author |}) =
-    let url = sprintf "%sprofiles/%s/follow" baseUrl payload.Author.Username
+    let url = $"%s{baseUrl}profiles/%s{payload.Author.Username}/follow"
     safeDelete url (Decode.field "profile" Author.Decoder) payload.Session

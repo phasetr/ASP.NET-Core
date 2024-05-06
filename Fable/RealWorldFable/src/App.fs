@@ -15,7 +15,6 @@ let private tryGetSessionFromLocalStorage =
   |> Option.ofObj
   |> Option.bind (Decode.fromString Session.Decoder >> Result.toOption)
 
-
 Program.mkProgram (init tryGetSessionFromLocalStorage) update rootView
 |> Program.toNavigable (UrlParser.parseHash pageParser) setRoute
 |> Program.withReactSynchronous "real-world-fable-app"
