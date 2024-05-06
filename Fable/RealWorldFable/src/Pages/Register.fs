@@ -11,7 +11,6 @@ open Api
 open Elements
 
 // TYPES
-
 type Model =
   { Username: string
     Email: string
@@ -29,9 +28,7 @@ type Msg =
   | Submit
   | HandleCreateResponse of RemoteData<string list, Session>
 
-
 // COMMANDS
-
 let private createUser model =
   Cmd.OfAsync.perform
     Users.createUser
@@ -41,7 +38,6 @@ let private createUser model =
     HandleCreateResponse
 
 // STATE
-
 let init () : Model * Cmd<Msg> =
   { Username = ""
     Email = ""
@@ -49,28 +45,19 @@ let init () : Model * Cmd<Msg> =
     Errors = [] },
   Cmd.none
 
-
 let update msg (model: Model) =
   match msg with
   | SetUsername username -> { model with Username = username }, Cmd.none, NoOp
-
   | SetEmail email -> { model with Email = email }, Cmd.none, NoOp
-
   | SetPassword password -> { model with Password = password }, Cmd.none, NoOp
-
   | Submit -> model, createUser model, NoOp
-
   | HandleCreateResponse data ->
     match data with
     | Failure err -> { model with Errors = err }, Cmd.none, NoOp
-
     | Success(session) -> model, Cmd.none, UserCreated session
-
     | _ -> model, Cmd.none, NoOp
 
-
 // VIEW
-
 let private form dispatch model =
   form
     [ OnSubmit(fun _ -> dispatch Submit) ]
@@ -82,7 +69,6 @@ let private form dispatch model =
               Value model.Username
               OnChange(fun ev -> dispatch <| SetUsername ev.Value)
               Placeholder "Your Username" ] ]
-
       fieldset
         [ ClassName "form-group" ]
         [ input
@@ -91,7 +77,6 @@ let private form dispatch model =
               Value model.Email
               OnChange(fun ev -> dispatch <| SetEmail ev.Value)
               Placeholder "Email" ] ]
-
       fieldset
         [ ClassName "form-group" ]
         [ input
@@ -100,9 +85,7 @@ let private form dispatch model =
               Value model.Password
               OnChange(fun ev -> dispatch <| SetPassword ev.Value)
               Placeholder "Password" ] ]
-
       button [ ClassName "btn btn-lg btn-primary pull-xs-right" ] [ str "Sign up" ] ]
-
 
 let view dispatch model =
   div
@@ -114,9 +97,6 @@ let view dispatch model =
             [ div
                 [ ClassName "col-md-6 offset-md-3 col-xs-12" ]
                 [ h1 [ ClassName "text-xs-center" ] [ str "Sign in" ]
-
                   p [ ClassName "text-xs-center" ] [ a [ href Login ] [ str "Have an account?" ] ]
-
                   errorsList model.Errors
-
                   form dispatch model ] ] ] ]
