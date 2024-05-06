@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "postinstall": "dotnet tool restore",
+    "build": "dotnet fable ./src && vite build",
+    "start": "dotnet fable watch ./src --run vite --open",
+    "serve": "vite preview --open"
+  },
+  "devDependencies": {
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "markdown": "^0.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
