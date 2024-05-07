@@ -3,6 +3,12 @@
 - [The Elmish Book](https://zaid-ajaj.github.io/the-elmish-book/#/)
 - 参考: [real-world-fable](https://github.com/thitemple/real-world-fable)
 
+## 注意
+
+- `Elmish Book`の例はサンプル用に残した`Introduction`以外、
+  `webpack`ではなく`vite`に置き換えた
+- デフォルト設定なら`vite.config.js`がなくても動き、必要ないプロジェクトでは削除している
+
 ## `Hello World!`
 
 - [Hello World!](https://zaid-ajaj.github.io/the-elmish-book/#/chapters/fable/hello-world)
