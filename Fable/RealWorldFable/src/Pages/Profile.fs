@@ -54,7 +54,7 @@ let private unfavArticle session article =
   session
   |> Option.map (fun s ->
     Cmd.OfAsync.perform
-      Articles.unfavoriteArticle
+      Articles.unfavorArticle
       {| Session = s; Article = article |}
       FavoriteArticleToggled)
   |> Option.defaultValue Cmd.none

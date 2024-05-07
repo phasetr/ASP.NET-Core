@@ -84,7 +84,7 @@ let private unfollowAuthor session author =
     {| Session = session; Author = author |}
     FollowAuthorToggled
 
-let private favArticle authentication article =
+let private favorArticle authentication article =
   match authentication with
   | Authenticated({ Session = s }) ->
     Cmd.OfAsync.perform
@@ -93,11 +93,11 @@ let private favArticle authentication article =
       FavoriteArticleToggled
   | _ -> Cmd.none
 
-let private unfavoredArticle authentication article =
+let private unfavorArticle authentication article =
   match authentication with
   | Authenticated({ Session = s }) ->
     Cmd.OfAsync.perform
-      Articles.unfavoriteArticle
+      Articles.unfavorArticle
       {| Session = s; Article = article |}
       FavoriteArticleToggled
   | _ -> Cmd.none
@@ -174,9 +174,9 @@ let update msg model =
     { model with Article = article }, Cmd.none
   | FollowAuthorToggled _ -> model, Cmd.none
   | ToggleFavoriteArticle({ Favorited = true } as article) ->
-    model, unfavoredArticle model.Authentication article
+    model, unfavorArticle model.Authentication article
   | ToggleFavoriteArticle article ->
-    model, favArticle model.Authentication article
+    model, favorArticle model.Authentication article
   | FavoriteArticleToggled data -> { model with Article = data }, Cmd.none
 
 // VIEW

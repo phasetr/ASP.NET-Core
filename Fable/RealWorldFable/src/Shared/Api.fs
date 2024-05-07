@@ -61,10 +61,8 @@ let private makeRequest method url decoder session body =
 let private safeGet url decoder session =
   makeRequest GET url decoder (Some session) None
 
-
 let private safeDelete url decoder session =
   makeRequest DELETE url decoder (Some session) None
-
 
 let private safeChange method (body: JsonValue) url decoder session =
   Some(Encode.toString 0 body) |> makeRequest method url decoder (Some session)
@@ -151,7 +149,7 @@ module Articles =
     let url = $"%s{articlesBaseUrl}/%s{payload.Article.Slug}/favorite"
     safePost url (Decode.field "article" FullArticle.Decoder) payload.Session ""
 
-  let unfavoriteArticle
+  let unfavorArticle
     (payload:
       {| Session: Session
          Article: FullArticle |})

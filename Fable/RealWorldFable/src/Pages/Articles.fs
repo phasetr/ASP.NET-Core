@@ -61,7 +61,7 @@ let private favArticle session article =
 
 let private unfavArticle session article =
   Cmd.OfAsync.perform
-    Articles.unfavoriteArticle
+    Articles.unfavorArticle
     {| Session = session
        Article = article |}
     ArticleUnfavored
