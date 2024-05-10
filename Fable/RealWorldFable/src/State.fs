@@ -50,7 +50,6 @@ let private removeSession =
     (fun _ -> NoOp)
 
 // STATE
-
 let setSessionRoute sessionRoute model =
   match model.Session with
   | None -> model, newUrl Route.Login
