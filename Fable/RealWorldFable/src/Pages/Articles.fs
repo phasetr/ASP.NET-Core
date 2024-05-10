@@ -52,14 +52,14 @@ let private fetchArticles session articlesView page =
 
 let private fetchTags = Cmd.OfAsync.perform Tags.fetchTags () TagsFetched
 
-let private favArticle session article =
+let private favoriteArticle session article =
   Cmd.OfAsync.perform
     Articles.favoriteArticle
     {| Session = session
        Article = article |}
     ArticleFavored
 
-let private unfavArticle session article =
+let private unfavorArticle session article =
   Cmd.OfAsync.perform
     Articles.unfavorArticle
     {| Session = session
@@ -122,11 +122,11 @@ let update msg model : Model * Cmd<Msg> =
   | ArticleUnfavored _ -> model, Cmd.none
   | FavoriteArticle article ->
     match model.Session with
-    | Some s -> model, favArticle s article
+    | Some s -> model, favoriteArticle s article
     | None -> model, Cmd.none
   | UnfavoriteArticle article ->
     match model.Session with
-    | Some s -> model, unfavArticle s article
+    | Some s -> model, unfavorArticle s article
     | None -> model, Cmd.none
   | ToggleArticlesView articlesView ->
     { model with
