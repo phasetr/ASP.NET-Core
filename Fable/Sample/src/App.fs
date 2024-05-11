@@ -14,27 +14,34 @@ let update msg model =
   | Toggle -> { model with IsOpen = not model.IsOpen }, Cmd.none
 
 let view (model: Model) dispatch =
-  Html.div
-    [ Html.button
-        [ prop.classes [ "p-2 text-white bg-blue-500" ]
-          prop.onClick (fun _ -> dispatch Toggle)
-          prop.text (if model.IsOpen then "Close" else "Open") ]
-      if model.IsOpen then
-        Html.p [ prop.text "Hello, world!" ]
-        Html.div
-          [ prop.classes
-              [ "fixed inset-0 transition-opacity bg-gray-800 bg-opacity-75 z-40" ]
-            prop.children
-              [ Html.nav
-                  [ prop.classes
-                      [ "fixed top-0 bottom-0 left-0 w-64 bg-white shadow-lg z-50" ]
-                    prop.children
-                      [ Html.ul
-                          [ prop.className [ "p-4" ]
-                            prop.children
-                              [ Html.li [ prop.href "#"; prop.text "Home" ]
-                                Html.li [ prop.href "#"; prop.text "About" ]
-                                Html.li [ prop.href "#"; prop.text "Contact" ] ] ] ] ] ] ] ]
+  Html.header
+    [ prop.className [ "flex h-20 items-center border-y-2 p-6" ]
+      prop.children
+        [ Html.h2 [ prop.className [ "text-2xl font-bold" ]; prop.text "ロゴ" ]
+          Html.nav
+            [ prop.children
+                [ Html.button
+                    [ prop.classes [ "p-2 text-white bg-blue-500" ]
+                      prop.onClick (fun _ -> dispatch Toggle)
+                      prop.text (if model.IsOpen then "Close" else "Open") ] ] ]
+          if model.IsOpen then
+            Html.p [ prop.text "Hello, world!" ]
+
+            Html.div
+              [ prop.classes
+                  [ "fixed inset-0 transition-opacity bg-gray-800 bg-opacity-75 z-40" ]
+                prop.children
+                  [ Html.nav
+                      [ prop.classes
+                          [ "fixed top-0 bottom-0 left-0 w-64 bg-white shadow-lg z-50" ]
+                        prop.children
+                          [ Html.ul
+                              [ prop.className [ "p-4" ]
+                                prop.children
+                                  [ Html.li [ prop.href "#"; prop.text "Home" ]
+                                    Html.li [ prop.href "#"; prop.text "About" ]
+                                    Html.li
+                                      [ prop.href "#"; prop.text "Contact" ] ] ] ] ] ] ] ] ]
 
 let subscribe _ = []
 
