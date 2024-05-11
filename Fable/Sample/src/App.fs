@@ -21,9 +21,16 @@ let view (model: Model) dispatch =
           Html.nav
             [ prop.children
                 [ Html.button
-                    [ prop.classes [ "p-2 text-white bg-blue-500" ]
+                    [ prop.classes [ "fixed top-6 right-6 z-10" ]
                       prop.onClick (fun _ -> dispatch Toggle)
-                      prop.text (if model.IsOpen then "Close" else "Open") ] ] ]
+                      prop.text (if model.IsOpen then "Close" else "Open")
+                      prop.children
+                        [ if model.IsOpen then
+                            Html.i
+                              [ prop.classes [ "fa-solid fa-xmark fa-2x text-white" ] ]
+                          else
+                            Html.i
+                              [ prop.classes [ "fa-solid fa-bars fa-2x" ] ] ] ] ] ]
           if model.IsOpen then
             Html.p [ prop.text "Hello, world!" ]
 
