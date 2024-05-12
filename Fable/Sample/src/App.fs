@@ -4,21 +4,24 @@ open Elmish
 open Elmish.HMR
 open Feliz
 
-type Model = { IsOpen: bool }
+type Model = { IsMenuOpen: bool }
 type Msg = Toggle
 
-let initialize () = { IsOpen = false }, Cmd.none
+let initialize () = { IsMenuOpen = false }, Cmd.none
 
 let update msg model =
   match msg with
-  | Toggle -> { model with IsOpen = not model.IsOpen }, Cmd.none
+  | Toggle ->
+    { model with
+        IsMenuOpen = not model.IsMenuOpen },
+    Cmd.none
 
 let toggleButton (model: Model) dispatch =
   Html.button
     [ prop.classes [ "fixed top-6 right-6 z-10" ]
       prop.onClick (fun _ -> dispatch Toggle)
       prop.children
-        [ if model.IsOpen then
+        [ if model.IsMenuOpen then
             Html.i [ prop.classes [ "fa-solid fa-xmark fa-2x text-white" ] ]
           else
             Html.i [ prop.classes [ "fa-solid fa-bars fa-2x" ] ] ] ]
@@ -46,7 +49,7 @@ let view (model: Model) dispatch =
           Html.nav
             [ prop.children
                 [ toggleButton model dispatch
-                  if model.IsOpen then
+                  if model.IsMenuOpen then
                     navMenu ] ] ] ]
 
 let subscribe _ = []
