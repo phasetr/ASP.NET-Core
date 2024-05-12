@@ -17,7 +17,6 @@ let toggleButton (model: Model) dispatch =
   Html.button
     [ prop.classes [ "fixed top-6 right-6 z-10" ]
       prop.onClick (fun _ -> dispatch Toggle)
-      prop.text (if model.IsOpen then "Close" else "Open")
       prop.children
         [ if model.IsOpen then
             Html.i [ prop.classes [ "fa-solid fa-xmark fa-2x text-white" ] ]
