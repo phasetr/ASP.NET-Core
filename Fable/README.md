@@ -2,6 +2,10 @@
 
 - [The Elmish Book](https://zaid-ajaj.github.io/the-elmish-book/#/)
 - 参考: [real-world-fable](https://github.com/thitemple/real-world-fable)
+- UI作りの参考
+  - [tailwind](https://tailwindcss.com/)
+  - [shadcn](https://ui.shadcn.com/)
+  - [v0.dev](https://v0.dev)
 
 ## 注意
 
