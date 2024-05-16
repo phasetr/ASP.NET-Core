@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="WithMenu.fs" />
     <Compile Include="App.fs"/>
     <Content Include="../dist/index.html"/>
     <Content Include="index.css"/>

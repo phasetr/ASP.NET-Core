@@ -4,6 +4,7 @@ open Elmish
 open Elmish.HMR
 open Feliz
 open Feliz.Router
+open Sample
 
 type Model =
   { IsMenuOpen: bool
@@ -37,31 +38,23 @@ let toggleButton (model: Model) dispatch =
             Html.i [ prop.classes [ "fa-solid fa-bars fa-2x" ] ] ] ]
 
 let navMenu =
+  let li (text: string) (href: string) =
+    Html.li
+      [ prop.classes [ "p-3" ]
+        prop.children
+          [ Html.a
+              [ prop.text text
+                prop.href (Router.format href)
+                prop.style [ style.margin 5 ] ] ] ]
+
   Html.ul
     [ prop.classes
         [ "fixed top-0 right-0 z-0 w-1/4 text-white bg-blue-500 ease-linear font-bold text-xl text-center" ]
       prop.children
-        [ Html.li
-            [ prop.classes [ "p-3" ]
-              prop.children
-                [ Html.a
-                    [ prop.text "Home"
-                      prop.href (Router.format "")
-                      prop.style [ style.margin 5 ] ] ] ]
-          Html.li
-            [ prop.classes [ "p-3" ]
-              prop.children
-                [ Html.a
-                    [ prop.text "About"
-                      prop.href (Router.format "about")
-                      prop.style [ style.margin 5 ] ] ] ]
-          Html.li
-            [ prop.classes [ "p-3" ]
-              prop.children
-                [ Html.a
-                    [ prop.text "Contact"
-                      prop.href (Router.format "contact")
-                      prop.style [ style.margin 5 ] ] ] ] ] ]
+        [ li "Home" ""
+          li "About" "about"
+          li "Contact" "contact"
+          li "With Menu" "with-menu" ] ]
 
 let header (model: Model) dispatch =
   Html.header
@@ -81,6 +74,7 @@ let view (model: Model) dispatch =
     | [] -> Html.h1 [ prop.classes [ "text-2xl" ]; prop.text "Home" ]
     | [ "about" ] -> Html.h1 [ prop.text "About" ]
     | [ "contact" ] -> Html.h1 [ prop.text "Contact" ]
+    | [ "with-menu" ] -> WithMenu.myComponent
     | _ -> Html.h1 [ prop.text "Not Found" ]
 
   React.router
@@ -88,8 +82,7 @@ let view (model: Model) dispatch =
       router.children
         [ header model dispatch
           Html.main
-            [ prop.className
-                [ "flex min-h-screen w-6/8" ]
+            [ prop.className [ "flex min-h-screen w-6/8" ]
               prop.children [ activePage ] ] ] ]
 
 let subscribe _ = []
