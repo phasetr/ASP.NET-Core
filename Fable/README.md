@@ -7,7 +7,7 @@
 
 - `Elmish Book`の例はサンプル用に残した`Introduction`以外、
   `webpack`ではなく`vite`に置き換えた
-- デフォルト設定なら`vite.config.js`がなくても動き、必要ないプロジェクトでは削除している
+- デフォルト設定なら`vite.config.js`がなくても動き、不要なプロジェクトでは削除している
 
 ## `Hello World!`
 
