@@ -2,9 +2,10 @@
 
 ## 開発用に`watch`で実行
 
-```shell
-npm start
-```
+- `dotnet fable watch ./src --run vite --open`のように1コマンドでどうにかしたい
+- 二つターミナルを開く
+  - 一つは`dotnet fable watch ./src`または`npm run fw`を実行
+  - もう一つは`npx vite --open`を実行
 
 ## 単純な実行
 
