@@ -8,6 +8,7 @@
     <Compile Include="Global\Header.fs" />
     <Compile Include="Global\LeftMenu.fs" />
     <Compile Include="Global\Footer.fs" />
+    <Compile Include="Components\MainFrame.fs" />
     <Compile Include="Home\Main.fs" />
     <Compile Include="App.fs"/>
     <Content Include="../dist/index.html"/>
