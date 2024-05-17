@@ -1,9 +1,6 @@
-module Sample.WithMenu
+module Sample.Home.Main
 
 open Feliz
-open Sample.Global.Footer
-open Sample.Global.Header
-open Sample.Global.LeftMenu
 
 let main =
   Html.main
@@ -91,12 +88,3 @@ let main =
                                         "text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
                                       prop.href "#"
                                       prop.text "Get in Touch" ] ] ] ] ] ] ] ] ]
-
-let body =
-  Html.div
-    [ prop.className "flex-1 overflow-y-auto"
-      prop.children [ header; main; footer ] ]
-
-let myComponent =
-  Html.div
-    [ prop.className "flex min-h-screen"; prop.children [ leftMenu; body ] ]

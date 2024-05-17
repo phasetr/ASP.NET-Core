@@ -4,7 +4,10 @@ open Elmish
 open Elmish.HMR
 open Feliz
 open Feliz.Router
-open Sample
+open Sample.Global.Header
+open Sample.Global.LeftMenu
+open Sample.Global.Footer
+open Sample.Home.Main
 
 type Model =
   { IsMenuOpen: bool
@@ -27,63 +30,31 @@ let update msg model =
     Cmd.none
   | UrlChanged url -> { model with CurrentUrl = url }, Cmd.none
 
-let toggleButton (model: Model) dispatch =
-  Html.button
-    [ prop.classes [ "fixed top-6 right-6 z-10" ]
-      prop.onClick (fun _ -> dispatch Toggle)
-      prop.children
-        [ if model.IsMenuOpen then
-            Html.i [ prop.classes [ "fa-solid fa-xmark fa-2x text-white" ] ]
-          else
-            Html.i [ prop.classes [ "fa-solid fa-bars fa-2x" ] ] ] ]
-
-let navMenu =
-  let li (text: string) (href: string) =
-    Html.li
-      [ prop.classes [ "p-3" ]
-        prop.children
-          [ Html.a
-              [ prop.text text
-                prop.href (Router.format href)
-                prop.style [ style.margin 5 ] ] ] ]
-
-  Html.ul
-    [ prop.classes
-        [ "fixed top-0 right-0 z-0 w-1/4 text-white bg-blue-500 ease-linear font-bold text-xl text-center" ]
-      prop.children
-        [ li "Home" ""
-          li "About" "about"
-          li "Contact" "contact"
-          li "With Menu" "with-menu" ] ]
-
-let header (model: Model) dispatch =
-  Html.header
-    [ prop.className [ "flex h-20 items-center border-y-2 p-6" ]
-      prop.children
-        [ Html.h1 [ prop.className [ "text-2xl font-bold" ]; prop.text "ロゴ" ]
-          Html.nav
-            [ prop.classes [ "right-0" ]
-              prop.children
-                [ toggleButton model dispatch
-                  if model.IsMenuOpen then
-                    navMenu ] ] ] ]
-
 let view (model: Model) dispatch =
   let activePage =
     match model.CurrentUrl with
-    | [] -> Html.h1 [ prop.classes [ "text-2xl" ]; prop.text "Home" ]
-    | [ "about" ] -> Html.h1 [ prop.text "About" ]
-    | [ "contact" ] -> Html.h1 [ prop.text "Contact" ]
-    | [ "with-menu" ] -> WithMenu.myComponent
-    | _ -> Html.h1 [ prop.text "Not Found" ]
+    | [] -> main
+    | [ "about" ] ->
+      Html.h1 [ prop.className "text-3xl font-bold mb-4"; prop.text "About" ]
+    | [ "contact" ] ->
+      Html.h1 [ prop.className "text-3xl font-bold mb-4"; prop.text "Contact" ]
+    | _ ->
+      Html.h1
+        [ prop.className "text-3xl font-bold mb-4"; prop.text "Not Found" ]
 
   React.router
     [ router.onUrlChanged (UrlChanged >> dispatch)
       router.children
-        [ header model dispatch
-          Html.main
+        [ Html.main
             [ prop.className [ "flex min-h-screen w-6/8" ]
-              prop.children [ activePage ] ] ] ]
+              prop.children
+                [ Html.div
+                    [ prop.className "flex min-h-screen"
+                      prop.children
+                        [ leftMenu
+                          Html.div
+                            [ prop.className "flex-1 overflow-y-auto"
+                              prop.children [ header; activePage; footer ] ] ] ] ] ] ] ]
 
 let subscribe _ = []
 

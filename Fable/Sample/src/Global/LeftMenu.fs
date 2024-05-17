@@ -1,7 +1,23 @@
 module Sample.Global.LeftMenu
 
 open Feliz
+open Feliz.Router
 open Sample.Global.Svg
+
+let menuData =
+  [ ("/", "Home", svgHome)
+    ("about", "About", svgAbout)
+    ("services", "Services", svgService)
+    ("contact", "Contact", svgContact) ]
+
+let menu =
+  menuData
+  |> List.map (fun (url, text, svg) ->
+    Html.a
+      [ prop.className
+          "flex items-center px-3 py-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-md dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100 font-medium"
+        prop.href url
+        prop.children [ svg; Html.text text ] ])
 
 let leftMenu =
   Html.div
@@ -17,24 +33,12 @@ let leftMenu =
                       prop.text "Acme Inc" ] ] ]
           Html.nav
             [ prop.className "space-y-1"
-              prop.children
-                [ Html.a
-                    [ prop.className
-                        "flex items-center px-3 py-2 text-gray-900 rounded-md bg-gray-200 dark:bg-gray-700 dark:text-gray-100 font-medium"
-                      prop.href ""
-                      prop.children [ svgHome; Html.text "Home" ] ]
+              prop.children (
+                menuData
+                |> List.map (fun (url, text, svg) ->
                   Html.a
                     [ prop.className
                         "flex items-center px-3 py-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-md dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100 font-medium"
-                      prop.href "about"
-                      prop.children [ svgAbout; Html.text "About" ] ]
-                  Html.a
-                    [ prop.className
-                        "flex items-center px-3 py-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-md dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100 font-medium"
-                      prop.href "services"
-                      prop.children [ svgService; Html.text "Services" ] ]
-                  Html.a
-                    [ prop.className
-                        "flex items-center px-3 py-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900 rounded-md dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-100 font-medium"
-                      prop.href "contact"
-                      prop.children [ svgContact; Html.text "Contact" ] ] ] ] ] ]
+                      prop.href (Router.format url)
+                      prop.children [ svg; Html.text text ] ])
+              ) ] ] ]
