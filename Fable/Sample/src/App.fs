@@ -10,25 +10,14 @@ open Sample.Global.Footer
 open Sample.Home.Main
 open Sample.Components
 
-type Model =
-  { IsMenuOpen: bool
-    CurrentUrl: string list }
+type Model = { CurrentUrl: string list }
 
-type Msg =
-  | Toggle
-  | UrlChanged of string list
+type Msg = UrlChanged of string list
 
-let initialize () =
-  { IsMenuOpen = false
-    CurrentUrl = Router.currentUrl () },
-  Cmd.none
+let initialize () = { CurrentUrl = Router.currentUrl () }, Cmd.none
 
 let update msg model =
   match msg with
-  | Toggle ->
-    { model with
-        IsMenuOpen = not model.IsMenuOpen },
-    Cmd.none
   | UrlChanged url -> { model with CurrentUrl = url }, Cmd.none
 
 let view (model: Model) dispatch =
