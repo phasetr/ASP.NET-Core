@@ -2,7 +2,7 @@ module Sample.Global.Footer
 
 open Feliz
 
-let content (mainText: string) (info: (string * string) list) =
+let private content (mainText: string) (info: (string * string) list) =
   Html.div
     [ Html.h3 [ prop.className "text-lg font-bold mb-4"; prop.text mainText ]
       Html.ul
@@ -18,26 +18,26 @@ let content (mainText: string) (info: (string * string) list) =
                       prop.text text ] ])
           ) ] ]
 
-let company =
+let private company =
   [ ("#", "About Us"); ("#", "Our Team"); ("#", "Careers"); ("#", "News") ]
   |> content "Company"
 
-let services =
+let private services =
   [ ("#", "Web Development")
     ("#", "Mobile Development")
     ("#", "Cloud Solutions")
     ("#", "Data Analytics") ]
   |> content "Services"
 
-let resources =
+let private resources =
   [ ("#", "Blog"); ("#", "Community"); ("#", "Support"); ("#", "FAQs") ]
   |> content "Resources"
 
-let legal =
+let private legal =
   [ ("#", "Privacy Policy"); ("#", "Terms of Service"); ("#", "Cookie Policy") ]
   |> content "Legal"
 
-let copyright =
+let private copyright =
   Html.div
     [ prop.className "mt-8 text-center text-gray-600 dark:text-gray-400"
       prop.text "© 2024 Acme Inc. All rights reserved." ]
