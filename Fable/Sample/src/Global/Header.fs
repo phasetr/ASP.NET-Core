@@ -17,7 +17,8 @@ let acmeInc =
               prop.children
                 [ svgAcmeInc
                   Html.span
-                    [ prop.className "text-lg font-semibold"
+                    [ prop.className
+                        "text-lg font-semibold text-gray-900 dark:text-gray-100"
                       prop.text "Acme Inc" ] ] ] ] ]
 
 let jpSpan =
@@ -44,9 +45,7 @@ let search =
                 "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 mr-4"
               prop.href "#"
               prop.children [ svgSearch ] ]
-          jpSpan ]
-
-      ]
+          jpSpan ] ]
 
 let header =
   Html.header
