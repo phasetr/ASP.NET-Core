@@ -279,9 +279,7 @@ let private favoriteArticleButton dispatch article =
       OnClick(fun _ -> dispatch <| ToggleFavoriteArticle article) ]
     [ i [ ClassName "ion-heart" ] []
       str " Favorite Post "
-      span
-        [ ClassName "counter" ]
-        [ str <| $"(%i{article.FavoritesCount})" ] ]
+      span [ ClassName "counter" ] [ str <| $"(%i{article.FavoritesCount})" ] ]
 
 let private infoButtons dispatch authentication (article: FullArticle) =
   match authentication with
