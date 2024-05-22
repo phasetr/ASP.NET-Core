@@ -17,7 +17,7 @@ let svgFundamentals =
 let svgAcmeInc =
   svgFundamentals
   |> List.append
-    [ svg.className "h-6 w-6 mr-2"
+    [ svg.className "h-6 w-6 mr-2 text-gray-900 dark:text-gray-100"
       svg.children [ Svg.path [ svg.d "m8 3 4 8 5-5 5 15H2L8 3z" ] ] ]
   |> Svg.svg
 

@@ -26,6 +26,6 @@ let leftMenu =
               prop.children
                 [ svgAcmeInc
                   Html.span
-                    [ prop.className "text-lg font-semibold"
+                    [ prop.className "text-lg font-semibold text-gray-900 dark:text-gray-100"
                       prop.text "Acme Inc" ] ] ]
           Html.nav [ prop.className "space-y-1"; prop.children menu ] ] ]
