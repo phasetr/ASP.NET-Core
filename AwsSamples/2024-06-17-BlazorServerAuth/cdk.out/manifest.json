@@ -1,0 +1,185 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "bs-dev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "bs-dev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "bs-dev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "bs-dev.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ad2566e65b20bc459b49a9d795c53681417127642bb1db98a067fb9b738edc98.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "bs-dev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "bs-dev.assets"
+      ],
+      "metadata": {
+        "/bs-dev/bs-l-dev/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bsldevServiceRoleFB1090D0"
+          }
+        ],
+        "/bs-dev/bs-l-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bsldev2AB7A97E"
+          }
+        ],
+        "/bs-dev/bs-l-dev/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bsldevLogRetentionDB75A5A6"
+          }
+        ],
+        "/bs-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/bs-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/bs-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/bs-dev/LatestNodeRuntimeMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LatestNodeRuntimeMap"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevE24DE82B"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$connect-Route/bs-ws-cr-dev-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevconnectRoutebswscrdevPermissionBBC06AFE"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$connect-Route/bs-ws-cr-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevconnectRoutebswscrdev81B3E59E"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$connect-Route/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevconnectRouteCEA043CB"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$disconnect-Route/bs-ws-dcr-dev-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdisconnectRoutebswsdcrdevPermissionCA569253"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$disconnect-Route/bs-ws-dcr-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdisconnectRoutebswsdcrdevC6D79197"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$disconnect-Route/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdisconnectRouteE62A41B4"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$default-Route/bs-ws-dr-dev-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdefaultRoutebswsdrdevPermission738D46E3"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$default-Route/bs-ws-dr-dev/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdefaultRoutebswsdrdevD66834FA"
+          }
+        ],
+        "/bs-dev/bs-ws-dev/$default-Route/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bswsdevdefaultRoute12EBA2C8"
+          }
+        ],
+        "/bs-dev/BlazorWebSocketStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BlazorWebSocketStage9025C7A6"
+          }
+        ],
+        "/bs-dev/{Prefix}-url": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Prefixurl"
+          }
+        ],
+        "/bs-dev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/bs-dev/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/bs-dev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/bs-dev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "bs-dev"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

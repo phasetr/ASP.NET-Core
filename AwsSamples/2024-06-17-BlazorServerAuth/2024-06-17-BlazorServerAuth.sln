@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# 
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2024-06-17-BlazorServerAuth", "2024-06-17-BlazorServerAuth\2024-06-17-BlazorServerAuth.csproj", "{E5FA80F5-37CB-4D39-960F-3CE961CA5DFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cdk", "Cdk\Cdk.csproj", "{26FB5C5E-4EAD-4A2C-87B1-B7184A2846AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5FA80F5-37CB-4D39-960F-3CE961CA5DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FA80F5-37CB-4D39-960F-3CE961CA5DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FA80F5-37CB-4D39-960F-3CE961CA5DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FA80F5-37CB-4D39-960F-3CE961CA5DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26FB5C5E-4EAD-4A2C-87B1-B7184A2846AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26FB5C5E-4EAD-4A2C-87B1-B7184A2846AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26FB5C5E-4EAD-4A2C-87B1-B7184A2846AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26FB5C5E-4EAD-4A2C-87B1-B7184A2846AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
