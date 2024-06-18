@@ -54,3 +54,32 @@ az deployment group create --template-file main.bicep
 ```
 
 1-2分待ったら[Azure portal](https://portal.azure.com/#home)にアクセスしてデプロイを検証する。
+
+Log Analytics ワークスペースを作成する。
+
+```shell
+az monitor log-analytics workspace create \
+  --workspace-name ToyLogs \
+  --location eastus
+```
+
+おもちゃのデザインドキュメント用のストレージアカウントを作成する。
+
+```shell
+storageaccountname="ptsaname"
+az storage account create \
+  --name ${storageaccountname} \
+  --location eastus
+```
+
+追加した`bicep`を実行。
+
+```shell
+storageaccountname="ptsaname"
+az deployment group create \
+  --template-file main.bicep \
+  --parameters storageAccountName=${storageaccountname}
+```
+
+デプロイチェックのために`Azure portal`へ移動。
+何をどう見るかは[このページの記述参照](https://learn.microsoft.com/ja-jp/training/modules/child-extension-bicep-templates/7-exercise-deploy-extension-existing-resources?pivots=cli).
