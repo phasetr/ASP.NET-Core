@@ -34,12 +34,14 @@ az account set --subscription "Concierge Subscription"
 ```
 
 ```shell
-az account set --subscription "a875425f-6500-4936-a1fd-67acbf795d2a"
-```
-
-```shell
 az account list \
   --refresh \
   --query "[?contains(name, 'Concierge Subscription')].id" \
   --output table
+```
+
+```shell
+az deployment group create \
+  --template-file main.bicep \
+  --parameters environmentType=nonprod
 ```
