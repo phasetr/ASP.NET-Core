@@ -4,20 +4,28 @@
 
 ```shell
 az bicep install && az bicep upgrade
+```
+
+```shell
 az login
-az account list --refresh --query "[?contains(name, 'Concierge Subscription')].id" --output table
 ```
 
 ```shell
-subscriptionId=$(az account list --refresh --query "[?contains(name, 'Concierge Subscription')].id" --output json | jq -r '.[0]')
-echo ${subscriptionId}
+az account set --subscription "Concierge Subscription"
 ```
 
 ```shell
-az account set --subscription ${subscriptionId}
+az account list \
+  --refresh \
+  --query "[?contains(name, 'Concierge Subscription')].id" \
+  --output json \
+  | jq '.[]' | az account set --subscription
 ```
 
 ```shell
-az configure --defaults group=learn-e8ba9567-8b5b-4cd9-99ca-eaaf5ffd7d50
+az configure --defaults group="learn-fb08df15-ae14-4e0b-a221-587ad9a01a94"
+```
+
+```shell
 az deployment group create --template-file main.bicep
 ```
