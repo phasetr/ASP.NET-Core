@@ -7,19 +7,41 @@ az bicep install && az bicep upgrade
 az login
 ```
 
-- `az login --allow-no-subscriptions`
-
 ```shell
-az account list --refresh --query "[?contains(name, 'Concierge Subscription')].id" --output table
+az login --allow-no-subscriptions
 ```
 
 ```shell
-subscriptionId=$(az account list --refresh --query "[?contains(name, 'Concierge Subscription')].id" --output json | jq -r '.[0]')
-az account set --subscription ${subscriptionId}
+az account set --subscription "Concierge Subscription"
 ```
 
 ```shell
-az configure --defaults group=learn-e8ba9567-8b5b-4cd9-99ca-eaaf5ffd7d50
+az account list \
+  --refresh \
+  --query "[?contains(name, 'Concierge Subscription')].id" \
+  --output json \
+  | jq '.[]' | az account set --subscription
+```
+
+```shell
+az configure --defaults group="learn-66f6b605-5e9c-40b8-8e10-189bfd23d62e"
+```
+
+```shell
+az deployment group create \
+  --template-file main.bicep \
+  --parameters location=eastus
+```
+
+admin: phasetr2
+pass: testpass0A!
+
+```shell
+az deployment group create --template-file main.bicep
+```
+
+```shell
+az deployment group create --template-file main.bicep --parameters environmentName=Production location=eastus
 ```
 
 ```shell

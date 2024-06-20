@@ -9,6 +9,10 @@ param locations array = [
 @description('The administrator login username for the SQL server.')
 param sqlServerAdministratorLogin string
 
+@secure()
+@description('The administrator login password for the SQL server.')
+param sqlServerAdministratorLoginPassword string
+
 @description('The IP address range for all virtual networks to use.')
 param virtualNetworkAddressPrefix string = '10.10.0.0/16'
 
@@ -30,10 +34,6 @@ var subnetProperties = [for subnet in subnets: {
     addressPrefix: subnet.ipAddressRange
   }
 }]
-
-@secure()
-@description('The administrator login password for the SQL server.')
-param sqlServerAdministratorLoginPassword string
 
 module databases 'modules/database.bicep' = [for location in locations: {
   name: 'database-${location}'
