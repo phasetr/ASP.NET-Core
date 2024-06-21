@@ -1,0 +1,9 @@
+{
+  "moduleAliases": {
+    "br": {
+      "ToyCompanyRegistry": {
+        "registry": "phasetrtest.azurecr.io"
+      }
+    }
+  }
+}
