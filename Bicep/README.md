@@ -31,3 +31,12 @@ az bicep install && az bicep upgrade
 ## Azure Functions
 
 - Microsoft Build：[対話型チュートリアル一覧](https://learn.microsoft.com/ja-jp/training/browse/?expanded=azure&products=azure-functions)
+
+## TODO
+
+- ラーニングパス：[Blazor を使用して Web アプリを構築する](https://learn.microsoft.com/ja-jp/training/paths/build-web-apps-with-blazor/)
+- ラーニングパス：[Azure Static Web Apps](https://learn.microsoft.com/ja-jp/training/paths/azure-static-web-apps/)
+- ラーニングパス：[Bicep と Azure Pipelines を使用して Azure リソースをデプロイ](https://learn.microsoft.com/ja-jp/training/paths/bicep-azure-pipelines/)
+- ラーニングパス：[Bicep アクションと GitHub アクションを使用して Azure リソースをデプロイする](https://learn.microsoft.com/ja-jp/training/paths/bicep-github-actions/)
+- [AZ-400: Azure Pipelines と GitHub Actions での CI の実装](https://learn.microsoft.com/ja-jp/training/paths/az-400-implement-ci-azure-pipelines-github-actions/)
+- [開発プロセスを合理化する目的で Azure DevOps と GitHub をいろいろ試す](https://learn.microsoft.com/ja-jp/training/paths/explore-azure-devops-with-github/)
