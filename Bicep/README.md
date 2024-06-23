@@ -34,7 +34,7 @@ az bicep install && az bicep upgrade
 
 ## TODO
 
-- ラーニングパス：[Blazor を使用して Web アプリを構築する](https://learn.microsoft.com/ja-jp/training/paths/build-web-apps-with-blazor/)
+- azure-quickstart-templates, [/cosmosdb-webapp](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.documentdb/cosmosdb-webapp)
 - ラーニングパス：[Azure Static Web Apps](https://learn.microsoft.com/ja-jp/training/paths/azure-static-web-apps/)
 - ラーニングパス：[Bicep と Azure Pipelines を使用して Azure リソースをデプロイ](https://learn.microsoft.com/ja-jp/training/paths/bicep-azure-pipelines/)
 - ラーニングパス：[Bicep アクションと GitHub アクションを使用して Azure リソースをデプロイする](https://learn.microsoft.com/ja-jp/training/paths/bicep-github-actions/)
