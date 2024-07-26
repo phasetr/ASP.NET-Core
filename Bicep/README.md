@@ -35,8 +35,10 @@ az bicep install && az bicep upgrade
 ## TODO
 
 - azure-quickstart-templates, [/cosmosdb-webapp](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.documentdb/cosmosdb-webapp)
+- [ガイド付きプロジェクト - Azure Cosmos DB for NoSQL を使用して .NET アプリを構築する](https://learn.microsoft.com/ja-jp/training/modules/build-dotnet-app-azure-cosmos-db-nosql/)
 - ラーニングパス：[Azure Static Web Apps](https://learn.microsoft.com/ja-jp/training/paths/azure-static-web-apps/)
 - ラーニングパス：[Bicep と Azure Pipelines を使用して Azure リソースをデプロイ](https://learn.microsoft.com/ja-jp/training/paths/bicep-azure-pipelines/)
 - ラーニングパス：[Bicep アクションと GitHub アクションを使用して Azure リソースをデプロイする](https://learn.microsoft.com/ja-jp/training/paths/bicep-github-actions/)
+- [GitHub Actions を使って CI/CD を実装し、Bicep を使って IaC を実装する](https://learn.microsoft.com/ja-jp/training/modules/deliver-with-devops/6-implement-ci-cd-with-github-actions-and-infrastructure-as-code-with-bicep)
 - [AZ-400: Azure Pipelines と GitHub Actions での CI の実装](https://learn.microsoft.com/ja-jp/training/paths/az-400-implement-ci-azure-pipelines-github-actions/)
 - [開発プロセスを合理化する目的で Azure DevOps と GitHub をいろいろ試す](https://learn.microsoft.com/ja-jp/training/paths/explore-azure-devops-with-github/)
