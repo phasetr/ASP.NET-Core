@@ -6,94 +6,139 @@
 open System.Collections.Generic
 open Microsoft.EntityFrameworkCore
 open EntityFrameworkCore.FSharp.Extensions
-open EntityFrameworkCore.FSharp.DbContextHelpers
 
 let dbname = "efcore-fsharp.tmp.tmp.db"
 
 [<CLIMutable>]
-type Book = {
-    Id: int
-    Title: string
-    BookAuthors: BookAuthor list
+type User = {
+  Id: int
+  Name: string
+  UserCourses: UserCourse list
 }
 and [<CLIMutable>]
-Author = {
-    Id: int
-    Name: string
-    BookAuthors: BookAuthor list
+Course = {
+  Id: int
+  Title: string
+  UserCourses: UserCourse list
+  CourseChapters: CourseChapter list
 }
 and [<CLIMutable>]
-BookAuthor = {
-    BookId: int
-    AuthorId: int
-    Book: Book
-    Author: Author
+Chapter = {
+  Id: int
+  Title: string
+  CourseChapters: CourseChapter list
+}
+and [<CLIMutable>]
+UserCourse = {
+  UserId: int
+  User: User
+  CourseId: int
+  Course: Course
+}
+and [<CLIMutable>]
+CourseChapter = {
+  CourseId: int
+  Course: Course
+  ChapterId: int
+  Chapter: Chapter
 }
 
 type AppDbContext() =
     inherit DbContext()
 
     [<DefaultValue>]
-    val mutable books : DbSet<Book>
-    member this.Books with get() = this.books and set v = this.books <- v
-
+    val mutable users : DbSet<User>
+    member this.Users with get() = this.users and set v = this.users <- v
     [<DefaultValue>]
-    val mutable authors : DbSet<Author>
-    member this.Authors with get() = this.authors and set v = this.authors <- v
-
+    val mutable courses : DbSet<Course>
+    member this.Courses with get() = this.courses and set v = this.courses <- v
     [<DefaultValue>]
-    val mutable bookAuthors : DbSet<BookAuthor>
-    member this.BookAuthors with get() = this.bookAuthors and set v = this.bookAuthors <- v
-
-    override this.OnModelCreating(modelBuilder: ModelBuilder) =
-        modelBuilder.Entity<Book>(fun b ->
-            b.HasKey(fun book -> book.Id :> obj) |> ignore
-            b.HasMany(fun book -> book.BookAuthors :> IEnumerable<BookAuthor>)
-             .WithOne(fun ba -> ba.Book)
-             .HasForeignKey(fun ba -> ba.BookId :> obj)
-            |> ignore
-        ) |> ignore
-
-        modelBuilder.Entity<Author>(fun a ->
-            a.HasKey(fun author -> author.Id :> obj) |> ignore
-            a.HasMany(fun author -> author.BookAuthors :> IEnumerable<BookAuthor>)
-             .WithOne(fun ba -> ba.Author)
-             .HasForeignKey(fun ba -> ba.AuthorId :> obj)
-            |> ignore
-        ) |> ignore
-
-        modelBuilder.Entity<BookAuthor>(fun ba ->
-            ba.HasKey(fun bookAuthor -> (bookAuthor.BookId, bookAuthor.AuthorId) :> obj) |> ignore
-        ) |> ignore
+    val mutable chapters : DbSet<Chapter>
+    member this.Chapters with get() = this.chapters and set v = this.chapters <- v
+    [<DefaultValue>]
+    val mutable userCourses : DbSet<UserCourse>
+    member this.UserCourses with get() = this.userCourses and set v = this.userCourses <- v
+    [<DefaultValue>]
+    val mutable courseChapters : DbSet<CourseChapter>
+    member this.CourseChapters with get() = this.courseChapters and set v = this.courseChapters <- v
 
     override _.OnConfiguring(options: DbContextOptionsBuilder) : unit =
         options.UseSqlite($"Data Source={dbname}").UseFSharpTypes()
         |> ignore
 
+    override _.OnModelCreating(modelBuilder: ModelBuilder) =
+        modelBuilder.RegisterOptionTypes()
+
+        modelBuilder.Entity<UserCourse>(fun uc ->
+            uc.HasKey(fun uc -> (uc.UserId, uc.CourseId) :> obj) |> ignore
+            uc.HasOne(fun uc -> uc.User)
+              .WithMany(fun u -> u.UserCourses :> IEnumerable<UserCourse>)
+              .HasForeignKey("UserId") |> ignore
+            uc.HasOne(fun uc -> uc.Course)
+              .WithMany(fun c -> c.UserCourses :> IEnumerable<UserCourse>)
+              .HasForeignKey("CourseId") |> ignore
+        ) |> ignore
+
+        modelBuilder.Entity<CourseChapter>(fun cc ->
+            cc.HasKey(fun cc -> (cc.CourseId, cc.ChapterId) :> obj) |> ignore
+            cc.HasOne(fun cc -> cc.Course)
+              .WithMany(fun c -> c.CourseChapters :> IEnumerable<CourseChapter>)
+              .HasForeignKey("CourseId") |> ignore
+            cc.HasOne(fun cc -> cc.Chapter)
+              .WithMany(fun ch -> ch.CourseChapters :> IEnumerable<CourseChapter>)
+              .HasForeignKey("ChapterId") |> ignore
+        ) |> ignore
+
 let initializeDatabase() =
-    if System.IO.File.Exists(dbname) then printfn "Database already exists"
-    else
-        use context = new AppDbContext()
-        context.Database.EnsureCreated() |> ignore
-        let users = [
-            {Id = 1; Name = "Alice"; BookAuthors = []}
-            {Id = 2; Name = "Bob"; BookAuthors = []}
-            {Id = 3;Name = "Charlie"; BookAuthors = []}
-        ]
-        addEntityRange context users
-        saveChanges context
-        printfn "Database created and seeded"
+    use context = new AppDbContext()
+    context.Database.EnsureDeleted() |> ignore
+    context.Database.EnsureCreated() |> ignore
+
+    // データの追加
+    let user = { Id = 1; Name = "John Doe"; UserCourses = [] }
+    let course = { Id = 1; Title = "EF Core Course"; UserCourses = []; CourseChapters = [] }
+    let chapter1 = { Id = 1; Title = "Introduction"; CourseChapters = [] }
+    let chapter2 = { Id = 2; Title = "Advanced Topics"; CourseChapters = [] }
+
+    context.Users.Add(user) |> ignore
+    context.Courses.Add(course) |> ignore
+    context.Chapters.AddRange([| chapter1; chapter2 |])
+
+    context.SaveChanges() |> ignore
+
+    // 中間テーブルのデータ追加
+    let userCourse = { UserId = user.Id; User = user; CourseId = course.Id; Course = course }
+    let courseChapter1 = { CourseId = course.Id; Course = course; ChapterId = chapter1.Id; Chapter = chapter1 }
+    let courseChapter2 = { CourseId = course.Id; Course = course; ChapterId = chapter2.Id; Chapter = chapter2 }
+
+    context.UserCourses.Add(userCourse) |> ignore
+    context.CourseChapters.AddRange([| courseChapter1; courseChapter2 |])
+
+    context.SaveChanges() |> ignore
 
 let displayData() =
     use context = new AppDbContext()
-    query {
-        for author in context.Authors do
-            select author
-    }
-    |> toListAsync
-    |> Async.RunSynchronously
-    |> Seq.iter (fun u -> printfn $"ID: %d{u.Id}, Name: %s{u.Name}")
+    let users =
+      context.Users
+        .Include(fun u -> u.UserCourses)
+        .ThenInclude(fun uc -> uc.Head)
+    let courses =
+      context.Courses
+        .Include(fun c -> c.CourseChapters)
+        .ThenInclude(fun cc -> cc.Head)
 
-// Run the initialization and display the data
+    printfn "Users:"
+    for u in users do
+        printfn $"- %s{u.Name}"
+        for uc in u.UserCourses do
+            printfn $"  - Enrolled in: %s{uc.Course.Title}"
+
+    printfn "Courses:"
+    for c in courses do
+        printfn $"- %s{c.Title}"
+        for cc in c.CourseChapters do
+            printfn $"  - Chapter: %s{cc.Chapter.Title}"
+
+// データベースの初期化とデータの表示
 initializeDatabase()
 displayData()
