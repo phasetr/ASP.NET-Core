@@ -27,7 +27,11 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 `EFCore.FSharp`では[RecordHelper](https://efcore.github.io/EFCore.FSharp//How_Tos/Use_DbContextHelpers.html)を使うとよい.
 
-#### 参考: `F#`での単純な`EF Core`
+#### 参考：`C#`での`EF Core`
+
+`EFCoreCSharp`のような処理を`EFCore.FSharp`で書きたい.
+
+#### 参考: `F#`での単純な`EF Core`（`EFCore.FSharp`ではない）
 
 `efcore.fsx`参照.
 (ソースは`ChatGPT`に生成してもらった.)
