@@ -1,5 +1,33 @@
 # Build a Copilot app using Azure Cosmos DB for NoSQL, Azure OpenAI Service, Azure App Service and Semantic Kernel
 
+- GitHub: [cosmosdb-nosql-copilot](https://github.com/AzureCosmosDB/cosmosdb-nosql-copilot)
+
+2024-07-29時点で`japaneast`では動かないためリージョンは`East US`を指定。
+
+## TODO
+
+2024-07-29で以前の申請から日が近かったせいか、クオータ増量が蹴られた。
+`East US`でのクオータ増加のためには`2024-08-30`程度まで待つ必要がある。
+申請は`Azure portal`から問い合わせれば適切なページを案内してもらえる。
+特に以下の専用フォームから申請すれば良い。
+
+>Azure OpenAI Service のクォータ関連の要求は、[専用フォーム](https://aka.ms/oai/quotaincrease)を使用して申請する必要があります。
+>申請及びその後の対応は以下の文書をご拝見いただけますようお願い申し上げます。
+><https://learn.microsoft.com/ja-jp/azure/ai-services/openai/quotas-limits>
+
+## 立ち上げコマンド
+
+```shell
+azd auth login
+azd up
+```
+
+```shell
+azd down --force
+```
+
+## ORIG
+
 This sample application shows how to build a Generative-AI RAG Pattern application using Azure Cosmos DB for NoSQL with its new vector database capabilities with Azure OpenAI Service on Azure App Service. This sample shows both using Native SDKs as well as Semantic Kernel integration. The sample provides practical guidance on many concepts you will need to design and build these types of applications.
 
 ## Concepts Covered
@@ -19,8 +47,8 @@ This application demonstrates the following concepts and how to implement them:
 ![Architecture Diagram](cosmos-nosql-copilot-diagram.png)
 
 ### User Experience
-![Cosmos DB + ChatGPT user interface](screenshot.png)
 
+![Cosmos DB + ChatGPT user interface](screenshot.png)
 
 ## Getting Started
 

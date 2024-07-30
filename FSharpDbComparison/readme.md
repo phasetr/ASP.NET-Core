@@ -13,17 +13,53 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 ## `ORM`・型プロバイダー
 
+- `Compositional IT`のまとめ記事: [SQL series wrap up](https://www.compositional-it.com/news-blog/sql-series-wrap-up/)
+
 ### `EF Core`
 
-`ef-core.fsx`参照.
+- [EFCore.FSharp](https://efcore.github.io/EFCore.FSharp/)
+- GitHub, [GETTING_STARTED.md](https://github.com/efcore/EFCore.FSharp/blob/master/GETTING_STARTED.md)
+
+データベースは界面の外側として,
+マイグレーションまで含めて完全に`EF Core`に任せる手はないではない.
+`F#`ではなく`C#`にしてしまう方向性さえある.
+`EF Core`は`Identity`もある.
+
+`EFCore.FSharp`では[RecordHelper](https://efcore.github.io/EFCore.FSharp//How_Tos/Use_DbContextHelpers.html)を使うとよい.
+
+#### 参考: `F#`での単純な`EF Core`
+
+`efcore.fsx`参照.
 (ソースは`ChatGPT`に生成してもらった.)
 ついでに`1.tmp.db`として`sqlite`のデータベースと基本的なデータも生成している.
-
-これをもう少し整備して他のライブラリを使う場合の基本データにする.
+`F#`レベルで`Fluent API`で複合キーやリレーションを設定しようとしたらうまくいかなかったため,
+いったんごく基本的なサンプルだけで断念.
 
 ### `Dapper.FSharp`
 
-### 型プロバイダー
+想像以上にはまってしまった.
+
+### `SqlProvider`
+
+- [GitHub](https://github.com/fsprojects/SQLProvider/)
+- [ドキュメントサイト](https://fsprojects.github.io/SQLProvider/core/general.html)
+
+>SQL Server、Access、ODBC 以外のデータベース ベンダーを使用する場合は、サード パーティ ドライバーが必要です。
+
+とりあえず`Mac`+`fsx`での利用例を考える.
+
+`SQLite`だと`dll`の指定が必要らしく,
+果てしなく面倒で`SQLite`でのコード検証は断念.
+`PostgreSQL`や`MySQL`だともう少し楽なのかもしれないが.
+
+もう一つ懸念点がある.
+[この記事](https://www.compositional-it.com/news-blog/full-orms-and-f/)で次のようにある.
+
+>プロバイダーは常にデータベースへのライブ接続を必要とするため, `CI`などの開発のさまざまな段階で注意が必要.
+
+ただし解決策に関して次の記事への参照がある.
+
+- [Structuring an F# project with SQL Type Provider on CI](https://medium.com/datarisk-io/structuring-an-f-project-with-sql-type-provider-on-ci-787a79d78699)
 
 ## マイグレーションツール
 
@@ -44,6 +80,32 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 - 上記の記事中で`Dbup`よりお勧めされていた.
 - これもプレーンSQLスクリプトを使うタイプ.
 - プレーンでいくならこれでいいのでは?
+- `dotnet tool install --glocal grate`(または`--local`)でインストール
+- 基本的には`up`, `down`などが置いてあるディレクトリ内で`grate`コマンドを実行
+  - ここでは`grate`ディレクトリに必要なファイルをまとめていて,
+    `-f`オプションでルートディレクトリが指定できる.
+  - `.envrc`に`MariaDB`の`compose.yml`に指定した情報からの接続文字列を指定した.
+  - 執筆時点で`MySQL`だとエラーが出たため`MariaDB`を利用している.
+- [コマンドオプションの説明ページ](https://erikbra.github.io/grate/configuration-options/)
+  - `-o`: 移行に関連するすべてのものが保存される場所.
+    すべてのバックアップ・実行されたすべてのアイテム・権限ダンプ・ログなど.
+    - `–env`: 適用したい環境指定
+
+#### 実行用メモ
+
+- `Docker`を立ち上げる.
+- 以下のコマンドで`grate`をインストール
+
+```shell
+dotnet new tool-manifest
+dotnet tool install --local grate
+```
+
+- マイグレーション実行
+
+```shell
+dotnet tool run grate -f grate -c --dbt mariadb
+```
 
 ### `Dbup`
 
@@ -52,8 +114,11 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 `dotnet tool install`よりも`Nuget`を使ってライブラリとして入れて使うタイプ(?).
 そうでなくても使えるようだが.
 これもプレーンな`SQL`スクリプトを使うタイプ.
+関係するコードは書いていない.
 
 ### `Evolve`
 
 - [Evolve](https://evolve-db.netlify.app/)
 - プレーンなSQLスクリプトを使うタイプ
+
+これも関係するコードは書いていない.

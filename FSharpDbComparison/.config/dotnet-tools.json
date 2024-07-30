@@ -1,5 +1,12 @@
 {
   "version": 1,
   "isRoot": true,
-  "tools": {}
+  "tools": {
+    "grate": {
+      "version": "1.8.0",
+      "commands": [
+        "grate"
+      ]
+    }
+  }
 }
