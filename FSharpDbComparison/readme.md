@@ -78,7 +78,7 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 ### `grate`
 
-上記記事中での著者お勧め.
+上記記事中での著者のお勧め.
 
 - [grate](https://erikbra.github.io/grate/)
 - 上記の記事中で`Dbup`よりお勧めされていた.
