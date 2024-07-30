@@ -2,11 +2,13 @@
 #r "nuget: Microsoft.EntityFrameworkCore.Design"
 #r "nuget: System.Linq"
 #r "nuget: EntityFrameworkCore.FSharp"
+#r "nuget: FSharp.Control.AsyncSeq"
 
 open System.Collections.Generic
 open Microsoft.EntityFrameworkCore
 open EntityFrameworkCore.FSharp.Extensions
 open EntityFrameworkCore.FSharp.DbContextHelpers
+open FSharp.Control
 
 let dbname = "efcore-fsharp.tmp.tmp.db"
 
@@ -95,7 +97,6 @@ let initializeDatabase() =
     context.Database.EnsureDeleted() |> ignore
     context.Database.EnsureCreated() |> ignore
 
-    // データの追加
     let user = { Id = 1; Name = "John Doe"; UserCourses = [] }
     let course = { Id = 1; Title = "EF Core Course"; UserCourses = []; CourseChapters = [] }
     let chapter1 = { Id = 1; Title = "Introduction"; CourseChapters = [] }
@@ -107,7 +108,7 @@ let initializeDatabase() =
     saveChanges context
     printfn "Main Data initialized"
 
-    // 中間テーブルのデータ追加
+    // relationship data
     let userCourse = { UserId = user.Id; User = user; CourseId = course.Id; Course = course }
     let courseChapter1 = { CourseId = course.Id; Course = course; ChapterId = chapter1.Id; Chapter = chapter1 }
     let courseChapter2 = { CourseId = course.Id; Course = course; ChapterId = chapter2.Id; Chapter = chapter2 }
@@ -119,11 +120,21 @@ let initializeDatabase() =
 let displayData() =
     use context = new AppDbContext()
     query {
+      for user in context.Users do
+        select user
+    }
+    |> AsyncSeq.ofSeq
+    |> AsyncSeq.toListAsync
+    |> Async.RunSynchronously
+    |> printfn "%A"
+
+    query {
         for user in context.Users do
           join userCourse in context.UserCourses on (user.Id = userCourse.UserId)
           select (user, userCourse)
     }
-    |> toListAsync
+    |> AsyncSeq.ofSeq
+    |> AsyncSeq.toListAsync
     |> Async.RunSynchronously
     |> printfn "%A"
 
@@ -132,7 +143,8 @@ let displayData() =
           join courseChapter in context.CourseChapters on (course.Id = courseChapter.CourseId)
           select (course, courseChapter)
     }
-    |> toListAsync
+    |> AsyncSeq.ofSeq
+    |> AsyncSeq.toListAsync
     |> Async.RunSynchronously
     |> printfn "%A"
 
