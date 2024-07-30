@@ -6,6 +6,7 @@
 open System.Collections.Generic
 open Microsoft.EntityFrameworkCore
 open EntityFrameworkCore.FSharp.Extensions
+open EntityFrameworkCore.FSharp.DbContextHelpers
 
 let dbname = "efcore-fsharp.tmp.tmp.db"
 
@@ -100,44 +101,40 @@ let initializeDatabase() =
     let chapter1 = { Id = 1; Title = "Introduction"; CourseChapters = [] }
     let chapter2 = { Id = 2; Title = "Advanced Topics"; CourseChapters = [] }
 
-    context.Users.Add(user) |> ignore
-    context.Courses.Add(course) |> ignore
-    context.Chapters.AddRange([| chapter1; chapter2 |])
-
-    context.SaveChanges() |> ignore
+    addEntity context user
+    addEntity context course
+    addEntityRange context [ chapter1; chapter2 ]
+    saveChanges context
+    printfn "Main Data initialized"
 
     // 中間テーブルのデータ追加
     let userCourse = { UserId = user.Id; User = user; CourseId = course.Id; Course = course }
     let courseChapter1 = { CourseId = course.Id; Course = course; ChapterId = chapter1.Id; Chapter = chapter1 }
     let courseChapter2 = { CourseId = course.Id; Course = course; ChapterId = chapter2.Id; Chapter = chapter2 }
 
-    context.UserCourses.Add(userCourse) |> ignore
-    context.CourseChapters.AddRange([| courseChapter1; courseChapter2 |])
-
-    context.SaveChanges() |> ignore
+    addEntity context userCourse
+    addEntityRange context [ courseChapter1; courseChapter2 ]
+    saveChanges context
 
 let displayData() =
     use context = new AppDbContext()
-    let users =
-      context.Users
-        .Include(fun u -> u.UserCourses)
-        .ThenInclude(fun uc -> uc.Head)
-    let courses =
-      context.Courses
-        .Include(fun c -> c.CourseChapters)
-        .ThenInclude(fun cc -> cc.Head)
+    query {
+        for user in context.Users do
+          join userCourse in context.UserCourses on (user.Id = userCourse.UserId)
+          select (user, userCourse)
+    }
+    |> toListAsync
+    |> Async.RunSynchronously
+    |> printfn "%A"
 
-    printfn "Users:"
-    for u in users do
-        printfn $"- %s{u.Name}"
-        for uc in u.UserCourses do
-            printfn $"  - Enrolled in: %s{uc.Course.Title}"
-
-    printfn "Courses:"
-    for c in courses do
-        printfn $"- %s{c.Title}"
-        for cc in c.CourseChapters do
-            printfn $"  - Chapter: %s{cc.Chapter.Title}"
+    query {
+        for course in context.Courses do
+          join courseChapter in context.CourseChapters on (course.Id = courseChapter.CourseId)
+          select (course, courseChapter)
+    }
+    |> toListAsync
+    |> Async.RunSynchronously
+    |> printfn "%A"
 
 // データベースの初期化とデータの表示
 initializeDatabase()
