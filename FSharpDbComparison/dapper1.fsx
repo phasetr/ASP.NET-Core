@@ -26,7 +26,7 @@ let courseTable = table<Course>
 let userCourseTable = table<UserCourse>
 
 // SQLiteの接続文字列
-let connString = "Data Source=dapper.tmp.db"
+let connString = "Data Source=dapper1.tmp.db"
 
 // データベース初期化
 let initializeDatabase () =
