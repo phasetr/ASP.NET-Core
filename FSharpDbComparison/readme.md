@@ -95,7 +95,7 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
     すべてのバックアップ・実行されたすべてのアイテム・権限ダンプ・ログなど.
     - `–env`: 適用したい環境指定
 
-#### `grate-sqlite`用実行メモ
+#### `grate`の（ローカル）インストール
 
 - 以下のコマンドで`grate`をインストール
 
@@ -103,6 +103,8 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 dotnet new tool-manifest
 dotnet tool install --local grate
 ```
+
+#### `grate-sqlite`用実行メモ
 
 - マイグレーション実行
 
@@ -113,14 +115,39 @@ dotnet tool run grate \
   --dbt sqlite
 ```
 
-#### 実行用メモ
+#### TODO `grate-sqlserver`実行用メモ
 
-- `Docker`を立ち上げる.
-- 以下のコマンドで`grate`をインストール
+- **まだ成功していない.**
+- `Mac`では` Microsoft.Data.SqlClient`が標準では欠けていてあまり嬉しくない.
+- `Docker`を立ち上げる
 
 ```shell
-dotnet new tool-manifest
-dotnet tool install --local grate
+docker compose -f compose-sqlserver.yml up
+```
+
+- 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
+  `Rider`からの接続など適当な手段で`Database=GrateSample`を作ること.
+- マイグレーション実行
+
+```shell
+dotnet tool run grate \
+  -c="Server=localhost,1433;Database=GrateSample;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True" \
+  -f grate-sqlserver \
+  --dbt sqlserver
+```
+
+- `Docker`を落とす
+
+```shell
+docker compose -f compose-sqlserver.yml down
+```
+
+#### `grate-mariadb`実行用メモ
+
+- `Docker`を立ち上げる.
+
+```shell
+docker compose -f compose-sqlserver.yml up
 ```
 
 - マイグレーション実行
