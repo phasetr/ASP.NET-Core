@@ -95,6 +95,24 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
     すべてのバックアップ・実行されたすべてのアイテム・権限ダンプ・ログなど.
     - `–env`: 適用したい環境指定
 
+#### `grate-sqlite`用実行メモ
+
+- 以下のコマンドで`grate`をインストール
+
+```shell
+dotnet new tool-manifest
+dotnet tool install --local grate
+```
+
+- マイグレーション実行
+
+```shell
+dotnet tool run grate \
+  -c="Data Source=grate-sqlite.db" \
+  -f grate-sqlite \
+  --dbt sqlite
+```
+
 #### 実行用メモ
 
 - `Docker`を立ち上げる.
