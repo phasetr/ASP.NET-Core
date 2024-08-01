@@ -1,3 +1,5 @@
 mariadb_data
 
 .fake
+*.dll
+*.db*

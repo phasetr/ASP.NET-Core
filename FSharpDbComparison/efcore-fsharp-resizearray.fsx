@@ -10,26 +10,26 @@ open EntityFrameworkCore.FSharp.Extensions
 open EntityFrameworkCore.FSharp.DbContextHelpers
 open FSharp.Control
 
-let dbname = "efcore-fsharp.tmp.tmp.db"
+let dbname = "efcore-fsharp-resizearray.tmp.db"
 
 [<CLIMutable>]
 type User = {
   Id: int
   Name: string
-  UserCourses: UserCourse list
+  UserCourses: ResizeArray<UserCourse>
 }
 and [<CLIMutable>]
 Course = {
   Id: int
   Title: string
-  UserCourses: UserCourse list
-  CourseChapters: CourseChapter list
+  UserCourses: ResizeArray<UserCourse>
+  CourseChapters: ResizeArray<CourseChapter>
 }
 and [<CLIMutable>]
 Chapter = {
   Id: int
   Title: string
-  CourseChapters: CourseChapter list
+  CourseChapters: ResizeArray<CourseChapter>
 }
 and [<CLIMutable>]
 UserCourse = {
@@ -97,10 +97,10 @@ let initializeDatabase() =
     context.Database.EnsureDeleted() |> ignore
     context.Database.EnsureCreated() |> ignore
 
-    let user = { Id = 1; Name = "John Doe"; UserCourses = [] }
-    let course = { Id = 1; Title = "EF Core Course"; UserCourses = []; CourseChapters = [] }
-    let chapter1 = { Id = 1; Title = "Introduction"; CourseChapters = [] }
-    let chapter2 = { Id = 2; Title = "Advanced Topics"; CourseChapters = [] }
+    let user = { Id = 1; Name = "John Doe"; UserCourses = ResizeArray() }
+    let course = { Id = 1; Title = "EF Core Course"; UserCourses = ResizeArray(); CourseChapters = ResizeArray() }
+    let chapter1 = { Id = 1; Title = "Introduction"; CourseChapters = ResizeArray() }
+    let chapter2 = { Id = 2; Title = "Advanced Topics"; CourseChapters = ResizeArray() }
 
     addEntity context user
     addEntity context course
