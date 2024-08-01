@@ -144,16 +144,27 @@ docker compose -f compose-sqlserver.yml down
 
 #### `grate-mariadb`実行用メモ
 
+- **これは成功**
 - `Docker`を立ち上げる.
 
 ```shell
-docker compose -f compose-sqlserver.yml up
+docker compose -f compose-mariadb.yml up
 ```
 
+- 接続文字列：`Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;`
 - マイグレーション実行
 
 ```shell
-dotnet tool run grate -f grate -c --dbt mariadb
+dotnet tool run grate \
+  -c="Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;" \
+  -f grate-mariadb \
+  --dbt mariadb
+```
+
+- `Docker`を落とす
+
+```shell
+docker compose -f compose-mariadb.yml down
 ```
 
 ### `Dbup`
