@@ -1,4 +1,4 @@
-USE GrateSample;
+USE mydb;
 GO
 
 CREATE TABLE Users (

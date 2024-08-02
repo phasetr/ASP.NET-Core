@@ -94,6 +94,14 @@ EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 
 #### `SQL Server`での利用
 
+**正しく動かないため調査を断念**.
+原因は`Mac`か?
+
+`sqlprovider-sqlserver.fsx`参照.
+`compose-sqlserver.yml`で`SQL Server`を立ち上げておくこと.
+`Microsoft.Data.SqlClient is not supported on this platform.`というエラーが出たため断念.
+`Windows`でないと動かない？
+
 ## マイグレーションツール
 
 ### `SSDT database projects (.sqlproj) for years alongside our SAFE Stack apps`
