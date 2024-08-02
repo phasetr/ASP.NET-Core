@@ -1,4 +1,3 @@
-#r "nuget: FSharp.Data"
 #r "nuget: SQLProvider"
 #r "nuget: Microsoft.Data.Sqlite"
 
@@ -16,12 +15,11 @@ type sqlite = SqlDataProvider<
   IndividualsAmount = 1000,
   UseOptionTypes = FSharp.Data.Sql.Common.NullableColumnType.OPTION>
 
-// データベースの操作例
 let sqliteCtx = sqlite.GetDataContext()
 
-let users =
-    query {
-        for user in sqliteCtx.Main.Users do
-        select (user.Id, user.Name)
-    } |> Seq.toList
-users |> printfn "%A"
+query {
+    for user in sqliteCtx.Main.Users do
+    select (user.Id, user.Name)
+}
+|> Seq.toList
+|> printfn "%A"

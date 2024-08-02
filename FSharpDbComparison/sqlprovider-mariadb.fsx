@@ -18,13 +18,6 @@ type maria = SqlDataProvider<
 
 let mariaCtx = maria.GetDataContext()
 
-let users =
-    query {
-        for user in mariaCtx.Mydb.Users do
-        select (user.Id, user.Name)
-    } |> Seq.toList
-users |> printfn "%A"
-
 query {
     for user in mariaCtx.Mydb.Users do
     select (user.Id, user.Name)

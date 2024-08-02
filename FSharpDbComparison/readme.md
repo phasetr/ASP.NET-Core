@@ -75,18 +75,14 @@ EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 #### `MariaDB`での利用
 
 `sqlprovider-mariadb.fsx`参照.
-`compose-mariadb.yml`で`MariaDB`を立ち上げておくこと.
+`Docker`で`MariaDB`を立ち上げておくこと.
 スクリプト中で`MySqlConnector.dll`をコピーしてきてそれを読み込む形にしている.
-
-`Docker`起動は`grate`の部分の記述を参考にすること.
 
 #### `PostgreSQL`での利用
 
 `sqlprovider-postgresql.fsx`参照.
-`compose-postgresql.yml`で`PostgreSQL`を立ち上げておくこと.
+`Docker`で`PostgreSQL`を立ち上げておくこと.
 スクリプト中で`Npgsql.dll`をコピーしてきてそれを読み込む形にしている.
-
-`Docker`起動は`grate`の部分の記述を参考にすること.
 
 #### `SQLite`での利用
 
@@ -98,7 +94,7 @@ EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 原因は`Mac`か?
 
 `sqlprovider-sqlserver.fsx`参照.
-`compose-sqlserver.yml`で`SQL Server`を立ち上げておくこと.
+`Docker`で`SQL Server`を立ち上げておくこと.
 `Microsoft.Data.SqlClient is not supported on this platform.`というエラーが出たため断念.
 `Windows`でないと動かない？
 
@@ -145,10 +141,6 @@ dotnet tool install --local grate
 
 - `Docker`を立ち上げる.
 
-```shell
-docker compose -f compose-mariadb.yml up
-```
-
 - 接続文字列：`Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;`
 - マイグレーション実行
 
@@ -161,17 +153,9 @@ dotnet tool run grate \
 
 - `Docker`を落とす
 
-```shell
-docker compose -f compose-mariadb.yml down
-```
-
 #### `grate-postgresql`実行用メモ
 
 - `Docker`を立ち上げる.
-
-```shell
-docker compose -f compose-postgresql.yml up
-```
 
 - 接続文字列：`Host=localhost;Port=5432;Database=mydb;Username=user;Password=pass`
 - マイグレーション実行
@@ -184,10 +168,6 @@ dotnet tool run grate \
 ```
 
 - `Docker`を落とす
-
-```shell
-docker compose -f compose-mariadb.yml down
-```
 
 #### `grate-sqlite`用実行メモ
 
@@ -202,12 +182,7 @@ dotnet tool run grate \
 
 #### `grate-sqlserver`実行用メモ
 
-- `Mac`では` Microsoft.Data.SqlClient`が標準では欠けていてあまり嬉しくない.
 - `Docker`を立ち上げる
-
-```shell
-docker compose -f compose-sqlserver.yml up
-```
 
 - 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
   `Rider`からの接続など適当な手段で`Database=mydb`を作ること.
@@ -221,10 +196,6 @@ dotnet tool run grate \
 ```
 
 - `Docker`を落とす
-
-```shell
-docker compose -f compose-sqlserver.yml down
-```
 
 ### `Dbup`
 
