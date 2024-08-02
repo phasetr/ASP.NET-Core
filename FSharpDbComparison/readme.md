@@ -64,13 +64,7 @@ EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 
 >SQL Server、Access、ODBC 以外のデータベース ベンダーを使用する場合は、サード パーティ ドライバーが必要です。
 
-とりあえず`Mac`+`fsx`での利用例を考える.
-
-`SQLite`だと`dll`の指定が必要らしく,
-果てしなく面倒で`SQLite`でのコード検証は断念.
-
-もう一つ懸念点がある.
-[この記事](https://www.compositional-it.com/news-blog/full-orms-and-f/)で次のようにある.
+懸念点として[この記事](https://www.compositional-it.com/news-blog/full-orms-and-f/)で次のようにある.
 
 >プロバイダーは常にデータベースへのライブ接続を必要とするため, `CI`などの開発のさまざまな段階で注意が必要.
 
@@ -93,6 +87,12 @@ EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 スクリプト中で`Npgsql.dll`をコピーしてきてそれを読み込む形にしている.
 
 `Docker`起動は`grate`の部分の記述を参考にすること.
+
+#### `SQLite`での利用
+
+`sqlprovider-sqlite.fsx`参照.
+
+#### `SQL Server`での利用
 
 ## マイグレーションツール
 
