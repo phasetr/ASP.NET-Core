@@ -8,7 +8,7 @@ open Microsoft.EntityFrameworkCore
 open EntityFrameworkCore.FSharp.Extensions
 open EntityFrameworkCore.FSharp.DbContextHelpers
 
-let dbname = "efcore-fsharp.tmp.db"
+let dbname = "efcore-fsharp.db"
 
 [<CLIMutable>]
 type Book = {

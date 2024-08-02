@@ -1,1 +1,1 @@
-CREATE DATABASE GrateSample;
+CREATE DATABASE mydb;

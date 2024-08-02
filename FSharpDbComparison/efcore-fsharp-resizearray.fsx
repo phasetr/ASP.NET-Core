@@ -10,7 +10,7 @@ open EntityFrameworkCore.FSharp.Extensions
 open EntityFrameworkCore.FSharp.DbContextHelpers
 open FSharp.Control
 
-let dbname = "efcore-fsharp-resizearray.tmp.db"
+let dbname = "efcore-fsharp-resizearray.db"
 
 [<CLIMutable>]
 type User = {

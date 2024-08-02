@@ -20,7 +20,7 @@ type AppDbContext() =
     member this.Users with get() = this.users and set v = this.users <- v
 
     override this.OnConfiguring(optionsBuilder: DbContextOptionsBuilder) =
-        optionsBuilder.UseSqlite("Data Source=1.tmp.db") |> ignore
+        optionsBuilder.UseSqlite("Data Source=efcore.db") |> ignore
 
 // Initialize the database and add some data
 let initializeDatabase() =
@@ -40,7 +40,7 @@ let displayData() =
     use context = new AppDbContext()
     let users = context.Users.ToList()
     for user in users do
-        printfn "ID: %d, Name: %s, Age: %d" user.Id user.Name user.Age
+        printfn $"ID: %d{user.Id}, Name: %s{user.Name}, Age: %d{user.Age}"
 
 // Run the initialization and display the data
 initializeDatabase()

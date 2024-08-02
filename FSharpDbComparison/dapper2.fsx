@@ -35,7 +35,7 @@ let userCourseTable = table'<UserCourse> "UserCourses"
 let courseChapterTable = table'<CourseChapter> "CourseChapters"
 
 // SQLite接続文字列
-let connStr = "Data Source=dapper2.tmp.db"
+let connStr = "Data Source=dapper2.db"
 
 // テーブル作成スクリプト
 let initializeDatabase() =

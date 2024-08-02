@@ -5,9 +5,9 @@ using var context = new AppDbContext();
 context.Database.EnsureDeleted();
 context.Database.EnsureCreated();
 
-Console.WriteLine(File.Exists("efcore-csharp.tmp.db")
+Console.WriteLine(File.Exists("efcore-csharp.db")
     ? "Database file 'efcore-csharp.tmp.db' has been created successfully."
-    : "Failed to create the database file 'efcore-csharp.tmp.db'.");
+    : "Failed to create the database file 'efcore-csharp.db'.");
 
 // データの追加
 var user = new User { Name = "John Doe" };

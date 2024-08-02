@@ -6,14 +6,18 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 `F#`では`ORM`はあまり使わないらしい.
 一方で[Dapper.FSharp](https://github.com/Dzoukr/Dapper.FSharp)は有名で時々耳に見かける.
 マイグレーションに関しては`F#`の`Slack`で聞いたところ,
-以下のような情報を得た.
+以下のような情報を得つつ調査した.
 
 ここでは`2024-07-27`までに`Slack`で教えて頂いた情報や,
 `ORM`や型プロバイダによるデータベースアクセスの書き心地の確認を記録する.
 
-## `ORM`・型プロバイダー
+## `ORM`
 
 - `Compositional IT`のまとめ記事: [SQL series wrap up](https://www.compositional-it.com/news-blog/sql-series-wrap-up/)
+
+### `Dapper.FSharp`
+
+想像以上にはまってしまった.
 
 ### `EF Core`
 
@@ -35,13 +39,9 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 `efcore.fsx`参照.
 (ソースは`ChatGPT`に生成してもらった.)
-ついでに`1.tmp.db`として`sqlite`のデータベースと基本的なデータも生成している.
+`sqlite`のデータベースと基本的なデータも生成している.
 `F#`レベルで`Fluent API`で複合キーやリレーションを設定しようとしたらうまくいかなかったため,
 いったんごく基本的なサンプルだけで断念.
-
-### `Dapper.FSharp`
-
-想像以上にはまってしまった.
 
 ### `SqlProvider`
 
@@ -131,7 +131,7 @@ docker compose -f compose-sqlserver.yml up
 
 ```shell
 dotnet tool run grate \
-  -c="Server=localhost,1433;Database=GrateSample;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True" \
+  -c="Server=localhost,1433;Database=mydb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True" \
   -f grate-sqlserver \
   --dbt sqlserver
 ```
@@ -182,3 +182,12 @@ docker compose -f compose-mariadb.yml down
 - プレーンなSQLスクリプトを使うタイプ
 
 これも関係するコードは書いていない.
+
+### `FluentMigrator`
+
+- [Fluent migrations framework for .NET](https://fluentmigrator.github.io/)
+
+>Fluent Migrator is a migration framework for .NET much like Ruby on Rails Migrations.
+
+実際に`C#`のコードを書いて管理する.
+`Slack`で聞いた限りダウングレードにも良く対応しているとのこと.

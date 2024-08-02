@@ -5,7 +5,7 @@ open Microsoft.Data.Sqlite
 open Dapper
 open Dapper.FSharp.SQLite
 
-Dapper.FSharp.SQLite.OptionTypes.register()
+OptionTypes.register()
 
 // 定義
 type User = {
@@ -26,7 +26,7 @@ let courseTable = table<Course>
 let userCourseTable = table<UserCourse>
 
 // SQLiteの接続文字列
-let connString = "Data Source=dapper1.tmp.db"
+let connString = "Data Source=dapper1.db"
 
 // データベース初期化
 let initializeDatabase () =
@@ -145,4 +145,3 @@ select {
 |> conn.SelectAsyncOption<User, UserCourse, Course>
 |> Async.AwaitTask
 |> Async.RunSynchronously
-
