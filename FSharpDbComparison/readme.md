@@ -18,6 +18,8 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 ### `Dapper.FSharp`
 
 想像以上にはまってしまった.
+`Rider`で見ているとコードに色がついている部分があって問題が解決できない.
+とりあえず比較用の簡易実装としてはこのままで詳しくわかったら追記したい.
 
 ### `EF Core`
 
@@ -64,6 +66,12 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 ただし解決策に関して次の記事への参照がある.
 
 - [Structuring an F# project with SQL Type Provider on CI](https://medium.com/datarisk-io/structuring-an-f-project-with-sql-type-provider-on-ci-787a79d78699)
+
+#### `MariaDB`での利用
+
+`sqlprovider-mariadb.fsx`参照.
+`compose-mariadb.yml`で`MariaDB`を立ち上げておくこと.
+スクリプト中で`MySqlConnector.dll`をコピーしてきてそれを読み込む形にしている.
 
 ## マイグレーションツール
 

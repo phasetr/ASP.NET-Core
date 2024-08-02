@@ -23,6 +23,7 @@ let users =
         for user in ctx.Mydb.Users do
         select (user.Id, user.Name)
     } |> Seq.toList
+users |> printfn "%A"
 
 query {
     for user in ctx.Mydb.Users do
