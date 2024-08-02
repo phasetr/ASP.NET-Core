@@ -6,27 +6,27 @@ open FSharp.Data.Sql
 let home = System.Environment.GetEnvironmentVariable("HOME")
 System.IO.File.Copy($"{home}/.nuget/packages/mysqlconnector/2.3.7/lib/net8.0/MySqlConnector.dll", "MySqlConnector.dll", true)
 
-let [<Literal>] connStr = "Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;"
-let [<Literal>] resPath = __SOURCE_DIRECTORY__ + "/"
-type sql = SqlDataProvider<
+let [<Literal>] mariaConnStr = "Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;"
+let [<Literal>] mariaResPath = __SOURCE_DIRECTORY__ + "/"
+type maria = SqlDataProvider<
   DatabaseVendor = Common.DatabaseProviderTypes.MYSQL,
-  ConnectionString = connStr,
-  ResolutionPath = resPath,
+  ConnectionString = mariaConnStr,
+  ResolutionPath = mariaResPath,
   IndividualsAmount = 1000,
   UseOptionTypes = FSharp.Data.Sql.Common.NullableColumnType.OPTION,
   Owner="mydb">
 
-let ctx = sql.GetDataContext()
+let mariaCtx = maria.GetDataContext()
 
 let users =
     query {
-        for user in ctx.Mydb.Users do
+        for user in mariaCtx.Mydb.Users do
         select (user.Id, user.Name)
     } |> Seq.toList
 users |> printfn "%A"
 
 query {
-    for user in ctx.Mydb.Users do
+    for user in mariaCtx.Mydb.Users do
     select (user.Id, user.Name)
 }
 |> Seq.toList

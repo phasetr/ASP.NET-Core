@@ -1,5 +1,10 @@
 # README
 
+## 検証環境
+
+- `Apple M1 Pro`
+- `.NET 8.0.204`
+
 ## データベース比較: 2024-07-27
 
 Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/domain-modeling-made-functional)いわく,
@@ -35,7 +40,7 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 #### 参考：`C#`での`EF Core`
 
-`EFCoreCSharp`のような処理を`EFCore.FSharp`で書きたい.
+EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
 
 #### 参考: `F#`での単純な`EF Core`（`EFCore.FSharp`ではない）
 
@@ -44,6 +49,13 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 `sqlite`のデータベースと基本的なデータも生成している.
 `F#`レベルで`Fluent API`で複合キーやリレーションを設定しようとしたらうまくいかなかったため,
 いったんごく基本的なサンプルだけで断念.
+
+### `SqlClient`
+
+- [SqlClient](https://github.com/fsprojects/FSharp.Data.SqlClient)
+
+`SQL Server`専用のようだ.
+現状で`SQL Server`を使う予定はないため記録だけ.
 
 ### `SqlProvider`
 
@@ -89,7 +101,7 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 - [Using grate with SSDT Database Projects](https://www.compositional-it.com/news-blog/using-grate-with-ssdt-database-projects/)
 - [Migration-based database development](https://www.compositional-it.com/news-blog/migration-based-database-development/)
 
-`SQL Server`専用ツールのようだ.
+`SQL Server`専用.
 `SQL Server`はあまり使おうと思わないのだがどうするか,
 というのが第一の感想.
 
@@ -119,43 +131,6 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 ```shell
 dotnet new tool-manifest
 dotnet tool install --local grate
-```
-
-#### `grate-sqlite`用実行メモ
-
-- マイグレーション実行
-
-```shell
-dotnet tool run grate \
-  -c="Data Source=grate-sqlite.db" \
-  -f grate-sqlite \
-  --dbt sqlite
-```
-
-#### `grate-sqlserver`実行用メモ
-
-- `Mac`では` Microsoft.Data.SqlClient`が標準では欠けていてあまり嬉しくない.
-- `Docker`を立ち上げる
-
-```shell
-docker compose -f compose-sqlserver.yml up
-```
-
-- 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
-  `Rider`からの接続など適当な手段で`Database=mydb`を作ること.
-- マイグレーション実行
-
-```shell
-dotnet tool run grate \
-  -c="Server=localhost,1433;Database=mydb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True" \
-  -f grate-sqlserver \
-  --dbt sqlserver
-```
-
-- `Docker`を落とす
-
-```shell
-docker compose -f compose-sqlserver.yml down
 ```
 
 #### `grate-mariadb`実行用メモ
@@ -204,6 +179,43 @@ dotnet tool run grate \
 
 ```shell
 docker compose -f compose-mariadb.yml down
+```
+
+#### `grate-sqlite`用実行メモ
+
+- マイグレーション実行
+
+```shell
+dotnet tool run grate \
+  -c="Data Source=grate-sqlite.db" \
+  -f grate-sqlite \
+  --dbt sqlite
+```
+
+#### `grate-sqlserver`実行用メモ
+
+- `Mac`では` Microsoft.Data.SqlClient`が標準では欠けていてあまり嬉しくない.
+- `Docker`を立ち上げる
+
+```shell
+docker compose -f compose-sqlserver.yml up
+```
+
+- 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
+  `Rider`からの接続など適当な手段で`Database=mydb`を作ること.
+- マイグレーション実行
+
+```shell
+dotnet tool run grate \
+  -c="Server=localhost,1433;Database=mydb;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True" \
+  -f grate-sqlserver \
+  --dbt sqlserver
+```
+
+- `Docker`を落とす
+
+```shell
+docker compose -f compose-sqlserver.yml down
 ```
 
 ### `Dbup`

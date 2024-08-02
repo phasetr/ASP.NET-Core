@@ -17,17 +17,17 @@ type pgsql = SqlDataProvider<
   UseOptionTypes = FSharp.Data.Sql.Common.NullableColumnType.OPTION,
   Owner=pgsqlOwner>
 
-let ctx = pgsql.GetDataContext()
+let pgsqlCtx = pgsql.GetDataContext()
 
 let users =
     query {
-        for user in ctx.Public.Users do
+        for user in pgsqlCtx.Public.Users do
         select (user.Id, user.Name)
     } |> Seq.toList
 users |> printfn "%A"
 
 query {
-    for user in ctx.Public.Users do
+    for user in pgsqlCtx.Public.Users do
     select (user.Id, user.Name)
 }
 |> Seq.toList
