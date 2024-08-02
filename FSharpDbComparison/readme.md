@@ -56,7 +56,6 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 
 `SQLite`だと`dll`の指定が必要らしく,
 果てしなく面倒で`SQLite`でのコード検証は断念.
-`PostgreSQL`や`MySQL`だともう少し楽なのかもしれないが.
 
 もう一つ懸念点がある.
 [この記事](https://www.compositional-it.com/news-blog/full-orms-and-f/)で次のようにある.
@@ -72,6 +71,16 @@ Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/d
 `sqlprovider-mariadb.fsx`参照.
 `compose-mariadb.yml`で`MariaDB`を立ち上げておくこと.
 スクリプト中で`MySqlConnector.dll`をコピーしてきてそれを読み込む形にしている.
+
+`Docker`起動は`grate`の部分の記述を参考にすること.
+
+#### `PostgreSQL`での利用
+
+`sqlprovider-postgresql.fsx`参照.
+`compose-postgresql.yml`で`PostgreSQL`を立ち上げておくこと.
+スクリプト中で`Npgsql.dll`をコピーしてきてそれを読み込む形にしている.
+
+`Docker`起動は`grate`の部分の記述を参考にすること.
 
 ## マイグレーションツール
 
@@ -123,9 +132,8 @@ dotnet tool run grate \
   --dbt sqlite
 ```
 
-#### TODO `grate-sqlserver`実行用メモ
+#### `grate-sqlserver`実行用メモ
 
-- **まだ成功していない.**
 - `Mac`では` Microsoft.Data.SqlClient`が標準では欠けていてあまり嬉しくない.
 - `Docker`を立ち上げる
 
@@ -134,7 +142,7 @@ docker compose -f compose-sqlserver.yml up
 ```
 
 - 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
-  `Rider`からの接続など適当な手段で`Database=GrateSample`を作ること.
+  `Rider`からの接続など適当な手段で`Database=mydb`を作ること.
 - マイグレーション実行
 
 ```shell
@@ -152,7 +160,6 @@ docker compose -f compose-sqlserver.yml down
 
 #### `grate-mariadb`実行用メモ
 
-- **これは成功**
 - `Docker`を立ち上げる.
 
 ```shell
@@ -167,6 +174,30 @@ dotnet tool run grate \
   -c="Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;" \
   -f grate-mariadb \
   --dbt mariadb
+```
+
+- `Docker`を落とす
+
+```shell
+docker compose -f compose-mariadb.yml down
+```
+
+#### `grate-postgresql`実行用メモ
+
+- `Docker`を立ち上げる.
+
+```shell
+docker compose -f compose-postgresql.yml up
+```
+
+- 接続文字列：`Host=localhost;Port=5432;Database=mydb;Username=user;Password=pass`
+- マイグレーション実行
+
+```shell
+dotnet tool run grate \
+  -c="Host=localhost;Port=5432;Database=mydb;Username=user;Password=pass" \
+  -f grate-postgresql \
+  --dbt postgresql
 ```
 
 - `Docker`を落とす
