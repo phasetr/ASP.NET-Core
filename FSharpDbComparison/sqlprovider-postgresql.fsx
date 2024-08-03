@@ -2,10 +2,9 @@
 #r "nuget: Npgsql"
 open FSharp.Data.Sql
 
-// dllのコピー
+// copy dll
 let home = System.Environment.GetEnvironmentVariable("HOME")
 System.IO.File.Copy($"{home}/.nuget/packages/npgsql/8.0.3/lib/net8.0/Npgsql.dll", "Npgsql.dll", true)
-
 let [<Literal>] pgsqlConnStr = "Host=localhost;Port=5432;Database=mydb;Username=user;Password=pass"
 let [<Literal>] pgsqlResPath = __SOURCE_DIRECTORY__ + "/"
 type pgsql = SqlDataProvider<
