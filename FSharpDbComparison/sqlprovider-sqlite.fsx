@@ -62,4 +62,3 @@ query {
 }
 |> Seq.toList
 |> printfn "%A"
-

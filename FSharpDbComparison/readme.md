@@ -1,164 +1,122 @@
 # README
 
-## 検証環境
+- [English](readme.md)
+- [日本語](readme_ja.md)
+
+## Verification Environment
 
 - `Apple M1 Pro`
 - `.NET 8.0.204`
 
-## データベース比較: 2024-07-27
+## Database Comparison: 2024-07-27
 
-Wlaschinの[関数型ドメインモデリング](https://tatsu-zine.com/books/domain-modeling-made-functional)いわく,
-`F#`では`ORM`はあまり使わないらしい.
-一方で[Dapper.FSharp](https://github.com/Dzoukr/Dapper.FSharp)は有名で時々耳に見かける.
-マイグレーションに関しては`F#`の`Slack`で聞いたところ,
-以下のような情報を得つつ調査した.
+According to Wlaschin's [Domain Modeling Made Functional](https://tatsu-zine.com/books/domain-modeling-made-functional), `F#` doesn't typically use `ORMs`. However, [Dapper.FSharp](https://github.com/Dzoukr/Dapper.FSharp) is well-known and often mentioned. Regarding migrations, I gathered the following information from the `F#` Slack community and conducted my investigation.
 
-ここでは`2024-07-27`までに`Slack`で教えて頂いた情報や,
-`ORM`や型プロバイダによるデータベースアクセスの書き心地の確認を記録する.
+Here, I record the information shared by the `Slack` community up to `2024-07-27`, as well as my observations on using `ORMs` and type providers for database access.
 
 ## `ORM`
 
-- `Compositional IT`のまとめ記事: [SQL series wrap up](https://www.compositional-it.com/news-blog/sql-series-wrap-up/)
+- Summary article by `Compositional IT`: [SQL series wrap up](https://www.compositional-it.com/news-blog/sql-series-wrap-up/)
 
 ### `Dapper.FSharp`
 
-想像以上にはまってしまった.
-`Rider`で見ているとコードに色がついている部分があって問題が解決できない.
-とりあえず比較用の簡易実装としてはこのままで詳しくわかったら追記したい.
+It was more challenging than expected. In `Rider`, some parts of the code were highlighted, and I couldn't resolve the issues. For now, I'll leave it as it is for the basic implementation and will add details once I understand them better.
 
 ### `EF Core`
 
 - [EFCore.FSharp](https://efcore.github.io/EFCore.FSharp/)
 - GitHub, [GETTING_STARTED.md](https://github.com/efcore/EFCore.FSharp/blob/master/GETTING_STARTED.md)
 
-データベースは界面の外側として,
-マイグレーションまで含めて完全に`EF Core`に任せる手はないではない.
-`F#`ではなく`C#`にしてしまう方向性さえある.
-`EF Core`は`Identity`もある.
+It's possible to fully delegate database operations, including migrations, to `EF Core` as an external interface. One option is to switch from `F#` to `C#`. `EF Core` also includes `Identity`.
 
-`EFCore.FSharp`では[RecordHelper](https://efcore.github.io/EFCore.FSharp//How_Tos/Use_DbContextHelpers.html)を使うとよい.
+Using `EFCore.FSharp`, it's recommended to use [RecordHelper](https://efcore.github.io/EFCore.FSharp//How_Tos/Use_DbContextHelpers.html).
 
-#### 参考：`C#`での`EF Core`
+#### Reference: `EF Core` in `C#`
 
-EFCoreCSharpに書いたような処理を`EFCore.FSharp`でも書きたい.
+I want to write similar processes in [EFCoreCSharp](EFCoreCSharp) as those described in EFCoreCSharp.
 
-#### 参考: `F#`での単純な`EF Core`（`EFCore.FSharp`ではない）
+#### Reference: Simple `EF Core` in `F#` (not `EFCore.FSharp`)
 
-`efcore.fsx`参照.
-(ソースは`ChatGPT`に生成してもらった.)
-`sqlite`のデータベースと基本的なデータも生成している.
-`F#`レベルで`Fluent API`で複合キーやリレーションを設定しようとしたらうまくいかなかったため,
-いったんごく基本的なサンプルだけで断念.
+Refer to `efcore.fsx`. (The source was generated using `ChatGPT`.) It generates a `sqlite` database and some basic data. I couldn't set composite keys or relationships using `Fluent API` in `F#`, so I gave up after creating a basic sample.
 
 ### `SqlClient`
 
 - [SqlClient](https://github.com/fsprojects/FSharp.Data.SqlClient)
 
-`SQL Server`専用のようだ.
-現状で`SQL Server`を使う予定はないため記録だけ.
+It appears to be exclusively for `SQL Server`. Since I don't plan to use `SQL Server` at the moment, this is just a record.
 
 ### `SqlProvider`
 
 - [GitHub](https://github.com/fsprojects/SQLProvider/)
-- [ドキュメントサイト](https://fsprojects.github.io/SQLProvider/core/general.html)
+- [Documentation Site](https://fsprojects.github.io/SQLProvider/core/general.html)
 
->SQL Server、Access、ODBC 以外のデータベース ベンダーを使用する場合は、サード パーティ ドライバーが必要です。
+> When using database vendors other than SQL Server, Access, or ODBC, third-party drivers are required.
 
-懸念点として[この記事](https://www.compositional-it.com/news-blog/full-orms-and-f/)で次のようにある.
+A concern noted in [this article](https://www.compositional-it.com/news-blog/full-orms-and-f/) is:
 
->プロバイダーは常にデータベースへのライブ接続を必要とするため, `CI`などの開発のさまざまな段階で注意が必要.
+> The provider always requires a live connection to the database, so care is needed at various stages of development, such as `CI`.
 
-ただし解決策に関して次の記事への参照がある.
+However, there's a reference to an article offering a solution:
 
 - [Structuring an F# project with SQL Type Provider on CI](https://medium.com/datarisk-io/structuring-an-f-project-with-sql-type-provider-on-ci-787a79d78699)
 
-#### `MariaDB`での利用
+#### Using `MariaDB`
 
-`sqlprovider-mariadb.fsx`参照.
-`Docker`で`MariaDB`を立ち上げておくこと.
-スクリプト中で`MySqlConnector.dll`をコピーしてきてそれを読み込む形にしている.
+Refer to `sqlprovider-mariadb.fsx`. Ensure `MariaDB` is running via `Docker`. The script copies `MySqlConnector.dll` and loads it.
 
-#### `PostgreSQL`での利用
+#### Using `PostgreSQL`
 
-`sqlprovider-postgresql.fsx`参照.
-`Docker`で`PostgreSQL`を立ち上げておくこと.
-スクリプト中で`Npgsql.dll`をコピーしてきてそれを読み込む形にしている.
+Refer to `sqlprovider-postgresql.fsx`. Ensure `PostgreSQL` is running via `Docker`. The script copies `Npgsql.dll` and loads it.
 
-#### `SQLite`での利用
+#### Using `SQLite`
 
-`sqlprovider-sqlite.fsx`参照.
+Refer to `sqlprovider-sqlite.fsx`.
 
-#### `SQL Server`での利用
+#### Using `SQL Server`
 
-**正しく動かないため調査を断念**.
-原因は`Mac`か?
+**Abandoned investigation due to malfunction**. The cause might be `Mac`.
 
-`sqlprovider-sqlserver.fsx`参照.
-`Docker`で`SQL Server`を立ち上げておくこと.
-`Microsoft.Data.SqlClient is not supported on this platform.`というエラーが出たため断念.
-`Windows`でないと動かない？
+Refer to `sqlprovider-sqlserver.fsx`. Ensure `SQL Server` is running via `Docker`. Abandoned due to the error `Microsoft.Data.SqlClient is not supported on this platform.` It might only work on `Windows`.
 
-## マイグレーションツール
+## Migration Tools
 
 ### `SSDT database projects (.sqlproj) for years alongside our SAFE Stack apps`
 
 - [Using grate with SSDT Database Projects](https://www.compositional-it.com/news-blog/using-grate-with-ssdt-database-projects/)
 - [Migration-based database development](https://www.compositional-it.com/news-blog/migration-based-database-development/)
 
-`SQL Server`専用.
-`SQL Server`はあまり使おうと思わないのだがどうするか,
-というのが第一の感想.
+Exclusively for `SQL Server`. The first impression is that I don't plan to use `SQL Server` much, so what to do?
 
 ### `grate`
 
-上記記事中での著者のお勧め.
+Recommended in the above articles.
 
 - [grate](https://erikbra.github.io/grate/)
-- 上記の記事中で`Dbup`よりお勧めされていた.
-- これもプレーンSQLスクリプトを使うタイプ.
-- プレーンでいくならこれでいいのでは?
-- `dotnet tool install --glocal grate`(または`--local`)でインストール
-- 基本的には`up`, `down`などが置いてあるディレクトリ内で`grate`コマンドを実行
-  - ここでは`grate`ディレクトリに必要なファイルをまとめていて,
-    `-f`オプションでルートディレクトリが指定できる.
-  - `.envrc`に`MariaDB`の`compose.yml`に指定した情報からの接続文字列を指定した.
-  - 執筆時点で`MySQL`だとエラーが出たため`MariaDB`を利用している.
-- [コマンドオプションの説明ページ](https://erikbra.github.io/grate/configuration-options/)
-  - `-o`: 移行に関連するすべてのものが保存される場所.
-    すべてのバックアップ・実行されたすべてのアイテム・権限ダンプ・ログなど.
-    - `–env`: 適用したい環境指定
+- It was recommended over `Dbup` in the above articles.
+- It also uses plain SQL scripts.
+- If going plain, this might be the way to go.
+- Install with `dotnet tool install --global grate` (or `--local`).
+- Essentially, execute the `grate` command in the directory where `up` and `down` scripts are located.
+  - Here, necessary files are collected in the `grate-*` directory, and the root directory can be specified with the `-f` option.
+  - At the time of writing, `MariaDB` is used instead of `MySQL` due to errors with `MySQL`.
+- [Command Options Explanation Page](https://erikbra.github.io/grate/configuration-options/)
+  - `-o`: Where everything related to the migration is stored. All backups, all executed items, permission dumps, logs, etc.
+  - `–env`: Specifies the environment to apply
 
-#### `grate`の（ローカル）インストール
+#### `grate` Local Installation
 
-- 以下のコマンドで`grate`をインストール
+- Install `grate` with the following commands:
 
 ```shell
 dotnet new tool-manifest
 dotnet tool install --local grate
 ```
 
-#### `grate-mariadb`実行用メモ
+#### Notes for Running `grate-mariadb`
 
-- `Docker`を立ち上げる.
-
-- 接続文字列：`Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;`
-- マイグレーション実行
-
-```shell
-dotnet tool run grate \
-  -c="Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;" \
-  -f grate-mariadb \
-  --dbt mariadb
-```
-
-- `Docker`を落とす
-
-#### `grate-postgresql`実行用メモ
-
-- `Docker`を立ち上げる.
-
-- 接続文字列：`Host=localhost;Port=5432;Database=mydb;Username=user;Password=pass`
-- マイグレーション実行
+- Start Docker.
+- Connection string: `Server=localhost;Port=3306;Database=mydb;User Id=user;Password=pass;`
+- Run migration
 
 ```shell
 dotnet tool run grate \
@@ -167,11 +125,11 @@ dotnet tool run grate \
   --dbt postgresql
 ```
 
-- `Docker`を落とす
+- Stop Docker.
 
-#### `grate-sqlite`用実行メモ
+#### Notes for Running `grate-sqlite`
 
-- マイグレーション実行
+- Run migration
 
 ```shell
 dotnet tool run grate \
@@ -180,13 +138,11 @@ dotnet tool run grate \
   --dbt sqlite
 ```
 
-#### `grate-sqlserver`実行用メモ
+#### Notes for Running grate-sqlserver
 
-- `Docker`を立ち上げる
-
-- 未確認：`grate-sqlserver/init-db`にある`SQL`でデータベースを作っているつもりだがうまくいっていないかもしれない.
-  `Rider`からの接続など適当な手段で`Database=mydb`を作ること.
-- マイグレーション実行
+- Start Docker.
+- Unconfirmed: The SQL in grate-sqlserver/init-db is supposed to create the database, but it might not be working. Create Database=mydb using appropriate means like connecting from Rider.
+- Run migration
 
 ```shell
 dotnet tool run grate \
@@ -195,23 +151,21 @@ dotnet tool run grate \
   --dbt sqlserver
 ```
 
-- `Docker`を落とす
-
 ### `Dbup`
 
 - [Dbup](https://dbup.readthedocs.io/en/latest/)
 
-`dotnet tool install`よりも`Nuget`を使ってライブラリとして入れて使うタイプ(?).
-そうでなくても使えるようだが.
-これもプレーンな`SQL`スクリプトを使うタイプ.
-関係するコードは書いていない.
+It appears to be a library used via Nuget rather than installed with `dotnet tool install`? 
+It can also be used standalone. 
+It also uses plain SQL scripts. 
+No related code written yet.
 
 ### `Evolve`
 
 - [Evolve](https://evolve-db.netlify.app/)
-- プレーンなSQLスクリプトを使うタイプ
+- Uses plain SQL scripts.
 
-これも関係するコードは書いていない.
+No related code written yet.
 
 ### `FluentMigrator`
 
@@ -219,5 +173,4 @@ dotnet tool run grate \
 
 >Fluent Migrator is a migration framework for .NET much like Ruby on Rails Migrations.
 
-実際に`C#`のコードを書いて管理する.
-`Slack`で聞いた限りダウングレードにも良く対応しているとのこと.
+Actual code is written in C# to manage migrations. According to what I heard on Slack, it handles downgrades well.
