@@ -1,6 +1,0 @@
-mariadb_data
-sqlserver-data
-
-.fake
-*.dll
-*.db*
