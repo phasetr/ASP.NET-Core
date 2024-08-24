@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerAuth0", "BlazorServerAuth0\BlazorServerAuth0.csproj", "{DBAD1E93-BB4E-4C1C-A6E4-EEA5E3BF177D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBAD1E93-BB4E-4C1C-A6E4-EEA5E3BF177D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBAD1E93-BB4E-4C1C-A6E4-EEA5E3BF177D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBAD1E93-BB4E-4C1C-A6E4-EEA5E3BF177D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBAD1E93-BB4E-4C1C-A6E4-EEA5E3BF177D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
