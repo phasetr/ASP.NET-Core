@@ -2,7 +2,7 @@ namespace BlazorServerAuth0.Data;
 
 public class QuizService
 {
-    private static readonly List<QuizItem> Quiz;
+    private static readonly List<QuizItem>? Quiz;
 
     static QuizService()
     {
@@ -29,7 +29,7 @@ public class QuizService
         ];
     }
 
-    public Task<List<QuizItem>> GetQuizAsync()
+    public static Task<List<QuizItem>?> GetQuizAsync()
     {
         return Task.FromResult(Quiz);
     }
