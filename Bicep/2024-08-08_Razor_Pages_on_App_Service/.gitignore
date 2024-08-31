@@ -1,0 +1,4 @@
+.azure
+src/bin
+src/obj
+.fake
