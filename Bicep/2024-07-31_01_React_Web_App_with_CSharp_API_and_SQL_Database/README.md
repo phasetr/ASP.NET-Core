@@ -23,6 +23,11 @@ description: A complete ToDo app with C# API and Azure SQL database for storage.
 # React Web App with C# API and SQL Database on Azure
 
 - GitHub, [todo-csharp-sql](https://github.com/Azure-Samples/todo-csharp-sql)
+- アプリのアーキテクチャー
+  - Azure App Services to host the Web frontend and API backend
+  - Azure SQL Database for storage
+  - Azure Monitor for monitoring and logging
+  - Azure Key Vault for securing secrets
 
 ```shell
 azd auth login
@@ -44,9 +49,10 @@ Let's jump in and get this up and running in Azure. When you are finished, you w
 
 !["Screenshot of deployed ToDo app"](assets/web.png)
 
-<sup>Screenshot of the deployed ToDo app</sup>
+^Screenshot of the deployed ToDo app^
 
 ### Prerequisites
+
 > This template will create infrastructure and deploy code to Azure. If you don't have an Azure Subscription, you can sign up for a [free account here](https://azure.microsoft.com/free/). Make sure you have contributor role to the Azure subscription.
 
 The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
@@ -56,6 +62,7 @@ The following prerequisites are required to use this application. Please ensure 
 - [Node.js with npm (18.17.1+)](https://nodejs.org/) - for the Web frontend
 
 ### Quickstart
+
 To learn how to get started with any template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-csharp) with this template (`Azure-Samples/todo-csharp-sql`).
 
 This quickstart will show you how to authenticate on Azure, initialize using a template, provision infrastructure and deploy code on Azure via the following commands:
