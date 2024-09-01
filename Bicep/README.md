@@ -1,6 +1,15 @@
 # README
 
 - Azure Portal: <https://portal.azure.com/>
+- [awesome-azd](https://azure.github.io/awesome-azd/)
+  - `.NET/C#`で`C#`系の[`Azure Developer CLI`](https://learn.microsoft.com/ja-jp/azure/developer/azure-developer-cli/)の様々なサンプルがある
+  - 以下のサンプルが特に参考になる
+    - `.NET eShop on Web App with Redis Cache`：`azd init -t cawams/eshop`
+    - `Blazor Web App with C# and SQL Database on Azure`：`azd init -t jasontaylordev/azd-blazor`
+      - `Blazor Server(App Service)+SQL Server(Azure SQL)`
+    - `React Web App with C# API and MongoDB`：`azd init -t todo-csharp-cosmos-sql`
+    - `React Web App with C# API and SQL Database`：`azd init -t todo-csharp-sql`
+    - `Static React Web App + Functions with C# API and SQL Database`：`azd init -t todo-csharp-sql-swa-func`
 - [Bicepのドキュメント](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/bicep/)
 - [Bicep関数](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/bicep/bicep-functions)
 - [Bicepの基礎](https://learn.microsoft.com/ja-jp/training/paths/fundamentals-bicep/)

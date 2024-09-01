@@ -30,6 +30,10 @@ description: A complete ToDo app with C# API and Azure SQL database for storage.
   - Azure Key Vault for securing secrets
 
 ```shell
+azd init -t todo-csharp-sql
+```
+
+```shell
 azd auth login
 azd up
 ```
