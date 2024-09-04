@@ -31,7 +31,7 @@ az bicep install && az bicep upgrade
 - [名前付け規則を定義する](https://learn.microsoft.com/ja-jp/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
 - [弊社で使っているAzureリソースのスルメ系命名規則を紹介します](https://zenn.dev/aeonpeople/articles/0b4a4be83d0dfd)
 
-## Microsoft Azure の基礎
+## Microsoft Azureの基礎
 
 - [パート 1: クラウドの概念について説明する](https://learn.microsoft.com/ja-jp/training/paths/microsoft-azure-fundamentals-describe-cloud-concepts/)
 - [パート 2: Azure のアーキテクチャとサービスについて説明する](https://learn.microsoft.com/ja-jp/training/paths/azure-fundamentals-describe-azure-architecture-services/)
@@ -41,11 +41,25 @@ az bicep install && az bicep upgrade
 
 - Microsoft Build：[対話型チュートリアル一覧](https://learn.microsoft.com/ja-jp/training/browse/?expanded=azure&products=azure-functions)
 
+## Azure Static Web Apps
+
+- 入門用のラーニングパス：[Azure Static Web Apps](https://learn.microsoft.com/ja-jp/training/paths/azure-static-web-apps/)
+  - 記述・ソースが古く,
+      特に`JavaScript`まわりでコードがうまく動かない.
+      最後のモジュールの`Blazor`はそこそこ動きそうだが,
+      第三モジュールの認証がどこまでどう動くのか.
+  - モジュール中にそれぞれGitHubのリポジトリテンプレートへの参照がある
+        - [mslearn-staticwebapp](https://github.com/MicrosoftDocs/mslearn-staticwebapp)など
+    - Azure Static Web Apps を使用して Angular、React、Svelte、または Vue の JavaScript アプリを発行する
+    - APIつき, [Azure Static Web Apps に API を発行する](https://learn.microsoft.com/ja-jp/training/modules/publish-static-web-app-api-preview-url/)
+      - 2024-09-03時点でモジュールの指示に沿っても動かない
+    - 認証に関する第3モジュールの[GitHub](https://github.com/MicrosoftDocs/mslearn-staticwebapp-authentication)
+    - Blazorに関する第4モジュールの[GitHub](https://github.com/MicrosoftDocs/mslearn-staticwebapp-dotnet)
+
 ## TODO
 
 - azure-quickstart-templates, [/cosmosdb-webapp](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.documentdb/cosmosdb-webapp)
 - [ガイド付きプロジェクト - Azure Cosmos DB for NoSQL を使用して .NET アプリを構築する](https://learn.microsoft.com/ja-jp/training/modules/build-dotnet-app-azure-cosmos-db-nosql/)
-- ラーニングパス：[Azure Static Web Apps](https://learn.microsoft.com/ja-jp/training/paths/azure-static-web-apps/)
 - ラーニングパス：[Bicep と Azure Pipelines を使用して Azure リソースをデプロイ](https://learn.microsoft.com/ja-jp/training/paths/bicep-azure-pipelines/)
 - ラーニングパス：[Bicep アクションと GitHub アクションを使用して Azure リソースをデプロイする](https://learn.microsoft.com/ja-jp/training/paths/bicep-github-actions/)
 - [GitHub Actions を使って CI/CD を実装し、Bicep を使って IaC を実装する](https://learn.microsoft.com/ja-jp/training/modules/deliver-with-devops/6-implement-ci-cd-with-github-actions-and-infrastructure-as-code-with-bicep)
