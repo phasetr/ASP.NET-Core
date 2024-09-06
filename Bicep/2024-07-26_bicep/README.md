@@ -3,6 +3,7 @@
 ## memo
 
 - [チュートリアル: Bicep を介して、Azure Cosmos DB for NoSQL、マネージド ID、AKS を使用する ASP.NET Web アプリケーションをデプロイする](https://learn.microsoft.com/ja-jp/azure/cosmos-db/nosql/tutorial-deploy-app-bicep-aks)
+- `C#`を利用
 
 ## `azd`
 
