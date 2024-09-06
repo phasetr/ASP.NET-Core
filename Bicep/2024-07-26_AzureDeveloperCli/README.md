@@ -1,6 +1,7 @@
 # README
 
 - ラーニングパス: [Azure Developer CLI を使用してアプリケーションを構築してデプロイする](https://learn.microsoft.com/ja-jp/training/paths/azure-developer-cli/?source=recommendations)
+- フロント・バックエンドともに`node.js`
 
 ## インストール
 
