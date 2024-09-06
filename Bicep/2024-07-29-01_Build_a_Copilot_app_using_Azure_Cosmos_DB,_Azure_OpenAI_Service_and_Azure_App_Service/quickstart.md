@@ -2,11 +2,12 @@
 
 This document walks you through the concepts implemented in this sample so you can understand it's capabilities and how to do the same.
 
-# Context window (chat history)
+## Context window (chat history)
 
 Humans interact with each other through conversations that have some *context* of what is being discussed. OpenAI's ChatGPT can also interact this way with humans. However, this capability is not native to an LLM itself. It must be implemented. Let's explore what happens when we test contextual follow up questions with our LLM where we ask follow up questions that imply an existing context like you would have in a conversation with another person.
 
 ## Quickstart: Conversational context
+
 Let's observe this in action. Follow the steps after launching the application:
 
 1. Start a new Chat Session.
@@ -22,13 +23,13 @@ Large language models require chat history to generate contextually relevant res
 
 This application allows you to configure how large the context window can be (length of chat history). This is done using the configuration value, **MaxConversationTokens** that you can adjust in the appsettings.json file.
 
-# Semantic Cache
+## Semantic Cache
 
-Large language models are amazing with their ability to generate completions to a user's questions. However, these requests to generate completions from an LLM are computationally expensive (expressed in tokens) and can also be quite slow. This cost and latency increases as the amount of text increases. 
+Large language models are amazing with their ability to generate completions to a user's questions. However, these requests to generate completions from an LLM are computationally expensive (expressed in tokens) and can also be quite slow. This cost and latency increases as the amount of text increases.
 
 In a pattern called Retrieval Augmented Generation or *RAG Pattern*, data from a database is used to augment or *ground* the LLM by providing additional information to generate a response. These payloads can get rather large. It is not uncommon to consume thousands of tokens and wait for 3-4 seconds for a response for large payloads. In a world where milliseconds counts, waiting for 3-4 seconds is often an unacceptable user experience. (See below for how to do RAG Pattern in this sample)
 
-Thankfully we can create a cache for this type of solution to reduce both cost and latency. In this exercise, we will introduce a specialized cache called a **semantic cache**. 
+Thankfully we can create a cache for this type of solution to reduce both cost and latency. In this exercise, we will introduce a specialized cache called a **semantic cache**.
 
 Traditional caches are key-value pairs and use an equality match on the key to *get* data. Keys for a semantic cache are vectors (or embeddings) which represent words in a high dimensional space where words with similar meaning or intent are in close proximity to each other dimensionally. 
 
@@ -72,7 +73,7 @@ This next step requires running the sample locally.
 
 You can Spend time trying different sequences of questions (and follow up questions) and then modifying them with different similarity scores. You can click on **Clear Cache** if you want to start over and do the same series of questions again.
 
-# Semantic Kernel
+## Semantic Kernel
 
 This project highlights the LLM orchestration SDK created by Microsft Research called, Semantic Kernel. Semantic Kernel is an open-source SDK that lets you easily build agents that can call your existing code. As a highly extensible SDK, you can use Semantic Kernel with models from OpenAI, Azure OpenAI, Hugging Face, and more! You can connect it to various vector databases using built-in connectors. By combining your existing C#, Python, and Java code with these models, you can build agents that answer questions and automate processes.
 
@@ -80,7 +81,8 @@ The usage in this sample is very simple and just show the built-in plugins for O
 
 **Note:** This solution yet doesn't implement the Azure Cosmos DB NoSQL connectors for Semantic Kernel. This will be in an upcoming update for this sample.
 
-## Quickstart: Semantic Kernel
+### Quickstart: Semantic Kernel
+
 Here we will change all the calls made directly to OpenAI Service to go though Semantic Kernel. Open the solution for the application. Follow the steps:
 
 1. In ChatService, comment the lines that call `_openAiService` then uncomment the ones below that call `_semanticKernelService` in these three places.
@@ -91,14 +93,14 @@ Here we will change all the calls made directly to OpenAI Service to go though S
 
 You won't see any difference in the execution for the application. The purpose of SDK's like Semantic Kernel is to provide a surface area for building more complex types of these applications. Navigate to the Semantic Kernel class and you can see how the built-in OpenAI plugins are used.
 
-
-# RAG Pattern
+## RAG Pattern
 
 The last thing to highlight in this solution is the ability to augment the completions generated by a LLM by sending it additional data to use. This is commonly referred to as RAG Pattern or Retrieval Augmented Generation. This data can be anything from files to data from a database. In this sample we demonstrate how you can use a vector search on product data for a bike shop in Azure Cosmos DB to augment the responses from the LLM. To see this in action, navigate to the `GetChatCompletionAsync()` function in the ChatService, uncomment the call to `SearchProductsAsync()`, comment the call to `GetChatCompletionAsync()` and uncomment the call to `GetRagCompletionAsync()`.
 
 One thing to take note of is the system prompt used for the completion is much different. It is worth noting the differences between the one you have been using versus this one. To see them both, navigate to the `OpenAiService` and at the top of the class look for the variables, `_systemPrompt` and `_systemPromptRetailAssistant`
 
-## Quickstart: RAG Pattern
+### Quickstart: RAG Pattern
+
 Here we will show how to augment our sample to include custom data as part of the generation. In this example we will include a product catalog for a bike shop. Users can ask questions about bikes and biking accessories in the catalog. The user's prompt is vectorized and used to execute a vector search against the vectorized product data in the catalog. The most relevant items are returned then passed to the LLM to generate a response. 
 
 Open the solution for the application. Follow the steps:

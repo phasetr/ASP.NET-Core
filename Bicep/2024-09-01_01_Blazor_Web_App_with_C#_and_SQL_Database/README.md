@@ -35,6 +35,7 @@ The following prerequisites are required to use this application. Please ensure 
 - [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ## Quickstart
+
 To learn how to get started with any AZD template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-csharp) with this template (`jasontaylordev/azd-blazor`).
 
 This quickstart will show you how to authenticate on Azure, initialize using a template, provision infrastructure and deploy code on Azure via the following commands:
@@ -66,6 +67,7 @@ Here's a high level architecture diagram that illustrates these components. Noti
 <!-- !["Application architecture diagram"](assets/resources.png) -->
 
 ## Cost of provisioning and deploying this template
+
 This template provisions resources to an Azure subscription that you will select upon provisioning them. Refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) to estimate the cost you might incur when this template is running on Azure and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
 
 ## Application Code
@@ -78,7 +80,7 @@ At this point, you have a complete application deployed on Azure. But there is m
 
 > Note: Needs to manually install [setup-azd extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.azd) for Azure DevOps (azdo).
 
-- [`azd pipeline config`](https://learn.microsoft.com/azure/developer/azure-developer-cli/configure-devops-pipeline?tabs=GitHub) - to configure a CI/CD pipeline (using GitHub Actions or Azure DevOps) to deploy your application whenever code is pushed to the main branch. 
+- [`azd pipeline config`](https://learn.microsoft.com/azure/developer/azure-developer-cli/configure-devops-pipeline?tabs=GitHub) - to configure a CI/CD pipeline (using GitHub Actions or Azure DevOps) to deploy your application whenever code is pushed to the main branch.
 
 - [`azd monitor`](https://learn.microsoft.com/azure/developer/azure-developer-cli/monitor-your-app) - to monitor the application and quickly navigate to the various Application Insights dashboards (e.g. overview, live metrics, logs)
 

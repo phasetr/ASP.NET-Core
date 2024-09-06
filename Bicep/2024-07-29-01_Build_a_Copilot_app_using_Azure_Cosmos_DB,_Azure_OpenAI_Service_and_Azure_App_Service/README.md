@@ -1,6 +1,7 @@
 # Build a Copilot app using Azure Cosmos DB for NoSQL, Azure OpenAI Service, Azure App Service and Semantic Kernel
 
 - GitHub: [cosmosdb-nosql-copilot](https://github.com/AzureCosmosDB/cosmosdb-nosql-copilot)
+- `App Service`上、いわゆる`Blazor Server`で動く`C#`アプリケーション
 
 2024-07-29時点で`japaneast`では動かないためリージョンは`East US`を指定。
 

@@ -2,4 +2,4 @@
 configuration:
   AZURE_BICEP_FILE_EXPANSION: true
   AZURE_DEPLOYMENT_NONSENSITIVE_PARAMETER_NAMES:
-   - resourceToken
+    - resourceToken

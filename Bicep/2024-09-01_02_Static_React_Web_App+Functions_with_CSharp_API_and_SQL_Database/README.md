@@ -51,10 +51,10 @@ A blueprint for getting a React web app with a C# API and a SQL database running
 Let's jump in and get this up and running in Azure. When you are finished, you will have a fully functional web app deployed to the cloud. In later steps, you'll see how to setup a pipeline and monitor the application.
 
 !["Screenshot of deployed ToDo app"](assets/web.png)
-
-<sup>Screenshot of the deployed ToDo app</sup>
+^(Screenshot of the deployed ToDo app)
 
 ### Prerequisites
+
 > This template will create infrastructure and deploy code to Azure. If you don't have an Azure Subscription, you can sign up for a [free account here](https://azure.microsoft.com/free/). Make sure you have contributor role to the Azure subscription.
 
 The following prerequisites are required to use this application. Please ensure that you have them all installed locally.
@@ -65,8 +65,8 @@ The following prerequisites are required to use this application. Please ensure 
 - [Node.js with npm (18.17.1+)](https://nodejs.org/) - for the Web frontend
 
 ### Quickstart
-To learn how to get started with any template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-csharp) with this template(`Azure-Samples/todo-csharp-sql-swa-func`).
 
+To learn how to get started with any template, follow the steps in [this quickstart](https://learn.microsoft.com/azure/developer/azure-developer-cli/get-started?tabs=localinstall&pivots=programming-language-csharp) with this template(`Azure-Samples/todo-csharp-sql-swa-func`).
 
 This quickstart will show you how to authenticate on Azure, initialize using a template, provision infrastructure and deploy code on Azure via the following commands:
 
@@ -96,6 +96,7 @@ Here's a high level architecture diagram that illustrates these components. Noti
 !["Application architecture diagram"](assets/resources.png)
 
 ### Cost of provisioning and deploying this template
+
 This template provisions resources to an Azure subscription that you will select upon provisioning them. Refer to the [Pricing calculator for Microsoft Azure](https://azure.microsoft.com/pricing/calculator/) to estimate the cost you might incur when this template is running on Azure and, if needed, update the included Azure resource definitions found in `infra/main.bicep` to suit your needs.
 
 ### Application Code
@@ -134,4 +135,4 @@ This template uses [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/
 
 ## Reporting Issues and Feedback
 
-If you have any feature requests, issues, or areas for improvement, please [file an issue](https://aka.ms/azure-dev/issues). To keep up-to-date, ask questions, or share suggestions, join our [GitHub Discussions](https://aka.ms/azure-dev/discussions). You may also contact us via AzDevTeam@microsoft.com.
+If you have any feature requests, issues, or areas for improvement, please [file an issue](https://aka.ms/azure-dev/issues). To keep up-to-date, ask questions, or share suggestions, join our [GitHub Discussions](https://aka.ms/azure-dev/discussions). You may also contact us via <AzDevTeam@microsoft.com>.
