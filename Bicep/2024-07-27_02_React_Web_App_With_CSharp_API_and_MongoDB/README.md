@@ -25,6 +25,7 @@ description: A complete ToDo app with C# API and Azure Cosmos DB (NoSQL) for sto
 - [awesome-azd](https://azure.github.io/awesome-azd/?tags=dotnetCsharp),
   React Web App with C# API and MongoDB
 - [GitHub](https://github.com/Azure-Samples/todo-csharp-cosmos-sql)
+- フロントエンドは`React`（`node.js`）でバックエンドは`C#`
 
 ```shell
 azd init -t todo-csharp-cosmos-sql
